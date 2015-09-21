@@ -1,0 +1,19 @@
+Project: SDN Distributed Routing and VPN
+Project Creation Date: September 1st, 2015
+Project Category: Collaborative Development
+Lifecycle State: Incubation
+Primary Contact: Tim Irnich (tim.irnich@ericsson.com)
+Project Lead: Tim Irnich (tim.irnich@ericsson.com)
+Jira Project Name: SDN VPN
+Jira Project Prefix: sdnvpn
+Mailing list tag: [sdnvpn]
+Repository: sdnvpn
+
+Committers: 
+Tim Irnich (tim.irnich@ericsson.com)
+Thomas Morin (thomas.morin@orange.com)
+Diego Garcia (diego@nuagenetworks.net)
+Prem Sankar (prem.sankar.g@ericsson.com)
+
+Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-09-01-13.59.html
+Link(s) to approval of additional committers:
