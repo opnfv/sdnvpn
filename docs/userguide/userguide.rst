@@ -1,5 +1,7 @@
-Using SDNVPN features
----------------------
+<Feature> capabilities and usage
+================================
+Describe the specific capabilities and usage for <XYZ> feature.
 
-I'm explaining how to use the SDNVPN features...
-
+<Feature and API usage guidelines and example>
+-----------------------------------------------
+Describe with examples how to use specfic features.
