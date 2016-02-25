@@ -16,7 +16,7 @@ Currently, in OPNFV only ODL is supported as a backend for BGPVPN. API calls are
 mapped onto the ODL VPN Service REST API through the BGPVPN ODL driver and the
 ODL Neutron Northbound module.
 
-<Feature and API usage guidelines and example>
+Feature and API usage guidelines and example
 -----------------------------------------------
 
 For the details of using OpenStack BGPVPN API, please refer to the documentation
