@@ -6,10 +6,15 @@ Configuring SDNVPN features
 ---------------------------
 
 Fuel installer configuration
-<Niko: explain which settings have to / can be chosen in Fuel to get SDN VPN
-deployed.>
 
-Feature configuration
+In order to install the BGPVPN feature, the corresponding checkbox in Fuel has to be
+selected. This will trigger installation of the OpenStack BGPVPN API extension for
+Neutron (set up for using the ODL driver).
+
+In addition, ODL has to be installed, see the corresponding section on how to
+install ODL. If the BGPVPN feature is installed, ODL will automatically be installed
+with VPN Service karaf feature activated.
+
 No post-deploy configuration is necessary. The Fuel BGPVPN plugin and the ODL
 plugin should set up the cluster in a way that it is ready for BGPVPNs being
 created. This includes the set-up of internal VxLAN transport tunnels between
