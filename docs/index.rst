@@ -10,8 +10,8 @@ SDNVPN Brahmaputra documentation
    :maxdepth: 2
 
    ./platformoverview/platformoverview.rst
-   ./configguide/configguide.rst
-   ./userguide/userguide.rst
+   ./configguide/featureconfig.rst
+   ./userguide/featureusage.rst
 
 Indices
 =======
