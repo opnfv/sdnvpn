@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_3f49c78b",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-04-27T10:39:27Z",
+      "side": 1,
+      "message": "Nikolas can you please put in links to the relevant ODL bugs?",
+      "range": {
+        "startLine": 80,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 64
+      },
+      "revId": "2e623d68ab0377d74b8722aff312f6e387b7e215",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
