@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a91bd0f_42815449",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2016-04-27T12:48:33Z",
+      "side": 1,
+      "message": "Maybe you should specify that this is Brahmaputra 3.0 release?",
+      "range": {
+        "startLine": 2,
+        "startChar": 27,
+        "endLine": 2,
+        "endChar": 46
+      },
+      "revId": "e95ee6a601072d827c7ffda37a6509c85cedc1f6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
