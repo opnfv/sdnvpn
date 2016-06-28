@@ -1,0 +1,26 @@
+---
+
+tempest_1:
+    enabled: true
+    description: ODL VPN Service tests
+    type: bash
+
+tempest_2:
+    enabled: true
+    description: OpenStack Neutron BGPVPN API tests
+    type: bash
+
+testcase_1:
+    enabled: true
+    description: VPN provides connectivity between subnets
+    type: python
+
+testcase_2:
+    enabled: true
+    description: Tenant separation
+    type: python
+
+testcase_3:
+    enabled: true
+    description: Data center gateway integration
+    type: python
