@@ -1,26 +1,43 @@
----
+testcases:
+  tempest_1:
+      enabled: true
+      description: ODL VPN Service tests
+      type: bash
 
-tempest_1:
-    enabled: true
-    description: ODL VPN Service tests
-    type: bash
+  tempest_2:
+      enabled: true
+      description: OpenStack Neutron BGPVPN API tests
+      type: bash
 
-tempest_2:
-    enabled: true
-    description: OpenStack Neutron BGPVPN API tests
-    type: bash
+  testcase_1:
+      enabled: true
+      description: VPN provides connectivity between subnets
+      type: python
+      ping_timeout:   200
+      flavor: m1.small # adapt to your environment
+      instance_1_name: sdnvpn-1
+      instance_2_name: sdnvpn-2
+      instance_3_name: sdnvpn-3
+      instance_4_name: sdnvpn-4
+      instance_5_name: sdnvpn-5
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-1-net
+      subnet_1_name: sdnvpn-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-1-router
+      net_2_name: sdnvpn-2-net
+      subnet_2_name: sdnvpn-1-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      router_2_name: sdnvpn-2-router
+      sdnvpn_sg_name: sdnvpn-sg
+      sdnvpn_sg_descr: Security group for SDNVPN test cases
 
-testcase_1:
-    enabled: true
-    description: VPN provides connectivity between subnets
-    type: python
+  testcase_2:
+      enabled: true
+      description: Tenant separation
+      type: python
 
-testcase_2:
-    enabled: true
-    description: Tenant separation
-    type: python
-
-testcase_3:
-    enabled: true
-    description: Data center gateway integration
-    type: python
+  testcase_3:
+      enabled: true
+      description: Data center gateway integration
+      type: python
