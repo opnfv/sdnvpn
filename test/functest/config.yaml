@@ -45,12 +45,25 @@ testcases:
       instance_5_name: sdnvpn-2-5
       image_name: sdnvpn-image
       net_1_name: sdnvpn-2-1-net
+<<<<<<< HEAD
       subnet_1_name: sdnvpn-2-1-subnet
       subnet_1_cidr: 10.10.10.0/24
       router_1_name: sdnvpn-2-1-router
       net_2_name: sdnvpn-2-2-net
       subnet_2_name: sdnvpn-2-2-subnet
       subnet_2_cidr: 10.10.11.0/24
+=======
+      subnet_1a_name: sdnvpn-2-1a-subnet
+      subnet_1a_cidr: 10.10.10.0/24
+      subnet_1b_name: sdnvpn-2-1b-subnet
+      subnet_1b_cidr: 10.10.11.0/24
+      router_1_name: sdnvpn-2-1-router
+      net_2_name: sdnvpn-2-2-net
+      subnet_2a_name: sdnvpn-2-2a-subnet
+      subnet_2a_cidr: 10.10.11.0/24
+      subnet_2b_name: sdnvpn-2-2b-subnet
+      subnet_2b_cidr: 10.10.10.0/24
+>>>>>>> 61443f4... Adding test case 2
       router_2_name: sdnvpn-2-2-router
       sdnvpn_sg_name: sdnvpn-sg
       sdnvpn_sg_descr: Security group for SDNVPN test cases
@@ -59,3 +72,4 @@ testcases:
       enabled: true
       description: Data center gateway integration
       type: python
+
