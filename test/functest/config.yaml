@@ -15,20 +15,20 @@ testcases:
       type: python
       ping_timeout:   200
       flavor: m1.tiny # adapt to your environment
-      instance_1_name: sdnvpn-1
-      instance_2_name: sdnvpn-2
-      instance_3_name: sdnvpn-3
-      instance_4_name: sdnvpn-4
-      instance_5_name: sdnvpn-5
+      instance_1_name: sdnvpn-1-1
+      instance_2_name: sdnvpn-1-2
+      instance_3_name: sdnvpn-1-3
+      instance_4_name: sdnvpn-1-4
+      instance_5_name: sdnvpn-1-5
       image_name: sdnvpn-image
-      net_1_name: sdnvpn-1-net
-      subnet_1_name: sdnvpn-1-subnet
+      net_1_name: sdnvpn-1-1-net
+      subnet_1_name: sdnvpn-1-1-subnet
       subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-1-router
-      net_2_name: sdnvpn-2-net
-      subnet_2_name: sdnvpn-1-subnet
+      router_1_name: sdnvpn-1-1-router
+      net_2_name: sdnvpn-1-2-net
+      subnet_2_name: sdnvpn-1-2-subnet
       subnet_2_cidr: 10.10.11.0/24
-      router_2_name: sdnvpn-2-router
+      router_2_name: sdnvpn-1-2-router
       sdnvpn_sg_name: sdnvpn-sg
       sdnvpn_sg_descr: Security group for SDNVPN test cases
 
@@ -36,6 +36,24 @@ testcases:
       enabled: true
       description: Tenant separation
       type: python
+      ping_timeout:   200
+      flavor: m1.tiny # adapt to your environment
+      instance_1_name: sdnvpn-2-1
+      instance_2_name: sdnvpn-2-2
+      instance_3_name: sdnvpn-2-3
+      instance_4_name: sdnvpn-2-4
+      instance_5_name: sdnvpn-2-5
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-2-1-net
+      subnet_1_name: sdnvpn-2-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-2-1-router
+      net_2_name: sdnvpn-2-2-net
+      subnet_2_name: sdnvpn-2-2-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      router_2_name: sdnvpn-2-2-router
+      sdnvpn_sg_name: sdnvpn-sg
+      sdnvpn_sg_descr: Security group for SDNVPN test cases
 
   testcase_3:
       enabled: true
