@@ -8,9 +8,11 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
+import importlib
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 import yaml
+
 
 logger = ft_logger.Logger("sdnvpn").getLogger()
 
@@ -24,8 +26,8 @@ for testcase in testcases:
     print(title)
     print("%s\n" % ("=" * len(title)))
     if testcases[testcase]['type'] == 'python':
-        filename = testcase + ".py"
-        filename.main()
+        t = importlib.import_module(testcase, package=None)
+        t.main()
     else:
         cmd = "bash " + testcase + ".sh"
         result = ft_utils.execute_command(cmd, logger, exit_on_error=False)
