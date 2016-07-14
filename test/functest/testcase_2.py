@@ -28,7 +28,7 @@ parser.add_argument("-r", "--report",
 args = parser.parse_args()
 
 """ logging configuration """
-logger = ft_logger.Logger("sdnvpn-testcase-1").getLogger()
+logger = ft_logger.Logger("sdnvpn-testcase-2").getLogger()
 
 REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
 HOME = os.environ['HOME'] + "/"
@@ -103,6 +103,7 @@ TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
 TEST_RESULT = "PASS"
 SUMMARY = ""
 LINE_LENGTH = 90  # length for the summary table
+DETAILS = []
 
 
 def create_network(neutron_client, net, subnet1, cidr1,
@@ -270,6 +271,7 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
+        DETAILS.append({col2: col1})
 
 
 def main():
@@ -471,7 +473,7 @@ def main():
     else:
         logger.info("One or more sub tests have failed.")
 
-    sys.exit(0)
+    return {"status": TEST_RESULT, "details": DETAILS}
 
 
 if __name__ == '__main__':

@@ -2,10 +2,13 @@ testcases:
   tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
+      testname_db: functest_tempest # declared name in the test api
+      # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
   testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
+      testname_db: functest_testcase_1
       ping_timeout:   200
       flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-1-1
@@ -28,6 +31,7 @@ testcases:
   testcase_2:
       enabled: true
       description: Tenant separation
+      testname_db: functest_testcase_2
       ping_timeout:   200
       flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-2-1
@@ -54,4 +58,5 @@ testcases:
   testcase_3:
       enabled: false
       description: Data center gateway integration
+      testname_db: functest_testcase_3
 
