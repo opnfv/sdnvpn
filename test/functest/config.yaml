@@ -2,10 +2,15 @@ testcases:
   tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
+      succes_criteria: 100 # all the subtests must pass
+      testname_db: functest_tempest # declared name in the test api
+      # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
   testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
+      succes_criteria: 75 # we let fail 25% of the subtests
+      testname_db: functest_testcase_1
       ping_timeout:   200
       flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-1-1
@@ -24,10 +29,14 @@ testcases:
       router_2_name: sdnvpn-1-2-router
       sdnvpn_sg_name: sdnvpn-sg
       sdnvpn_sg_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
 
   testcase_2:
       enabled: true
       description: Tenant separation
+      succes_criteria: 100 # all the subtests must pass
+      testname_db: functest_testcase_2
       ping_timeout:   200
       flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-2-1
@@ -50,8 +59,12 @@ testcases:
       router_2_name: sdnvpn-2-2-router
       sdnvpn_sg_name: sdnvpn-sg
       sdnvpn_sg_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
 
   testcase_3:
       enabled: false
       description: Data center gateway integration
+      succes_criteria: 100 # all the subtests must pass
+      testname_db: functest_testcase_3
 
