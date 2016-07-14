@@ -164,11 +164,26 @@ def create_instance(nova_client,
     # Retrieve IP of INSTANCE
     # instance_ip = instance.networks.get(network_id)[0]
 
+    logger.debug("Adding '%s' to security group '%s'..."
+                 % (name, SECGROUP_NAME))
+    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
 
+    return instance
+
+
+def generate_userdata_common():
+    return ("#!/bin/sh\n"
+            "sudo mkdir -p /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/id_rsa\n"
+            "mv /home/cirros/id_rsa /home/cirros/.ssh/\n"
             "sudo echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e"
             "stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9"
             "sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU"
             "ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= "
+            "cirros@test1>/home/cirros/.ssh/authorized_keys\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys\n"
+            "chmod 700 /home/cirros/.ssh\n"
             "chmod 644 /home/cirros/.ssh/authorized_keys\n"
             "chmod 600 /home/cirros/.ssh/id_rsa\n"
             )
@@ -461,20 +476,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-            "cirros@test1>/home/cirros/.ssh/authorized_keys\n"
-            "sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys\n"
-            "chmod 700 /home/cirros/.ssh\n"
-            "sudo chown cirros:cirros /home/cirros/.ssh/\n"
-            "sudo chown cirros:cirros /home/cirros/id_rsa\n"
-            "mv /home/cirros/id_rsa /home/cirros/.ssh/\n"
-def generate_userdata_common():
-    return ("#!/bin/sh\n"
-            "sudo mkdir -p /home/cirros/.ssh/\n"
-    return instance
-
-
-    logger.debug("Adding '%s' to security group '%s'..."
-                 % (name, SECGROUP_NAME))
-    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
-
