@@ -86,6 +86,7 @@ TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
 TEST_RESULT = "PASS"
 SUMMARY = ""
 LINE_LENGTH = 60  # length for the summary table
+DETAILS = []
 
 
 def create_network(neutron_client, net, subnet, router, cidr):
@@ -221,7 +222,7 @@ def get_ping_status(vm_source, ip_source,
 
 
 def add_to_summary(num_cols, col1, col2=""):
-    global SUMMARY, LINE_LENGTH
+    global SUMMARY, LINE_LENGTH, DETAILS
     if num_cols == 0:
         SUMMARY += ("+%s+\n" % (col1 * (LINE_LENGTH - 2)))
     elif num_cols == 1:
@@ -229,6 +230,7 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
+        DETAILS.append({col2: col1})
 
 
 def main():
@@ -408,7 +410,7 @@ def main():
     else:
         logger.info("One or more ping tests have failed.")
 
-    sys.exit(0)
+    return {"status": TEST_RESULT, "details": DETAILS}
 
 
 if __name__ == '__main__':

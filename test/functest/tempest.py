@@ -72,7 +72,10 @@ def main():
                    "num_tests": num_tests, "failed": failed,
                    "tests": testcases}
         logger.info("Results: %s" % results)
-        return results
+        criteria = "PASS"
+        if int(failed) > 0:
+            criteria = "FAILED"
+        return {"status": criteria, "details": results}
     except:
         logger.error("Problem when parsing the results.")
 
