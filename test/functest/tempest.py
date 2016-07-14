@@ -15,7 +15,14 @@ import shutil
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
-logger = ft_logger.Logger("bgpvpn").getLogger()
+
+logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
+
+REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
+config_file = REPO_PATH + 'test/functest/config.yaml'
+
+SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.succes_criteria", config_file)
 
 
 def main():
@@ -68,11 +75,13 @@ def main():
         # Look for name of the tests
         testcases = re.findall("\{0\} (.*)", output)
 
-        results = {"test_name": "tempest", "duration": duration,
+        results = {"duration": duration,
                    "num_tests": num_tests, "failed": failed,
                    "tests": testcases}
-        logger.info("Results: %s" % results)
-        return results
+        status = "PASS"
+        if 100 - (100 * int(failed) / int(num_tests)) < int(SUCCESS_CRITERIA):
+            status = "FAILED"
+        return {"status": status, "details": results}
     except:
         logger.error("Problem when parsing the results.")
 

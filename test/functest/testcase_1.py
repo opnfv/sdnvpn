@@ -27,11 +27,9 @@ parser.add_argument("-r", "--report",
 
 args = parser.parse_args()
 
-""" logging configuration """
 logger = ft_logger.Logger("sdnvpn-testcase-1").getLogger()
 
 REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
-HOME = os.environ['HOME'] + "/"
 
 VM_BOOT_TIMEOUT = 180
 
@@ -80,12 +78,20 @@ SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.sdnvpn_sg_name", config_file)
 SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.sdnvpn_sg_descr", config_file)
-
+TARGETS_1 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.targets1", config_file)
+TARGETS_2 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.targets2", config_file)
+SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.succes_criteria", config_file)
 TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
 
 TEST_RESULT = "PASS"
 SUMMARY = ""
 LINE_LENGTH = 60  # length for the summary table
+DETAILS = []
+NUM_TESTS = 0
+NUM_TESTS_FAILED = 0
 
 
 def create_network(neutron_client, net, subnet, router, cidr):
@@ -177,7 +183,7 @@ def get_ping_status(vm_source, ip_source,
         expected_result = 'can ping' if expected == 'PASS' else 'cannot ping'
         test_case_name = ("'%s' %s '%s'" %
                           (vm_source.name, expected_result, vm_target.name))
-        logger.debug("\n%sPing\n%sfrom '%s' (%s)\n%sto '%s' (%s).\n"
+        logger.debug("%sPing\n%sfrom '%s' (%s)\n%sto '%s' (%s).\n"
                      "%s-->Expected result: %s.\n"
                      % (tab, tab, vm_source.name, ip_source,
                         tab, vm_target.name, ip_target,
@@ -221,7 +227,7 @@ def get_ping_status(vm_source, ip_source,
 
 
 def add_to_summary(num_cols, col1, col2=""):
-    global SUMMARY, LINE_LENGTH
+    global SUMMARY, LINE_LENGTH, DETAILS, NUM_TESTS, NUM_TESTS_FAILED
     if num_cols == 0:
         SUMMARY += ("+%s+\n" % (col1 * (LINE_LENGTH - 2)))
     elif num_cols == 1:
@@ -229,6 +235,11 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
+        DETAILS.append({col2: col1})
+        if col1 in ("FAIL", "PASS"):
+            NUM_TESTS += 1
+            if col1 == "FAIL":
+                NUM_TESTS_FAILED += 1
 
 
 def main():
@@ -337,18 +348,18 @@ def main():
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_1_NAME, vm_1_ip))
     msg = ("Create VPN with eRT<>iRT")
-    logger.info("\n\n--> %s ..." % msg)
+    logger.info(msg)
     add_to_summary(1, msg)
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": "88:88",
-              "export_targets": "55:55",
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_2,
               "name": vpn_name}
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn)
 
     msg = ("Associate network '%s' to the VPN." % NET_1_NAME)
-    logger.info("\n\n--> %s..." % msg)
+    logger.info(msg)
     add_to_summary(1, msg)
     add_to_summary(0, "-")
 
@@ -366,7 +377,7 @@ def main():
     get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip, expected="FAIL", timeout=30)
 
     msg = ("Associate network '%s' to the VPN." % NET_2_NAME)
-    logger.info("\n\n--> %s..." % msg)
+    logger.info(msg)
     add_to_summary(0, "-")
     add_to_summary(1, msg)
     add_to_summary(0, "-")
@@ -374,7 +385,7 @@ def main():
         neutron_client, bgpvpn_id, network_2_id)
 
     # Wait a bit for this to take effect
-    time.sleep(10)
+    time.sleep(30)
 
     # Ping from VM4 to VM5 should work
     get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip, expected="PASS", timeout=30)
@@ -384,16 +395,16 @@ def main():
     get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip, expected="FAIL", timeout=30)
 
     msg = ("Update VPN with eRT=iRT ...")
-    logger.info("\n\n--> %s..." % msg)
+    logger.info(msg)
     add_to_summary(0, "-")
     add_to_summary(1, msg)
     add_to_summary(0, "-")
-    kwargs = {"import_targets": "88:88",
-              "export_targets": "88:88",
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_1,
               "name": vpn_name}
     bgpvpn = os_utils.update_bgpvpn(neutron_client, bgpvpn_id, **kwargs)
     # Wait a bit for this to take effect
-    time.sleep(10)
+    time.sleep(30)
 
     # Ping from VM1 to VM4 should work
     get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip, expected="PASS", timeout=30)
@@ -408,7 +419,11 @@ def main():
     else:
         logger.info("One or more ping tests have failed.")
 
-    sys.exit(0)
+    status = "PASS"
+    if 100 - (100 * int(failed) / int(num_tests)) < int(SUCCESS_CRITERIA):
+        status = "FAILED"
+
+    return {"status": status, "details": DETAILS}
 
 
 if __name__ == '__main__':
