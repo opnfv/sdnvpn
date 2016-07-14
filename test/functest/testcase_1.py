@@ -80,12 +80,17 @@ SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.sdnvpn_sg_name", config_file)
 SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.sdnvpn_sg_descr", config_file)
+TARGETS_1 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.targets1", config_file)
+TARGETS_2 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_1.targets2", config_file)
 
 TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
 
 TEST_RESULT = "PASS"
 SUMMARY = ""
 LINE_LENGTH = 60  # length for the summary table
+DETAILS = []
 
 
 def create_network(neutron_client, net, subnet, router, cidr):
@@ -221,7 +226,7 @@ def get_ping_status(vm_source, ip_source,
 
 
 def add_to_summary(num_cols, col1, col2=""):
-    global SUMMARY, LINE_LENGTH
+    global SUMMARY, LINE_LENGTH, DETAILS
     if num_cols == 0:
         SUMMARY += ("+%s+\n" % (col1 * (LINE_LENGTH - 2)))
     elif num_cols == 1:
@@ -229,6 +234,7 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
+        DETAILS.append({col2: col1})
 
 
 def main():
@@ -340,8 +346,8 @@ def main():
     logger.info("\n\n--> %s ..." % msg)
     add_to_summary(1, msg)
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": "88:88",
-              "export_targets": "55:55",
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_2,
               "name": vpn_name}
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
@@ -374,7 +380,7 @@ def main():
         neutron_client, bgpvpn_id, network_2_id)
 
     # Wait a bit for this to take effect
-    time.sleep(10)
+    time.sleep(30)
 
     # Ping from VM4 to VM5 should work
     get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip, expected="PASS", timeout=30)
@@ -388,12 +394,12 @@ def main():
     add_to_summary(0, "-")
     add_to_summary(1, msg)
     add_to_summary(0, "-")
-    kwargs = {"import_targets": "88:88",
-              "export_targets": "88:88",
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_1,
               "name": vpn_name}
     bgpvpn = os_utils.update_bgpvpn(neutron_client, bgpvpn_id, **kwargs)
     # Wait a bit for this to take effect
-    time.sleep(10)
+    time.sleep(30)
 
     # Ping from VM1 to VM4 should work
     get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip, expected="PASS", timeout=30)
@@ -408,7 +414,7 @@ def main():
     else:
         logger.info("One or more ping tests have failed.")
 
-    sys.exit(0)
+    return {"status": TEST_RESULT, "details": DETAILS}
 
 
 if __name__ == '__main__':

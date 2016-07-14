@@ -15,7 +15,7 @@ import shutil
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
-logger = ft_logger.Logger("bgpvpn").getLogger()
+logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
 
 def main():
@@ -68,11 +68,13 @@ def main():
         # Look for name of the tests
         testcases = re.findall("\{0\} (.*)", output)
 
-        results = {"test_name": "tempest", "duration": duration,
+        results = {"duration": duration,
                    "num_tests": num_tests, "failed": failed,
                    "tests": testcases}
-        logger.info("Results: %s" % results)
-        return results
+        criteria = "PASS"
+        if int(failed) > 0:
+            criteria = "FAILED"
+        return {"status": criteria, "details": results}
     except:
         logger.error("Problem when parsing the results.")
 

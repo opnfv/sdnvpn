@@ -28,7 +28,7 @@ parser.add_argument("-r", "--report",
 args = parser.parse_args()
 
 """ logging configuration """
-logger = ft_logger.Logger("sdnvpn-testcase-1").getLogger()
+logger = ft_logger.Logger("sdnvpn-testcase-2").getLogger()
 
 REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
 HOME = os.environ['HOME'] + "/"
@@ -97,12 +97,17 @@ SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_2.sdnvpn_sg_name", config_file)
 SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_2.sdnvpn_sg_descr", config_file)
+TARGETS_1 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_2.targets1", config_file)
+TARGETS_2 = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_2.targets2", config_file)
 
 TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
 
 TEST_RESULT = "PASS"
 SUMMARY = ""
 LINE_LENGTH = 90  # length for the summary table
+DETAILS = []
 
 
 def create_network(neutron_client, net, subnet1, cidr1,
@@ -270,6 +275,7 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
+        DETAILS.append({col2: col1})
 
 
 def main():
@@ -405,9 +411,9 @@ def main():
     logger.info("\n\n--> %s ..." % msg)
     add_to_summary(1, msg)
     vpn1_name = "sdnvpn-1-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": "55:55",
-              "export_targets": "55:55",
-              "route_targets": "55:55",
+    kwargs = {"import_targets": TARGETS_2,
+              "export_targets": TARGETS_2,
+              "route_targets": TARGETS_2,
               "name": vpn1_name}
     bgpvpn1 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn1_id = bgpvpn1['bgpvpn']['id']
@@ -436,9 +442,9 @@ def main():
     logger.info("\n\n--> %s ..." % msg)
     add_to_summary(1, msg)
     vpn2_name = "sdnvpn-2-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": "88:88",
-              "export_targets": "88:88",
-              "route_targets": "88:88",
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_1,
+              "route_targets": TARGETS_1,
               "name": vpn2_name}
     bgpvpn2 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn2_id = bgpvpn2['bgpvpn']['id']
@@ -471,7 +477,7 @@ def main():
     else:
         logger.info("One or more sub tests have failed.")
 
-    sys.exit(0)
+    return {"status": TEST_RESULT, "details": DETAILS}
 
 
 if __name__ == '__main__':
