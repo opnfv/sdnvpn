@@ -9,11 +9,6 @@
 #
 
 
-import functest.utils.functest_logger as ft_logger
-import functest.utils.functest_utils as functest_utils
-import functest.utils.openstack_utils as os_utils
-
-
 def main():
     pass
 
