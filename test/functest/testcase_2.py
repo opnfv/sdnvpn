@@ -276,8 +276,8 @@ def add_to_summary(num_cols, col1, col2=""):
     elif num_cols == 2:
         SUMMARY += ("| %s" % col1.ljust(7) + "| ")
         SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
-        DETAILS.append({col2: col1})
         if col1 in ("FAIL", "PASS"):
+            DETAILS.append({col2: col1})
             NUM_TESTS += 1
             if col1 == "FAIL":
                 NUM_TESTS_FAILED += 1
