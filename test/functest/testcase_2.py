@@ -113,8 +113,7 @@ NUM_TESTS_FAILED = 0
 
 def create_network(neutron_client, net, subnet1, cidr1,
                    router, subnet2=None, cidr2=None):
-    network_dic = os_utils.create_network_full(logger,
-                                               neutron_client,
+    network_dic = os_utils.create_network_full(neutron_client,
                                                net,
                                                subnet1,
                                                router,
@@ -305,8 +304,7 @@ def main():
                                             IMAGE_PATH,
                                             disk=IMAGE_FORMAT,
                                             container="bare",
-                                            public=True,
-                                            logger=logger)
+                                            public=True)
     network_1_id = create_network(neutron_client,
                                   NET_1_NAME,
                                   SUBNET_1a_NAME,
@@ -321,7 +319,7 @@ def main():
                                   ROUTER_2_NAME,
                                   SUBNET_2b_NAME,
                                   SUBNET_2b_CIDR)
-    sg_id = os_utils.create_security_group_full(logger, neutron_client,
+    sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
     # Get hypervisors zones
