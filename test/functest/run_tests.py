@@ -7,15 +7,17 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
+
 import argparse
 import importlib
 import os
+import sys
 import time
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 import yaml
 
-""" tests configuration """
+
 parser = argparse.ArgumentParser()
 parser.add_argument("-r", "--report",
                     help="Create json result file",
@@ -86,7 +88,10 @@ def main():
             "bgpvpn", overall_start_time, overall_end_time,
             overall_status, overall_details)
 
-    exit(0)
+    if overall_status == "FAIL":
+        sys.exit(-1)
+
+    sys.exit(0)
 
 
 if __name__ == '__main__':
