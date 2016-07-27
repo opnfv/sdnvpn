@@ -86,7 +86,10 @@ def main():
             "bgpvpn", overall_start_time, overall_end_time,
             overall_status, overall_details)
 
-    exit(0)
+    if overall_status == "FAIL":
+        sys.exit(-1)
+
+    sys.exit(0)
 
 
 if __name__ == '__main__':
