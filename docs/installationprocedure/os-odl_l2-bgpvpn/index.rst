@@ -1,17 +1,20 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) 2016 OPNFV.
+.. (c) 2016 Tim Irnich <tim.irnich@ericsson.com>
 
 ================================
-SDNVPN Brahmaputra documentation
+SDNVPN Colorado documentation
 ================================
 
 .. toctree::
    :maxdepth: 2
 
-   ./platformoverview/platformoverview.rst
-   ./configguide/featureconfig.rst
-   ./userguide/featureusage.rst
+   ./abstract.rst
+   ./introduction.rst
+   ./hardware.requirements.rst
+   ./preparation.rst
+   ./installation.rst
+   ./references.rst
 
 Indices
 =======
