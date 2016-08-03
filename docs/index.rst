@@ -1,9 +1,9 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) 2016 OPNFV.
+.. (c) 2016 Tim Irnich <tim.irnich@ericsson.com>
 
 ================================
-SDNVPN Brahmaputra documentation
+SDNVPN Colorado documentation
 ================================
 
 .. toctree::
