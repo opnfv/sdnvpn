@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_18d88a1c",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-08T09:18:04Z",
+      "side": 1,
+      "message": "I thought that the installation of the jumphost is done in preparation.rst/Setting up the jumphost",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 77
+      },
+      "revId": "5f67c43b5460a7a4af8893974be366b294748ea0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
