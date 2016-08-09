@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_77f8ac7c",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "no I don\u0027t have information here",
+      "parentUuid": "1a76adc5_93d6bdc4",
+      "range": {
+        "startLine": 19,
+        "startChar": 47,
+        "endLine": 19,
+        "endChar": 61
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_f3e4d1ad",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2016-08-09T07:23:09Z",
       "side": 1,
       "message": "Suggestion: \"When ODL is used as SDN Controller in an OPNFV, virtual deployment, ODL is running on the OpenStack Controller VMs. it is therefore recommmended to increase the amount of resources these VMs have.\"",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_170a988a",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_f3e4d1ad",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b7fe446a",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_33db29ef",
+      "range": {
+        "startLine": 25,
+        "startChar": 66,
+        "endLine": 25,
+        "endChar": 68
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_53d825ef",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
         "patchSetId": 1
@@ -105,6 +177,30 @@
       "writtenOn": "2016-08-09T07:23:09Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d703c071",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/hardware.requirements.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_53d825ef",
       "range": {
         "startLine": 26,
         "startChar": 1,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_37f2349b",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_73e8c17c",
+      "range": {
+        "startLine": 13,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 3
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_93ed5d8e",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
         "patchSetId": 1
@@ -151,6 +271,30 @@
       "writtenOn": "2016-08-09T07:23:09Z",
       "side": 1,
       "message": "typo: lab",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_57efb0b0",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_93ed5d8e",
       "range": {
         "startLine": 15,
         "startChar": 14,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_97f54885",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "I don\u0027t want to list all possible changes here. I just want to give the user the hint to look into that file more precisely.",
+      "parentUuid": "1a76adc5_53ffc534",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 51
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_13906deb",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
         "patchSetId": 1
@@ -197,6 +365,30 @@
       "writtenOn": "2016-08-09T07:23:09Z",
       "side": 1,
       "message": "typo: really",
+      "range": {
+        "startLine": 63,
+        "startChar": 55,
+        "endLine": 63,
+        "endChar": 60
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f72b5ce9",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/installation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_13906deb",
       "range": {
         "startLine": 63,
         "startChar": 55,
@@ -232,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5746d0c0",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/preparation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_b3bc196e",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_d3c195e5",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/preparation.rst",
         "patchSetId": 1
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_171858d2",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/preparation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "colorado is not out yet so our latest release is brahmaputra or?",
+      "parentUuid": "1a76adc5_d3c195e5",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_73b6818c",
         "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/preparation.rst",
         "patchSetId": 1
@@ -266,6 +506,30 @@
       "writtenOn": "2016-08-09T07:23:09Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 35,
+        "startChar": 14,
+        "endLine": 35,
+        "endChar": 32
+      },
+      "revId": "1862c21de6efe92bdc1ebaca1a907053b503ad9d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b70c0496",
+        "filename": "docs/installationprocedure/os-odl_l2-bgpvpn/preparation.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-08-09T12:07:53Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "1a76adc5_73b6818c",
       "range": {
         "startLine": 35,
         "startChar": 14,
