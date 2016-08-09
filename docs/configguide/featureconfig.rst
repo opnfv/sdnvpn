@@ -2,6 +2,7 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Tim Irnich  (tim.irnich@ericsson.com)
 
+.. _Configuring-SDNVPN-features
 Configuring SDNVPN features
 ---------------------------
 

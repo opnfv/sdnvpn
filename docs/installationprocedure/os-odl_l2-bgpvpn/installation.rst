@@ -68,5 +68,7 @@ Automatic Fuel installation and manual scenario deployment
 
  sudo bash ./deploy.sh -b file://<path-to-opnfv-fuel-repo>/config/ -l devel-pipeline -p <your-lab-name> -s os-odl_l2-bgpvpn-ha -i file://<path-to-fuel-iso> -e
 
+Check Configuring-SDNVPN-features_ how to manually activate the features.
+
 With -e option the installer does not launch environment deployment, so
 a user can do some modification before the scenario is really deployed. Another interesting option is the -f option which deploys the scenario  on existing Fuel.
