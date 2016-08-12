@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_001ecb70",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "change to: Introduction",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 24
+      },
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_60b0df8b",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "Move this to scenario description and replace with: \"the scenario and its provided capabilities are described in \u003cscenario description\u003e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 89
+      },
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a0127760",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "remove this section",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 30
+      },
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c0177350",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "move to feature description",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_600c5f43",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "One level up",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_80097b33",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2016-08-12T08:50:13Z",
+      "side": 1,
+      "message": "add section: Troubleshooting guide",
+      "revId": "3a619240dfd74693a46d9d7fb0f54da2633d15bb",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
