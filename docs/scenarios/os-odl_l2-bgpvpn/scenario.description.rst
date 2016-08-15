@@ -11,10 +11,35 @@ between components, or towards existing external networks. In many cases, these 
 networks are implemented in MPLS/BGP technology in existing service provider wide-area-networks (WAN).
 
 This proven technology provides a good mechanism for inter-operation of a NFV Infrastructure (NFVI)
-and wide-area networks (WAN) and is the main feature set provided by the BGP VPN project.
+and wide-area networks (WAN) and is the main capability provided by the OPNFV SDNVPN project.
 
-This document provides an outline of the os-odl_l2-bgpvpn scenarios of OPNFV including
-guidelines and references to required installation, software and hardware configuration documents.
+.. should we explain here what a deployment scenario is?
+The OPNFV SDNVPN feature is made available through additional OPNFV deployment scenarios, which are derived 
+from the baseline scenarios os-odl_l2-nofeature and os-pdl_l3-nofeature. This document 
+provides an outline of the os-odl_l2-bgpvpn scenarios of OPNFV including guidelines and references to 
+required installation, software and hardware configuration documents.
+
+Scenario components and composition
+===================================
+.. In this section describe the unique components that make up the scenario,
+.. what each component provides and why it has been included in order
+.. to communicate to the user the capabilities available in this scenario.
+
+The SDN VPN feature enhances OPNFV's baseline OpenStack deployment with the
+possibility to configure BGP based VPNs according to the OpenStack Neutron
+Stadium project BGPVPN. The BGPVPN project consists of a Neutron API extension and a 
+service plugin which has a driver framework simnilar to the ML2 plugin. BGPVPN today 
+has a quyite large number of backend drivers (Bagpipe, OpenContrail,
+Nuage and OpenDaylight currently). In OPNFV, currently only the OpenDaylight driver
+is supported.
+
+The BGPVPN ODL driver maps the BGPVPN API onto the OpenDaylight VPNService, which exposes the data 
+center overlay like a virtual router to which Neutron Networks and Routers (and in the future also Ports) 
+are connected. The VPNService has access to the state of the Neutron API through the OpenDaylight 
+Neutron Northbound Interface module, which has been enhanced to support the BGPVPN API extension. 
+It uses an internal mesh of GRE tunnels to interconnect the vSwitches on the data 
+center compute nodes. For the purpose of BGP based route exchange with other BGP speakers the ODL 
+controller makes use of Quagga BGP as an external BGP speaker. 
 
   <To be completed, this outlines the basic content and flow>
   Description of bgpvpn scenarios
@@ -25,12 +50,6 @@ guidelines and references to required installation, software and hardware config
   configure OVS to connect to ODL and set up the right bridges (network architecture)
   set up iptables to allow connections between OVS and ODL
   set up HA proxy so that ODL can be reached
-
-Scenario components and composition
-===================================
-.. In this section describe the unique components that make up the scenario,
-.. what each component provides and why it has been included in order
-.. to communicate to the user the capabilities available in this scenario.
 
   <Where applicable and without copying the installation procedure in the install guides>
   Describe Neutron BGPVPN additions (networking-bgpvpn)
@@ -49,6 +68,25 @@ Scenario usage overview
   When would I use this scenario, what value does it provide?  Refer to the userguide for details
   of configuration etc...
 
+  Configuring SDNVPN features
+---------------------------
+
+Fuel installer configuration
+
+In order to install the BGPVPN feature, the corresponding checkbox in Fuel has to be
+selected. This will trigger installation of the OpenStack BGPVPN API extension for
+Neutron (set up for using the ODL driver).
+
+In addition, ODL has to be installed, see the corresponding section in the respective
+installer documentation on how to install ODL. If the BGPVPN feature is installed,
+ODL will automatically be installed with VPN Service karaf feature activated.
+
+No post-deploy configuration is necessary. The Fuel BGPVPN plugin and the ODL plugin
+should set up the cluster ready for BGPVPNs being created. This includes the set-up
+of internal VxLAN transport tunnels between compute nodes.
+
+No post-configuration activities are required.
+  
 Limitations, Issues and Workarounds
 ===================================
 .. Explain scenario limitations here, this should be at a design level rather than discussing
