@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0a31025a",
+        "filename": "docs/scenarios/os-odl_l2-bgpvpn/scenario.description.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-16T11:31:53Z",
+      "side": 1,
+      "message": "odl not pdl",
+      "revId": "02e5fec1c16526c964e359a8eeeaac497381d677",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8a3c3231",
+        "filename": "docs/scenarios/os-odl_l2-bgpvpn/scenario.description.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-16T11:31:53Z",
+      "side": 1,
+      "message": "Maybe this should be a sub heading ^^^^^^^^^^^^ I assume an Apex section will also appear.",
+      "revId": "02e5fec1c16526c964e359a8eeeaac497381d677",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6a3f5626",
+        "filename": "docs/scenarios/os-odl_l2-bgpvpn/scenario.description.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-16T11:31:53Z",
+      "side": 1,
+      "message": "This paragraph maybe:\nTo install the BGPVPN feature using Fuel, follow the Fuel installation guide ensuring to select the BGPVPN features when prompted.  \u003clink to page\u003e",
+      "revId": "02e5fec1c16526c964e359a8eeeaac497381d677",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2a207ef6",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-16T11:31:53Z",
+      "side": 1,
+      "message": "Is this due to memory consumed by ODL and Quagga, or is this due to the load of running ODL as a VR?",
+      "revId": "02e5fec1c16526c964e359a8eeeaac497381d677",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ea7926fd",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 163
+      },
+      "writtenOn": "2016-08-16T11:31:53Z",
+      "side": 1,
+      "message": "Would be worth moving this section onward to the Fuel guide.  Understand it is here for now but the right place for it is in /fuel",
+      "revId": "02e5fec1c16526c964e359a8eeeaac497381d677",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
