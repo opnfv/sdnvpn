@@ -176,7 +176,7 @@ node discovery and platform deployment) will take place without any further prom
  sudo bash ./deploy.sh -b file://<path-to-opnfv-fuel-repo>/config/ -l devel-pipeline -p <your-lab-name> -s os-odl_l2-bgpvpn-ha -i file://<path-to-fuel-iso>
 
 Full automatic virtual deployment NO High Availability Mode
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following command will deploy the SDNVPN scenario in its non-high-availability flavor. Otherwise it does the same as described above.
 ::
@@ -204,10 +204,68 @@ Feature and API usage guidelines and example
 For the details of using OpenStack BGPVPN API, please refer to the documentation
 at http://docs.openstack.org/developer/networking-bgpvpn/.
 
-Can we give a basic example here?  Pointing someone off to a generic document in reference to
-this specific compilation of components feels a little like only half the job.  :)
+Example
+-------
+In the example we will show a BGPVPN associated to 2 neutron networks. The BGPVPN
+will have the import and export routes in the way that it imports its own Route. The outcome will be that vms sitting on these two networks will be able to have a full L3
+connectivity.
+
+Some defines:
+::
+
+ net_1="Network1"
+ net_2="Network2"
+ subnet_net1="10.10.10.0/24"
+ subnet_net2="10.10.11.0/24"
+
+Create neutron networks and save network IDs:
+::
+
+ neutron net-create --provider:network_type=local $net_1
+ export net_1_id=`echo "$rv" | grep " id " |awk '{print $4}'`
+ neutron net-create --provider:network_type=local $net_2
+ export net_2_id=`echo "$rv" | grep " id " |awk '{print $4}'`
+
+Create neutron subnets:
+::
+
+ neutron subnet-create $net_1 --disable-dhcp $subnet_net1
+ neutron subnet-create $net_2 --disable-dhcp $subnet_net2
+
+Create BGPVPN:
+::
+
+ neutron bgpvpn-create --route-distinguishers 100:100 --route-targets 100:2530 --name L3_VPN
+
+Start VMs on both networks:
+::
+
+ nova boot --flavor 1 --image <some-image> --nic net-id=$net_1_id vm1
+ nova boot --flavor 1 --image <some-image> --nic net-id=$net_2_id vm2
+
+The VMs should not be able to see each other.
+
+Associate to Neutron networks:
+::
+
+ neutron bgpvpn-net-assoc-create L3_VPN --network $net_1_id
+ neutron bgpvpn-net-assoc-create L3_VPN --network $net_2_id
+
+Now the VMs should be able to ping each other
 
 Troubleshooting
 ===============
+Check neutron logs on the controller:
+::
 
-What? I thought this would work!
+ tail -f /var/log/neutron/server.log |grep -E "ERROR|TRACE"
+
+Check Opendaylight logs:
+::
+
+ tail -f /opt/opendaylight/data/logs/karaf.log
+
+Restart Opendaylight:
+::
+
+ service opendaylight restart
