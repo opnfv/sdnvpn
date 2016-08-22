@@ -193,8 +193,31 @@ A useful alternative to the full automatic procedure is to only autodeploy the F
 
 With -e option the installer does not launch environment deployment, so
 a user can do some modification before the scenario is really deployed.
-
 Another interesting option is the -f option which deploys the scenario using an existing Fuel host.
+
+The result of this installation is a fuel sever with the right config for
+BGPVPN. Now the deploy button on fuel dashboard can be used to deploy the environment.
+It is as well possible to do the configuration manuell.
+
+Feature configuration on existing Fuel
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+If a Fuel server is already provided but the fuel plugins for Opendaylight, Openvswitch
+and BGPVPN are not provided install them by:
+::
+
+ cd /opt/opnfv/
+ fuel plugins --install fuel-plugin-ovs-*.noarch.rpm
+ fuel plugins --install opendaylight-*.noarch.rpm
+ fuel plugins --install bgpvpn-*.noarch.rpm
+
+If plugins are installed and you want to update them use --force flag.
+
+Now the feature can be configured. Create a new environment with "Neutron with ML2 plugin" and
+in there "Neutron with tunneling segmentation".
+Then go to settings/other and check "OpenDaylight plugin", "Install Openvswitch with NSH/DPDK" and
+"BGPVPN plugin". Then you should be able to check "BGPVPN extensions" in OpenDaylight plugin section.
+
+Now the deploy button on fuel dashboard can be used to deploy the environment.
 
 Feature and API usage guidelines and example
 ============================================
