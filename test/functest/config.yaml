@@ -68,3 +68,29 @@ testcases:
       succes_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_3
 
+  testcase_4:
+      enabled: false
+      description: VPN provides connectivity between subnets using router association
+      succes_criteria: 75 # we let fail 25% of the subtests
+      testname_db: functest_testcase_4
+      ping_timeout:   200
+      flavor: m1.tiny # adapt to your environment
+      instance_1_name: sdnvpn-4-1
+      instance_2_name: sdnvpn-4-2
+      instance_3_name: sdnvpn-4-3
+      instance_4_name: sdnvpn-4-4
+      instance_5_name: sdnvpn-4-5
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-4-1-net
+      subnet_1_name: sdnvpn-4-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-4-1-router
+      net_2_name: sdnvpn-4-2-net
+      subnet_2_name: sdnvpn-4-2-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      router_2_name: sdnvpn-4-2-router
+      sdnvpn_sg_name: sdnvpn-sg
+      sdnvpn_sg_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
+
