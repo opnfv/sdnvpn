@@ -26,7 +26,7 @@ SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
 
 
 def main():
-    src_tempest_dir = ft_utils.get_deployment_dir(logger)
+    src_tempest_dir = ft_utils.get_deployment_dir()
     if not src_tempest_dir:
         logger.error("Rally deployment not found.")
         exit(-1)
