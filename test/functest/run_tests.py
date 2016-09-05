@@ -33,7 +33,6 @@ def push_results(testname, start_time, end_time, criteria, details):
     logger.info("Push testcase '%s' results into the DB...\n" % testname)
     ft_utils.push_results_to_db("sdnvpn",
                                 testname,
-                                logger,
                                 start_time,
                                 end_time,
                                 criteria,
