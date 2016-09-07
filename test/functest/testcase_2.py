@@ -18,6 +18,7 @@ import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 import functest.utils.openstack_utils as os_utils
 
+import utils as test_utils
 
 parser = argparse.ArgumentParser()
 
@@ -109,71 +110,6 @@ LINE_LENGTH = 90  # length for the summary table
 DETAILS = []
 NUM_TESTS = 0
 NUM_TESTS_FAILED = 0
-
-
-def create_network(neutron_client, net, subnet1, cidr1,
-                   router, subnet2=None, cidr2=None):
-    network_dic = os_utils.create_network_full(neutron_client,
-                                               net,
-                                               subnet1,
-                                               router,
-                                               cidr1)
-    if not network_dic:
-        logger.error(
-            "There has been a problem when creating the neutron network")
-        sys.exit(-1)
-    net_id = network_dic["net_id"]
-    if subnet2 is not None:
-        logger.debug("Creating and attaching a second subnet...")
-        subnet_id = os_utils.create_neutron_subnet(
-            neutron_client, subnet2, cidr2, net_id)
-        if not subnet_id:
-            logger.error(
-                "There has been a problem when creating the second subnet")
-            sys.exit(-1)
-        logger.debug("Subnet '%s' created successfully" % subnet_id)
-    return net_id
-
-
-def create_instance(nova_client,
-                    name,
-                    flavor,
-                    image_id,
-                    network_id,
-                    sg_id,
-                    fixed_ip,
-                    compute_node='',
-                    userdata=None,
-                    files=None):
-    logger.info("Creating instance '%s'..." % name)
-    logger.debug(
-        "Configuration:\n name=%s \n flavor=%s \n image=%s \n"
-        " network=%s\n secgroup=%s \n hypervisor=%s \n"
-        " fixed_ip=%s\n files=%s\n userdata=\n%s\n"
-        % (name, flavor, image_id, network_id, sg_id,
-           compute_node, fixed_ip, files, userdata))
-    instance = os_utils.create_instance_and_wait_for_active(
-        flavor,
-        image_id,
-        network_id,
-        name,
-        config_drive=True,
-        userdata=userdata,
-        av_zone=compute_node,
-        fixed_ip=fixed_ip,
-        files=files)
-
-    if instance is None:
-        logger.error("Error while booting instance.")
-        sys.exit(-1)
-    # Retrieve IP of INSTANCE
-    # instance_ip = instance.networks.get(network_id)[0]
-
-    logger.debug("Adding '%s' to security group '%s'..."
-                 % (name, SECGROUP_NAME))
-    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
-
-    return instance
 
 
 def generate_userdata_common():
@@ -305,20 +241,20 @@ def main():
                                             disk=IMAGE_FORMAT,
                                             container="bare",
                                             public=True)
-    network_1_id = create_network(neutron_client,
-                                  NET_1_NAME,
-                                  SUBNET_1a_NAME,
-                                  SUBNET_1a_CIDR,
-                                  ROUTER_1_NAME,
-                                  SUBNET_1b_NAME,
-                                  SUBNET_1b_CIDR)
-    network_2_id = create_network(neutron_client,
-                                  NET_2_NAME,
-                                  SUBNET_2a_NAME,
-                                  SUBNET_2a_CIDR,
-                                  ROUTER_2_NAME,
-                                  SUBNET_2b_NAME,
-                                  SUBNET_2b_CIDR)
+    network_1_id, _, _ = test_utils.create_network(neutron_client,
+                                                   NET_1_NAME,
+                                                   SUBNET_1a_NAME,
+                                                   SUBNET_1a_CIDR,
+                                                   ROUTER_1_NAME,
+                                                   SUBNET_1b_NAME,
+                                                   SUBNET_1b_CIDR)
+    network_2_id, _, _ = test_utils.create_network(neutron_client,
+                                                   NET_2_NAME,
+                                                   SUBNET_2a_NAME,
+                                                   SUBNET_2a_CIDR,
+                                                   ROUTER_2_NAME,
+                                                   SUBNET_2b_NAME,
+                                                   SUBNET_2b_CIDR)
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -337,40 +273,43 @@ def main():
 
     # boot INTANCES
     userdata_common = generate_userdata_common()
-    vm_2 = create_instance(nova_client,
-                           INSTANCE_2_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_1_id,
-                           sg_id,
-                           INSTANCE_2_IP,
-                           compute_node=av_zone_1,
-                           userdata=userdata_common)
+    vm_2 = test_utils.create_instance(nova_client,
+                                      INSTANCE_2_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      fixed_ip=INSTANCE_2_IP,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1,
+                                      userdata=userdata_common)
     vm_2_ip = vm_2.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_2_NAME, vm_2_ip))
 
-    vm_3 = create_instance(nova_client,
-                           INSTANCE_3_NAME,
-                           FLAVOR, image_id,
-                           network_1_id,
-                           sg_id,
-                           INSTANCE_3_IP,
-                           compute_node=av_zone_2,
-                           userdata=userdata_common)
+    vm_3 = test_utils.create_instance(nova_client,
+                                      INSTANCE_3_NAME,
+                                      FLAVOR, image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      fixed_ip=INSTANCE_3_IP,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_2,
+                                      userdata=userdata_common)
     vm_3_ip = vm_3.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_3_NAME, vm_3_ip))
 
-    vm_5 = create_instance(nova_client,
-                           INSTANCE_5_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_2_id,
-                           sg_id,
-                           fixed_ip=INSTANCE_5_IP,
-                           compute_node=av_zone_2,
-                           userdata=userdata_common)
+    vm_5 = test_utils.create_instance(nova_client,
+                                      INSTANCE_5_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_2_id,
+                                      sg_id,
+                                      fixed_ip=INSTANCE_5_IP,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_2,
+                                      userdata=userdata_common)
     vm_5_ip = vm_5.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_5_NAME, vm_5_ip))
@@ -378,16 +317,17 @@ def main():
     # We boot vm5 first because we need vm5_ip for vm4 userdata
     u4 = generate_userdata_with_ssh(
         [INSTANCE_1_IP, INSTANCE_3_IP, INSTANCE_5_IP])
-    vm_4 = create_instance(nova_client,
-                           INSTANCE_4_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_2_id,
-                           sg_id,
-                           fixed_ip=INSTANCE_4_IP,
-                           compute_node=av_zone_1,
-                           userdata=u4,
-                           files=files)
+    vm_4 = test_utils.create_instance(nova_client,
+                                      INSTANCE_4_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_2_id,
+                                      sg_id,
+                                      fixed_ip=INSTANCE_4_IP,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1,
+                                      userdata=u4,
+                                      files=files)
     vm_4_ip = vm_4.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_4_NAME, vm_4_ip))
@@ -396,16 +336,17 @@ def main():
     # the userdata
     u1 = generate_userdata_with_ssh(
         [INSTANCE_2_IP, INSTANCE_3_IP, INSTANCE_4_IP, INSTANCE_5_IP])
-    vm_1 = create_instance(nova_client,
-                           INSTANCE_1_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_1_id,
-                           sg_id,
-                           fixed_ip=INSTANCE_1_IP,
-                           compute_node=av_zone_1,
-                           userdata=u1,
-                           files=files)
+    vm_1 = test_utils.create_instance(nova_client,
+                                      INSTANCE_1_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      fixed_ip=INSTANCE_1_IP,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1,
+                                      userdata=u1,
+                                      files=files)
     vm_1_ip = vm_1.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_1_NAME, vm_1_ip))
