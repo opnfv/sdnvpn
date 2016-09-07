@@ -18,6 +18,7 @@ import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 import functest.utils.openstack_utils as os_utils
 
+import utils as test_utils
 
 parser = argparse.ArgumentParser()
 
@@ -92,79 +93,6 @@ LINE_LENGTH = 60  # length for the summary table
 DETAILS = []
 NUM_TESTS = 0
 NUM_TESTS_FAILED = 0
-
-
-def create_network(neutron_client, net, subnet, router, cidr):
-    network_dic = os_utils.create_network_full(neutron_client,
-                                               net,
-                                               subnet,
-                                               router,
-                                               cidr)
-    if not network_dic:
-        logger.error(
-            "There has been a problem when creating the neutron network")
-        sys.exit(-1)
-    return network_dic["net_id"], \
-        network_dic["subnet_id"], \
-        network_dic["router_id"]
-
-
-def create_instance(nova_client,
-                    name,
-                    flavor,
-                    image_id,
-                    network_id,
-                    sg_id,
-                    compute_node='',
-                    userdata=None):
-    logger.info("Creating instance '%s'..." % name)
-    logger.debug(
-        "Configuration:\n name=%s \n flavor=%s \n image=%s \n "
-        "network=%s \n secgroup=%s \n hypervisor=%s \n userdata=%s\n"
-        % (name, flavor, image_id, network_id, sg_id, compute_node, userdata))
-    instance = os_utils.create_instance_and_wait_for_active(
-        flavor,
-        image_id,
-        network_id,
-        name,
-        config_drive=True,
-        userdata=userdata,
-        av_zone=compute_node)
-
-    if instance is None:
-        logger.error("Error while booting instance.")
-        sys.exit(-1)
-    # Retrieve IP of INSTANCE
-    # instance_ip = instance.networks.get(network_id)[0]
-
-    logger.debug("Adding '%s' to security group '%s'..."
-                 % (name, SECGROUP_NAME))
-    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
-
-    return instance
-
-
-def generate_ping_userdata(ips_array):
-    ips = ""
-    for ip in ips_array:
-        ips = ("%s %s" % (ips, ip))
-
-    ips = ips.replace('  ', ' ')
-    return ("#!/bin/sh\n"
-            "set%s\n"
-            "while true; do\n"
-            " for i do\n"
-            "  ip=$i\n"
-            "  ping -c 1 $ip 2>&1 >/dev/null\n"
-            "  RES=$?\n"
-            "  if [ \"Z$RES\" = \"Z0\" ] ; then\n"
-            "   echo ping $ip OK\n"
-            "  else echo ping $ip KO\n"
-            "  fi\n"
-            " done\n"
-            " sleep 1\n"
-            "done\n"
-            % ips)
 
 
 def get_ping_status(vm_source, ip_source,
@@ -260,16 +188,16 @@ def main():
                                             disk=IMAGE_FORMAT,
                                             container="bare",
                                             public=True)
-    network_1_id, _, router_1_id = create_network(neutron_client,
-                                                  NET_1_NAME,
-                                                  SUBNET_1_NAME,
-                                                  ROUTER_1_NAME,
-                                                  SUBNET_1_CIDR)
-    network_2_id, _, router_2_id = create_network(neutron_client,
-                                                  NET_2_NAME,
-                                                  SUBNET_2_NAME,
-                                                  ROUTER_2_NAME,
-                                                  SUBNET_2_CIDR)
+    network_1_id, _, router_1_id = test_utils.create_network(neutron_client,
+                                                             NET_1_NAME,
+                                                             SUBNET_1_NAME,
+                                                             SUBNET_1_CIDR,
+                                                             ROUTER_1_NAME)
+    network_2_id, _, router_2_id = test_utils.create_network(neutron_client,
+                                                             NET_2_NAME,
+                                                             SUBNET_2_NAME,
+                                                             SUBNET_2_CIDR,
+                                                             ROUTER_2_NAME)
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -287,63 +215,72 @@ def main():
     av_zone_2 = "nova:" + compute_nodes[1]
 
     # boot INTANCES
-    vm_2 = create_instance(nova_client,
-                           INSTANCE_2_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_1_id,
-                           sg_id,
-                           av_zone_1)
+    vm_2 = test_utils.create_instance(nova_client,
+                                      INSTANCE_2_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1)
     vm_2_ip = vm_2.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_2_NAME, vm_2_ip))
 
-    vm_3 = create_instance(nova_client,
-                           INSTANCE_3_NAME,
-                           FLAVOR, image_id,
-                           network_1_id,
-                           sg_id,
-                           av_zone_2)
+    vm_3 = test_utils.create_instance(nova_client,
+                                      INSTANCE_3_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_2)
     vm_3_ip = vm_3.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_3_NAME, vm_3_ip))
 
-    vm_5 = create_instance(nova_client,
-                           INSTANCE_5_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_2_id,
-                           sg_id,
-                           av_zone_2)
+    vm_5 = test_utils.create_instance(nova_client,
+                                      INSTANCE_5_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_2_id,
+                                      sg_id,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_2)
     vm_5_ip = vm_5.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_5_NAME, vm_5_ip))
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
-    u4 = generate_ping_userdata([vm_5_ip])
-    vm_4 = create_instance(nova_client,
-                           INSTANCE_4_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_2_id,
-                           sg_id,
-                           av_zone_1,
-                           userdata=u4)
+    u4 = test_utils.generate_ping_userdata([vm_5_ip])
+    vm_4 = test_utils.create_instance(nova_client,
+                                      INSTANCE_4_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_2_id,
+                                      sg_id,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1,
+                                      userdata=u4)
     vm_4_ip = vm_4.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_4_NAME, vm_4_ip))
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
-    u1 = generate_ping_userdata([vm_2_ip, vm_3_ip, vm_4_ip, vm_5_ip])
-    vm_1 = create_instance(nova_client,
-                           INSTANCE_1_NAME,
-                           FLAVOR,
-                           image_id,
-                           network_1_id,
-                           sg_id,
-                           av_zone_1,
-                           userdata=u1)
+    u1 = test_utils.generate_ping_userdata([vm_2_ip,
+                                            vm_3_ip,
+                                            vm_4_ip,
+                                            vm_5_ip])
+    vm_1 = test_utils.create_instance(nova_client,
+                                      INSTANCE_1_NAME,
+                                      FLAVOR,
+                                      image_id,
+                                      network_1_id,
+                                      sg_id,
+                                      secgroup_name=SECGROUP_NAME,
+                                      compute_node=av_zone_1,
+                                      userdata=u1)
     vm_1_ip = vm_1.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_1_NAME, vm_1_ip))
