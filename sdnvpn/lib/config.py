@@ -12,7 +12,6 @@ class CommonConfig(object):
     """
     Common configuration parameters across testcases
     """
-
     def __init__(self):
         self.repo_path = ft_constants.SDNVPN_REPO_DIR
         self.config_file = os.path.join(self.repo_path,
@@ -32,6 +31,15 @@ class CommonConfig(object):
             ft_utils.get_functest_config(
                 "general.directories.dir_functest_data"),
             self.image_filename)
+        # This is the ubuntu image used by sfc
+        # Basically vanilla ubuntu + some scripts in there
+        # We can use it to setup a quagga instance
+        # TODO does functest have an ubuntu image somewhere?
+        self.ubuntu_image_name = "sdnvpn-ubuntu"
+        self.ubuntu_image_path = '{0}/{1}'.format(
+            ft_utils.get_functest_config(
+                "general.directories.dir_functest_data"),
+            "sf_nsh_colorado.qcow2")
 
 
 class TestcaseConfig(object):
