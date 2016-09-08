@@ -9,16 +9,21 @@
 #
 import sys
 import time
+import requests
+import re
+import subprocess
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
-import re
 
 from sdnvpn.lib import config as sdnvpn_config
 
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
 
 common_config = sdnvpn_config.CommonConfig()
+
+ODL_USER = 'admin'
+ODL_PASS = 'admin'
 
 
 def create_net(neutron_client, name):
@@ -301,3 +306,58 @@ def open_icmp_ssh(neutron_client, security_group_id):
                                   security_group_id,
                                   'tcp',
                                   80, 80)
+
+
+def open_bgp_port(neutron_client, security_group_id):
+    os_utils.create_secgroup_rule(neutron_client,
+                                  security_group_id,
+                                  'tcp',
+                                  179, 179)
+
+
+def exec_cmd(cmd, verbose):
+    success = True
+    logger.debug("Executing '%s'" % cmd)
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    output = ""
+    for line in iter(p.stdout.readline, b''):
+        output += line
+
+    if verbose:
+        logger.debug(output)
+
+    p.stdout.close()
+    returncode = p.wait()
+    if returncode != 0:
+        logger.error("Command %s failed to execute." % cmd)
+        success = False
+
+    return output, success
+
+
+def check_odl_fib(ip, controller_ip):
+    """Check that there is an entry in the ODL Fib for `ip`"""
+    url = "http://" + controller_ip + \
+          ":8181/restconf/config/odl-fib:fibEntries/"
+    logger.debug("Querring '%s' for FIB entries", url)
+    res = requests.get(url, auth=(ODL_USER, ODL_PASS))
+    if res.status_code != 200:
+        logger.error("OpenDaylight response status code: %s", res.status_code)
+        return False
+    logger.debug("Checking whether '%s' is in the OpenDaylight FIB"
+                 % controller_ip)
+    logger.debug("OpenDaylight FIB: \n%s" % res.text)
+    return ip in res.text
+
+
+def run_odl_cmd(odl_node, cmd):
+    '''
+    Run a command in the OpenDaylight Karaf shell
+
+    This is a bit flimsy because of shell quote escaping, make sure that
+    the cmd passed does not have any top level double quotes or this
+    function will break.
+    '''
+    karaf_cmd = '/opt/opendaylight/bin/client "%s" ' % cmd
+    return odl_node.run_cmd(karaf_cmd)
