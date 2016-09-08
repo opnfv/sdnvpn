@@ -74,6 +74,26 @@ testcases:
       description: Data center gateway integration
       success_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_3
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
+      image_name: sdnvpn-image
+      ubuntu_image_name: sdnvpn-ubuntu-image
+      net_1_name: sdnvpn-3-1-net
+      subnet_1_name: sdnvpn-3-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-3-1-router
+      quagga_net_name: sdnvpn-3-2-quagga-net
+      quagga_subnet_name: sdnvpn-3-2-quagga-subnet
+      quagga_subnet_cidr: 10.10.11.0/24
+      quagga_router_name: sdnvpn-3-2-quagga-router
+      quagga_instance_name: sdnvpn-3-2-quagga
+      quagga_instance_ip: 10.10.11.5
+      quagga_instance_flavor: m1.small
+      instance_1_name: sdnvpn-3-1
+      instance_1_ip: 10.10.10.5
+      import_targets: '31:31'
+      export_targets: '32:32'
+
 
   testcase_4:
       enabled: true

@@ -9,6 +9,11 @@
 #
 import sys
 import time
+import os
+import netifaces as ni
+from urlparse import urlparse
+import requests
+import subprocess
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
@@ -19,6 +24,9 @@ import config as sdnvpn_config
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
 
 common_config = sdnvpn_config.CommonConfig()
+
+ODL_USER = 'admin'
+ODL_PASS = 'admin'
 
 
 def create_net(neutron_client, name):
@@ -301,3 +309,9 @@ def open_icmp_ssh(neutron_client, security_group_id):
                                   security_group_id,
                                   'tcp',
                                   80, 80)
+
+
+def get_controller_ip():
+    # OS_AUTH_URL=http://172.16.0.16:5000/v2.0
+    auth_url = os.environ.get('OS_AUTH_URL')
+    return urlparse(auth_url).hostname
