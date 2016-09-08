@@ -114,6 +114,12 @@ class Results(object):
     def add_success(self, test):
         self.add_to_summary(2, "PASS", test)
 
+    def add_subtest(self, test, successful):
+        if successful:
+            self.add_success(test)
+        else:
+            self.add_failure(test)
+
     def check_ssh_output(self, vm_source, vm_target,
                          expected, timeout=30):
         console_log = vm_source.get_console_output()
