@@ -55,11 +55,11 @@ FLAVOR = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_2.flavor", config_file)
 IMAGE_NAME = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_2.image_name", config_file)
-IMAGE_FILENAME = ft_utils.get_parameter_from_yaml(
+IMAGE_FILENAME = ft_utils.get_functest_config(
     "general.openstack.image_file_name")
-IMAGE_FORMAT = ft_utils.get_parameter_from_yaml(
+IMAGE_FORMAT = ft_utils.get_functest_config(
     "general.openstack.image_disk_format")
-IMAGE_PATH = ft_utils.get_parameter_from_yaml(
+IMAGE_PATH = ft_utils.get_functest_config(
     "general.directories.dir_functest_data") + "/" + IMAGE_FILENAME
 
 KEYFILE_PATH = REPO_PATH + 'test/functest/id_rsa'
@@ -102,7 +102,7 @@ TARGETS_2 = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_2.targets2", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.succes_criteria", config_file)
-TEST_DB = ft_utils.get_parameter_from_yaml("results.test_db_url")
+TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
 TEST_RESULT = "PASS"
 SUMMARY = ""
