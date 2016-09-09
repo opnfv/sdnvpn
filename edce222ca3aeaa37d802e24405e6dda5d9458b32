@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a5c013e1",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-09T11:28:05Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say \"a lot\" in an official document :)  \"substantially\" sounds better to me.",
+      "revId": "edce222ca3aeaa37d802e24405e6dda5d9458b32",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_85bdd76a",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-09T11:28:05Z",
+      "side": 1,
+      "message": "Due to lacking support for floating IPs in ODL VPNService (which replaces Netvirt as Neutron backend in the SDN VPN scenarios), the following test suites have some restrictions and are not executed:\n- Tempest:\n tempest.api.compute.servers.test_create_server.ServersTestJSON\ntempest.api.compute.servers.test_create_server.ServersTestManualDisk\ntempest.api.compute.servers.test_server_actions.ServerActionsTestJSON\ntempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_network_basic_ops\ntempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops\ntempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_volume_boot_pattern\ntempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_volume_boot_pattern\n\nYardstick uses the floating ip mechanism to connect to the instances using SSH. Therefore, the default test cases have been replaced by the ones running tests on the bare-metal servers.",
+      "revId": "edce222ca3aeaa37d802e24405e6dda5d9458b32",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
