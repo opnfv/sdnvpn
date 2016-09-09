@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_85d4f720",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5579
+      },
+      "writtenOn": "2016-09-09T07:47:54Z",
+      "side": 1,
+      "message": "Perhaps create a \"test_result\" module to encap all the globals/functions related with the result / summary calculation?\n\nThe globals used here seem to have that sole purpose.\n\nShould this be in a subsequent change?",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 69
+      },
+      "revId": "be4cdf64bd481c72676f5cc1d654fa6e39b74dc7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
