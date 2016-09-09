@@ -1,3 +1,6 @@
+defaults:
+  flavor: m1.tiny # adapt to your environment
+
 testcases:
   tempest:
       enabled: true
@@ -11,8 +14,6 @@ testcases:
       description: VPN provides connectivity between subnets
       succes_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_1
-      ping_timeout:   200
-      flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-1-1
       instance_2_name: sdnvpn-1-2
       instance_3_name: sdnvpn-1-3
@@ -37,8 +38,6 @@ testcases:
       description: Tenant separation
       succes_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_2
-      ping_timeout:   200
-      flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-2-1
       instance_2_name: sdnvpn-2-2
       instance_3_name: sdnvpn-2-3
@@ -73,8 +72,6 @@ testcases:
       description: VPN provides connectivity between subnets using router association
       succes_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_4
-      ping_timeout:   200
-      flavor: m1.tiny # adapt to your environment
       instance_1_name: sdnvpn-4-1
       instance_2_name: sdnvpn-4-2
       instance_3_name: sdnvpn-4-3
@@ -93,4 +90,3 @@ testcases:
       sdnvpn_sg_descr: Security group for SDNVPN test cases
       targets1: '88:88'
       targets2: '55:55'
-

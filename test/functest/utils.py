@@ -8,12 +8,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 import sys
+import time
+import os
 
 import functest.utils.functest_logger as ft_logger
+import functest.utils.functest_utils as ft_utils
 import functest.utils.openstack_utils as os_utils
+import re
 
 
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
+
+REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
+config_file = REPO_PATH + 'test/functest/config.yaml'
+
+DEFAULT_FLAVOR = ft_utils.get_parameter_from_yaml(
+    "defaults.flavor", config_file)
 
 
 def create_network(neutron_client, net, subnet1, cidr1,
@@ -45,7 +55,6 @@ def create_network(neutron_client, net, subnet1, cidr1,
 
 def create_instance(nova_client,
                     name,
-                    flavor,
                     image_id,
                     network_id,
                     sg_id,
@@ -53,16 +62,21 @@ def create_instance(nova_client,
                     fixed_ip=None,
                     compute_node='',
                     userdata=None,
-                    files=None):
+                    files=None,
+                    **kwargs
+                    ):
+    if 'flavor' not in kwargs:
+        kwargs['flavor'] = DEFAULT_FLAVOR
+
     logger.info("Creating instance '%s'..." % name)
     logger.debug(
         "Configuration:\n name=%s \n flavor=%s \n image=%s \n"
         " network=%s\n secgroup=%s \n hypervisor=%s \n"
         " fixed_ip=%s\n files=%s\n userdata=\n%s\n"
-        % (name, flavor, image_id, network_id, sg_id,
+        % (name, kwargs['flavor'], image_id, network_id, sg_id,
            compute_node, fixed_ip, files, userdata))
     instance = os_utils.create_instance_and_wait_for_active(
-        flavor,
+        kwargs['flavor'],
         image_id,
         network_id,
         name,
@@ -110,3 +124,120 @@ def generate_ping_userdata(ips_array):
             " sleep 1\n"
             "done\n"
             % ips)
+
+
+def generate_userdata_common():
+    return ("#!/bin/sh\n"
+            "sudo mkdir -p /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/id_rsa\n"
+            "mv /home/cirros/id_rsa /home/cirros/.ssh/\n"
+            "sudo echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e"
+            "stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9"
+            "sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU"
+            "ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= "
+            "cirros@test1>/home/cirros/.ssh/authorized_keys\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys\n"
+            "chmod 700 /home/cirros/.ssh\n"
+            "chmod 644 /home/cirros/.ssh/authorized_keys\n"
+            "chmod 600 /home/cirros/.ssh/id_rsa\n"
+            )
+
+
+def generate_userdata_with_ssh(ips_array):
+    u1 = generate_userdata_common()
+
+    ips = ""
+    for ip in ips_array:
+        ips = ("%s %s" % (ips, ip))
+
+    ips = ips.replace('  ', ' ')
+    u2 = ("#!/bin/sh\n"
+          "set%s\n"
+          "while true; do\n"
+          " for i do\n"
+          "  ip=$i\n"
+          "  hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa "
+          "cirros@$ip 'hostname' </dev/zero 2>/dev/null)\n"
+          "  RES=$?\n"
+          "  if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;\n"
+          "  else echo $ip 'not reachable';fi;\n"
+          " done\n"
+          " sleep 1\n"
+          "done\n"
+          % ips)
+    return (u1 + u2)
+
+
+def wait_for_instance(instance):
+    logger.info("Waiting for instance %s to get a DHCP lease..." % instance.id)
+    # The sleep this function replaced waited for 80s
+    tries = 40
+    sleep_time = 2
+    pattern = "Lease of .* obtained, lease time"
+    expected_regex = re.compile(pattern)
+    console_log = ""
+    while tries > 0 and not expected_regex.search(console_log):
+        console_log = instance.get_console_output()
+        time.sleep(sleep_time)
+        tries -= 1
+
+    if not expected_regex.search(console_log):
+        logger.error("Instance %s seems to have failed leasing an IP."
+                     % instance.id)
+        return False
+    return True
+
+
+def wait_for_instances_up(*args):
+    check = [wait_for_instance(instance) for instance in args]
+    return all(check)
+
+
+def wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, net_id):
+    tries = 30
+    sleep_time = 1
+    nets = []
+    logger.debug("Waiting for network %s to associate with BGPVPN %s "
+                 % (bgpvpn_id, net_id))
+
+    while tries > 0 and net_id not in nets:
+        nets = os_utils.get_bgpvpn_networks(neutron_client, bgpvpn_id)
+        time.sleep(sleep_time)
+        tries -= 1
+    if net_id not in nets:
+        logger.error("Association of network %s with BGPVPN %s failed" %
+                     (net_id, bgpvpn_id))
+        return False
+    return True
+
+
+def wait_for_bgp_net_assocs(neutron_client, bgpvpn_id, *args):
+    check = [wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, id)
+             for id in args]
+    # Return True if all associations succeeded
+    return all(check)
+
+
+def wait_for_bgp_router_assoc(neutron_client, bgpvpn_id, router_id):
+    tries = 30
+    sleep_time = 1
+    routers = []
+    logger.debug("Waiting for router %s to associate with BGPVPN %s "
+                 % (bgpvpn_id, router_id))
+    while tries > 0 and router_id not in routers:
+        routers = os_utils.get_bgpvpn_routers(neutron_client, bgpvpn_id)
+        time.sleep(sleep_time)
+        tries -= 1
+    if router_id not in routers:
+        logger.error("Association of router %s with BGPVPN %s failed" %
+                     (router_id, bgpvpn_id))
+        return False
+    return True
+
+
+def wait_for_bgp_router_assocs(neutron_client, bgpvpn_id, *args):
+    check = [wait_for_bgp_router_assoc(neutron_client, bgpvpn_id, id)
+             for id in args]
+    # Return True if all associations succeeded
+    return all(check)
