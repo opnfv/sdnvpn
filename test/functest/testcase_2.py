@@ -19,6 +19,7 @@ import functest.utils.functest_utils as ft_utils
 import functest.utils.openstack_utils as os_utils
 
 import utils as test_utils
+from results import Results
 
 parser = argparse.ArgumentParser()
 
@@ -104,126 +105,17 @@ SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.succes_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
-TEST_RESULT = "PASS"
-SUMMARY = ""
 LINE_LENGTH = 90  # length for the summary table
-DETAILS = []
-NUM_TESTS = 0
-NUM_TESTS_FAILED = 0
-
-
-def generate_userdata_common():
-    return ("#!/bin/sh\n"
-            "sudo mkdir -p /home/cirros/.ssh/\n"
-            "sudo chown cirros:cirros /home/cirros/.ssh/\n"
-            "sudo chown cirros:cirros /home/cirros/id_rsa\n"
-            "mv /home/cirros/id_rsa /home/cirros/.ssh/\n"
-            "sudo echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e"
-            "stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9"
-            "sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU"
-            "ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= "
-            "cirros@test1>/home/cirros/.ssh/authorized_keys\n"
-            "sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys\n"
-            "chmod 700 /home/cirros/.ssh\n"
-            "chmod 644 /home/cirros/.ssh/authorized_keys\n"
-            "chmod 600 /home/cirros/.ssh/id_rsa\n"
-            )
-
-
-def generate_userdata_with_ssh(ips_array):
-    u1 = generate_userdata_common()
-
-    ips = ""
-    for ip in ips_array:
-        ips = ("%s %s" % (ips, ip))
-
-    ips = ips.replace('  ', ' ')
-    u2 = ("#!/bin/sh\n"
-          "set%s\n"
-          "while true; do\n"
-          " for i do\n"
-          "  ip=$i\n"
-          "  hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa "
-          "cirros@$ip 'hostname' </dev/zero 2>/dev/null)\n"
-          "  RES=$?\n"
-          "  if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;\n"
-          "  else echo $ip 'not reachable';fi;\n"
-          " done\n"
-          " sleep 1\n"
-          "done\n"
-          % ips)
-    return (u1 + u2)
-
-
-def check_ssh_output(vm_source, ip_source,
-                     vm_target, ip_target,
-                     expected, timeout=30):
-    console_log = vm_source.get_console_output()
-
-    global TEST_RESULT
-
-    if "request failed" in console_log:
-        # Normally, cirros displays this message when userdata fails
-        logger.debug("It seems userdata is not supported in "
-                     "nova boot...")
-        return False
-    else:
-        tab = ("%s" % (" " * 53))
-        test_case_name = ("[%s] returns 'I am %s' to '%s'[%s]" %
-                          (ip_target, expected,
-                           vm_source.name, ip_source))
-        logger.debug("%sSSH\n%sfrom '%s' (%s)\n%sto '%s' (%s).\n"
-                     "%s-->Expected result: %s.\n"
-                     % (tab, tab, vm_source.name, ip_source,
-                        tab, vm_target.name, ip_target,
-                        tab, expected))
-        while True:
-            console_log = vm_source.get_console_output()
-            # the console_log is a long string, we want to take
-            # the last 4 lines (for example)
-            lines = console_log.split('\n')
-            last_n_lines = lines[-5:]
-            if ("%s %s" % (ip_target, expected)) in last_n_lines:
-                logger.debug("[PASS] %s" % test_case_name)
-                add_to_summary(2, "PASS", test_case_name)
-                break
-            elif ("%s not reachable" % ip_target) in last_n_lines:
-                logger.debug("[FAIL] %s" % test_case_name)
-                add_to_summary(2, "FAIL", test_case_name)
-                TEST_RESULT = "FAIL"
-                break
-            time.sleep(1)
-            timeout -= 1
-            if timeout == 0:
-                TEST_RESULT = "FAIL"
-                logger.debug("[FAIL] Timeout reached for '%s'. No ping output "
-                             "captured in the console log" % vm_source.name)
-                add_to_summary(2, "FAIL", test_case_name)
-                break
-
-
-def add_to_summary(num_cols, col1, col2=""):
-    global SUMMARY, LINE_LENGTH, NUM_TESTS, NUM_TESTS_FAILED
-    if num_cols == 0:
-        SUMMARY += ("+%s+\n" % (col1 * (LINE_LENGTH - 2)))
-    elif num_cols == 1:
-        SUMMARY += ("| " + col1.ljust(LINE_LENGTH - 3) + "|\n")
-    elif num_cols == 2:
-        SUMMARY += ("| %s" % col1.ljust(7) + "| ")
-        SUMMARY += (col2.ljust(LINE_LENGTH - 12) + "|\n")
-        if col1 in ("FAIL", "PASS"):
-            DETAILS.append({col2: col1})
-            NUM_TESTS += 1
-            if col1 == "FAIL":
-                NUM_TESTS_FAILED += 1
 
 
 def main():
-    global TEST_RESULT, SUMMARY
+    global LINE_LENGTH
 
-    add_to_summary(0, "=")
-    add_to_summary(2, "STATUS", "SUBTEST")
-    add_to_summary(0, "=")
+    results = Results(LINE_LENGTH)
+
+    results.add_to_summary(0, "=")
+    results.add_to_summary(2, "STATUS", "SUBTEST")
+    results.add_to_summary(0, "=")
 
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
@@ -272,7 +164,7 @@ def main():
     av_zone_2 = "nova:" + compute_nodes[1]
 
     # boot INTANCES
-    userdata_common = generate_userdata_common()
+    userdata_common = test_utils.generate_userdata_common()
     vm_2 = test_utils.create_instance(nova_client,
                                       INSTANCE_2_NAME,
                                       FLAVOR,
@@ -315,7 +207,7 @@ def main():
                  (INSTANCE_5_NAME, vm_5_ip))
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
-    u4 = generate_userdata_with_ssh(
+    u4 = test_utils.generate_userdata_with_ssh(
         [INSTANCE_1_IP, INSTANCE_3_IP, INSTANCE_5_IP])
     vm_4 = test_utils.create_instance(nova_client,
                                       INSTANCE_4_NAME,
@@ -334,7 +226,7 @@ def main():
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
-    u1 = generate_userdata_with_ssh(
+    u1 = test_utils.generate_userdata_with_ssh(
         [INSTANCE_2_IP, INSTANCE_3_IP, INSTANCE_4_IP, INSTANCE_5_IP])
     vm_1 = test_utils.create_instance(nova_client,
                                       INSTANCE_1_NAME,
@@ -353,7 +245,7 @@ def main():
 
     msg = ("Create VPN1 with eRT=iRT")
     logger.info(msg)
-    add_to_summary(1, msg)
+    results.add_to_summary(1, msg)
     vpn1_name = "sdnvpn-1-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TARGETS_2,
               "export_targets": TARGETS_2,
@@ -365,8 +257,8 @@ def main():
 
     msg = ("Associate network '%s' to the VPN." % NET_1_NAME)
     logger.info(msg)
-    add_to_summary(1, msg)
-    add_to_summary(0, "-")
+    results.add_to_summary(1, msg)
+    results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
         neutron_client, bgpvpn1_id, network_1_id)
@@ -375,16 +267,16 @@ def main():
     time.sleep(80)
 
     # 10.10.10.12 should return sdnvpn-2 to sdnvpn-1
-    check_ssh_output(
+    results.check_ssh_output(
         vm_1, vm_1_ip, vm_2, vm_2_ip, expected=INSTANCE_2_NAME, timeout=200)
     # 10.10.11.13 should return sdnvpn-3 to sdnvpn-1
-    check_ssh_output(
+    results.check_ssh_output(
         vm_1, vm_1_ip, vm_3, vm_3_ip, expected=INSTANCE_3_NAME, timeout=30)
 
-    add_to_summary(0, "-")
+    results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
     logger.info(msg)
-    add_to_summary(1, msg)
+    results.add_to_summary(1, msg)
     vpn2_name = "sdnvpn-2-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TARGETS_1,
               "export_targets": TARGETS_1,
@@ -396,8 +288,8 @@ def main():
 
     msg = ("Associate network '%s' to the VPN2." % NET_2_NAME)
     logger.info(msg)
-    add_to_summary(1, msg)
-    add_to_summary(0, "-")
+    results.add_to_summary(1, msg)
+    results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
         neutron_client, bgpvpn2_id, network_2_id)
@@ -406,27 +298,28 @@ def main():
     time.sleep(80)
 
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
-    check_ssh_output(
+    results.check_ssh_output(
         vm_4, vm_4_ip, vm_5, vm_5_ip, expected=INSTANCE_5_NAME, timeout=30)
 
     # 10.10.10.11 should return "not reachable" to sdnvpn-4
-    check_ssh_output(
+    results.check_ssh_output(
         vm_4, vm_4_ip, vm_1, vm_1_ip, expected="not reachable", timeout=30)
 
-    add_to_summary(0, "=")
-    logger.info("\n%s" % SUMMARY)
+    results.add_to_summary(0, "=")
+    logger.info("\n%s" % results.summary)
 
-    if TEST_RESULT == "PASS":
+    if results.test_result == "PASS":
         logger.info("All the sub tests have passed as expected.")
     else:
         logger.info("One or more sub tests have failed.")
 
     status = "PASS"
-    success = 100 - (100 * int(NUM_TESTS_FAILED) / int(NUM_TESTS))
+    success = 100 - \
+        (100 * int(results.num_tests_failed) / int(results.num_tests))
     if success < int(SUCCESS_CRITERIA):
         status = "FAILED"
 
-    return {"status": status, "details": DETAILS}
+    return {"status": status, "details": results.details}
 
 
 if __name__ == '__main__':

@@ -110,3 +110,45 @@ def generate_ping_userdata(ips_array):
             " sleep 1\n"
             "done\n"
             % ips)
+
+def generate_userdata_common():
+    return ("#!/bin/sh\n"
+            "sudo mkdir -p /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/\n"
+            "sudo chown cirros:cirros /home/cirros/id_rsa\n"
+            "mv /home/cirros/id_rsa /home/cirros/.ssh/\n"
+            "sudo echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e"
+            "stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9"
+            "sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU"
+            "ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= "
+            "cirros@test1>/home/cirros/.ssh/authorized_keys\n"
+            "sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys\n"
+            "chmod 700 /home/cirros/.ssh\n"
+            "chmod 644 /home/cirros/.ssh/authorized_keys\n"
+            "chmod 600 /home/cirros/.ssh/id_rsa\n"
+            )
+
+
+def generate_userdata_with_ssh(ips_array):
+    u1 = generate_userdata_common()
+
+    ips = ""
+    for ip in ips_array:
+        ips = ("%s %s" % (ips, ip))
+
+    ips = ips.replace('  ', ' ')
+    u2 = ("#!/bin/sh\n"
+          "set%s\n"
+          "while true; do\n"
+          " for i do\n"
+          "  ip=$i\n"
+          "  hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa "
+          "cirros@$ip 'hostname' </dev/zero 2>/dev/null)\n"
+          "  RES=$?\n"
+          "  if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;\n"
+          "  else echo $ip 'not reachable';fi;\n"
+          " done\n"
+          " sleep 1\n"
+          "done\n"
+          % ips)
+    return (u1 + u2)
