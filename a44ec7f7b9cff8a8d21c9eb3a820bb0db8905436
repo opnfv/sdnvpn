@@ -221,6 +221,30 @@
       "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_62318ca1",
+        "filename": "test/functest/testcase_2.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5579
+      },
+      "writtenOn": "2016-09-12T13:07:06Z",
+      "side": 1,
+      "message": "Is this worth generalizing / abstracting though? Wouldn\u0027t it be more versatile \u0026 readable for the testcase main workflow to be more explicit?\n\nFor example check testcase 1. The instances are not booted in order (1,2,3,4,5), but in the order (2,3,5,4,1) because 4 needs userdata from 5 and 1 from the rest. Should this nuance be hidden in an abstraction layer?",
+      "parentUuid": "1a76adc5_dffe3738",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 244,
+        "endChar": 44
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
