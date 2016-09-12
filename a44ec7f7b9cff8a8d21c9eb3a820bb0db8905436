@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_df22b700",
+        "filename": "test/functest/results.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "do you think this not a bit too general.",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 43
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9f73df14",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "I think for someone which has no clue what is done here this is not easy to understand. either we should rename the file or put a detailed description of the test case here. Or we should do both :-). We should put links to the explanations in the wiki as well.\n\nSame for all the other test cases.",
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3fc96b26",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "I think that is not a good habit. cannot we write function as wait for ip allocation or something?\n\nsame for the other test cases.",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 18
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dfd717be",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "I don\u0027t think that this should need 30 seconds. we have a timeout in get_ping_status already or?",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 18
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7fe603b6",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 270,
+        "startChar": 18,
+        "endLine": 270,
+        "endChar": 18
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_dffe3738",
+        "filename": "test/functest/testcase_2.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-09-12T09:58:22Z",
+      "side": 1,
+      "message": "isn\u0027t the setup same as for the other test cases. I think we should make a function around that something like start setup(number vms, number networks, networksetup\u003d{})",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 244,
+        "endChar": 44
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
