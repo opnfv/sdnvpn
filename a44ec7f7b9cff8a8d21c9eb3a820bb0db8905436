@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_9f543f22",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-09-12T11:07:25Z",
+      "side": 1,
+      "message": "Yes, that would be good. It can be in the same patch as the one with the start_setup function.",
+      "parentUuid": "1a76adc5_9f73df14",
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_3fc96b26",
         "filename": "test/functest/testcase_1.py",
         "patchSetId": 2
@@ -170,6 +188,30 @@
       "writtenOn": "2016-09-12T09:58:22Z",
       "side": 1,
       "message": "isn\u0027t the setup same as for the other test cases. I think we should make a function around that something like start setup(number vms, number networks, networksetup\u003d{})",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 244,
+        "endChar": 44
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7f592359",
+        "filename": "test/functest/testcase_2.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-09-12T11:07:25Z",
+      "side": 1,
+      "message": "Ok yeah that is reasonable, but i think it would make sense to put that in another patch since this one is already rather big as it is.",
+      "parentUuid": "1a76adc5_dffe3738",
       "range": {
         "startLine": 167,
         "startChar": 2,
