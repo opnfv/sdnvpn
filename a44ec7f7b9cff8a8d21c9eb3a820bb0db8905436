@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_9fa67f52",
+        "filename": "test/functest/results.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-12T10:32:04Z",
+      "side": 1,
+      "message": "this normally works with cirros images, which is what we are using.",
+      "parentUuid": "1a76adc5_df22b700",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 33,
+        "endChar": 43
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_9f73df14",
         "filename": "test/functest/testcase_1.py",
         "patchSetId": 2
@@ -76,6 +100,30 @@
       "writtenOn": "2016-09-12T09:58:22Z",
       "side": 1,
       "message": "I don\u0027t think that this should need 30 seconds. we have a timeout in get_ping_status already or?",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 18
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3f65eb1d",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-12T10:32:04Z",
+      "side": 1,
+      "message": "One of the main reasons for this sleep is because of the way we are capturing the output. We do ping constantly, and rely on the last 4-5 lines of the console-log output. So we need to sleep some time every time we do a change in neutron, so that the last 4 lines are what we need. I would suggest we keep the sleeps for Colorado and come up with something smarter for D-release.",
+      "parentUuid": "1a76adc5_dfd717be",
       "range": {
         "startLine": 248,
         "startChar": 0,
