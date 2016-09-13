@@ -220,6 +220,30 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b35134da",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-09-13T14:11:43Z",
+      "side": 1,
+      "message": "For instance ips, you can just ping them and see if the ip is allocated. Here, what kind of thing do you need to check to verify the net assoc has finished?",
+      "parentUuid": "1a76adc5_48f02f67",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 18
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7fe603b6",
         "filename": "test/functest/testcase_1.py",
         "patchSetId": 2
@@ -326,6 +350,30 @@
       "side": 1,
       "message": "Ok Georg is right. But a wrapper around can still make sense. Something like create_instance and the return is the vm_ip. then a user would not give all the info like flavor etc. In tempest they have such thing as well, with default values which can be overwritten.\n\ndef create_instance(kwargs**)\n    if \u0027compute_node\u0027 not in kwargs:\n        kwargs[\u0027compute_node\u0027] \u003d \u0027default\u0027\n     ...",
       "parentUuid": "1a76adc5_62318ca1",
+      "range": {
+        "startLine": 167,
+        "startChar": 2,
+        "endLine": 244,
+        "endChar": 44
+      },
+      "revId": "a44ec7f7b9cff8a8d21c9eb3a820bb0db8905436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d34cf044",
+        "filename": "test/functest/testcase_2.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-09-13T14:11:43Z",
+      "side": 1,
+      "message": "Currently, all the arguments of create_instance are pretty much used and default if not.\nEg in other tests where the zone does not matter, compute_node defaults. This also happens with userdata and files. We can put the ones that default in kwargs.\nFlavor is taken from the current test\u0027s config. Maybe we could do away with it and have a default flavor for all the tests.",
+      "parentUuid": "1a76adc5_28a4d355",
       "range": {
         "startLine": 167,
         "startChar": 2,
