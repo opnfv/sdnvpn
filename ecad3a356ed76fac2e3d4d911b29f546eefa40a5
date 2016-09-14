@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2e2b7b31",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-14T07:14:20Z",
+      "side": 1,
+      "message": "we can add here something about we expect this will be fixed in Boron and Rally might be re-enabled in Colorado 2.0.",
+      "revId": "ecad3a356ed76fac2e3d4d911b29f546eefa40a5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
