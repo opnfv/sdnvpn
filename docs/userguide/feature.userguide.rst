@@ -158,12 +158,13 @@ and make changes as required.
 Installation procedures
 -----------------------
 
-We describe several alternative procedures in the following. 
-First, we describe several methods that are based on the deploy.sh script, which is also used by the OPNFV CI system. 
-It can be found in the Fuel repository. 
+We describe several alternative procedures in the following.
+First, we describe several methods that are based on the deploy.sh script,
+which is also used by the OPNFV CI system.
+It can be found in the Fuel repository.
 
-In addition, the SDNVPN feature can also be configured manually in the Fuel GUI. 
-This is described in the last subsection. 
+In addition, the SDNVPN feature can also be configured manually in the Fuel GUI.
+This is described in the last subsection.
 
 Before starting any of the following procedures, go to
 ::
@@ -183,7 +184,7 @@ node discovery and platform deployment) will take place without any further prom
 Full automatic virtual deployment NO High Availability Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The following command will deploy the SDNVPN scenario in its non-high-availability flavor (note the 
+The following command will deploy the SDNVPN scenario in its non-high-availability flavor (note the
 different scenario name for the -s switch). Otherwise it does the same as described above.
 ::
 
