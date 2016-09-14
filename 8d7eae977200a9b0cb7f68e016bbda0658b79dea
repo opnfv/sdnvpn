@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_2e17fb52",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-09-14T08:58:06Z",
+      "side": 1,
+      "message": "I would add something about we expect this will be fixed in Boron and will re-enable the test case for Colorado 2.0 or something similar.",
+      "revId": "8d7eae977200a9b0cb7f68e016bbda0658b79dea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
