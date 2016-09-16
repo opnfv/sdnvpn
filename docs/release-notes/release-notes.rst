@@ -130,6 +130,12 @@ Therefore, the default test cases have been replaced by the ones running tests o
 bare-metal servers. Feature specific Yardstick test cases have not been implemented,
 we plan to add these in Colorado 2.0.
 
+It is known that the performance of management operations is quite low. To work around
+the overall timeout of functest, the performance tool Rally was excluded from the
+test list. For Colorado 2.0 a much higher performance is expected and Rally it is
+expected to be included again.
+
+
 Known issues
 ------------
 
