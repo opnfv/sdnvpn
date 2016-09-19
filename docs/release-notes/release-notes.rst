@@ -135,6 +135,9 @@ the overall timeout of functest, the performance tool Rally was excluded from th
 test list. For Colorado 2.0 a much higher performance is expected and Rally it is
 expected to be included again.
 
+A timeout in promise occurs. This timeout was set from 5 to 10 seconds for all scenarios
+a jira ticket was written to change it back 
+in Colorado 2.0: https://jira.opnfv.org/browse/PROMISE-79.
 
 Known issues
 ------------
