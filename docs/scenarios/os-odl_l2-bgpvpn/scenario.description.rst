@@ -1,6 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
-.. (c) <optionally add copywriters name>
+.. (c) Tim Irnich (tim.irnich@ericsson.com) and Nikolas Hermanns (nikolas.hermanns@ericsson.com)
 
 Introduction
 ============
@@ -25,7 +25,8 @@ Scenario components and composition
 .. to communicate to the user the capabilities available in this scenario.
 
 The SDN VPN feature enhances OPNFV's baseline OpenStack deployment with the
-possibility to configure BGP based VPNs according to the OpenStack Neutron
+possibility to configure BGP based VPNs using the Neutron API extension and service plugin
+provided by the OpenStack Neutron
 Stadium project BGPVPN. The BGPVPN project consists of a Neutron API extension and a
 service plugin which has a driver framework similar to the ML2 plugin. BGPVPN today
 has a quite large number of backend drivers (Bagpipe, OpenContrail,
@@ -40,23 +41,6 @@ It uses an internal mesh of VxLAN tunnels to interconnect the vSwitches on the d
 center compute nodes. For the purpose of BGP based route exchange with other BGP speakers the ODL
 controller makes use of Quagga BGP as an external BGP speaker.
 
-  <To be completed, this outlines the basic content and flow>
-  Description of bgpvpn scenarios
-  Description of the internal transport tunnel mesh
-  Install Neutron BGPVPN additions (networking-bgpvpn)
-  Neutron odl additions (networking-odl)
-  install and configure Quagga (incl. config on ODL side)
-  configure OVS to connect to ODL and set up the right bridges (network architecture)
-  set up iptables to allow connections between OVS and ODL
-  set up HA proxy so that ODL can be reached
-
-  <Where applicable and without copying the installation procedure in the install guides>
-  Describe Neutron BGPVPN additions (networking-bgpvpn)
-  Neutron odl additions (networking-odl)
-  Usage and the role of Quagga (incl. config on ODL side)
-  OVS and ODL specifics around setting up the right bridges (network architecture)
-  "" iptables to allow connections between OVS and ODL
-  "" HA proxy so that ODL can be reached
 
 Scenario usage overview
 =======================
@@ -102,7 +86,7 @@ Currently, in OPNFV only ODL is supported as a backend for BGPVPN. API calls are
 mapped onto the ODL VPN Service REST API through the BGPVPN ODL driver and the
 ODL Neutron Northbound module.
 
-No DPDK-enabled vhost user ports
+No DPDK-enabled vhost user ports are supported.
 
 Integration with data center gateway will not work due to missing OVS patches for MPLSoGRE.
 
