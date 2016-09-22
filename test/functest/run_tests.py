@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/python
 #
 # Copyright (c) 2015 All rights reserved
 # This program and the accompanying materials
