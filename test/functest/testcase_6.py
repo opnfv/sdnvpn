@@ -29,7 +29,7 @@ parser.add_argument("-r", "--report",
 
 args = parser.parse_args()
 
-logger = ft_logger.Logger("sdnvpn-testcase-1").getLogger()
+logger = ft_logger.Logger("sdnvpn-testcase-4").getLogger()
 
 REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
 
@@ -38,17 +38,17 @@ VM_BOOT_TIMEOUT = 180
 config_file = REPO_PATH + 'test/functest/config.yaml'
 
 INSTANCE_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.instance_1_name", config_file)
+    "testcases.testcase_6.instance_1_name", config_file)
 INSTANCE_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.instance_2_name", config_file)
+    "testcases.testcase_6.instance_2_name", config_file)
 INSTANCE_3_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.instance_3_name", config_file)
+    "testcases.testcase_6.instance_3_name", config_file)
 INSTANCE_4_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.instance_4_name", config_file)
+    "testcases.testcase_6.instance_4_name", config_file)
 INSTANCE_5_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.instance_5_name", config_file)
+    "testcases.testcase_6.instance_5_name", config_file)
 IMAGE_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.image_name", config_file)
+    "testcases.testcase_6.image_name", config_file)
 IMAGE_FILENAME = ft_utils.get_functest_config(
     "general.openstack.image_file_name")
 IMAGE_FORMAT = ft_utils.get_functest_config(
@@ -59,38 +59,39 @@ IMAGE_PATH = ft_utils.get_functest_config(
 # NEUTRON Private Network parameters
 
 NET_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.net_1_name", config_file)
+    "testcases.testcase_6.net_1_name", config_file)
 SUBNET_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.subnet_1_name", config_file)
+    "testcases.testcase_6.subnet_1_name", config_file)
 SUBNET_1_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.subnet_1_cidr", config_file)
+    "testcases.testcase_6.subnet_1_cidr", config_file)
 ROUTER_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.router_1_name", config_file)
+    "testcases.testcase_6.router_1_name", config_file)
 NET_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.net_2_name", config_file)
+    "testcases.testcase_6.net_2_name", config_file)
 SUBNET_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.subnet_2_name", config_file)
+    "testcases.testcase_6.subnet_2_name", config_file)
 SUBNET_2_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.subnet_2_cidr", config_file)
+    "testcases.testcase_6.subnet_2_cidr", config_file)
 ROUTER_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.router_2_name", config_file)
+    "testcases.testcase_6.router_2_name", config_file)
 SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.sdnvpn_sg_name", config_file)
+    "testcases.testcase_6.sdnvpn_sg_name", config_file)
 SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.sdnvpn_sg_descr", config_file)
+    "testcases.testcase_6.sdnvpn_sg_descr", config_file)
 TARGETS_1 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.targets1", config_file)
+    "testcases.testcase_6.targets1", config_file)
 TARGETS_2 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.targets2", config_file)
+    "testcases.testcase_6.targets2", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.success_criteria", config_file)
+    "testcases.testcase_6.success_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
-LINE_LENGTH = 60
+LINE_LENGTH = 60  # length for the summary table
 
 
 def main():
     global LINE_LENGTH
+
     results = Results(LINE_LENGTH)
 
     results.add_to_summary(0, "=")
@@ -107,16 +108,16 @@ def main():
                                             disk=IMAGE_FORMAT,
                                             container="bare",
                                             public=True)
-    network_1_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_1_NAME,
-                                                   SUBNET_1_NAME,
-                                                   SUBNET_1_CIDR,
-                                                   ROUTER_1_NAME)
-    network_2_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_2_NAME,
-                                                   SUBNET_2_NAME,
-                                                   SUBNET_2_CIDR,
-                                                   ROUTER_2_NAME)
+    network_1_id, _, router_1_id = test_utils.create_network(neutron_client,
+                                                             NET_1_NAME,
+                                                             SUBNET_1_NAME,
+                                                             SUBNET_1_CIDR,
+                                                             ROUTER_1_NAME)
+    network_2_id, _, router_2_id = test_utils.create_network(neutron_client,
+                                                             NET_2_NAME,
+                                                             SUBNET_2_NAME,
+                                                             SUBNET_2_CIDR,
+                                                             ROUTER_2_NAME)
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -198,45 +199,40 @@ def main():
     vm_1_ip = vm_1.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
                  (INSTANCE_1_NAME, vm_1_ip))
-    msg = ("Create VPN with eRT<>iRT")
+
+    msg = ("Create VPN1 iRT=iRT1 | eRT=eRT1")
     logger.info(msg)
     results.add_to_summary(1, msg)
-    vpn_name = "sdnvpn-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": TARGETS_1,
-              "export_targets": TARGETS_2,
-              "name": vpn_name}
-    bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
-    bgpvpn_id = bgpvpn['bgpvpn']['id']
-    logger.debug("VPN created details: %s" % bgpvpn)
 
-    msg = ("Associate network '%s' to the VPN." % NET_1_NAME)
+    vpn_1_name = "sdnvpn-" + str(randint(100000, 999999))
+    kwargs = {"import_targets": TARGETS_1,
+              "export_targets": TARGETS_1,
+              "name": vpn_1_name}
+    bgpvpn_1 = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn_1_id = bgpvpn_1['bgpvpn']['id']
+    logger.debug("VPN created details: %s" % bgpvpn_1)
+
+    msg = ("Associate router '%s' to the VPN." % ROUTER_1_NAME)
     logger.info(msg)
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
-        neutron_client, bgpvpn_id, network_1_id)
-    test_utils.wait_for_bgp_net_assoc(neutron_client,
-                                      bgpvpn_id,
-                                      network_1_id)
-    # Wait for VMs to get ips.
-    instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
-                                                    vm_3, vm_4,
-                                                    vm_5)
+    os_utils.create_router_association(
+        neutron_client, bgpvpn_1_id, router_1_id)
+    test_utils.wait_for_bgp_router_assoc(
+        neutron_client, bgpvpn_1_id, router_1_id)
 
-    if not instances_up:
-        logger.error("One or more instances is down")
-        # TODO: Handle this appropriately
+    msg = ("Create VPN2 iRT=iRT2 | eRT=eRT2")
+    logger.info(msg)
+    results.add_to_summary(1, msg)
 
-    # Ping from VM1 to VM2 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
-                            expected="PASS", timeout=200)
-    # Ping from VM1 to VM3 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_3, vm_3_ip,
-                            expected="PASS", timeout=30)
-    # Ping from VM1 to VM4 should not work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
+    vpn_2_name = "sdnvpn-" + str(randint(100000, 999999))
+    kwargs = {"import_targets": TARGETS_2,
+              "export_targets": TARGETS_2,
+              "name": vpn_2_name}
+    bgpvpn_2 = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn_2_id = bgpvpn_1['bgpvpn']['id']
+    logger.debug("VPN created details: %s" % bgpvpn_2)
 
     msg = ("Associate network '%s' to the VPN." % NET_2_NAME)
     logger.info(msg)
@@ -245,43 +241,122 @@ def main():
     results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
-        neutron_client, bgpvpn_id, network_2_id)
-    test_utils.wait_for_bgp_net_assoc(neutron_client,
-                                      bgpvpn_id,
-                                      network_2_id)
+        neutron_client, bgpvpn_2_id, network_2_id)
+    test_utils.wait_for_bgp_net_assoc(
+        neutron_client, bgpvpn_2_id, network_2_id)
 
-    logger.info("Waiting for the VMs to connect to each other using the"
-                " updated network configuration")
-    time.sleep(30)
+    # Wait for VMs to get ips.
+    instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
+                                                    vm_3, vm_4,
+                                                    vm_5)
 
-    # Ping from VM4 to VM5 should work
-    results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
-                            expected="PASS", timeout=30)
-    # Ping from VM1 to VM4 should not work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
+    if not instances_up:
+        logger.error("One or more instances is down")
+        # TODO Handle appropriately
+
+    # Ping from VM1 to VM2 should work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=200)
+    # Ping from VM1 to VM3 should work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=200)
     # Ping from VM1 to VM5 should not work
     results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
                             expected="FAIL", timeout=30)
+    # Ping from VM4 to VM2 should not work
+    results.get_ping_status(vm_4, vm_4_ip, vm_2, vm_2_ip,
+                            expected="FAIL", timeout=30)
+    # Ping from VM4 to VM3 should not work
+    results.get_ping_status(vm_4, vm_4_ip, vm_3, vm_3_ip,
+                            expected="FAIL", timeout=30)
+    # Ping from VM4 to VM5 should work
+    results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
+                            expected="PASS", timeout=30)
 
-    msg = ("Update VPN with eRT=iRT ...")
+    msg = ("Update VPN1 with iRT=eRT2 | eRT=eRT1 ...")
+    logger.info(msg)
+    results.add_to_summary(0, "-")
+    results.add_to_summary(1, msg)
+    results.add_to_summary(0, "-")
+    kwargs = {"import_targets": TARGETS_2,
+              "export_targets": TARGETS_1,
+              "name": vpn_1_name}
+    bgpvpn_1 = os_utils.update_bgpvpn(neutron_client, bgpvpn_1_id, **kwargs)
+
+    msg = ("Update VPN2 with iRT=eRT1 | eRT=eRT2 ...")
     logger.info(msg)
     results.add_to_summary(0, "-")
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
     kwargs = {"import_targets": TARGETS_1,
-              "export_targets": TARGETS_1,
-              "name": vpn_name}
-    bgpvpn = os_utils.update_bgpvpn(neutron_client, bgpvpn_id, **kwargs)
+              "export_targets": TARGETS_2,
+              "name": vpn_2_name}
+    bgpvpn_2 = os_utils.update_bgpvpn(neutron_client, bgpvpn_2_id, **kwargs)
+
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
     time.sleep(30)
 
-    # Ping from VM1 to VM4 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="PASS", timeout=30)
+    # Ping from VM1 to VM2 should not work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="FAIL", timeout=200)
+    # Ping from VM1 to VM3 should not work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="FAIL", timeout=200)
     # Ping from VM1 to VM5 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM2 should work
+    results.get_ping_status(vm_4, vm_4_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM3 should not work
+    results.get_ping_status(vm_4, vm_4_ip, vm_3, vm_3_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM5 should not work
+    results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
+                            expected="FAIL", timeout=30)
+
+    msg = ("Update VPN1 with iRT=[iRT1,iRT2] | eRT=eRT1 ...")
+    logger.info(msg)
+    results.add_to_summary(0, "-")
+    results.add_to_summary(1, msg)
+    results.add_to_summary(0, "-")
+    kwargs = {"import_targets": [TARGETS_1, TARGETS_2],
+              "export_targets": TARGETS_1,
+              "name": vpn_1_name}
+    bgpvpn_1 = os_utils.update_bgpvpn(neutron_client, bgpvpn_1_id, **kwargs)
+
+    msg = ("Update VPN2 with iRT=[iRT1,iRT2] | eRT=eRT2 ...")
+    logger.info(msg)
+    results.add_to_summary(0, "-")
+    results.add_to_summary(1, msg)
+    results.add_to_summary(0, "-")
+    kwargs = {"import_targets": [TARGETS_1, TARGETS_2],
+              "export_targets": TARGETS_2,
+              "name": vpn_2_name}
+    bgpvpn_2 = os_utils.update_bgpvpn(neutron_client, bgpvpn_2_id, **kwargs)
+
+    logger.info("Waiting for the VMs to connect to each other using the"
+                " updated network configuration")
+    time.sleep(30)
+
+    # Ping from VM1 to VM2 should work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=200)
+    # Ping from VM1 to VM3 should work
+    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=200)
+    # Ping from VM1 to VM5 should work
+    results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM2 should work
+    results.get_ping_status(vm_4, vm_4_ip, vm_2, vm_2_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM3 should work
+    results.get_ping_status(vm_4, vm_4_ip, vm_3, vm_3_ip,
+                            expected="PASS", timeout=30)
+    # Ping from VM4 to VM5 should work
+    results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
                             expected="PASS", timeout=30)
 
     results.add_to_summary(0, "=")
@@ -294,7 +369,7 @@ def main():
 
     status = "PASS"
     success = 100 - \
-        (100 * int(results.num_tests_failed) / int(results.num_tests))
+        (100 * int(results.num_tests_failed) / int(results.num_tests_failed))
     if success < int(SUCCESS_CRITERIA):
         status = "FAILED"
 

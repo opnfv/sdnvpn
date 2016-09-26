@@ -83,7 +83,7 @@ TARGETS_1 = ft_utils.get_parameter_from_yaml(
 TARGETS_2 = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_4.targets2", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_4.succes_criteria", config_file)
+    "testcases.testcase_4.success_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
 LINE_LENGTH = 60  # length for the summary table
@@ -217,6 +217,8 @@ def main():
 
     os_utils.create_router_association(
         neutron_client, bgpvpn_id, router_1_id)
+    test_utils.wait_for_bgp_router_assoc(
+        neutron_client, bgpvpn_id, router_1_id)
 
     # Wait for VMs to get ips.
     instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
@@ -242,11 +244,9 @@ def main():
     results.add_to_summary(0, "-")
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
+
     os_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
-
-    test_utils.wait_for_bgp_router_assoc(
-        neutron_client, bgpvpn_id, router_1_id)
     test_utils.wait_for_bgp_net_assoc(
         neutron_client, bgpvpn_id, network_2_id)
 
