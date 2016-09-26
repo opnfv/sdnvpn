@@ -5,14 +5,14 @@ testcases:
   tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
-      succes_criteria: 100 # all the subtests must pass
+      success_criteria: 100 # all the subtests must pass
       testname_db: functest_tempest # declared name in the test api
       # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
   testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
-      succes_criteria: 75 # we let fail 25% of the subtests
+      success_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_1
       instance_1_name: sdnvpn-1-1
       instance_2_name: sdnvpn-1-2
@@ -36,7 +36,7 @@ testcases:
   testcase_2:
       enabled: true
       description: Tenant separation
-      succes_criteria: 100 # all the subtests must pass
+      success_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_2
       instance_1_name: sdnvpn-2-1
       instance_2_name: sdnvpn-2-2
@@ -64,13 +64,13 @@ testcases:
   testcase_3:
       enabled: false
       description: Data center gateway integration
-      succes_criteria: 100 # all the subtests must pass
+      success_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_3
 
   testcase_4:
       enabled: false
       description: VPN provides connectivity between subnets using router association
-      succes_criteria: 75 # we let fail 25% of the subtests
+      success_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_4
       instance_1_name: sdnvpn-4-1
       instance_2_name: sdnvpn-4-2
@@ -86,6 +86,58 @@ testcases:
       subnet_2_name: sdnvpn-4-2-subnet
       subnet_2_cidr: 10.10.11.0/24
       router_2_name: sdnvpn-4-2-router
+      sdnvpn_sg_name: sdnvpn-sg
+      sdnvpn_sg_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
+
+  testcase_5:
+      enabled: true
+      description: Tenant separation
+      success_criteria: 100 # all the subtests must pass
+      testname_db: functest_testcase_5
+      instance_1_name: sdnvpn-5-1
+      instance_2_name: sdnvpn-5-2
+      instance_3_name: sdnvpn-5-3
+      instance_4_name: sdnvpn-5-4
+      instance_5_name: sdnvpn-5-5
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-5-1-net
+      subnet_1a_name: sdnvpn-5-1a-subnet
+      subnet_1a_cidr: 10.10.10.0/24
+      subnet_1b_name: sdnvpn-5-1b-subnet
+      subnet_1b_cidr: 10.10.11.0/24
+      router_1_name: sdnvpn-5-1-router
+      net_2_name: sdnvpn-5-2-net
+      subnet_2a_name: sdnvpn-5-2a-subnet
+      subnet_2a_cidr: 10.10.11.0/24
+      subnet_2b_name: sdnvpn-5-2b-subnet
+      subnet_2b_cidr: 10.10.10.0/24
+      router_2_name: sdnvpn-5-2-router
+      sdnvpn_sg_name: sdnvpn-sg
+      sdnvpn_sg_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
+
+  testcase_6:
+      enabled: false
+      description: VPN provides connectivity between subnets. R1->VPN1 <-> VPN2<-N2
+      success_criteria: 75 # we let fail 25% of the subtests
+      testname_db: functest_testcase_6
+      instance_1_name: sdnvpn-6-1
+      instance_2_name: sdnvpn-6-2
+      instance_3_name: sdnvpn-6-3
+      instance_4_name: sdnvpn-6-4
+      instance_5_name: sdnvpn-6-5
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-6-1-net
+      subnet_1_name: sdnvpn-6-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-4-1-router
+      net_2_name: sdnvpn-6-2-net
+      subnet_2_name: sdnvpn-6-2-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      router_2_name: sdnvpn-6-2-router
       sdnvpn_sg_name: sdnvpn-sg
       sdnvpn_sg_descr: Security group for SDNVPN test cases
       targets1: '88:88'

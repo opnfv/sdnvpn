@@ -38,22 +38,22 @@ VM_BOOT_TIMEOUT = 180
 config_file = REPO_PATH + 'test/functest/config.yaml'
 
 INSTANCE_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_1_name", config_file)
+    "testcases.testcase_5.instance_1_name", config_file)
 INSTANCE_1_IP = "10.10.10.11"
 INSTANCE_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_2_name", config_file)
+    "testcases.testcase_5.instance_2_name", config_file)
 INSTANCE_2_IP = "10.10.10.12"
 INSTANCE_3_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_3_name", config_file)
+    "testcases.testcase_5.instance_3_name", config_file)
 INSTANCE_3_IP = "10.10.11.13"
 INSTANCE_4_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_4_name", config_file)
+    "testcases.testcase_5.instance_4_name", config_file)
 INSTANCE_4_IP = "10.10.10.12"
 INSTANCE_5_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_5_name", config_file)
+    "testcases.testcase_5.instance_5_name", config_file)
 INSTANCE_5_IP = "10.10.11.13"
 IMAGE_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.image_name", config_file)
+    "testcases.testcase_5.image_name", config_file)
 IMAGE_FILENAME = ft_utils.get_functest_config(
     "general.openstack.image_file_name")
 IMAGE_FORMAT = ft_utils.get_functest_config(
@@ -66,41 +66,41 @@ KEYFILE_PATH = REPO_PATH + 'test/functest/id_rsa'
 # NEUTRON Private Network parameters
 
 NET_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.net_1_name", config_file)
+    "testcases.testcase_5.net_1_name", config_file)
 SUBNET_1a_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1a_name", config_file)
+    "testcases.testcase_5.subnet_1a_name", config_file)
 SUBNET_1a_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1a_cidr", config_file)
+    "testcases.testcase_5.subnet_1a_cidr", config_file)
 SUBNET_1b_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1b_name", config_file)
+    "testcases.testcase_5.subnet_1b_name", config_file)
 SUBNET_1b_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1b_cidr", config_file)
+    "testcases.testcase_5.subnet_1b_cidr", config_file)
 ROUTER_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_1_name", config_file)
+    "testcases.testcase_5.router_1_name", config_file)
 NET_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.net_2_name", config_file)
+    "testcases.testcase_5.net_2_name", config_file)
 SUBNET_2a_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2a_name", config_file)
+    "testcases.testcase_5.subnet_2a_name", config_file)
 SUBNET_2a_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2a_cidr", config_file)
+    "testcases.testcase_5.subnet_2a_cidr", config_file)
 SUBNET_2b_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2b_name", config_file)
+    "testcases.testcase_5.subnet_2b_name", config_file)
 SUBNET_2b_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2b_cidr", config_file)
+    "testcases.testcase_5.subnet_2b_cidr", config_file)
 ROUTER_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_1_name", config_file)
+    "testcases.testcase_5.router_1_name", config_file)
 ROUTER_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_2_name", config_file)
+    "testcases.testcase_5.router_2_name", config_file)
 SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.sdnvpn_sg_name", config_file)
+    "testcases.testcase_5.sdnvpn_sg_name", config_file)
 SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.sdnvpn_sg_descr", config_file)
+    "testcases.testcase_5.sdnvpn_sg_descr", config_file)
 TARGETS_1 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.targets1", config_file)
+    "testcases.testcase_5.targets1", config_file)
 TARGETS_2 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.targets2", config_file)
+    "testcases.testcase_5.targets2", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.success_criteria", config_file)
+    "testcases.testcase_5.success_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
 LINE_LENGTH = 90  # length for the summary table
@@ -138,13 +138,13 @@ def main():
                                                    ROUTER_1_NAME,
                                                    SUBNET_1b_NAME,
                                                    SUBNET_1b_CIDR)
-    network_2_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_2_NAME,
-                                                   SUBNET_2a_NAME,
-                                                   SUBNET_2a_CIDR,
-                                                   ROUTER_2_NAME,
-                                                   SUBNET_2b_NAME,
-                                                   SUBNET_2b_CIDR)
+    network_2_id, _, router_2_id = test_utils.create_network(neutron_client,
+                                                             NET_2_NAME,
+                                                             SUBNET_2a_NAME,
+                                                             SUBNET_2a_CIDR,
+                                                             ROUTER_2_NAME,
+                                                             SUBNET_2b_NAME,
+                                                             SUBNET_2b_CIDR)
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -161,7 +161,7 @@ def main():
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
-    # boot INTANCES
+    # boot INSTANCES
     userdata_common = test_utils.generate_userdata_common()
     vm_2 = test_utils.create_instance(nova_client,
                                       INSTANCE_2_NAME,
@@ -256,7 +256,8 @@ def main():
 
     os_utils.create_network_association(
         neutron_client, bgpvpn1_id, network_1_id)
-    test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn1_id, network_1_id)
+    test_utils.wait_for_bgp_net_assoc(
+        neutron_client, bgpvpn1_id, network_1_id)
 
     # Wait for VMs to get ips.
     instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
@@ -296,9 +297,10 @@ def main():
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
+    os_utils.create_router_association(
+        neutron_client, bgpvpn2_id, router_2_id)
+    test_utils.wait_for_bgp_router_assoc(
         neutron_client, bgpvpn2_id, network_2_id)
-    test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn2_id, network_2_id)
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
