@@ -83,7 +83,7 @@ TARGETS_1 = ft_utils.get_parameter_from_yaml(
 TARGETS_2 = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.targets2", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.succes_criteria", config_file)
+    "testcases.testcase_1.success_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
 
 LINE_LENGTH = 60
@@ -133,7 +133,7 @@ def main():
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
-    # boot INTANCES
+    # boot INSTANCES
     vm_2 = test_utils.create_instance(nova_client,
                                       INSTANCE_2_NAME,
                                       image_id,
@@ -216,7 +216,9 @@ def main():
 
     os_utils.create_network_association(
         neutron_client, bgpvpn_id, network_1_id)
-
+    test_utils.wait_for_bgp_net_assoc(neutron_client,
+                                      bgpvpn_id,
+                                      network_1_id)
     # Wait for VMs to get ips.
     instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
                                                     vm_3, vm_4,
@@ -241,13 +243,12 @@ def main():
     results.add_to_summary(0, "-")
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
+
     os_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
-
-    test_utils.wait_for_bgp_net_assocs(neutron_client,
-                                       bgpvpn_id,
-                                       network_1_id,
-                                       network_2_id)
+    test_utils.wait_for_bgp_net_assoc(neutron_client,
+                                      bgpvpn_id,
+                                      network_2_id)
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
