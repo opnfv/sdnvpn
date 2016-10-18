@@ -16,8 +16,36 @@ import functest.utils.openstack_utils as os_utils
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
 
 
+def create_net(neutron_client, name):
+    logger.debug("Creating network %s", name)
+    net_id = os_utils.create_neutron_net(neutron_client, name)
+    if not net_id:
+        logger.error(
+            "There has been a problem when creating the neutron network")
+        sys.exit(-1)
+    return net_id
+
+
+def create_subnet(neutron_client, name, cidr, net_id):
+    logger.debug("Creating subnet %s in network %s with cidr %s",
+                 name, net_id, cidr)
+    subnet_id = os_utils.create_neutron_subnet(neutron_client,
+                                               name,
+                                               cidr,
+                                               net_id)
+    if not subnet_id:
+        logger.error(
+            "There has been a problem when creating the neutron subnet")
+        sys.exit(-1)
+    return subnet_id
+
+
 def create_network(neutron_client, net, subnet1, cidr1,
                    router, subnet2=None, cidr2=None):
+    """Network assoc will not work for networks/subnets created by this function.
+
+    It is an ODL limitation due to it handling routers as vpns.
+    See https://bugs.opendaylight.org/show_bug.cgi?id=6962"""
     network_dic = os_utils.create_network_full(neutron_client,
                                                net,
                                                subnet1,
