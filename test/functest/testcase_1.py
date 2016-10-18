@@ -55,6 +55,7 @@ IMAGE_FORMAT = ft_utils.get_functest_config(
     "general.openstack.image_disk_format")
 IMAGE_PATH = ft_utils.get_functest_config(
     "general.directories.dir_functest_data") + "/" + IMAGE_FILENAME
+ROUTE_DISTINGUISHERS = "11:11"
 
 # NEUTRON Private Network parameters
 
@@ -107,16 +108,21 @@ def main():
                                             disk=IMAGE_FORMAT,
                                             container="bare",
                                             public=True)
-    network_1_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_1_NAME,
-                                                   SUBNET_1_NAME,
-                                                   SUBNET_1_CIDR,
-                                                   ROUTER_1_NAME)
-    network_2_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_2_NAME,
-                                                   SUBNET_2_NAME,
-                                                   SUBNET_2_CIDR,
-                                                   ROUTER_2_NAME)
+    network_1_id = test_utils.create_net(neutron_client,
+                                         NET_1_NAME)
+    test_utils.create_subnet(neutron_client,
+                             SUBNET_1_NAME,
+                             SUBNET_1_CIDR,
+                             network_1_id)
+
+    network_2_id = test_utils.create_net(neutron_client,
+                                         NET_2_NAME)
+
+    test_utils.create_subnet(neutron_client,
+                             SUBNET_2_NAME,
+                             SUBNET_2_CIDR,
+                             network_2_id)
+
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -204,6 +210,7 @@ def main():
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TARGETS_1,
               "export_targets": TARGETS_2,
+              "route_distinguishers": ROUTE_DISTINGUISHERS,
               "name": vpn_name}
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
