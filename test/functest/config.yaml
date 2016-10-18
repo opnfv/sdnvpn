@@ -32,6 +32,7 @@ testcases:
       sdnvpn_sg_descr: Security group for SDNVPN test cases
       targets1: '88:88'
       targets2: '55:55'
+      route_distinguishers: '11:11'
 
   testcase_2:
       enabled: true
