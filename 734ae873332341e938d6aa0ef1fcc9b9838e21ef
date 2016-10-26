@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_cd0b492a",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-10-26T11:24:01Z",
+      "side": 1,
+      "message": "this is a good change, these wait_* calls should\u0027ve been here from the start. Can you put them in another patcbh so that they can be merged? Or I can do it if you want to",
+      "revId": "734ae873332341e938d6aa0ef1fcc9b9838e21ef",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
