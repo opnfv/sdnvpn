@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_e20bac29",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "Can\u0027t have a router in this network in Boron",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_62181c85",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "move this up to fail before anything is created",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_42172052",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "needs an RD for Boron",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_22121463",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "needs an RD for boron",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_821d0876",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "network_2_id -\u003e router_2_id",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_82366802",
+        "filename": "test/functest/testcase_6.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "This is network associated, it can\u0027t have a router when Boron is used",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_223bf4ec",
+        "filename": "test/functest/testcase_6.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "Move this further up so it fails before creating anything",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c2547023",
+        "filename": "test/functest/testcase_6.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "Same RD issue here",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_025b5855",
+        "filename": "test/functest/testcase_6.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-03T08:21:19Z",
+      "side": 1,
+      "message": "This won\u0027t work in Boron, it needs a route distinguisher",
+      "revId": "76cdd7545abda703a129dd94f1ca9f9f9c6c1239",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
