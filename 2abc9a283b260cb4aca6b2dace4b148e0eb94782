@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_f925a20a",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "this is already defined in testcase4 can we have a common testcase config file which we just import?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 53
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1923ce06",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "the only diff to testcase 4 is the name here. I don\u0027t like this actually a function like gen_instance_name(testcase_name, instance_number) would make it obsolet for all testcases",
+      "range": {
+        "startLine": 40,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 56
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b91f1ab7",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "allready defined. schould go to a comment config file",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 67
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_39832ace",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "same as for the vms. we need a config gen here. and a lot of code could be reduced.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 62
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_f96cc238",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "this is done over and over again for each testcase. I think a better way would be we define a new function which eats a topology dictionary. and then it will iterate over this dict and build the topology. That would reduce the code for each test for about 30 lines.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b9e4faac",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "check below",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_19d8aeee",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "This would not be needed if we have a better logic to check the ssh output. I think a better idea of looking at the last 5 lines always is more a marker what I have already seen and then check only what is new.",
+      "range": {
+        "startLine": 322,
+        "startChar": 3,
+        "endLine": 322,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_598876e7",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-04T10:26:43Z",
+      "side": 1,
+      "message": "this is done for all tests in the same way. I suggest to use a function here.",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 344,
+        "endChar": 25
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
