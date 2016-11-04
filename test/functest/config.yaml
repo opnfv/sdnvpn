@@ -97,3 +97,37 @@ testcases:
       targets1: '88:88'
       targets2: '55:55'
       route_distinguishers: '12:12'
+
+  testcase_6:
+      enabled: false
+      description: VPN provides connectivity between subnets. R1->VPN1 <-> VPN2<-N2
+      success_criteria: 75 # we let fail 25% of the subtests
+      testname_db: functest_testcase_6
+      instance_1_name: sdnvpn-6-1
+      instance_1_ip: 10.10.10.3
+      instance_2_name: sdnvpn-6-2
+      instance_2_ip: 10.10.10.4
+      instance_3_name: sdnvpn-6-3
+      instance_3_ip: 10.10.11.3
+      instance_4_name: sdnvpn-6-4
+      instance_4_ip: 10.10.12.3
+      instance_5_name: sdnvpn-6-5
+      instance_5_ip: 10.10.12.4
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-6-1-net
+      subnet_1_name: sdnvpn-6-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-4-1-router
+      net_2_name: sdnvpn-6-2-net
+      subnet_2_name: sdnvpn-6-2-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      net_3_name: sdnvpn-6-3-net
+      subnet_3_name: sdnvpn-6-3-subnet
+      subnet_3_cidr: 10.10.12.0/24
+      router_3_name: sdnvpn-6-3-router
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '55:55'
+      route_distinguishers1: '11:11'
+      route_distinguishers2: '22:22'
