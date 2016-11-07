@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_4f874410",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-07T10:32:33Z",
+      "side": 1,
+      "message": "yes that is another option. Although we get then very similar to yardstick. However, I think it would make thinks easier. Lets get a small comment from jose on that and if he is ok it is a good Idea I think.",
+      "parentUuid": "5ac10518_4fb0a4f4",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_b9e4faac",
         "filename": "test/functest/testcase_5.py",
         "patchSetId": 3
@@ -176,6 +200,30 @@
       "side": 1,
       "message": "Removed. This delay is handled with the wait_for_instances function",
       "parentUuid": "5ac10518_b9e4faac",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_cf725449",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2016-11-07T10:32:33Z",
+      "side": 1,
+      "message": "The create bgpvpn_router/net_assoc is a call which goes directly into neutron database and is pushed down to ODL. I think the wait function always directly delivers back an ok. It does not wait for ODL to do it actually. So it could be that is you remove it, it is still there and VMs have connectivity although they should not have. Just to let you know. In the wait_for function you do wait always min 1 second. I guess this is the time you need to wait to not see this issue what I am describing.",
+      "parentUuid": "5ac10518_6f880023",
       "range": {
         "startLine": 285,
         "startChar": 4,
