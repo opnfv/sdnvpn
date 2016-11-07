@@ -164,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_6f880023",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5579
+      },
+      "writtenOn": "2016-11-07T10:22:57Z",
+      "side": 1,
+      "message": "Removed. This delay is handled with the wait_for_instances function",
+      "parentUuid": "5ac10518_b9e4faac",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_19d8aeee",
         "filename": "test/functest/testcase_5.py",
         "patchSetId": 3
@@ -175,6 +199,30 @@
       "writtenOn": "2016-11-04T10:26:43Z",
       "side": 1,
       "message": "This would not be needed if we have a better logic to check the ssh output. I think a better idea of looking at the last 5 lines always is more a marker what I have already seen and then check only what is new.",
+      "range": {
+        "startLine": 322,
+        "startChar": 3,
+        "endLine": 322,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8f8d2c34",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5579
+      },
+      "writtenOn": "2016-11-07T10:22:57Z",
+      "side": 1,
+      "message": "Removed. Handled with wait_for_bgp_router_assoc function",
+      "parentUuid": "5ac10518_19d8aeee",
       "range": {
         "startLine": 322,
         "startChar": 3,
