@@ -145,3 +145,22 @@ class Results(object):
                                  % vm_source.name)
                     self.add_to_summary(2, "FAIL", test_case_name)
                     break
+
+    def compile_summary(self, SUCCESS_CRITERIA):
+        success_message = "All the subtests have passed."
+        failure_message = "One or more subtests have failed."
+
+        self.add_to_summary(0, "=")
+        logger.info("\n%s" % self.summary)
+        if self.test_result == "PASS":
+            logger.info(success_message)
+        else:
+            logger.info(failure_message)
+
+        status = "PASS"
+        success = 100 - \
+            (100 * int(self.num_tests_failed) / int(self.num_tests))
+        if success < int(SUCCESS_CRITERIA):
+            status = "FAILED"
+
+        return {"status": status, "details": self.details}

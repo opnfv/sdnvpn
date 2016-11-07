@@ -269,3 +269,20 @@ def wait_for_bgp_router_assocs(neutron_client, bgpvpn_id, *args):
              for id in args]
     # Return True if all associations succeeded
     return all(check)
+
+
+def assert_and_get_compute_nodes(nova_client, required_node_number=2):
+    """Get the compute nodes in the deployment
+
+    Exit if the deployment doesn't have enough compute nodes"""
+    compute_nodes = os_utils.get_hypervisors(nova_client)
+
+    num_compute_nodes = len(compute_nodes)
+    if num_compute_nodes < 2:
+        logger.error("There are %s compute nodes in the deployment. "
+                     "Minimum number of nodes to complete the test is 2."
+                     % num_compute_nodes)
+        sys.exit(-1)
+
+    logger.debug("Compute nodes: %s" % compute_nodes)
+    return compute_nodes

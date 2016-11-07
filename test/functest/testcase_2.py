@@ -148,16 +148,8 @@ def main():
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
-    # Get hypervisors zones
-    compute_nodes = os_utils.get_hypervisors(nova_client)
-    num_compute_nodes = len(compute_nodes)
-    if num_compute_nodes < 2:
-        logger.error("There are %s compute nodes in the deployment. "
-                     "Minimum number of nodes to complete the test is 2."
-                     % num_compute_nodes)
-        sys.exit(-1)
+    compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
 
-    logger.debug("Compute nodes: %s" % compute_nodes)
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
@@ -313,21 +305,7 @@ def main():
     results.check_ssh_output(
         vm_4, vm_4_ip, vm_1, vm_1_ip, expected="not reachable", timeout=30)
 
-    results.add_to_summary(0, "=")
-    logger.info("\n%s" % results.summary)
-
-    if results.test_result == "PASS":
-        logger.info("All the sub tests have passed as expected.")
-    else:
-        logger.info("One or more sub tests have failed.")
-
-    status = "PASS"
-    success = 100 - \
-        (100 * int(results.num_tests_failed) / int(results.num_tests))
-    if success < int(SUCCESS_CRITERIA):
-        status = "FAILED"
-
-    return {"status": status, "details": results.details}
+    return results.compile_summary(SUCCESS_CRITERIA)
 
 
 if __name__ == '__main__':
