@@ -236,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_2fe8b87b",
+        "filename": "test/functest/testcase_5.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-11-07T15:41:34Z",
+      "side": 1,
+      "message": "Guys, removing this sleep is dangerous. This delay I think it is to let the VM print a couple of times the same output in the console to be sure about what we are capturing in \"check_ssh_output\". Otherwise, we might capture the output from the previous subtest. That happened to me when I was doing the tests and some tests were false positive/negative.",
+      "parentUuid": "5ac10518_cf725449",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 18
+      },
+      "revId": "2abc9a283b260cb4aca6b2dace4b148e0eb94782",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_19d8aeee",
         "filename": "test/functest/testcase_5.py",
         "patchSetId": 3
