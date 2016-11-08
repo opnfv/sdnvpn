@@ -11,7 +11,7 @@
 import argparse
 import os
 from random import randint
-import time
+import sys
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
@@ -243,7 +243,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # Ping from VM4 to VM5 should work
     results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
@@ -267,7 +267,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # Ping from VM1 to VM4 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,

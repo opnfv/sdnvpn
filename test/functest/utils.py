@@ -271,6 +271,12 @@ def wait_for_bgp_router_assocs(neutron_client, bgpvpn_id, *args):
     return all(check)
 
 
+def wait_before_subtest(*args, **kwargs):
+    ''' This is a placeholder.
+        TODO: Replace delay with polling logic. '''
+    time.sleep(30)
+
+
 def assert_and_get_compute_nodes(nova_client, required_node_number=2):
     """Get the compute nodes in the deployment
 
