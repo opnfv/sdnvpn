@@ -9,16 +9,15 @@
 #
 
 import argparse
-import os
 from random import randint
 import sys
 
 import functest.utils.functest_logger as ft_logger
-import functest.utils.functest_utils as ft_utils
 import functest.utils.openstack_utils as os_utils
 
 import utils as test_utils
 from results import Results
+import config as sdnvpn_config
 
 parser = argparse.ArgumentParser()
 
@@ -30,85 +29,12 @@ args = parser.parse_args()
 
 logger = ft_logger.Logger("sdnvpn-testcase-2").getLogger()
 
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
-
-VM_BOOT_TIMEOUT = 180
-
-config_file = REPO_PATH + 'test/functest/config.yaml'
-
-INSTANCE_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_1_name", config_file)
-INSTANCE_1_IP = "10.10.10.11"
-INSTANCE_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_2_name", config_file)
-INSTANCE_2_IP = "10.10.10.12"
-INSTANCE_3_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_3_name", config_file)
-INSTANCE_3_IP = "10.10.11.13"
-INSTANCE_4_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_4_name", config_file)
-INSTANCE_4_IP = "10.10.10.12"
-INSTANCE_5_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.instance_5_name", config_file)
-INSTANCE_5_IP = "10.10.11.13"
-IMAGE_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.image_name", config_file)
-IMAGE_FILENAME = ft_utils.get_functest_config(
-    "general.openstack.image_file_name")
-IMAGE_FORMAT = ft_utils.get_functest_config(
-    "general.openstack.image_disk_format")
-IMAGE_PATH = ft_utils.get_functest_config(
-    "general.directories.dir_functest_data") + "/" + IMAGE_FILENAME
-
-KEYFILE_PATH = REPO_PATH + 'test/functest/id_rsa'
-
-# NEUTRON Private Network parameters
-
-NET_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.net_1_name", config_file)
-SUBNET_1a_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1a_name", config_file)
-SUBNET_1a_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1a_cidr", config_file)
-SUBNET_1b_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1b_name", config_file)
-SUBNET_1b_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_1b_cidr", config_file)
-ROUTER_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_1_name", config_file)
-NET_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.net_2_name", config_file)
-SUBNET_2a_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2a_name", config_file)
-SUBNET_2a_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2a_cidr", config_file)
-SUBNET_2b_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2b_name", config_file)
-SUBNET_2b_CIDR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.subnet_2b_cidr", config_file)
-ROUTER_1_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_1_name", config_file)
-ROUTER_2_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.router_2_name", config_file)
-SECGROUP_NAME = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.sdnvpn_sg_name", config_file)
-SECGROUP_DESCR = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.sdnvpn_sg_descr", config_file)
-TARGETS_1 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.targets1", config_file)
-TARGETS_2 = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_2.targets2", config_file)
-SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.succes_criteria", config_file)
-TEST_DB = ft_utils.get_functest_config("results.test_db_url")
-
-LINE_LENGTH = 90  # length for the summary table
+COMMON_CONFIG = sdnvpn_config.CommonConfig()
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_2')
 
 
 def main():
-    global LINE_LENGTH
-
-    results = Results(LINE_LENGTH)
+    results = Results(COMMON_CONFIG.line_length)
 
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
@@ -118,34 +44,40 @@ def main():
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
-    logger.debug("Using private key %s injected to the VMs." % KEYFILE_PATH)
-    keyfile = open(KEYFILE_PATH, 'r')
+    logger.debug("Using private key %s injected to the VMs."
+                 % COMMON_CONFIG.keyfile_path)
+    keyfile = open(COMMON_CONFIG.keyfile_path, 'r')
     key = keyfile.read()
     keyfile.close()
     files = {"/home/cirros/id_rsa": key}
 
     image_id = os_utils.create_glance_image(glance_client,
-                                            IMAGE_NAME,
-                                            IMAGE_PATH,
-                                            disk=IMAGE_FORMAT,
+                                            TESTCASE_CONFIG.image_name,
+                                            COMMON_CONFIG.image_path,
+                                            disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public=True)
-    network_1_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_1_NAME,
-                                                   SUBNET_1a_NAME,
-                                                   SUBNET_1a_CIDR,
-                                                   ROUTER_1_NAME,
-                                                   SUBNET_1b_NAME,
-                                                   SUBNET_1b_CIDR)
-    network_2_id, _, _ = test_utils.create_network(neutron_client,
-                                                   NET_2_NAME,
-                                                   SUBNET_2a_NAME,
-                                                   SUBNET_2a_CIDR,
-                                                   ROUTER_2_NAME,
-                                                   SUBNET_2b_NAME,
-                                                   SUBNET_2b_CIDR)
+    network_1_id, _, _ = test_utils.create_network(
+        neutron_client,
+        TESTCASE_CONFIG.net_1_name,
+        TESTCASE_CONFIG.subnet_1a_name,
+        TESTCASE_CONFIG.subnet_1a_cidr,
+        TESTCASE_CONFIG.router_1_name,
+        TESTCASE_CONFIG.subnet_1b_name,
+        TESTCASE_CONFIG.subnet_1b_cidr)
+
+    network_2_id, _, _ = test_utils.create_network(
+        neutron_client,
+        TESTCASE_CONFIG.net_2_name,
+        TESTCASE_CONFIG.subnet_2a_name,
+        TESTCASE_CONFIG.subnet_2a_cidr,
+        TESTCASE_CONFIG.router_2_name,
+        TESTCASE_CONFIG.subnet_2b_name,
+        TESTCASE_CONFIG.subnet_2b_cidr)
+
     sg_id = os_utils.create_security_group_full(neutron_client,
-                                                SECGROUP_NAME, SECGROUP_DESCR)
+                                                TESTCASE_CONFIG.secgroup_name,
+                                                TESTCASE_CONFIG.secgroup_descr)
 
     compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
 
@@ -154,93 +86,103 @@ def main():
 
     # boot INTANCES
     userdata_common = test_utils.generate_userdata_common()
-    vm_2 = test_utils.create_instance(nova_client,
-                                      INSTANCE_2_NAME,
-                                      image_id,
-                                      network_1_id,
-                                      sg_id,
-                                      fixed_ip=INSTANCE_2_IP,
-                                      secgroup_name=SECGROUP_NAME,
-                                      compute_node=av_zone_1,
-                                      userdata=userdata_common)
+    vm_2 = test_utils.create_instance(
+        nova_client,
+        TESTCASE_CONFIG.instance_2_name,
+        image_id,
+        network_1_id,
+        sg_id,
+        fixed_ip=TESTCASE_CONFIG.instance_2_ip,
+        secgroup_name=TESTCASE_CONFIG.secgroup_name,
+        compute_node=av_zone_1,
+        userdata=userdata_common)
     vm_2_ip = vm_2.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (INSTANCE_2_NAME, vm_2_ip))
+                 (TESTCASE_CONFIG.instance_2_name, vm_2_ip))
 
-    vm_3 = test_utils.create_instance(nova_client,
-                                      INSTANCE_3_NAME,
-                                      image_id,
-                                      network_1_id,
-                                      sg_id,
-                                      fixed_ip=INSTANCE_3_IP,
-                                      secgroup_name=SECGROUP_NAME,
-                                      compute_node=av_zone_2,
-                                      userdata=userdata_common)
+    vm_3 = test_utils.create_instance(
+        nova_client,
+        TESTCASE_CONFIG.instance_3_name,
+        image_id,
+        network_1_id,
+        sg_id,
+        fixed_ip=TESTCASE_CONFIG.instance_3_ip,
+        secgroup_name=TESTCASE_CONFIG.secgroup_name,
+        compute_node=av_zone_2,
+        userdata=userdata_common)
     vm_3_ip = vm_3.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (INSTANCE_3_NAME, vm_3_ip))
+                 (TESTCASE_CONFIG.instance_3_name, vm_3_ip))
 
-    vm_5 = test_utils.create_instance(nova_client,
-                                      INSTANCE_5_NAME,
-                                      image_id,
-                                      network_2_id,
-                                      sg_id,
-                                      fixed_ip=INSTANCE_5_IP,
-                                      secgroup_name=SECGROUP_NAME,
-                                      compute_node=av_zone_2,
-                                      userdata=userdata_common)
+    vm_5 = test_utils.create_instance(
+        nova_client,
+        TESTCASE_CONFIG.instance_5_name,
+        image_id,
+        network_2_id,
+        sg_id,
+        fixed_ip=TESTCASE_CONFIG.instance_5_ip,
+        secgroup_name=TESTCASE_CONFIG.secgroup_name,
+        compute_node=av_zone_2,
+        userdata=userdata_common)
     vm_5_ip = vm_5.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (INSTANCE_5_NAME, vm_5_ip))
+                 (TESTCASE_CONFIG.instance_5_name, vm_5_ip))
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
     u4 = test_utils.generate_userdata_with_ssh(
-        [INSTANCE_1_IP, INSTANCE_3_IP, INSTANCE_5_IP])
-    vm_4 = test_utils.create_instance(nova_client,
-                                      INSTANCE_4_NAME,
-                                      image_id,
-                                      network_2_id,
-                                      sg_id,
-                                      fixed_ip=INSTANCE_4_IP,
-                                      secgroup_name=SECGROUP_NAME,
-                                      compute_node=av_zone_1,
-                                      userdata=u4,
-                                      files=files)
+        [TESTCASE_CONFIG.instance_1_ip,
+         TESTCASE_CONFIG.instance_3_ip,
+         TESTCASE_CONFIG.instance_5_ip])
+    vm_4 = test_utils.create_instance(
+        nova_client,
+        TESTCASE_CONFIG.instance_4_name,
+        image_id,
+        network_2_id,
+        sg_id,
+        fixed_ip=TESTCASE_CONFIG.instance_4_ip,
+        secgroup_name=TESTCASE_CONFIG.secgroup_name,
+        compute_node=av_zone_1,
+        userdata=u4,
+        files=files)
     vm_4_ip = vm_4.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (INSTANCE_4_NAME, vm_4_ip))
+                 (TESTCASE_CONFIG.instance_4_name, vm_4_ip))
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
     u1 = test_utils.generate_userdata_with_ssh(
-        [INSTANCE_2_IP, INSTANCE_3_IP, INSTANCE_4_IP, INSTANCE_5_IP])
-    vm_1 = test_utils.create_instance(nova_client,
-                                      INSTANCE_1_NAME,
-                                      image_id,
-                                      network_1_id,
-                                      sg_id,
-                                      fixed_ip=INSTANCE_1_IP,
-                                      secgroup_name=SECGROUP_NAME,
-                                      compute_node=av_zone_1,
-                                      userdata=u1,
-                                      files=files)
+        [TESTCASE_CONFIG.instance_2_ip,
+         TESTCASE_CONFIG.instance_3_ip,
+         TESTCASE_CONFIG.instance_4_ip,
+         TESTCASE_CONFIG.instance_5_ip])
+    vm_1 = test_utils.create_instance(
+        nova_client,
+        TESTCASE_CONFIG.instance_1_name,
+        image_id,
+        network_1_id,
+        sg_id,
+        fixed_ip=TESTCASE_CONFIG.instance_1_ip,
+        secgroup_name=TESTCASE_CONFIG.secgroup_name,
+        compute_node=av_zone_1,
+        userdata=u1,
+        files=files)
     vm_1_ip = vm_1.networks.itervalues().next()[0]
     logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (INSTANCE_1_NAME, vm_1_ip))
+                 (TESTCASE_CONFIG.instance_1_name, vm_1_ip))
 
     msg = ("Create VPN1 with eRT=iRT")
     logger.info(msg)
     results.add_to_summary(1, msg)
     vpn1_name = "sdnvpn-1-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": TARGETS_2,
-              "export_targets": TARGETS_2,
-              "route_targets": TARGETS_2,
+    kwargs = {"import_targets": TESTCASE_CONFIG.targets2,
+              "export_targets": TESTCASE_CONFIG.targets2,
+              "route_targets": TESTCASE_CONFIG.targets2,
               "name": vpn1_name}
     bgpvpn1 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn1_id = bgpvpn1['bgpvpn']['id']
     logger.debug("VPN1 created details: %s" % bgpvpn1)
 
-    msg = ("Associate network '%s' to the VPN." % NET_1_NAME)
+    msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_1_name)
     logger.info(msg)
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
@@ -263,25 +205,31 @@ def main():
 
     # 10.10.10.12 should return sdnvpn-2 to sdnvpn-1
     results.check_ssh_output(
-        vm_1, vm_1_ip, vm_2, vm_2_ip, expected=INSTANCE_2_NAME, timeout=200)
+        vm_1, vm_1_ip,
+        vm_2, vm_2_ip,
+        expected=TESTCASE_CONFIG.instance_2_name,
+        timeout=200)
     # 10.10.11.13 should return sdnvpn-3 to sdnvpn-1
     results.check_ssh_output(
-        vm_1, vm_1_ip, vm_3, vm_3_ip, expected=INSTANCE_3_NAME, timeout=30)
+        vm_1, vm_1_ip,
+        vm_3, vm_3_ip,
+        expected=TESTCASE_CONFIG.instance_3_name,
+        timeout=30)
 
     results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
     logger.info(msg)
     results.add_to_summary(1, msg)
     vpn2_name = "sdnvpn-2-" + str(randint(100000, 999999))
-    kwargs = {"import_targets": TARGETS_1,
-              "export_targets": TARGETS_1,
-              "route_targets": TARGETS_1,
+    kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
+              "export_targets": TESTCASE_CONFIG.targets1,
+              "route_targets": TESTCASE_CONFIG.targets1,
               "name": vpn2_name}
     bgpvpn2 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn2_id = bgpvpn2['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn2)
 
-    msg = ("Associate network '%s' to the VPN2." % NET_2_NAME)
+    msg = ("Associate network '%s' to the VPN2." % TESTCASE_CONFIG.net_2_name)
     logger.info(msg)
     results.add_to_summary(1, msg)
     results.add_to_summary(0, "-")
@@ -298,13 +246,16 @@ def main():
 
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
     results.check_ssh_output(
-        vm_4, vm_4_ip, vm_5, vm_5_ip, expected=INSTANCE_5_NAME, timeout=30)
+        vm_4, vm_4_ip,
+        vm_5, vm_5_ip,
+        expected=TESTCASE_CONFIG.instance_5_name,
+        timeout=30)
 
     # 10.10.10.11 should return "not reachable" to sdnvpn-4
     results.check_ssh_output(
         vm_4, vm_4_ip, vm_1, vm_1_ip, expected="not reachable", timeout=30)
 
-    return results.compile_summary(SUCCESS_CRITERIA)
+    return results.compile_summary(TESTCASE_CONFIG.success_criteria)
 
 
 if __name__ == '__main__':
