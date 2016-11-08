@@ -11,7 +11,7 @@
 import argparse
 import os
 from random import randint
-import time
+import sys
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
@@ -120,8 +120,16 @@ def main():
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
-    compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+    # Get hypervisors zones
+    compute_nodes = os_utils.get_hypervisors(nova_client)
+    num_compute_nodes = len(compute_nodes)
+    if num_compute_nodes < 2:
+        logger.error("There are %s compute nodes in the deployment. "
+                     "Minimum number of nodes to complete the test is 2."
+                     % num_compute_nodes)
+        sys.exit(-1)
 
+    logger.debug("Compute nodes: %s" % compute_nodes)
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
@@ -243,7 +251,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # Ping from VM4 to VM5 should work
     results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
@@ -267,7 +275,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # Ping from VM1 to VM4 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
@@ -279,7 +287,18 @@ def main():
     results.add_to_summary(0, "=")
     logger.info("\n%s" % results.summary)
 
-    return results.compile_summary(SUCCESS_CRITERIA)
+    if results.test_result == "PASS":
+        logger.info("All the ping tests have passed as expected.")
+    else:
+        logger.info("One or more ping tests have failed.")
+
+    status = "PASS"
+    success = 100 - \
+        (100 * int(results.num_tests_failed) / int(results.num_tests_failed))
+    if success < int(SUCCESS_CRITERIA):
+        status = "FAILED"
+
+    return {"status": status, "details": results.details}
 
 
 if __name__ == '__main__':
