@@ -12,7 +12,6 @@ import argparse
 import os
 from random import randint
 import sys
-import time
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
@@ -268,7 +267,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # 10.10.10.12 should return sdnvpn-2 to sdnvpn-1
     results.check_ssh_output(
@@ -303,7 +302,7 @@ def main():
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
-    time.sleep(30)
+    test_utils.wait_before_subtest()
 
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
     results.check_ssh_output(

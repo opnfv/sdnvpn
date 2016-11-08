@@ -269,3 +269,9 @@ def wait_for_bgp_router_assocs(neutron_client, bgpvpn_id, *args):
              for id in args]
     # Return True if all associations succeeded
     return all(check)
+
+
+def wait_before_subtest(*args, **kwargs):
+    ''' This is a placeholder.
+        TODO: Replace delay with polling logic. '''
+    time.sleep(30)
