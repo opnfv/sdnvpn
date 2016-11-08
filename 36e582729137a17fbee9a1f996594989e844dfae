@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_c58f9574",
+        "filename": "test/functest/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-08T12:47:42Z",
+      "side": 1,
+      "message": "Add some docstrings here (Why does CommonConfig exist? Why does ConfigFromDict exist and what are their fields supposed to be?) because especially ConfigFromDict is pretty magic.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "36e582729137a17fbee9a1f996594989e844dfae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_c5e6b544",
+        "filename": "test/functest/testcase_1.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-08T12:47:42Z",
+      "side": 1,
+      "message": "also lowercase",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "36e582729137a17fbee9a1f996594989e844dfae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_25da1979",
+        "filename": "test/functest/testcase_4.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-08T12:47:42Z",
+      "side": 1,
+      "message": "this should be lc",
+      "range": {
+        "startLine": 34,
+        "startChar": 30,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "36e582729137a17fbee9a1f996594989e844dfae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e5e3b131",
+        "filename": "test/functest/testcase_4.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-08T12:47:42Z",
+      "side": 1,
+      "message": "wrong test",
+      "range": {
+        "startLine": 34,
+        "startChar": 58,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "36e582729137a17fbee9a1f996594989e844dfae",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
