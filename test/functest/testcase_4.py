@@ -80,6 +80,8 @@ TARGETS_1 = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_4.targets1", config_file)
 TARGETS_2 = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_4.targets2", config_file)
+ROUTE_DISTINGUISHERS = ft_utils.get_parameter_from_yaml(
+    "testcases.testcase_4.route_distinguishers", config_file)
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_4.succes_criteria", config_file)
 TEST_DB = ft_utils.get_functest_config("results.test_db_url")
@@ -111,11 +113,15 @@ def main():
                                                              SUBNET_1_NAME,
                                                              SUBNET_1_CIDR,
                                                              ROUTER_1_NAME)
-    network_2_id, _, router_2_id = test_utils.create_network(neutron_client,
-                                                             NET_2_NAME,
-                                                             SUBNET_2_NAME,
-                                                             SUBNET_2_CIDR,
-                                                             ROUTER_2_NAME)
+    # the network that is net-assoc'd cannot have a router
+    # because ODL doesn't support it
+    network_2_id = test_utils.create_net(neutron_client,
+                                         NET_2_NAME)
+    test_utils.create_subnet(neutron_client,
+                             SUBNET_2_NAME,
+                             SUBNET_2_CIDR,
+                             network_2_id)
+
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 SECGROUP_NAME, SECGROUP_DESCR)
 
@@ -195,6 +201,7 @@ def main():
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TARGETS_1,
               "export_targets": TARGETS_2,
+              "route_distinguishers": ROUTE_DISTINGUISHERS,
               "name": vpn_name}
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
