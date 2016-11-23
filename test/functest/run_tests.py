@@ -10,12 +10,13 @@
 
 import argparse
 import importlib
-import os
 import sys
 import time
+import yaml
+
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
-import yaml
+import config as sdnvpn_config
 
 
 parser = argparse.ArgumentParser()
@@ -26,7 +27,8 @@ args = parser.parse_args()
 
 TEST_DB_URL = ft_utils.get_functest_config('results.test_db_url')
 logger = ft_logger.Logger("sdnvpn-run-tests").getLogger()
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
+
+COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
 
 def push_results(testname, start_time, end_time, criteria, details):
@@ -41,7 +43,7 @@ def push_results(testname, start_time, end_time, criteria, details):
 
 def main():
 
-    with open(REPO_PATH + 'test/functest/config.yaml') as f:
+    with open(COMMON_CONFIG.config_file) as f:
         config_yaml = yaml.safe_load(f)
 
     testcases = config_yaml.get("testcases")

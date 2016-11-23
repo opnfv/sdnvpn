@@ -12,17 +12,17 @@ import ConfigParser
 import os
 import re
 import shutil
+
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
-
+import config as sdnvpn_config
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
-config_file = REPO_PATH + 'test/functest/config.yaml'
+COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.succes_criteria", config_file)
+    "testcases.testcase_1.succes_criteria", COMMON_CONFIG.config_file)
 
 
 def main():
@@ -44,8 +44,8 @@ def main():
     config.read(bgpvpn_tempest_conf)
     config.set('service_available', 'bgpvpn', 'True')
     logger.debug("Updating %s with bgpvpn=True" % bgpvpn_tempest_conf)
-    with open(bgpvpn_tempest_conf, 'wb') as config_file:
-        config.write(config_file)
+    with open(bgpvpn_tempest_conf, 'wb') as tempest_conf:
+        config.write(tempest_conf)
 
     cmd_line = (src_tempest_dir +
                 "/run_tempest.sh -C %s -t -N -- "
