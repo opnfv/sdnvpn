@@ -12,17 +12,19 @@ import ConfigParser
 import os
 import re
 import shutil
+
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
-
+import config as sdnvpn_config
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
-config_file = REPO_PATH + 'test/functest/config.yaml'
-
+COMMON_CONFIG = sdnvpn_config.CommonConfig()
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
     "testcases.testcase_1.succes_criteria", config_file)
+
+config_file = os.path.join(
+    COMMON_CONFIG.repo_path, 'test/functest/config.yaml')
 
 
 def main():
