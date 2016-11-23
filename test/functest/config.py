@@ -1,6 +1,7 @@
 import yaml
 import os
 
+import functest.utils.functest_constants as ft_constants
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
@@ -11,8 +12,9 @@ class CommonConfig(object):
     """
     Common configuration parameters across testcases
     """
+
     def __init__(self):
-        self.repo_path = os.path.join(os.environ['repos_dir'], 'sdnvpn')
+        self.repo_path = os.path.join(ft_constants.SDNVPN_REPO_DIR)
         self.config_file = os.path.join(self.repo_path,
                                         'test/functest/config.yaml')
         self.keyfile_path = os.path.join(self.repo_path,
@@ -37,6 +39,7 @@ class TestcaseConfig(object):
     Configuration for a testcase.
     Parse config.yaml into a dict and create an object out of it.
     """
+
     def __init__(self, testcase):
         common_config = CommonConfig()
         test_config = None
