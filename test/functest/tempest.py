@@ -18,7 +18,7 @@ import functest.utils.functest_utils as ft_utils
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
+REPO_PATH = os.environ['REPOS_DIR'] + '/sdnvpn/'
 config_file = REPO_PATH + 'test/functest/config.yaml'
 
 SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(

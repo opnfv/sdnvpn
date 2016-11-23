@@ -26,7 +26,7 @@ args = parser.parse_args()
 
 TEST_DB_URL = ft_utils.get_functest_config('results.test_db_url')
 logger = ft_logger.Logger("sdnvpn-run-tests").getLogger()
-REPO_PATH = os.environ['repos_dir'] + '/sdnvpn/'
+REPO_PATH = os.environ['REPOS_DIR'] + '/sdnvpn/'
 
 
 def push_results(testname, start_time, end_time, criteria, details):

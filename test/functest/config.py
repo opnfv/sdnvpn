@@ -11,8 +11,9 @@ class CommonConfig(object):
     """
     Common configuration parameters across testcases
     """
+
     def __init__(self):
-        self.repo_path = os.path.join(os.environ['repos_dir'], 'sdnvpn')
+        self.repo_path = os.path.join(os.environ['REPOS_DIR'], 'sdnvpn')
         self.config_file = os.path.join(self.repo_path,
                                         'test/functest/config.yaml')
         self.keyfile_path = os.path.join(self.repo_path,
@@ -37,6 +38,7 @@ class TestcaseConfig(object):
     Configuration for a testcase.
     Parse config.yaml into a dict and create an object out of it.
     """
+
     def __init__(self, testcase):
         common_config = CommonConfig()
         test_config = None
