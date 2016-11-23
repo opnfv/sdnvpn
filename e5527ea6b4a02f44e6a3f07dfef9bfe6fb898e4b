@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_29dd0271",
+        "filename": "test/functest/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2016-11-23T08:41:00Z",
+      "side": 1,
+      "message": "Maybe we should use os.path.join here although I don\u0027t see much value to it to be honest",
+      "range": {
+        "startLine": 29,
+        "startChar": 36,
+        "endLine": 29,
+        "endChar": 47
+      },
+      "revId": "e5527ea6b4a02f44e6a3f07dfef9bfe6fb898e4b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
