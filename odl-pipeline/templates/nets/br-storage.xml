@@ -1,0 +1,6 @@
+<network ipv6='yes'>
+  <name>br-storage-NaMe</name>
+  <forward mode='bridge'/>
+  <bridge name='br-storage-NaMe'/>
+</network>
+

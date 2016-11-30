@@ -1,0 +1,7 @@
+<network ipv6='yes'>
+  <name>br-admin-NaMe</name>
+  <forward mode='bridge'/>
+  <bridge name='br-admin-NaMe'/>
+  
+</network>
+
