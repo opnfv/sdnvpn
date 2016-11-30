@@ -1,0 +1,5 @@
+# br-public
+auto enp0s6
+iface enp0s6 inet static
+  address 192.168.37.199
+  netmask 255.255.255.0
