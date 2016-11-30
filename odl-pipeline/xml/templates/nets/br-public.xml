@@ -1,0 +1,6 @@
+<network ipv6='yes'>
+  <name>br-public-NaMe</name>
+  <forward mode='bridge'/>
+  <bridge name='br-public-NaMe'/>
+</network>
+

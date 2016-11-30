@@ -1,0 +1,5 @@
+*.tar.gz
+*.qcow2
+*.img
+build/*
+trash/*
