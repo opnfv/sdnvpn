@@ -74,7 +74,7 @@ testcases:
       testname_db: functest_testcase_3
 
   testcase_4:
-      enabled: false
+      enabled: true
       description: VPN provides connectivity between subnets using router association
       success_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_4
