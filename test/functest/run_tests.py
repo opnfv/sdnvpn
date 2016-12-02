@@ -47,9 +47,7 @@ def main():
         config_yaml = yaml.safe_load(f)
 
     testcases = config_yaml.get("testcases")
-    overall_details = {}
     overall_status = "PASS"
-    overall_start_time = time.time()
     for testcase in testcases:
         if testcases[testcase]['enabled']:
             test_name = testcase
@@ -63,11 +61,9 @@ def main():
             start_time = time.time()
             result = t.main()
             end_time = time.time()
-            duration = end_time - start_time
             if result < 0:
                 status = "FAIL"
                 overall_status = "FAIL"
-                overall_details.update({test_name_db: "execution error."})
             else:
                 status = result.get("status")
                 details = result.get("details")
@@ -77,17 +73,9 @@ def main():
                 if status == "FAIL":
                     overall_status = "FAIL"
 
-                dic = {"duration": duration, "status": status}
-                overall_details.update({test_name_db: dic})
             if args.report:
                 push_results(
                     test_name_db, start_time, end_time, status, details)
-
-    overall_end_time = time.time()
-    if args.report:
-        push_results(
-            "bgpvpn", overall_start_time, overall_end_time,
-            overall_status, overall_details)
 
     if overall_status == "FAIL":
         sys.exit(-1)
