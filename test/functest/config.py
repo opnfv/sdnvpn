@@ -20,7 +20,7 @@ class CommonConfig(object):
         self.keyfile_path = os.path.join(self.repo_path,
                                          'test/functest/id_rsa')
         self.test_db = ft_utils.get_functest_config("results.test_db_url")
-        self.line_length = 90  # length for the summary table
+        self.line_length = 120  # length for the summary table
         self.vm_boot_timeout = 180
         self.default_flavor = ft_utils.get_parameter_from_yaml(
             "defaults.flavor", self.config_file)

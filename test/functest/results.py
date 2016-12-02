@@ -27,7 +27,9 @@ class Results(object):
     def get_ping_status(self,
                         vm_source, ip_source,
                         vm_target, ip_target,
-                        expected="PASS", timeout=30):
+                        expected="PASS",
+                        timeout=30,
+                        explanation=None):
         console_log = vm_source.get_console_output()
 
         if "request failed" in console_log:
@@ -39,10 +41,14 @@ class Results(object):
             tab = ("%s" % (" " * 53))
             expected_result = 'can ping' if expected == 'PASS' \
                               else 'cannot ping'
-            test_case_name = ("'%s' %s '%s'" %
-                              (vm_source.name,
-                               expected_result,
-                               vm_target.name))
+            test_case_description = ("'%s' %s '%s'" %
+                                     (vm_source.name,
+                                      expected_result,
+                                      vm_target.name))
+            if explanation:
+                test_case_description = test_case_description \
+                                        + " (%s)" % explanation
+
             logger.debug("%sPing\n%sfrom '%s' (%s)\n%sto '%s' (%s).\n"
                          "%s-->Expected result: %s.\n"
                          % (tab, tab, vm_source.name, ip_source,
@@ -59,11 +65,11 @@ class Results(object):
                            % (vm_source.name, vm_target.name))
                     if expected == "PASS":
                         logger.debug("[PASS] %s" % msg)
-                        self.add_to_summary(2, "PASS", test_case_name)
+                        self.add_to_summary(2, "PASS", test_case_description)
                     else:
                         logger.debug("[FAIL] %s" % msg)
                         self.test_result = "FAIL"
-                        self.add_to_summary(2, "FAIL", test_case_name)
+                        self.add_to_summary(2, "FAIL", test_case_description)
                         logger.debug("\n%s" % last_n_lines)
                     break
                 elif ("ping %s KO" % ip_target) in last_n_lines:
@@ -71,11 +77,11 @@ class Results(object):
                            (vm_source.name, vm_target.name))
                     if expected == "FAIL":
                         logger.debug("[PASS] %s" % msg)
-                        self.add_to_summary(2, "PASS", test_case_name)
+                        self.add_to_summary(2, "PASS", test_case_description)
                     else:
                         logger.debug("[FAIL] %s" % msg)
                         self.test_result = "FAIL"
-                        self.add_to_summary(2, "FAIL", test_case_name)
+                        self.add_to_summary(2, "FAIL", test_case_description)
                     break
                 time.sleep(1)
                 timeout -= 1
@@ -84,7 +90,7 @@ class Results(object):
                     logger.debug("[FAIL] Timeout reached for '%s'. "
                                  "No ping output captured in the console log"
                                  % vm_source.name)
-                    self.add_to_summary(2, "FAIL", test_case_name)
+                    self.add_to_summary(2, "FAIL", test_case_description)
                     break
 
     def add_to_summary(self, num_cols, col1, col2=""):

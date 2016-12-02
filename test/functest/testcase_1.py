@@ -177,13 +177,17 @@ def main():
 
     # Ping from VM1 to VM2 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
-                            expected="PASS", timeout=200)
+                            expected="PASS", timeout=200,
+                            explanation="Same subnet")
     # Ping from VM1 to VM3 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_3, vm_3_ip,
-                            expected="PASS", timeout=30)
+                            expected="PASS", timeout=30,
+                            explanation="Same subnet")
     # Ping from VM1 to VM4 should not work
     results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
+                            expected="FAIL", timeout=30,
+                            explanation="Different subnet,"
+                            "vm_4 is not in VPN.")
 
     msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_2_name)
     logger.info(msg)
@@ -204,13 +208,18 @@ def main():
 
     # Ping from VM4 to VM5 should work
     results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
-                            expected="PASS", timeout=30)
+                            expected="PASS", timeout=30,
+                            explanation="Same subnet")
     # Ping from VM1 to VM4 should not work
     results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
+                            expected="FAIL", timeout=30,
+                            explanation="Different subnet, "
+                            "same VPN, VPN does not import its own eRT")
     # Ping from VM1 to VM5 should not work
     results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
-                            expected="FAIL", timeout=30)
+                            expected="FAIL", timeout=30,
+                            explanation="Different subnet, "
+                            "same VPN, VPN does not import its own eRT")
 
     msg = ("Update VPN with eRT=iRT ...")
     logger.info(msg)
@@ -228,10 +237,14 @@ def main():
 
     # Ping from VM1 to VM4 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="PASS", timeout=30)
+                            expected="PASS", timeout=30,
+                            explanation="same VPN, "
+                            "VPN imports its own eRT")
     # Ping from VM1 to VM5 should work
     results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
-                            expected="PASS", timeout=30)
+                            expected="PASS", timeout=30,
+                            explanation="same VPN, "
+                            "VPN imports its own eRT")
 
     return results.compile_summary(TESTCASE_CONFIG.success_criteria)
 
