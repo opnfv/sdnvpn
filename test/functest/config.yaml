@@ -66,6 +66,8 @@ testcases:
       secgroup_descr: Security group for SDNVPN test cases
       targets1: '88:88'
       targets2: '55:55'
+      route_distinguishers1: '111:111'
+      route_distinguishers2: '222:222'
 
   testcase_3:
       enabled: false

@@ -57,23 +57,33 @@ def main():
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public=True)
-    network_1_id, _, _ = test_utils.create_network(
+    network_1_id = test_utils.create_net(
         neutron_client,
-        TESTCASE_CONFIG.net_1_name,
+        TESTCASE_CONFIG.net_1_name)
+    test_utils.create_subnet(
+        neutron_client,
         TESTCASE_CONFIG.subnet_1a_name,
         TESTCASE_CONFIG.subnet_1a_cidr,
-        TESTCASE_CONFIG.router_1_name,
-        TESTCASE_CONFIG.subnet_1b_name,
-        TESTCASE_CONFIG.subnet_1b_cidr)
-
-    network_2_id, _, _ = test_utils.create_network(
+        network_1_id)
+    test_utils.create_subnet(
         neutron_client,
-        TESTCASE_CONFIG.net_2_name,
+        TESTCASE_CONFIG.subnet_1b_name,
+        TESTCASE_CONFIG.subnet_1b_cidr,
+        network_1_id)
+
+    network_2_id = test_utils.create_net(
+        neutron_client,
+        TESTCASE_CONFIG.net_2_name)
+    test_utils.create_subnet(
+        neutron_client,
         TESTCASE_CONFIG.subnet_2a_name,
         TESTCASE_CONFIG.subnet_2a_cidr,
-        TESTCASE_CONFIG.router_2_name,
+        network_2_id)
+    test_utils.create_subnet(
+        neutron_client,
         TESTCASE_CONFIG.subnet_2b_name,
-        TESTCASE_CONFIG.subnet_2b_cidr)
+        TESTCASE_CONFIG.subnet_2b_cidr,
+        network_2_id)
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -177,6 +187,7 @@ def main():
     kwargs = {"import_targets": TESTCASE_CONFIG.targets2,
               "export_targets": TESTCASE_CONFIG.targets2,
               "route_targets": TESTCASE_CONFIG.targets2,
+              "route_distinguishers": TESTCASE_CONFIG.route_distinguishers1,
               "name": vpn1_name}
     bgpvpn1 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn1_id = bgpvpn1['bgpvpn']['id']
@@ -224,6 +235,7 @@ def main():
     kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
               "export_targets": TESTCASE_CONFIG.targets1,
               "route_targets": TESTCASE_CONFIG.targets1,
+              "route_distinguishers": TESTCASE_CONFIG.route_distinguishers2,
               "name": vpn2_name}
     bgpvpn2 = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn2_id = bgpvpn2['bgpvpn']['id']
