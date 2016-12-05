@@ -25,10 +25,13 @@ class Results(object):
         self.num_tests_failed = 0
 
     def get_ping_status(self,
-                        vm_source, ip_source,
-                        vm_target, ip_target,
+                        vm_source,
+                        vm_target,
                         expected="PASS", timeout=30):
         console_log = vm_source.get_console_output()
+
+        ip_source = vm_source.networks.itervalues().next()[0]
+        ip_target = vm_target.networks.itervalues().next()[0]
 
         if "request failed" in console_log:
             # Normally, cirros displays this message when userdata fails
@@ -112,10 +115,11 @@ class Results(object):
     def add_success(self, test):
         self.add_to_summary(2, "PASS", test)
 
-    def check_ssh_output(self, vm_source, ip_source,
-                         vm_target, ip_target,
+    def check_ssh_output(self, vm_source, vm_target,
                          expected, timeout=30):
         console_log = vm_source.get_console_output()
+        ip_source = vm_source.networks.itervalues().next()[0]
+        ip_target = vm_target.networks.itervalues().next()[0]
 
         if "request failed" in console_log:
             # Normally, cirros displays this message when userdata fails
