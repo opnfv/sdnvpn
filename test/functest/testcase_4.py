@@ -172,15 +172,9 @@ def main():
         logger.error("One or more instances is down")
         # TODO Handle appropriately
 
-    # Ping from VM1 to VM2 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_2, vm_2_ip,
-                            expected="PASS", timeout=200)
-    # Ping from VM1 to VM3 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_3, vm_3_ip,
-                            expected="PASS", timeout=30)
-    # Ping from VM1 to VM4 should not work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
+    results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
+    results.get_ping_status(vm_1, vm_3, expected="PASS", timeout=30)
+    results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
 
     msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_2_name)
     logger.info(msg)
@@ -199,15 +193,9 @@ def main():
                 " updated network configuration")
     test_utils.wait_before_subtest()
 
-    # Ping from VM4 to VM5 should work
-    results.get_ping_status(vm_4, vm_4_ip, vm_5, vm_5_ip,
-                            expected="PASS", timeout=30)
-    # Ping from VM1 to VM4 should not work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="FAIL", timeout=30)
-    # Ping from VM1 to VM5 should not work
-    results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
-                            expected="FAIL", timeout=30)
+    results.get_ping_status(vm_4, vm_5, expected="PASS", timeout=30)
+    results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
+    results.get_ping_status(vm_1, vm_5, expected="FAIL", timeout=30)
 
     msg = ("Update VPN with eRT=iRT ...")
     logger.info(msg)
@@ -223,12 +211,8 @@ def main():
                 " updated network configuration")
     test_utils.wait_before_subtest()
 
-    # Ping from VM1 to VM4 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_4, vm_4_ip,
-                            expected="PASS", timeout=30)
-    # Ping from VM1 to VM5 should work
-    results.get_ping_status(vm_1, vm_1_ip, vm_5, vm_5_ip,
-                            expected="PASS", timeout=30)
+    results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
+    results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
 
     results.add_to_summary(0, "=")
     logger.info("\n%s" % results.summary)

@@ -204,17 +204,13 @@ def main():
     test_utils.wait_before_subtest()
 
     # 10.10.10.12 should return sdnvpn-2 to sdnvpn-1
-    results.check_ssh_output(
-        vm_1, vm_1_ip,
-        vm_2, vm_2_ip,
-        expected=TESTCASE_CONFIG.instance_2_name,
-        timeout=200)
+    results.check_ssh_output(vm_1, vm_2,
+                             expected=TESTCASE_CONFIG.instance_2_name,
+                             timeout=200)
     # 10.10.11.13 should return sdnvpn-3 to sdnvpn-1
-    results.check_ssh_output(
-        vm_1, vm_1_ip,
-        vm_3, vm_3_ip,
-        expected=TESTCASE_CONFIG.instance_3_name,
-        timeout=30)
+    results.check_ssh_output(vm_1, vm_3,
+                             expected=TESTCASE_CONFIG.instance_3_name,
+                             timeout=30)
 
     results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
@@ -245,15 +241,14 @@ def main():
     test_utils.wait_before_subtest()
 
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
-    results.check_ssh_output(
-        vm_4, vm_4_ip,
-        vm_5, vm_5_ip,
-        expected=TESTCASE_CONFIG.instance_5_name,
-        timeout=30)
+    results.check_ssh_output(vm_4, vm_5,
+                             expected=TESTCASE_CONFIG.instance_5_name,
+                             timeout=30)
 
     # 10.10.10.11 should return "not reachable" to sdnvpn-4
-    results.check_ssh_output(
-        vm_4, vm_4_ip, vm_1, vm_1_ip, expected="not reachable", timeout=30)
+    results.check_ssh_output(vm_4, vm_1,
+                             expected="not reachable",
+                             timeout=30)
 
     return results.compile_summary(TESTCASE_CONFIG.success_criteria)
 
