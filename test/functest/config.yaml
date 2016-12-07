@@ -97,3 +97,24 @@ testcases:
       targets1: '88:88'
       targets2: '55:55'
       route_distinguishers: '12:12'
+
+  testcase_7:
+      enabled: false
+      description: Network associate VPNs with routers attached (ODL Bug 6962)
+      success_criteria: 100
+      testname_db: functest_testcase_7
+      image_name: sdnvpn-image
+      instance_1_name: sdnvpn-7-1
+      instance_2_name: sdnvpn-7-2
+      net_1_name: sdnvpn-7-1
+      subnet_1_name: sdnvpn-7-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-7-1-router
+      net_2_name: sdnvpn-7-2
+      subnet_2_name: sdnvpn-7-2-subnet
+      subnet_2_cidr: 10.10.20.0/24
+      router_2_name: sdnvpn-7-2-router
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
+      targets: '77:77'
+      route_distinguishers: '11:11'
