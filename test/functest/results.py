@@ -10,6 +10,7 @@
 import time
 
 import functest.utils.functest_logger as ft_logger
+import functest.utils.functest_utils as ft_utils
 
 logger = ft_logger.Logger("sdnvpn-results").getLogger()
 
@@ -160,6 +161,16 @@ class Results(object):
                                  % vm_source.name)
                     self.add_failure(test_case_name)
                     break
+
+    def ping_ip_test(self, address):
+        ping = "ping %s -c 3" % address
+        testcase_name = "Ping IP %s" % address
+        exit_code = ft_utils.execute_command(ping)
+
+        if exit_code != 0:
+            self.add_failure(testcase_name)
+        else:
+            self.add_success(testcase_name)
 
     def compile_summary(self, SUCCESS_CRITERIA):
         success_message = "All the subtests have passed."
