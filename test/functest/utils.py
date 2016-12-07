@@ -112,6 +112,9 @@ def create_instance(nova_client,
     if instance is None:
         logger.error("Error while booting instance.")
         sys.exit(-1)
+    else:
+        logger.debug("Instance '%s' booted successfully. IP='%s'." %
+                     (name, instance.networks.itervalues().next()[0]))
     # Retrieve IP of INSTANCE
     # instance_ip = instance.networks.get(network_id)[0]
 

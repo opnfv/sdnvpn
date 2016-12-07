@@ -83,8 +83,6 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1)
     vm_2_ip = vm_2.networks.itervalues().next()[0]
-    logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (TESTCASE_CONFIG.instance_2_name, vm_2_ip))
 
     vm_3 = test_utils.create_instance(
         nova_client,
@@ -95,8 +93,6 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_2)
     vm_3_ip = vm_3.networks.itervalues().next()[0]
-    logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (TESTCASE_CONFIG.instance_3_name, vm_3_ip))
 
     vm_5 = test_utils.create_instance(
         nova_client,
@@ -107,8 +103,6 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_2)
     vm_5_ip = vm_5.networks.itervalues().next()[0]
-    logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (TESTCASE_CONFIG.instance_5_name, vm_5_ip))
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
     u4 = test_utils.generate_ping_userdata([vm_5_ip])
@@ -122,8 +116,6 @@ def main():
         compute_node=av_zone_1,
         userdata=u4)
     vm_4_ip = vm_4.networks.itervalues().next()[0]
-    logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (TESTCASE_CONFIG.instance_4_name, vm_4_ip))
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
@@ -141,8 +133,6 @@ def main():
         compute_node=av_zone_1,
         userdata=u1)
     vm_1_ip = vm_1.networks.itervalues().next()[0]
-    logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                 (TESTCASE_CONFIG.instance_1_name, vm_1_ip))
 
     msg = ("Create VPN with eRT<>iRT")
     logger.info(msg)
