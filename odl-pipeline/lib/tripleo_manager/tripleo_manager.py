@@ -11,6 +11,7 @@ from utils.utils_log import log_enter_exit, for_all_methods, LOG
 from utils.service import Service
 from utils.shutil import shutil
 from utils.node_manager import NodeManager
+from common import config
 
 
 @for_all_methods(log_enter_exit)
@@ -67,16 +68,19 @@ class TripleOManager(Service):
 
     def gen_env_info(self, sys_args, config):
         shutil.mkdir_if_not_exsist(sys_args.out)
-        self.write_out_yaml_config(self.node_info, sys_args.out + '/node.yaml')
+        self.write_out_yaml_config(self.node_info,
+                                   sys_args.out + config.NODE_YAML_PATH)
 
         # copy ssh key
         shutil.copy('to', '/home/stack/.ssh/id_rsa',
-                    sys_args.out + '/undercloud_ssh/')
+                    sys_args.out + config.ID_RSA_PATH)
         shutil.copy('to', '/home/stack/.ssh/id_rsa.pub',
-                    sys_args.out + '/undercloud_ssh/')
+                    sys_args.out + config.ID_RSA_PATH)
         # copy rc files
-        shutil.copy('to', '/home/stack/stackrc', sys_args.out)
-        shutil.copy('to', '/home/stack/overcloudrc', sys_args.out)
+        shutil.copy('to', '/home/stack/stackrc',
+                    sys_args.out)
+        shutil.copy('to', '/home/stack/overcloudrc',
+                    sys_args.out + config.OVERCLOUDRC_PATH)
 
     def gen_node_info(self):
         for network in self.neutroncl.list_networks()['networks']:
