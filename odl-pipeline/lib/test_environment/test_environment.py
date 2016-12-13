@@ -22,7 +22,7 @@ class TestEnvironment(Service):
         self.cleanup()
         if sys_args.cleanup:
             return
-        if not sys_args.cloner_info or not sys_args.snapshot_disk\
+        if not sys_args.cloner_info or not sys_args.snapshot_disks\
                 or not sys_args.vjump_hosts:
             LOG.error('--cloner-info, --snapshot-disks and --vjump-hosts '
                       ' have to be given if not  only --cleanup.')
@@ -88,20 +88,20 @@ class TestEnvironment(Service):
                          'host_cpu': cores})
 
         # Upload cloner_info to jenkins slave
-        jenkins_slaves = NodeManager(
-            utils_yaml.read_dict_from_yaml(
-                sys_args.vjump_hosts)['servers']).get_nodes()
+        node_name = 'jenkins%s' % self.env
+        jenkins_node_config = utils_yaml.read_dict_from_yaml(
+            sys_args.vjump_hosts)['servers']
+        if node_name not in jenkins_node_config:
+            raise Exception('Jenkins host %s not provided in %s'
+                            % (node_name,
+                               sys_args.vjump_hosts))
+        jenkins_slave = NodeManager(jenkins_node_config).get_node(node_name)
         if 'CLONER_INFO' in os.environ:
             cloner_info_path = os.environ['CLONER_INFO']
         else:
             cloner_info_path = '/home/jenkins/cloner-info/'
-        node_name = 'jenkins%s' % self.env
-        if node_name not in jenkins_slaves:
-            raise Exception('Jenkins host %s not provided in %s'
-                            % (node_name,
-                               sys_args.vjump_hosts))
-        jenkins_slaves[node_name].copy('to', sys_args.cloner_info,
-                                       cloner_info_path)
+        jenkins_slave.copy('to', sys_args.cloner_info,
+                           cloner_info_path)
 
     def check_if_br_exists(self, bridge):
         _, (_, rc) = execute('ovs-vsctl br-exists %s' % bridge,
