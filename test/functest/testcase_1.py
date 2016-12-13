@@ -135,8 +135,7 @@ def main():
     vm_1_ip = vm_1.networks.itervalues().next()[0]
 
     msg = ("Create VPN with eRT<>iRT")
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.add_test(msg)
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
     kwargs = {
         "import_targets": TESTCASE_CONFIG.targets1,
@@ -149,8 +148,7 @@ def main():
     logger.debug("VPN created details: %s" % bgpvpn)
 
     msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_1_name)
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.add_test(msg)
     results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
@@ -176,9 +174,8 @@ def main():
                             expected="FAIL", timeout=30)
 
     msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_2_name)
-    logger.info(msg)
     results.add_to_summary(0, "-")
-    results.add_to_summary(1, msg)
+    results.add_test(msg)
     results.add_to_summary(0, "-")
     os_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
@@ -203,9 +200,8 @@ def main():
                             expected="FAIL", timeout=30)
 
     msg = ("Update VPN with eRT=iRT ...")
-    logger.info(msg)
     results.add_to_summary(0, "-")
-    results.add_to_summary(1, msg)
+    results.add_test(msg)
     results.add_to_summary(0, "-")
     kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
               "export_targets": TESTCASE_CONFIG.targets1,

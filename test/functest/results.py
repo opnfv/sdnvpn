@@ -59,11 +59,11 @@ class Results(object):
                            % (vm_source.name, vm_target.name))
                     if expected == "PASS":
                         logger.debug("[PASS] %s" % msg)
-                        self.add_to_summary(2, "PASS", test_case_name)
+                        self.add_success(test_case_name)
                     else:
                         logger.debug("[FAIL] %s" % msg)
                         self.test_result = "FAIL"
-                        self.add_to_summary(2, "FAIL", test_case_name)
+                        self.add_failure(test_case_name)
                         logger.debug("\n%s" % last_n_lines)
                     break
                 elif ("ping %s KO" % ip_target) in last_n_lines:
@@ -71,11 +71,11 @@ class Results(object):
                            (vm_source.name, vm_target.name))
                     if expected == "FAIL":
                         logger.debug("[PASS] %s" % msg)
-                        self.add_to_summary(2, "PASS", test_case_name)
+                        self.add_success(test_case_name)
                     else:
                         logger.debug("[FAIL] %s" % msg)
                         self.test_result = "FAIL"
-                        self.add_to_summary(2, "FAIL", test_case_name)
+                        self.add_failure(test_case_name)
                     break
                 time.sleep(1)
                 timeout -= 1
@@ -84,7 +84,7 @@ class Results(object):
                     logger.debug("[FAIL] Timeout reached for '%s'. "
                                  "No ping output captured in the console log"
                                  % vm_source.name)
-                    self.add_to_summary(2, "FAIL", test_case_name)
+                    self.add_failure(test_case_name)
                     break
 
     def add_to_summary(self, num_cols, col1, col2=""):
@@ -100,6 +100,16 @@ class Results(object):
                 self.num_tests += 1
                 if col1 == "FAIL":
                     self.num_tests_failed += 1
+
+    def add_test(self, test_description):
+        logger.info(test_description)
+        self.add_to_summary(1, test_description)
+
+    def add_failure(self, test):
+        self.add_to_summary(2, "FAIL", test)
+
+    def add_success(self, test):
+        self.add_to_summary(2, "PASS", test)
 
     def check_ssh_output(self, vm_source, ip_source,
                          vm_target, ip_target,
@@ -129,11 +139,11 @@ class Results(object):
                 last_n_lines = lines[-5:]
                 if ("%s %s" % (ip_target, expected)) in last_n_lines:
                     logger.debug("[PASS] %s" % test_case_name)
-                    self.add_to_summary(2, "PASS", test_case_name)
+                    self.add_success(test_case_name)
                     break
                 elif ("%s not reachable" % ip_target) in last_n_lines:
                     logger.debug("[FAIL] %s" % test_case_name)
-                    self.add_to_summary(2, "FAIL", test_case_name)
+                    self.add_failure(test_case_name)
                     self.test_result = "FAIL"
                     break
                 time.sleep(1)
@@ -143,7 +153,7 @@ class Results(object):
                     logger.debug("[FAIL] Timeout reached for '%s'."
                                  " No ping output captured in the console log"
                                  % vm_source.name)
-                    self.add_to_summary(2, "FAIL", test_case_name)
+                    self.add_failure(test_case_name)
                     break
 
     def compile_summary(self, SUCCESS_CRITERIA):
