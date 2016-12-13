@@ -5,6 +5,7 @@ from utils.service import Service
 from utils.processutils import execute
 from utils import utils_yaml
 from utils.shutil import shutil
+from utils.node_manager import NodeManager
 MAX_NODES = 5
 
 
@@ -21,9 +22,10 @@ class TestEnvironment(Service):
         self.cleanup()
         if sys_args.cleanup:
             return
-        if not sys_args.cloner_info or not sys_args.snapshot_disks:
-            LOG.error('--cloner-info, --snapshot-disks have to be given if not'
-                      ' only cleanup.')
+        if not sys_args.cloner_info or not sys_args.snapshot_disk\
+                or not sys_args.vjump_hosts:
+            LOG.error('--cloner-info, --snapshot-disks and --vjump-hosts '
+                      ' have to be given if not  only --cleanup.')
             exit(1)
         node_info = utils_yaml.read_dict_from_yaml(sys_args.cloner_info +
                                                    '/node.yaml')
@@ -85,6 +87,22 @@ class TestEnvironment(Service):
                          'nodes_cpu': i,
                          'host_cpu': cores})
 
+        # Upload cloner_info to jenkins slave
+        jenkins_slaves = NodeManager(
+            utils_yaml.read_dict_from_yaml(
+                sys_args.vjump_hosts)['servers']).get_nodes()
+        if 'CLONER_INFO' in os.environ:
+            cloner_info_path = os.environ['CLONER_INFO']
+        else:
+            cloner_info_path = '/home/jenkins/cloner-info/'
+        node_name = 'jenkins%s' % self.env
+        if node_name not in jenkins_slaves:
+            raise Exception('Jenkins host %s not provided in %s'
+                            % (node_name,
+                               sys_args.vjump_hosts))
+        jenkins_slaves[node_name].copy('to', sys_args.cloner_info,
+                                       cloner_info_path)
+
     def check_if_br_exists(self, bridge):
         _, (_, rc) = execute('ovs-vsctl br-exists %s' % bridge,
                              check_exit_code=[0, 2], as_root=True)
@@ -117,6 +135,9 @@ class TestEnvironment(Service):
         parser.add_argument('--cloner-info', help="Path to the cloner-info",
                             required=False)
         parser.add_argument('--snapshot-disks', help="Path to the snapshots",
+                            required=False)
+        parser.add_argument('--vjump-hosts', help=("Path to the information of"
+                                                   " the virtual jumphosts"),
                             required=False)
         parser.add_argument('--cleanup', help="Only Cleanup",
                             required=False, action='store_true')
