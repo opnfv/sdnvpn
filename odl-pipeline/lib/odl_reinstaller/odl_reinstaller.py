@@ -13,7 +13,8 @@ class ODLReInstaller(Service):
 
     def run(self, sys_args, config):
         cloner_info_path = sys_args.cloner_info
-        SSH_CONFIG['ID_RSA_PATH'] = cloner_info_path + CONFIG.ID_RSA_PATH
+        SSH_CONFIG['ID_RSA_PATH'] = (cloner_info_path + CONFIG.ID_RSA_PATH +
+                                     'id_rsa')
         node_config = utils_yaml.read_dict_from_yaml(
             cloner_info_path + CONFIG.NODE_YAML_PATH)
         # copy ODL to all nodes where it need to be copied
