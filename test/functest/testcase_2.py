@@ -171,8 +171,7 @@ def main():
     vm_1_ip = vm_1.networks.itervalues().next()[0]
 
     msg = ("Create VPN1 with eRT=iRT")
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.record_action(msg)
     vpn1_name = "sdnvpn-1-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TESTCASE_CONFIG.targets2,
               "export_targets": TESTCASE_CONFIG.targets2,
@@ -184,8 +183,7 @@ def main():
     logger.debug("VPN1 created details: %s" % bgpvpn1)
 
     msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_1_name)
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.record_action(msg)
     results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
@@ -219,8 +217,7 @@ def main():
 
     results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.record_action(msg)
     vpn2_name = "sdnvpn-2-" + str(randint(100000, 999999))
     kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
               "export_targets": TESTCASE_CONFIG.targets1,
@@ -232,8 +229,7 @@ def main():
     logger.debug("VPN created details: %s" % bgpvpn2)
 
     msg = ("Associate network '%s' to the VPN2." % TESTCASE_CONFIG.net_2_name)
-    logger.info(msg)
-    results.add_to_summary(1, msg)
+    results.record_action(msg)
     results.add_to_summary(0, "-")
 
     os_utils.create_network_association(
