@@ -11,6 +11,7 @@ from utils.utils_log import log_enter_exit, for_all_methods, LOG
 from utils.service import Service
 from utils.shutil import shutil
 from utils.node_manager import NodeManager
+from common import config as CONFIG
 
 
 @for_all_methods(log_enter_exit)
@@ -31,11 +32,7 @@ class TripleOManager(Service):
     def run(self, sys_args, config):
         self.gen_node_info()
         self.prepare_for_ci_pipeline()
-        self.gen_env_info(sys_args, config)
-        self.gen_virtual_deployment_info(sys_args, config)
-
-    def gen_virtual_deployment_info(self, sys_args, config):
-        pass
+        self.gen_env_info(sys_args)
 
     def prepare_for_ci_pipeline(self):
         node_manager = NodeManager(config=self.node_info['servers'])
@@ -65,18 +62,21 @@ class TripleOManager(Service):
             # Disconnect ovs
             node.execute('ovs-vsctl del-controller br-int', as_root=True)
 
-    def gen_env_info(self, sys_args, config):
+    def gen_env_info(self, sys_args):
         shutil.mkdir_if_not_exsist(sys_args.out)
-        self.write_out_yaml_config(self.node_info, sys_args.out + '/node.yaml')
+        self.write_out_yaml_config(self.node_info,
+                                   sys_args.out + CONFIG.NODE_YAML_PATH)
 
         # copy ssh key
         shutil.copy('to', '/home/stack/.ssh/id_rsa',
-                    sys_args.out + '/undercloud_ssh/')
+                    sys_args.out + CONFIG.ID_RSA_PATH)
         shutil.copy('to', '/home/stack/.ssh/id_rsa.pub',
-                    sys_args.out + '/undercloud_ssh/')
+                    sys_args.out + CONFIG.ID_RSA_PATH)
         # copy rc files
-        shutil.copy('to', '/home/stack/stackrc', sys_args.out)
-        shutil.copy('to', '/home/stack/overcloudrc', sys_args.out)
+        shutil.copy('to', '/home/stack/stackrc',
+                    sys_args.out)
+        shutil.copy('to', '/home/stack/overcloudrc',
+                    sys_args.out + CONFIG.OVERCLOUDRC_PATH)
 
     def gen_node_info(self):
         for network in self.neutroncl.list_networks()['networks']:
