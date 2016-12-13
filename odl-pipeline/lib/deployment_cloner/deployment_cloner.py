@@ -4,6 +4,7 @@ from utils.utils_log import for_all_methods, log_enter_exit
 from utils.service import Service
 from utils.node_manager import NodeManager
 from utils.processutils import execute
+from common import config
 
 
 @for_all_methods(log_enter_exit)
@@ -36,7 +37,7 @@ class DeploymentCloner(Service):
                             % self.undercloud_root_dir, log_true=True)
         underlcloud.copy('from', dest_dir,
                          self.undercloud_root_dir + '/cloner-info/')
-        node_yaml_path = dest_dir + '/cloner-info/node.yaml'
+        node_yaml_path = dest_dir + '/cloner-info/' + config.NODE_YAML_PATH
         node_yaml = utils_yaml.read_dict_from_yaml(node_yaml_path)
         for name, node in node_yaml['servers'].iteritems():
             node['vNode-name'] = self.get_virtual_node_name_from_mac(

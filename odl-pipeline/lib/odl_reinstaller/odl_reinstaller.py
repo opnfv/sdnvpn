@@ -4,15 +4,20 @@ from utils.utils_log import LOG, for_all_methods, log_enter_exit
 from utils.service import Service
 from utils.node_manager import NodeManager
 from utils.ssh_util import SSH_CONFIG
+from common import config as CONFIG
+from utils import utils_yaml
 
 
 @for_all_methods(log_enter_exit)
 class ODLReInstaller(Service):
 
     def run(self, sys_args, config):
-        SSH_CONFIG['ID_RSA_PATH'] = sys_args.id_rsa
+        cloner_info_path = sys_args.cloner_info
+        SSH_CONFIG['ID_RSA_PATH'] = cloner_info_path + CONFIG.ID_RSA_PATH
+        node_config = utils_yaml.read_dict_from_yaml(
+            cloner_info_path + CONFIG.NODE_YAML_PATH)
         # copy ODL to all nodes where it need to be copied
-        self.nodes = NodeManager(config['servers']).get_nodes()
+        self.nodes = NodeManager(node_config['servers']).get_nodes()
         for node in self.nodes:
             LOG.info('Disconnecting OpenVSwitch from controller on node %s'
                      % node.name)
@@ -64,16 +69,11 @@ class ODLReInstaller(Service):
                              % ovs_controller, as_root=True)
 
     def create_cli_parser(self, parser):
-        parser.add_argument('-c', '--config',
-                            help=("Give the path to the node config file "
-                                  "(node.yaml)"),
+        parser.add_argument('--cloner-info',
+                            help=("Give the path to the clone info"),
                             required=True)
         parser.add_argument('--odl-artifact',
                             help=("Path to Opendaylight tarball"),
-                            required=True)
-        parser.add_argument('--id-rsa',
-                            help=("Path to the identity file which can "
-                                  "be used to connect to the overcloud"),
                             required=True)
         return parser
 
