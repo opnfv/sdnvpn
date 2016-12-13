@@ -19,7 +19,6 @@ class TestEnvironment(Service):
     def run(self, sys_args, config):
         self.env = str(sys_args.env_number).replace('"', '')
         self.BUILD_DIR = '../build/apex-%s' % self.env
-        
         self.cleanup()
         if sys_args.cleanup:
             return
