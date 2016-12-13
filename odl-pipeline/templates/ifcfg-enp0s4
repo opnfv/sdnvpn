@@ -1,0 +1,5 @@
+# br-admin
+auto enp0s4
+iface enp0s4 inet static
+  address 192.0.2.199
+  netmask 255.255.255.0

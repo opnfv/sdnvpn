@@ -1,5 +1,15 @@
+*.project
+*.pydevproject
+*.pyc
 *~
 .*.sw?
 /docs_build/
 /docs_output/
 /releng/
+*.tar.gz
+*.qcow2
+*.img
+odl-pipeline/build/*
+odl-pipeline/trash/*
+odl-pipeline/lib/tmp
+odl-pipeline/disks/*
