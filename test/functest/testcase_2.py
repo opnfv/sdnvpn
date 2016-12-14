@@ -243,7 +243,7 @@ def main():
                              expected="not reachable",
                              timeout=30)
 
-    return results.compile_summary(TESTCASE_CONFIG.success_criteria)
+    return results.compile_summary()
 
 
 if __name__ == '__main__':

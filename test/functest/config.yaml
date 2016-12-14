@@ -5,14 +5,12 @@ testcases:
   tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
-      success_criteria: 100 # all the subtests must pass
       testname_db: functest_tempest # declared name in the test api
       # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
   testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
-      success_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_1
       instance_1_name: sdnvpn-1-1
       instance_2_name: sdnvpn-1-2
@@ -37,7 +35,6 @@ testcases:
   testcase_2:
       enabled: true
       description: Tenant separation
-      success_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_2
       instance_1_name: sdnvpn-2-1
       instance_2_name: sdnvpn-2-2
@@ -72,13 +69,11 @@ testcases:
   testcase_3:
       enabled: false
       description: Data center gateway integration
-      success_criteria: 100 # all the subtests must pass
       testname_db: functest_testcase_3
 
   testcase_4:
       enabled: true
       description: VPN provides connectivity between subnets using router association
-      success_criteria: 75 # we let fail 25% of the subtests
       testname_db: functest_testcase_4
       instance_1_name: sdnvpn-4-1
       instance_2_name: sdnvpn-4-2
@@ -103,7 +98,6 @@ testcases:
   testcase_7:
       enabled: false
       description: Network associate VPNs with routers attached (ODL Bug 6962)
-      success_criteria: 100
       testname_db: functest_testcase_7
       image_name: sdnvpn-image
       instance_1_name: sdnvpn-7-1
