@@ -132,8 +132,9 @@ def main():
     results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
     results.add_to_summary(0, "=")
 
-    msg = "Assign a Floating IP to %s" % vm_2.name
+    msg = "Assign a Floating IP to %s and ping it" % vm_2.name
     results.record_action(msg)
+    results.add_to_summary(0, '-')
 
     fip = os_utils.create_floating_ip(neutron_client)
     fip_added = os_utils.add_floating_ip(nova_client, vm_2.id, fip['fip_addr'])
@@ -142,9 +143,6 @@ def main():
     else:
         results.add_failure(msg)
 
-    msg = "Ping %s via Floating IP" % vm_2.name
-    results.record_action(msg)
-    results.add_to_summary(0, "-")
     results.ping_ip_test(fip['fip_addr'])
 
     return results.compile_summary(TESTCASE_CONFIG.success_criteria)
