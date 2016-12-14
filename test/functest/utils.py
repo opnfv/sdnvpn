@@ -290,3 +290,14 @@ def assert_and_get_compute_nodes(nova_client, required_node_number=2):
 
     logger.debug("Compute nodes: %s" % compute_nodes)
     return compute_nodes
+
+
+def open_icmp_ssh(neutron_client, security_group_id):
+    os_utils.create_secgroup_rule(neutron_client,
+                                  security_group_id,
+                                  'ingress',
+                                  'icmp')
+    os_utils.create_secgroup_rule(neutron_client,
+                                  security_group_id,
+                                  'tcp',
+                                  80, 80)
