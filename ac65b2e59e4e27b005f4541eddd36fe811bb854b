@@ -1,0 +1,7 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+2: Jose Lausuch <jose.lausuch@ericsson.com>
+Submitted-by: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Submitted-at: Wed, 14 Dec 2016 06:36:32 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/25623
+Project: sdnvpn
+Branch: refs/heads/master
