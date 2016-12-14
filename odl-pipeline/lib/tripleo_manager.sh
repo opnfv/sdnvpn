@@ -6,4 +6,5 @@ fi
 set -e
 export PYTHONPATH=$PYTHONPATH:$DIR
 mkdir -p $DIR/tmp
-python $DIR/tripleo_manager/tripleo_manager.py $@
+cd $DIR
+python ./tripleo_manager/tripleo_manager.py $@
