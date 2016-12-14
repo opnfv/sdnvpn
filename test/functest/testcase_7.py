@@ -147,7 +147,7 @@ def main():
     results.add_to_summary(0, "-")
     results.ping_ip_test(fip['fip_addr'])
 
-    return results.compile_summary(TESTCASE_CONFIG.success_criteria)
+    return results.compile_summary()
 
 if __name__ == '__main__':
     main()
