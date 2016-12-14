@@ -66,7 +66,6 @@ class Results(object):
                         self.add_success(test_case_name)
                     else:
                         logger.debug("[FAIL] %s" % msg)
-                        self.test_result = "FAIL"
                         self.add_failure(test_case_name)
                         logger.debug("\n%s" % last_n_lines)
                     break
@@ -78,13 +77,11 @@ class Results(object):
                         self.add_success(test_case_name)
                     else:
                         logger.debug("[FAIL] %s" % msg)
-                        self.test_result = "FAIL"
                         self.add_failure(test_case_name)
                     break
                 time.sleep(1)
                 timeout -= 1
                 if timeout == 0:
-                    self.test_result = "FAIL"
                     logger.debug("[FAIL] Timeout reached for '%s'. "
                                  "No ping output captured in the console log"
                                  % vm_source.name)
@@ -112,6 +109,7 @@ class Results(object):
 
     def add_failure(self, test):
         self.add_to_summary(2, "FAIL", test)
+        self.test_result = "FAIL"
 
     def add_success(self, test):
         self.add_to_summary(2, "PASS", test)
@@ -150,12 +148,10 @@ class Results(object):
                 elif ("%s not reachable" % ip_target) in last_n_lines:
                     logger.debug("[FAIL] %s" % test_case_name)
                     self.add_failure(test_case_name)
-                    self.test_result = "FAIL"
                     break
                 time.sleep(1)
                 timeout -= 1
                 if timeout == 0:
-                    self.test_result = "FAIL"
                     logger.debug("[FAIL] Timeout reached for '%s'."
                                  " No ping output captured in the console log"
                                  % vm_source.name)
@@ -172,7 +168,7 @@ class Results(object):
         else:
             self.add_success(testcase_name)
 
-    def compile_summary(self, SUCCESS_CRITERIA):
+    def compile_summary(self):
         success_message = "All the subtests have passed."
         failure_message = "One or more subtests have failed."
 
@@ -183,10 +179,4 @@ class Results(object):
         else:
             logger.info(failure_message)
 
-        status = "PASS"
-        success = 100 - \
-            (100 * int(self.num_tests_failed) / int(self.num_tests))
-        if success < int(SUCCESS_CRITERIA):
-            status = "FAILED"
-
-        return {"status": status, "details": self.details}
+        return {"status": self.test_result, "details": self.details}
