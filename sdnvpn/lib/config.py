@@ -16,9 +16,9 @@ class CommonConfig(object):
     def __init__(self):
         self.repo_path = ft_constants.SDNVPN_REPO_DIR
         self.config_file = os.path.join(self.repo_path,
-                                        'test/functest/config.yaml')
+                                        'sdnvpn/test/functest/config.yaml')
         self.keyfile_path = os.path.join(self.repo_path,
-                                         'test/functest/id_rsa')
+                                         'sdnvpn/artifacts/id_rsa')
         self.test_db = ft_utils.get_functest_config("results.test_db_url")
         self.line_length = 90  # length for the summary table
         self.vm_boot_timeout = 180
