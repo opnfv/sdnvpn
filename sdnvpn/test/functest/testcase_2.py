@@ -15,9 +15,9 @@ import sys
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 
-import utils as test_utils
-from results import Results
-import config as sdnvpn_config
+import sdnvpn.lib.utils as test_utils
+from sdnvpn.lib.results import Results
+import sdnvpn.lib.config as sdnvpn_config
 
 parser = argparse.ArgumentParser()
 

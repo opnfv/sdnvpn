@@ -14,7 +14,7 @@ import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 import re
 
-import config as sdnvpn_config
+from sdnvpn.lib import config as sdnvpn_config
 
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
 

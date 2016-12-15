@@ -23,9 +23,9 @@ import argparse
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 
-import utils as test_utils
-from results import Results
-import config as sdnvpn_config
+from sdnvpn.lib import utils as test_utils
+from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib.results import Results
 
 parser = argparse.ArgumentParser()
 
@@ -148,6 +148,7 @@ def main():
     results.ping_ip_test(fip['fip_addr'])
 
     return results.compile_summary(TESTCASE_CONFIG.success_criteria)
+
 
 if __name__ == '__main__':
     main()
