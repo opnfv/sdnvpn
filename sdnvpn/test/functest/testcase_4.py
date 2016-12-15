@@ -14,9 +14,9 @@ from random import randint
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 
-import utils as test_utils
-import config as sdnvpn_config
-from results import Results
+from sdnvpn.lib import utils as test_utils
+from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib.results import Results
 
 parser = argparse.ArgumentParser()
 
@@ -26,10 +26,10 @@ parser.add_argument("-r", "--report",
 
 args = parser.parse_args()
 
-logger = ft_logger.Logger("sdnvpn-testcase-1").getLogger()
+logger = ft_logger.Logger("sdnvpn-testcase-4").getLogger()
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
-TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_1')
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_4')
 
 
 def main():
@@ -49,16 +49,16 @@ def main():
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public=True)
-    network_1_id = test_utils.create_net(neutron_client,
-                                         TESTCASE_CONFIG.net_1_name)
-    test_utils.create_subnet(neutron_client,
-                             TESTCASE_CONFIG.subnet_1_name,
-                             TESTCASE_CONFIG.subnet_1_cidr,
-                             network_1_id)
+    network_1_id, _, router_1_id = test_utils.create_network(
+        neutron_client,
+        TESTCASE_CONFIG.net_1_name,
+        TESTCASE_CONFIG.subnet_1_name,
+        TESTCASE_CONFIG.subnet_1_cidr,
+        TESTCASE_CONFIG.router_1_name)
 
-    network_2_id = test_utils.create_net(neutron_client,
-                                         TESTCASE_CONFIG.net_2_name)
-
+    network_2_id = test_utils.create_net(
+        neutron_client,
+        TESTCASE_CONFIG.net_2_name)
     test_utils.create_subnet(neutron_client,
                              TESTCASE_CONFIG.subnet_2_name,
                              TESTCASE_CONFIG.subnet_2_cidr,
@@ -136,22 +136,20 @@ def main():
     msg = ("Create VPN with eRT<>iRT")
     results.record_action(msg)
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
-    kwargs = {
-        "import_targets": TESTCASE_CONFIG.targets1,
-        "export_targets": TESTCASE_CONFIG.targets2,
-        "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
-        "name": vpn_name
-    }
+    kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
+              "export_targets": TESTCASE_CONFIG.targets2,
+              "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
+              "name": vpn_name}
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn)
 
-    msg = ("Associate network '%s' to the VPN." % TESTCASE_CONFIG.net_1_name)
+    msg = ("Associate router '%s' to the VPN." % TESTCASE_CONFIG.router_1_name)
     results.record_action(msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
-        neutron_client, bgpvpn_id, network_1_id)
+    os_utils.create_router_association(
+        neutron_client, bgpvpn_id, router_1_id)
 
     # Wait for VMs to get ips.
     instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
@@ -160,7 +158,7 @@ def main():
 
     if not instances_up:
         logger.error("One or more instances is down")
-        # TODO: Handle this appropriately
+        # TODO Handle appropriately
 
     results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
     results.get_ping_status(vm_1, vm_3, expected="PASS", timeout=30)
@@ -173,10 +171,10 @@ def main():
     os_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
 
-    test_utils.wait_for_bgp_net_assocs(neutron_client,
-                                       bgpvpn_id,
-                                       network_1_id,
-                                       network_2_id)
+    test_utils.wait_for_bgp_router_assoc(
+        neutron_client, bgpvpn_id, router_1_id)
+    test_utils.wait_for_bgp_net_assoc(
+        neutron_client, bgpvpn_id, network_2_id)
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
@@ -201,6 +199,9 @@ def main():
 
     results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
     results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
+
+    results.add_to_summary(0, "=")
+    logger.info("\n%s" % results.summary)
 
     return results.compile_summary(TESTCASE_CONFIG.success_criteria)
 
