@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_df2f2ba0",
+        "filename": "sdnvpn/test/functest/tempest.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2016-12-15T14:54:42Z",
+      "side": 1,
+      "message": "from sdnvpn.lib import config as sdnvpn_config",
+      "revId": "474400953bed1daf35d96229cb2f9ed049cac640",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
