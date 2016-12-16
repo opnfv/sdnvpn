@@ -15,7 +15,7 @@ import shutil
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
-import config as sdnvpn_config
+from sdnvpn.lib import config as sdnvpn_config
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
