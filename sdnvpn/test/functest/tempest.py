@@ -15,14 +15,8 @@ import shutil
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
-from sdnvpn.lib import config as sdnvpn_config
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
-
-COMMON_CONFIG = sdnvpn_config.CommonConfig()
-
-SUCCESS_CRITERIA = ft_utils.get_parameter_from_yaml(
-    "testcases.testcase_1.succes_criteria", COMMON_CONFIG.config_file)
 
 
 def main():
@@ -78,9 +72,11 @@ def main():
         results = {"duration": duration,
                    "num_tests": num_tests, "failed": failed,
                    "tests": testcases}
-        status = "PASS"
-        if 100 - (100 * int(failed) / int(num_tests)) < int(SUCCESS_CRITERIA):
+        if int(failed) == 0:
+            status = "PASS"
+        else:
             status = "FAILED"
+
         return {"status": status, "details": results}
     except:
         logger.error("Problem when parsing the results.")
