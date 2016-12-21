@@ -25,10 +25,10 @@ parser.add_argument("-r", "--report",
                     action="store_true")
 args = parser.parse_args()
 
-TEST_DB_URL = ft_utils.get_functest_config('results.test_db_url')
 logger = ft_logger.Logger("sdnvpn-run-tests").getLogger()
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
+TEST_DB_URL = COMMON_CONFIG.test_db
 
 
 def push_results(testname, start_time, end_time, criteria, details):
