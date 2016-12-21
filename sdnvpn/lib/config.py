@@ -19,19 +19,15 @@ class CommonConfig(object):
                                         'sdnvpn/test/functest/config.yaml')
         self.keyfile_path = os.path.join(self.repo_path,
                                          'sdnvpn/artifacts/id_rsa')
-        self.test_db = ft_utils.get_functest_config("results.test_db_url")
+        self.test_db = CONST.results_test_db_url
         self.line_length = 90  # length for the summary table
         self.vm_boot_timeout = 180
         self.default_flavor = ft_utils.get_parameter_from_yaml(
             "defaults.flavor", self.config_file)
-        self.image_filename = ft_utils.get_functest_config(
-            "general.openstack.image_file_name")
-        self.image_format = ft_utils.get_functest_config(
-            "general.openstack.image_disk_format")
-        self.image_path = '{0}/{1}'.format(
-            ft_utils.get_functest_config(
-                "general.directories.dir_functest_data"),
-            self.image_filename)
+        self.image_filename = CONST.openstack_image_file_name
+        self.image_format = CONST.openstack_image_disk_format
+        self.image_path = '{0}/{1}'.format(CONST.dir_functest_data,
+                                           self.image_filename)
 
 
 class TestcaseConfig(object):
