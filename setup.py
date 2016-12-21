@@ -6,13 +6,13 @@
 ##############################################################################
 
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 setup(
     name="sdnvpn",
     version="danube",
-    packages=['sdnvpn'],
+    packages=find_packages(),
     include_package_data=True,
     package_data={},
     url="https://www.opnfv.org")
