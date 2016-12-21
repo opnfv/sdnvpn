@@ -48,7 +48,7 @@ def main():
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
-                                            public=True)
+                                            public='public')
     network_1_id = test_utils.create_net(neutron_client,
                                          TESTCASE_CONFIG.net_1_name)
     test_utils.create_subnet(neutron_client,
