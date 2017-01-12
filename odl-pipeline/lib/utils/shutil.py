@@ -17,7 +17,7 @@ class shutil():
     classdocs
     '''
     @staticmethod
-    def mkdir_if_not_exsist(path):
+    def mkdir_if_not_exist(path):
         if not path:
             raise Exception('Path should not be empty.')
         putils.execute(["mkdir", "-p", path])
