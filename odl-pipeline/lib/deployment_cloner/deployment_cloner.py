@@ -45,7 +45,8 @@ class DeploymentCloner(Service):
         utils_yaml.write_dict_to_yaml(node_yaml, node_yaml_path)
         # TODO copy qcow and tar it
 
-    def get_virtual_node_name_from_mac(self, mac):
+    @staticmethod
+    def get_virtual_node_name_from_mac(mac):
         vNode_names, _ = execute('virsh list|awk \'{print $2}\'', shell=True)
         for node in vNode_names.split('\n'):
             if 'baremetal' in node:
