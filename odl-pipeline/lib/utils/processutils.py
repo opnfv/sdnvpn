@@ -226,7 +226,7 @@ def execute(cmd, **kwargs):
                     stderr=sanitized_stderr,
                     cmd=(' '.join(cmd)) if isinstance(cmd, list) else cmd)
             (stdout, stderr) = result
-            return (stdout, (stderr, _returncode))
+            return stdout, (stderr, _returncode)
         except ProcessExecutionError:
             raise
         finally:

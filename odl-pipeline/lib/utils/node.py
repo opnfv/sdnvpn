@@ -16,7 +16,8 @@ from utils_log import log_enter_exit, for_all_methods
 class Node(object):
 
     def __init__(self, name, address=None, port=None,
-                 user=None, password=None, jump=None, dict=None):
+                 user=None, password=None, jump=None, dict=None,
+                 ssh_key_file=None):
         self.name = name
         self.address = address
         self.jump = jump
@@ -25,7 +26,7 @@ class Node(object):
         self.password = password
         if dict:
             self.read_from_dic(dict)
-        self.sshc = SSHClient(self)
+        self.sshc = SSHClient(self, ssh_key_file)
         self.has_access = False
         self.config = dict
 
