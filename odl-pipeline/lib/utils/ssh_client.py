@@ -17,8 +17,12 @@ import glob
 
 class SSHClient(object):
 
-    def __init__(self, node):
+    def __init__(self, node, ssh_priv_key=None):
         self.node = node
+        if ssh_priv_key is not None:
+            self.ssh_file = ssh_priv_key
+        else:
+            self.ssh_file = SshUtil.get_id_rsa()
 
     def execute(self, cmd, **kwargs):
         if 'log_true' in kwargs:
@@ -28,7 +32,7 @@ class SSHClient(object):
         NodeManager.gen_ssh_config(self.node)
         if not isinstance(cmd, str):
             cmd = ' '.join(cmd)
-        cmd_addition = ['ssh', '-i', SshUtil.get_id_rsa(), '-F',
+        cmd_addition = ['ssh', '-i', self.ssh_file, '-F',
                         SshUtil.get_config_file_path(),
                         self.node.name]
         if self.node.password:
@@ -71,7 +75,7 @@ class SSHClient(object):
     def _copy(self, direction, local_path, remote_path, **kwargs):
         # TODO create dir is not existing
         NodeManager.gen_ssh_config(self.node)
-        cmd = ['scp', '-i', SshUtil.get_id_rsa(), '-F',
+        cmd = ['scp', '-i', self.ssh_file, '-F',
                SshUtil.get_config_file_path()]
         if direction == 'to':
             if os.path.isdir(local_path):

@@ -78,6 +78,35 @@ class ODLReInstaller(Service):
                             required=True)
         return parser
 
+    @staticmethod
+    def reinstall_odl(node, odl_tarball):
+        tar_tmp_path = '/tmp/odl-artifact/'
+        node.copy('to', odl_tarball, tar_tmp_path + odl_tarball)
+        node.execute('rm -rf /opt/opendaylight/*', as_root=True)
+        node.execute('mkdir -p /opt/opendaylight/*', as_root=True)
+        LOG.info('Extracting %s to /opt/opendaylight/ on node %s'
+                 % (odl_tarball, node.name))
+        node.execute('tar -zxf %s --strip-components=1 -C '
+                     '/opt/opendaylight/'
+                     % (tar_tmp_path + odl_tarball), as_root=True)
+        node.execute('chown -R odl:odl /opt/opendaylight', as_root=True)
+        node.execute('rm -rf ' + tar_tmp_path, as_root=True)
+        LOG.info('Installing and Starting Opendaylight on node %s' % node.name)
+        node.execute('puppet apply -e "include opendaylight"'
+                     '--modulepath=/etc/puppet/modules/'
+                     '--verbose --debug --trace --detailed-exitcodes',
+                     check_exit_code=[2], as_root=True)
+
+    @staticmethod
+    def reconnect_ovs(node):
+        LOG.info('Connecting OpenVSwitch to controller on node %s' % node.name)
+        ovs_controller = node.config.get('ovs-controller')
+        node.execute('ovs-vsctl set-controller br-int %s'
+                     % ovs_controller, as_root=True)
+        ovs_manager_str = ' '.join(node.config.get('ovs-managers'))
+        node.execute('ovs-vsctl set-manager %s' % ovs_manager_str,
+                     as_root=True)
+
 
 def main():
     main = ODLReInstaller()
