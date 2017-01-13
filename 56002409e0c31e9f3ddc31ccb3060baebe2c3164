@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5ac10518_d2d2a1d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:40:48Z",
+      "side": 1,
+      "message": "I am a friend of short scripts which have only one purpose. At the moment even for me which is the author of this script is difficult to understand what I can do wit it after this change. we could gen a common lib where and then have 2 scripts on top which uses same functionality.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_724acdad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:40:48Z",
+      "side": 1,
+      "message": "Can you elaborate a bit why you want to do this? Seperating functionality is good or?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 45
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_d25b8185",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
