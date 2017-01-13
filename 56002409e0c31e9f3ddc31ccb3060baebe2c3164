@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_d2138164",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2017-01-13T19:52:11Z",
+      "side": 1,
+      "message": "you could add a \"restconf_port\" attribute here with a value of 8081. it\u0027s 8081 here, but we usually see it as 8181 in \nODL CSIT",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_d25b8185",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -71,6 +94,76 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f216bd54",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2017-01-13T19:52:11Z",
+      "side": 1,
+      "message": "maybe we could also add an --artifact-url in case we want\nto point to some distro on nexus, for example. not to hold\nup this patch, but maybe a good enhancement later on.",
+      "parentUuid": "5ac10518_d25b8185",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_920df940",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2017-01-13T19:52:11Z",
+      "side": 1,
+      "message": "this may take some time. if we don\u0027t really care so much\nabout being nice, \"kill -9\" will work right away.",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 91,
+        "endChar": 73
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_5207911c",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2017-01-13T19:52:11Z",
+      "side": 1,
+      "message": "this looks redundant as it\u0027s one of the first steps in \nthe reinstall_odl function.",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 70
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_5278f1f1",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -87,6 +180,29 @@
         "startChar": 5,
         "endLine": 100,
         "endChar": 49
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b208352e",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 2919
+      },
+      "writtenOn": "2017-01-13T19:52:11Z",
+      "side": 1,
+      "message": "is there a sleep missing here, or am I missing something :)",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 27
       },
       "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
