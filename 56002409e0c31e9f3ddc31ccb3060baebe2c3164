@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_1576d3a4",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "we use 8081 in OOO/Apex. It is kind of inherent to our installer.  Functest will eventually trigger CSIT tests.  Functest also holds the value for apex of which port to use which I just updated with this patch:\nhttps://gerrit.opnfv.org/gerrit/#/c/26983/",
+      "parentUuid": "5ac10518_d2138164",
+      "range": {
+        "startLine": 21,
+        "startChar": 8,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_d25b8185",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -118,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_35798f93",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "Yeah this expects the artifact to already be on the system.  Right now with how we have done the JJB, the download artifact script will have already downloaded the artifact.  If there is another use case for this outside of jenkins, then we can surely add another --artifact-url param to download it automatically.  Is that desired?",
+      "parentUuid": "5ac10518_f216bd54",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_920df940",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -129,6 +177,30 @@
       "writtenOn": "2017-01-13T19:52:11Z",
       "side": 1,
       "message": "this may take some time. if we don\u0027t really care so much\nabout being nice, \"kill -9\" will work right away.",
+      "range": {
+        "startLine": 91,
+        "startChar": 16,
+        "endLine": 91,
+        "endChar": 73
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d56febc3",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "Right, but we do care that systemctl has the right state.  The reason is because we bring ODL back up by applying the puppet-opendaylight manifest, which will issue a systemctl start/restart command to bring it up.",
+      "parentUuid": "5ac10518_920df940",
       "range": {
         "startLine": 91,
         "startChar": 16,
@@ -164,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f57227ac",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "yeah it is, will remove the other one",
+      "parentUuid": "5ac10518_5207911c",
+      "range": {
+        "startLine": 92,
+        "startChar": 16,
+        "endLine": 92,
+        "endChar": 70
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_5278f1f1",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -175,6 +271,30 @@
       "writtenOn": "2017-01-13T13:37:13Z",
       "side": 1,
       "message": "the idea was to have a snapshot without odl installed. Can we have this as an option? So that I say --remove-odl or something? As well in the moment when we create the snapshot the tarball of odl is not yet there. It will come when there is a new commit in ODL.",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_159d73bc",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "I think this is where we have a difference of idea.  I don\u0027t really see the point of packaging an Apex snapshot with no ODL in it.  The way my patches are this is what happens:\n1.  ODL is deployed on virtual deployment in Apex during a daily job\n2.  Functest tempest test is ran to validate the deployment\n3.  The VMs are packaged into the snapshot (and this script is ran with --introspect to generate config) and uploaded to artifacts (with ODL already tested as working in the snapshot) along with a snapshot.properties file including the sha512 sum of the snapshot artifact\n4.  An ODL gerrit triggers a 3rd party CI job which downloads the latest snapshot.properties file from artifacts, and the checksum is used to detect if the latest promoted snapshot is local or needs to be downloaded\n5.  Snapshot tarball is downloaded and unpacked.  The 3rd party ci job calls a script to setup the deployment from the Apex snapshot, which will already have the validated deployment (including ODL running)\n6.  The new setup is validated to make sure apache and ODL are up\n7.  Another job triggers this script then runs with --update-opendaylight, which removes the old opendaylight and inserts the new one created by the ODL gerrit patch.\n8.  Another follow up job triggers functest.\n\nIf this doesn\u0027t fit with what you want to achieve, then let\u0027s have a meeting and hash out what is missing so we can agree on a common method.",
+      "parentUuid": "5ac10518_5278f1f1",
       "range": {
         "startLine": 98,
         "startChar": 5,
@@ -210,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_35a0aff3",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "yup...will fix",
+      "parentUuid": "5ac10518_b208352e",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 27
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_926e592e",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -221,6 +365,30 @@
       "writtenOn": "2017-01-13T13:37:13Z",
       "side": 1,
       "message": "why don\u0027t you use the existing node framework? node.execute",
+      "range": {
+        "startLine": 145,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 30
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_d5a60b10",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_926e592e",
       "range": {
         "startLine": 145,
         "startChar": 3,
@@ -256,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f5a9c7df",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_b2691527",
+      "range": {
+        "startLine": 164,
+        "startChar": 23,
+        "endLine": 164,
+        "endChar": 41
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_1262693e",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -267,6 +459,30 @@
       "writtenOn": "2017-01-13T13:37:13Z",
       "side": 1,
       "message": "I think these function should be sepperated. As a user I want ot first take the snapshot and then in one of the started snapshots I want to install some odl version.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 34
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_55ba1b24",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-13T21:07:31Z",
+      "side": 1,
+      "message": "I think my response to the other comment will make it more clear that the purpose of this entire manager is to just update the ODL in a deployment and not clean it before creating it a snapshot.",
+      "parentUuid": "5ac10518_1262693e",
       "range": {
         "startLine": 206,
         "startChar": 0,
