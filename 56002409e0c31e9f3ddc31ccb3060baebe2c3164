@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_d25b8185",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "the artifact is not yet there or? It will come when the user wants to deploy the snapshot with the new artifact.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_5278f1f1",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "the idea was to have a snapshot without odl installed. Can we have this as an option? So that I say --remove-odl or something? As well in the moment when we create the snapshot the tarball of odl is not yet there. It will come when there is a new commit in ODL.",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_926e592e",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "why don\u0027t you use the existing node framework? node.execute",
+      "range": {
+        "startLine": 145,
+        "startChar": 3,
+        "endLine": 159,
+        "endChar": 30
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b2691527",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "generate a dict with:\nnode_name:\n  address: \u003cip\u003e\n  user: \u003c\u003e\nand give it to node_manager. after the you can just say node.exectue(\u0027command\u0027)",
+      "range": {
+        "startLine": 164,
+        "startChar": 23,
+        "endLine": 164,
+        "endChar": 41
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_1262693e",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "I think these function should be sepperated. As a user I want ot first take the snapshot and then in one of the started snapshots I want to install some odl version.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 34
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_327e85e5",
+        "filename": "odl-pipeline/lib/utils/node_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-13T13:37:13Z",
+      "side": 1,
+      "message": "it is not always given that the node has a name in the config. since the config is the lower prio object. I would leave it as it is.",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
