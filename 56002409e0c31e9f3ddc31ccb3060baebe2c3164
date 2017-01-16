@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_8bb06044",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-16T12:27:52Z",
+      "side": 1,
+      "message": "@Fatih: To download the artifact by jenkins script was based on your idea. Why did we do it? Can we not just give this script the right to do it and just forward the url?",
+      "parentUuid": "5ac10518_35798f93",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_920df940",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -295,6 +319,30 @@
       "side": 1,
       "message": "I think this is where we have a difference of idea.  I don\u0027t really see the point of packaging an Apex snapshot with no ODL in it.  The way my patches are this is what happens:\n1.  ODL is deployed on virtual deployment in Apex during a daily job\n2.  Functest tempest test is ran to validate the deployment\n3.  The VMs are packaged into the snapshot (and this script is ran with --introspect to generate config) and uploaded to artifacts (with ODL already tested as working in the snapshot) along with a snapshot.properties file including the sha512 sum of the snapshot artifact\n4.  An ODL gerrit triggers a 3rd party CI job which downloads the latest snapshot.properties file from artifacts, and the checksum is used to detect if the latest promoted snapshot is local or needs to be downloaded\n5.  Snapshot tarball is downloaded and unpacked.  The 3rd party ci job calls a script to setup the deployment from the Apex snapshot, which will already have the validated deployment (including ODL running)\n6.  The new setup is validated to make sure apache and ODL are up\n7.  Another job triggers this script then runs with --update-opendaylight, which removes the old opendaylight and inserts the new one created by the ODL gerrit patch.\n8.  Another follow up job triggers functest.\n\nIf this doesn\u0027t fit with what you want to achieve, then let\u0027s have a meeting and hash out what is missing so we can agree on a common method.",
       "parentUuid": "5ac10518_5278f1f1",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6be3b433",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-16T12:27:52Z",
+      "side": 1,
+      "message": "I think you proposal is good. The only difference is if ODL is in the image or not. The reason why we wanted to exclude it was to not waste CPU power here. However that is not really valid anymore cause we pin the cpus anyway. So it is ok for me to include it. However can we still have this in another file as I had the odl_reinstaller. I think there are too many function in this file here already.",
+      "parentUuid": "5ac10518_159d73bc",
       "range": {
         "startLine": 98,
         "startChar": 5,
@@ -530,6 +578,30 @@
       "side": 1,
       "message": "So modified the structure of the config a little.  What was being stored as a \u0027servers\u0027 dictionary, which held other dictionaries of {\u0027node name\u0027: {\u0027address\u0027: \u0027192.12.12.1\u0027, ... }.  Really \u0027servers\u0027 should hold a list of dictionaries defining a server.  So I changed it to be \u0027servers\u0027 : [{\u0027name\u0027: \u0027node name\u0027, \u0027address\u0027: \u0027192.12.12.1\u0027,...}, ...]\n\nThat is the reason for changing the parser of adding a node.",
       "parentUuid": "5ac10518_327e85e5",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ebcec4b3",
+        "filename": "odl-pipeline/lib/utils/node_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-16T12:27:52Z",
+      "side": 1,
+      "message": "I do use this lib as well on many other places. Except from naming I don\u0027t see another reason why we have it as a list here or? In addition I think for the overview it is better to have the dict here:\nservers:\n   server1:\n     server-args:...\n   server2:\n      ...",
+      "parentUuid": "5ac10518_1584935c",
       "range": {
         "startLine": 22,
         "startChar": 23,
