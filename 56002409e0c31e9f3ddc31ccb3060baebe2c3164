@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_4b77d83a",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-16T14:14:56Z",
+      "side": 1,
+      "message": "Perhaps one reason is so that if the download job fails, we know immediately what failed by the name of the job, rather than having to look into this job\u0027s log.",
+      "parentUuid": "5ac10518_8bb06044",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_920df940",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
@@ -343,6 +367,30 @@
       "side": 1,
       "message": "I think you proposal is good. The only difference is if ODL is in the image or not. The reason why we wanted to exclude it was to not waste CPU power here. However that is not really valid anymore cause we pin the cpus anyway. So it is ok for me to include it. However can we still have this in another file as I had the odl_reinstaller. I think there are too many function in this file here already.",
       "parentUuid": "5ac10518_159d73bc",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 100,
+        "endChar": 49
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6b72d44a",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-16T14:14:56Z",
+      "side": 1,
+      "message": "OK will move it out to a separate lib/",
+      "parentUuid": "5ac10518_6be3b433",
       "range": {
         "startLine": 98,
         "startChar": 5,
@@ -602,6 +650,30 @@
       "side": 1,
       "message": "I do use this lib as well on many other places. Except from naming I don\u0027t see another reason why we have it as a list here or? In addition I think for the overview it is better to have the dict here:\nservers:\n   server1:\n     server-args:...\n   server2:\n      ...",
       "parentUuid": "5ac10518_1584935c",
+      "range": {
+        "startLine": 22,
+        "startChar": 23,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ab78bc2b",
+        "filename": "odl-pipeline/lib/utils/node_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-16T14:14:56Z",
+      "side": 1,
+      "message": "OK if you are using that lib for other things then it doesn\u0027t make sense to modify it.  Will revert it back to how you had it.",
+      "parentUuid": "5ac10518_ebcec4b3",
       "range": {
         "startLine": 22,
         "startChar": 23,
