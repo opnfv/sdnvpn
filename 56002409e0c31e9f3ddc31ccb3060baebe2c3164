@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_3c52d413",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 254
+      },
+      "writtenOn": "2017-01-17T18:12:34Z",
+      "side": 1,
+      "message": "What Tim says is one of the reasons; having easier way to identify the problem.\n\nOther reasons are\n- if we fail to download the artifact, it is not really ODL tests failing. We can then perhaps skip voting and instead post this as reason so infra people can verify what is wrong and fix accordingly.\n- if the artifact location might differ between jobs running for the different releases or ODL changes where they make the artifacts available. Then it is easier to have different jobs/scripts based on the release, passing parameters to the download script, fetching artifact which this script then consumes, reducing the infra/jenkins impacts on this script.",
+      "parentUuid": "5ac10518_4b77d83a",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "56002409e0c31e9f3ddc31ccb3060baebe2c3164",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_920df940",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 4
