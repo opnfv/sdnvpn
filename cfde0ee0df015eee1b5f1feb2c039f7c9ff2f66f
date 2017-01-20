@@ -259,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_26c95a78",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T16:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_0bc1c7e3",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 78
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_abb75385",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 8
@@ -270,6 +294,30 @@
       "writtenOn": "2017-01-20T11:37:22Z",
       "side": 1,
       "message": "I think you should use the execute from the utils for that as well.\n\n(rv, (err, rc)) \u003d processutils.execute(\u003ccmd\u003e)\n\nJust to be aligned with how it is normally done.",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 182,
+        "endChar": 67
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_46c4a65e",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T16:54:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_abb75385",
       "range": {
         "startLine": 180,
         "startChar": 16,
