@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_8b50575f",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-01-20T10:43:38Z",
+      "side": 1,
+      "message": "this is easier to read that inlining the string formatting the function call",
+      "parentUuid": "5ac10518_2b2123fb",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_4b1cafc1",
         "filename": "sdnvpn/test/functest/testcase_8.py",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "writtenOn": "2017-01-20T10:26:40Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6b55eb4e",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-01-20T10:43:38Z",
+      "side": 1,
+      "message": "here it is used",
+      "parentUuid": "5ac10518_4b1cafc1",
       "range": {
         "startLine": 134,
         "startChar": 0,
