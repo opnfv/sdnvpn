@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_6b272b13",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T10:26:40Z",
+      "side": 1,
+      "message": "vm_2.get_ip()? or get_ip_of_vm(vm)\n\nThis is the much easier to change when neutron changes something.\n\nCan you file another change on top of this changing it for all the othere?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 50
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8b2297ff",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T10:26:40Z",
+      "side": 1,
+      "message": "msg is never used why 2 lines here.",
+      "range": {
+        "startLine": 96,
+        "startChar": 3,
+        "endLine": 97,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2b2123fb",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T10:26:40Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4b1cafc1",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T10:26:40Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_eb7a3bf0",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T10:26:40Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 30
+      },
+      "revId": "2f305474b5308c0acde7d75f34840cc92155cf3b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
