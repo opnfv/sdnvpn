@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_66de826f",
+        "filename": "odl-pipeline/lib/deployment_cloner/deployment_cloner.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "OK.  You had mentioned that you thought TripleOManager class had too many methods, so I didn\u0027t add another one.",
+      "parentUuid": "5ac10518_cbbadf6d",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_ab8433d4",
         "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2017-01-20T11:37:22Z",
       "side": 1,
       "message": "this is the same code as below. If the script shall still run on its own then we should merge this.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_26e87a0f",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "I don\u0027t really think this class is needed.  The class has no properties (and no init).  These 2 methods could easily live on their own (they are static anyway).  I just moved them out of the TripleOManager class due to your previous comments.",
+      "parentUuid": "5ac10518_ab8433d4",
       "range": {
         "startLine": 14,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_46e34633",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "The odl reinstaller class is really just 2 static methods.  There is nothing there that justifies even having a class.\n\nAs I see it the purpose of this class is to 1. introspect for config to bundle with snapshot and 2. update opendaylight using that config\n\nI do not want to exchange ODL when creating a snapshot.  I want to exchange ODL when deploying a snapshot for CSIT.",
+      "parentUuid": "5ac10518_2b4fe3be",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_8bfe1737",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 8
@@ -82,6 +154,30 @@
       "writtenOn": "2017-01-20T11:37:22Z",
       "side": 1,
       "message": "the normal way of doing it in openstack is:\n\"http://%(address)s:8081/%(url)s\" \n% {\u0027address\u0027: odl_node.config.get(\u0027address\u0027),\n   \u0027url\u0027: self.netvirt_url}",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_a6cb0aa4",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "https://docs.python.org/release/3.1.5/library/stdtypes.html#old-string-formatting-operations",
+      "parentUuid": "5ac10518_8bfe1737",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -232,6 +328,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_c6ce56b4",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_aba0b343",
+      "range": {
+        "startLine": 192,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 61
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_cba3bf4d",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 8
@@ -243,6 +363,30 @@
       "writtenOn": "2017-01-20T11:37:22Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 194,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 63
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_66c5228d",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-20T15:03:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ac10518_cba3bf4d",
       "range": {
         "startLine": 194,
         "startChar": 11,
