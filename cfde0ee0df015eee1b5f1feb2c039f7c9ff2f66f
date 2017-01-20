@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_cbbadf6d",
+        "filename": "odl-pipeline/lib/deployment_cloner/deployment_cloner.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "I guess this whole file is not needed anymore.\n\nPut get_virtual_node_name_from_mac to tripleomanager and then remove this one here.\n\nand remove as well the .sh",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 10
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_ab8433d4",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "this is the same code as below. If the script shall still run on its own then we should merge this.",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2b4fe3be",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "Why this script do need to install a new odl. I thought we want to use the odl_resinatller script for that and just call the other script after this script. Otherwise we have few dependencies here which are not really needed or?\n\nThe whole idea was to not have all done in this one script here.\n\nSo this script is only to gather the info. ODL_reinstall is to remove old ODL and install new one.\n\nSo the only difference to the original script would be that we don\u0027t remove the odl ODL when we gather the information. A user can then install a new ODL but executing odl_reinstall.sh or just continue with the snapshot and not install the new ODL. So the ODL with what apex comes originally will be used.\n\nI have not yet understood why you want to exchange the odl before doing the snapshot. I am ok with it but I think it is an unnecessary step. But that is ok to do. Just do it with the odl_reinstaller script which is meant for that.\n\nMixing the things together is not really helpful.\n\nI am open for discussion. :-D If you want I could upload a patchset how I think we make this the nicest why then you just can see what I meant.",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8bfe1737",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "the normal way of doing it in openstack is:\n\"http://%(address)s:8081/%(url)s\" \n% {\u0027address\u0027: odl_node.config.get(\u0027address\u0027),\n   \u0027url\u0027: self.netvirt_url}",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 41
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_2b94c3e0",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 113,
+        "startChar": 33,
+        "endLine": 114,
+        "endChar": 37
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8b85b7ae",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 118,
+        "startChar": 28,
+        "endLine": 118,
+        "endChar": 73
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_0bc1c7e3",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "(rv, (err, rc)) \u003d processutils.execute(\u003ccmd\u003e)\n\nsee further down.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 78
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_abb75385",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "I think you should use the execute from the utils for that as well.\n\n(rv, (err, rc)) \u003d processutils.execute(\u003ccmd\u003e)\n\nJust to be aligned with how it is normally done.",
+      "range": {
+        "startLine": 180,
+        "startChar": 16,
+        "endLine": 182,
+        "endChar": 67
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_eb61db39",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "I think you miss understood me here. The deployment cloner should be deleted or? Cause this script does run now at the host. So you can copy the .get_virtual_node_name_from_mac() to this class and then delete the whole deploymentCloner. deploymentCloner script was only used since at the beginning tripleO manager was running in the undercloud vm. No need anymore since you changed it now to:\nopnfv-util undercloud stack \"source /home/stack/stackrc; nova list\"",
+      "range": {
+        "startLine": 186,
+        "startChar": 20,
+        "endLine": 186,
+        "endChar": 79
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_aba0b343",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "why don\u0027t you do just node.execute(\u0027ovs-vsctl get-controller br-int\u0027, as_root\u003dTrue) here. When there is a exception it will be thrown by processutils. The output is quite nice. then introspect_node would not be needed.",
+      "range": {
+        "startLine": 192,
+        "startChar": 11,
+        "endLine": 193,
+        "endChar": 61
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_cba3bf4d",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-20T11:37:22Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 194,
+        "startChar": 11,
+        "endLine": 195,
+        "endChar": 63
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
