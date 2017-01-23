@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_0c9a3d14",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-23T08:57:27Z",
+      "side": 1,
+      "message": "Something what we are now missing it the overcloudrc file and the ssh keys which were copied before into the out dir. Check old deplyoment_cloner.\n\nIn our setup in the odl_pipeline the undercloud is not started at all. so we don\u0027t have access to the nodes nad I would not like to extract the rsa_id by hand from the undercloud later on.\n\nThe overcloudrc file is needed for functest.\n\nAt the moment the out file is the cloner dict which will be given to test_environment.sh (which setup the apex test environment from the snapshot for us):\n./cloner-info\n./cloner-info/node.yaml\n./cloner-info/overcloudrc\n./cloner-info/undercloud_ssh\n./cloner-info/undercloud_ssh/id_rsa\n./cloner-info/undercloud_ssh/id_rsa.pub\n\nThese struct is fix cause we read it with the test_environemt.sh and the odl_reinstaller.sh.\n\nIf you want we could rename overcloudrc to openstack.cred how it is listed in the constants.py. I wanted to do that at the beginning but forgot it.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 43
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_6c03c142",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-23T08:57:27Z",
+      "side": 1,
+      "message": "I still don\u0027t see why we should these both total seperated things in one function. A user using this script does not have any clue what it is doing and which arguments have to be given.\n\nAs said the amount of lines will grow when we have something like a manage_all function. All the function will go in here. I don;t like that since it will increase issues.\n\nAs said in my earlier comments we don\u0027t loose anything in doing.\n\ntripleO_manager -\u003e introspect (It gets the information from tripleO and might even in future do some functions on it)\n\nodl_reinstaller -\u003e update ODL (It just only updates odl)",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_cca3d54d",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-23T08:57:27Z",
+      "side": 1,
+      "message": "so adding overcloudrc file and rsa_id, rsa_id.pub here.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 73
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
