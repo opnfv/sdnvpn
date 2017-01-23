@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_607d051c",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-23T17:06:16Z",
+      "side": 1,
+      "message": "I know how inheritance works.  My point is this class itself does not have a contstructor, so it really holds no specific attributes to the ODLReinstaller class, and thus no reason to have this as a class and the methods can be made static.",
+      "parentUuid": "5ac10518_ac8449d4",
+      "range": {
+        "startLine": 14,
+        "startChar": 1,
+        "endLine": 70,
+        "endChar": 60
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_2b4fe3be",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 8
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "That would mean that we call this script for 2 fully different purposes and on different times in the snapshot/deploy process. Why do you want to have the functions then all together. Do they benefit from eachother? In future we might get more functions and then this script will grow and grow.\n\ntripleO_manager -\u003e introspect\nodl_reinstall -\u003e update odl\n\n\nRead my commend on odl_installer. It has to be a class to inherit all the stuff from services. Through that I don\u0027t need to do all the python-CLI stuff always from the beginning.",
       "parentUuid": "5ac10518_46e34633",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_8078312c",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-23T17:06:16Z",
+      "side": 1,
+      "message": "I think the purpose of this class resembles the name, TripleO Manager.  So the management class can have multiple facets, one may be introspecting a current setup, while another may be updating another.  If it starts to become too much to handle inside of a single TripleOManager object, then we can split it up later into multiple classes.  But imho for now it doesn\u0027t make sense to create another class with 2 static methods to be called by another bash script.",
+      "parentUuid": "5ac10518_ec61f139",
       "range": {
         "startLine": 48,
         "startChar": 0,
