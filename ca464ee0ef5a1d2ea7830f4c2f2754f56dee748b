@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_2077fd3b",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-23T17:06:16Z",
+      "side": 1,
+      "message": "So in this other patch:\nhttps://gerrit.opnfv.org/gerrit/#/c/25507/7/jjb/apex/apex-snapshot-create.sh\n\nWe copy out the overcloudrc and and ssh key.  Are you saying you would prefer this class doing it instead of the bash in the releng script?  My hope was that we would move pretty much that entire script into this python format in the future, but for now we could just go with what is there due to time constraints.",
+      "parentUuid": "5ac10518_0c9a3d14",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 43
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_6c03c142",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_e0901545",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-23T17:06:16Z",
+      "side": 1,
+      "message": "I think in general the script could be updated for usage improvements.  One thing I noticed is we are missing Apache License, along with docstrings/comments detailing what these scripts do.  It also doesn\u0027t really make sense that this code is in the sdnvpn repo, and should either be in releng or Apex imo.\n\nAt this point I don\u0027t really have anything more to say to why I disagree with the current design.  The patch works, and I think will fit with the other releng patch to make progress with CSIT.  If you are strictly against this approach, then you can take over the patches and getting CSIT to work.",
+      "parentUuid": "5ac10518_6c03c142",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_cca3d54d",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 10
@@ -59,6 +107,30 @@
       "writtenOn": "2017-01-23T08:57:27Z",
       "side": 1,
       "message": "so adding overcloudrc file and rsa_id, rsa_id.pub here.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 73
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_4072494a",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-23T17:06:16Z",
+      "side": 1,
+      "message": "What do we need id_rsa.pub for?",
+      "parentUuid": "5ac10518_cca3d54d",
       "range": {
         "startLine": 128,
         "startChar": 0,
