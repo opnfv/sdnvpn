@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f609bfdd",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-24T12:42:22Z",
+      "side": 1,
+      "message": "Moving would be cool. No need to rush.",
+      "parentUuid": "5ac10518_2077fd3b",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 43
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_6c03c142",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 10
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_f630df9f",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-24T12:42:22Z",
+      "side": 1,
+      "message": "You are totally right of not putting it into sdnvpn. As far as I understood it Fatih is fighting for a new repo seperated from releng where all this ci function script would go in. So totally we will put it somewhere else. For now it was only done cause we did not had another place to put it.\n\nSee my last comment on PS8. If you still disagree I am ok of changing that design.",
+      "parentUuid": "5ac10518_e0901545",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 76
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_cca3d54d",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 10
@@ -131,6 +179,30 @@
       "side": 1,
       "message": "What do we need id_rsa.pub for?",
       "parentUuid": "5ac10518_cca3d54d",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 73
+      },
+      "revId": "ca464ee0ef5a1d2ea7830f4c2f2754f56dee748b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_b613370c",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 10
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-24T12:42:22Z",
+      "side": 1,
+      "message": "yes you are right. No need for that.",
+      "parentUuid": "5ac10518_4072494a",
       "range": {
         "startLine": 128,
         "startChar": 0,
