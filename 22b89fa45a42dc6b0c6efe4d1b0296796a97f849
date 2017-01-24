@@ -22,6 +22,30 @@
       "revId": "22b89fa45a42dc6b0c6efe4d1b0296796a97f849",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_e319ff88",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-01-24T10:05:58Z",
+      "side": 1,
+      "message": "this doesn\u0027t exist as a method. we\u0027ll write a wrapper in a different patch. let\u0027s merge this for now.",
+      "parentUuid": "5ac10518_ecbd7169",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 50
+      },
+      "revId": "22b89fa45a42dc6b0c6efe4d1b0296796a97f849",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
