@@ -99,7 +99,7 @@ class TestEnvironment(Service):
         if 'CLONER_INFO' in os.environ:
             cloner_info_path = os.environ['CLONER_INFO']
         else:
-            cloner_info_path = '/home/jenkins/cloner-info/'
+            cloner_info_path = '/home/jenkins/'
         jenkins_slave.copy('to', sys_args.cloner_info,
                            cloner_info_path)
 
