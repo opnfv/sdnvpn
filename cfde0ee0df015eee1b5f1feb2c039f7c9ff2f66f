@@ -239,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "5ac10518_96107b02",
+        "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-01-24T12:42:22Z",
+      "side": 1,
+      "message": "May be I should not have called in Manager. The odl_reinstaller.sh is already there right now. And for a user it is directly visible that this script is the one used to reinstall odl. In addition the job:\nhttps://build.opnfv.org/ci/view/Cross%20Community%20CI/job/odl-netvirt-verify-virtual-master/\n\nPoints already to it. I don;t see a reason of changing it cause it is a good seperation already. The odl_reinstaller does not need to know anything what the tribleOmanager knows so I don\u0027t see a reason in putting both together. In addition the odl_reinstaller.sh could as well used by another installer as fuel easily. All we need is the cloner_config which is quite generic for all installers. And change to the fuel puppet files to install odl.\n\nOn the other side all you need when you do the snapshot in your bash script is to execute ./odl_reinstall.sh with the arguments instead of using tripleOManager.sh with the arguments of reinstalling ODL.",
+      "parentUuid": "5ac10518_8078312c",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 43
+      },
+      "revId": "cfde0ee0df015eee1b5f1feb2c039f7c9ff2f66f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ac10518_8bfe1737",
         "filename": "odl-pipeline/lib/tripleo_manager/tripleo_manager.py",
         "patchSetId": 8
