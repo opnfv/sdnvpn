@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ac10518_659f4f51",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-26T19:50:38Z",
+      "side": 1,
+      "message": "I dont think direct method calls from the class will work with your log_enter_exit decorator.  I think either the decorator needs to be fixed, or instantiate this class before calling the static method.",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 45,
+        "endChar": 22
+      },
+      "revId": "87cdeedf3f1ddfb398a68ef9147598b87ef9a2c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_05ae8b85",
+        "filename": "odl-pipeline/lib/tripleo_introspector.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-26T19:50:38Z",
+      "side": 1,
+      "message": "do you need to have stackrc?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 2
+      },
+      "revId": "87cdeedf3f1ddfb398a68ef9147598b87ef9a2c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ac10518_25a9477b",
+        "filename": "odl-pipeline/lib/tripleo_introspector/tripleo_introspector.py",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-01-26T19:50:38Z",
+      "side": 1,
+      "message": "maybe we should change this to --out-file or something and a user can specify the full file path for output, rather than hardcoding a constant file name.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 42
+      },
+      "revId": "87cdeedf3f1ddfb398a68ef9147598b87ef9a2c7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
