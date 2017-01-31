@@ -13,6 +13,7 @@ import argparse
 import traceback
 from utils_log import LOG, LOG_PATH
 from abc import abstractmethod
+from ssh_util import SSH_CONFIG
 
 
 class Service(object):
@@ -31,6 +32,8 @@ class Service(object):
         parser = self._create_cli_parser()
         sys_args = parser.parse_args()
         config = self.read_config(sys_args)
+        if sys_args.ssh_key_file:
+            SSH_CONFIG['ID_RSA_PATH'] = sys_args.ssh_key_file
         self.run(sys_args, config)
 
     @abstractmethod
@@ -49,6 +52,9 @@ class Service(object):
         #                     required=False)
         # parser.add_argument('--boolean', help="",
         #                     required=False, action='store_true')
+        parser.add_argument('--ssh-key-file',
+                            help="SSH private key file to use",
+                            required=False)
         return self.create_cli_parser(parser)
 
     def read_config(self, sys_args):

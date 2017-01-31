@@ -11,6 +11,7 @@ import logging
 import datetime
 import os
 import sys
+import types
 
 LOG = logging.getLogger(__name__)
 LOG_LEVEL = logging.DEBUG
@@ -35,7 +36,10 @@ def log_enter_exit(func):
                    'args': args,
                    'kwargs': kwargs})
         start = datetime.datetime.now()
-        ret = func(self, *args, **kwargs)
+        if isinstance(func, types.FunctionType):
+            ret = func(*args, **kwargs)
+        else:
+            ret = func(self, *args, **kwargs)
         end = datetime.datetime.now()
         LOG.debug(("Exiting %(cls)s.%(method)s. "
                    "Spent %(duration)s sec. "

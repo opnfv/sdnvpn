@@ -33,4 +33,4 @@ class SshUtil(object):
 
     @staticmethod
     def get_id_rsa():
-        return (SSH_CONFIG['ID_RSA_PATH'])
+        return SSH_CONFIG['ID_RSA_PATH']
