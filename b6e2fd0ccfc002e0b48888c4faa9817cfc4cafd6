@@ -22,6 +22,30 @@
       "revId": "b6e2fd0ccfc002e0b48888c4faa9817cfc4cafd6",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1acb0d3e_dfcd2b88",
+        "filename": "sdnvpn/test/functest/tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-02-01T13:01:18Z",
+      "side": 1,
+      "message": "for this case, we need to call it this way to provide the config file so that it only execute the test cases we want and not all of them. There is for sure better ways to do this, but let\u0027s just keep it as it is for now and investigate further later.",
+      "parentUuid": "1acb0d3e_ffe34703",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "b6e2fd0ccfc002e0b48888c4faa9817cfc4cafd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
