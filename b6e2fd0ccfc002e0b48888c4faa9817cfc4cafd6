@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1acb0d3e_ffe34703",
+        "filename": "sdnvpn/test/functest/tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-02-01T12:46:23Z",
+      "side": 1,
+      "message": "is this the right way to do this or should rally be called  somehow?",
+      "range": {
+        "startLine": 47,
+        "startChar": 16,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "b6e2fd0ccfc002e0b48888c4faa9817cfc4cafd6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
