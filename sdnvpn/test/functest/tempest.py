@@ -14,18 +14,22 @@ import re
 import shutil
 
 import functest.utils.functest_logger as ft_logger
-import functest.utils.functest_utils as ft_utils
+import functest.opnfv_tests.openstack.tempest.conf_utils as tempest_utils
 
 logger = ft_logger.Logger("sdnvpn-tempest").getLogger()
 
 
 def main():
-    src_tempest_dir = ft_utils.get_deployment_dir()
+    verifier_repo_dir = tempest_utils.get_verifier_repo_dir(None)
+    src_tempest_dir = tempest_utils.get_verifier_deployment_dir(None, None)
+
     if not src_tempest_dir:
         logger.error("Rally deployment not found.")
         exit(-1)
 
-    src_tempest_conf = src_tempest_dir + '/tempest.conf'
+    tempest_utils.configure_verifier_tempest(src_tempest_dir)
+
+    src_tempest_conf = os.path.join(src_tempest_dir, 'tempest.conf')
     bgpvpn_tempest_conf = src_tempest_dir + '/bgpvpn_tempest.conf'
 
     if not os.path.isfile(src_tempest_conf):
@@ -41,13 +45,14 @@ def main():
     with open(bgpvpn_tempest_conf, 'wb') as tempest_conf:
         config.write(tempest_conf)
 
-    cmd_line = (src_tempest_dir +
+    cmd_line = (verifier_repo_dir +
                 "/run_tempest.sh -C %s -t -N -- "
                 "networking_bgpvpn_tempest" % bgpvpn_tempest_conf)
     logger.info("Executing: %s" % cmd_line)
     cmd = os.popen(cmd_line)
     output = cmd.read()
     logger.debug(output)
+
     # Results parsing
     error_logs = ""
     duration = 0
