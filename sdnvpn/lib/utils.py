@@ -54,7 +54,7 @@ def create_subnet(neutron_client, name, cidr, net_id):
 
 def create_network(neutron_client, net, subnet1, cidr1,
                    router, subnet2=None, cidr2=None):
-    """Network assoc will not work for networks/subnets created by this function.
+    """Network assoc won't work for networks/subnets created by this function.
 
     It is an ODL limitation due to it handling routers as vpns.
     See https://bugs.opendaylight.org/show_bug.cgi?id=6962"""
@@ -232,6 +232,11 @@ def get_nodes():
 
 def get_installer_ip():
     return str(os.environ['INSTALLER_IP'])
+
+
+def get_instance_ip(instance):
+    instance_ip = instance.networks.itervalues().next()[0]
+    return instance_ip
 
 
 def wait_for_instance(instance):
