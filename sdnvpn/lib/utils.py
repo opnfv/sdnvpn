@@ -195,6 +195,11 @@ def generate_userdata_with_ssh(ips_array):
     return (u1 + u2)
 
 
+def get_instance_ip(instance):
+    instance_ip = instance.networks.itervalues().next()[0]
+    return instance_ip
+
+
 def wait_for_instance(instance):
     logger.info("Waiting for instance %s to get a DHCP lease..." % instance.id)
     # The sleep this function replaced waited for 80s

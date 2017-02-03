@@ -82,7 +82,7 @@ def main():
         network_2_id,
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name)
-    vm_2_ip = vm_2.networks.itervalues().next()[0]
+    vm_2_ip = test_utils.get_instance_ip(vm_2)
 
     u1 = test_utils.generate_ping_userdata([vm_2_ip])
     vm_1 = test_utils.create_instance(
