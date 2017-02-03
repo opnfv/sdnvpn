@@ -82,7 +82,7 @@ def main():
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1)
-    vm_2_ip = vm_2.networks.itervalues().next()[0]
+    vm_2_ip = test_utils.get_instance_ip(vm_2)
 
     vm_3 = test_utils.create_instance(
         nova_client,
@@ -92,7 +92,7 @@ def main():
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_2)
-    vm_3_ip = vm_3.networks.itervalues().next()[0]
+    vm_3_ip = test_utils.get_instance_ip(vm_3)
 
     vm_5 = test_utils.create_instance(
         nova_client,
@@ -102,7 +102,7 @@ def main():
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_2)
-    vm_5_ip = vm_5.networks.itervalues().next()[0]
+    vm_5_ip = test_utils.get_instance_ip(vm_5)
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
     u4 = test_utils.generate_ping_userdata([vm_5_ip])
@@ -115,7 +115,7 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1,
         userdata=u4)
-    vm_4_ip = vm_4.networks.itervalues().next()[0]
+    vm_4_ip = test_utils.get_instance_ip(vm_4)
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
