@@ -23,12 +23,12 @@ class TripleoHelper():
     @staticmethod
     def get_virtual_node_name_from_mac(mac):
         vnode_names, _ = execute('virsh list|awk \'{print '
-                                 '$2}\'', shell=True)
+                                 '$2}\'', shell=True, as_root=True)
         for node in vnode_names.split('\n'):
             if 'baremetal' in node:
                 admin_net_mac, _ = execute(
                     'virsh domiflist %s |grep admin |awk \'{print $5}\''
-                    % node, shell=True)
+                    % node, shell=True, as_root=True)
                 if admin_net_mac.replace('\n', '') == mac:
                     return node
         raise Exception('Could not find corresponding virtual node for MAC: %s'
@@ -36,13 +36,14 @@ class TripleoHelper():
 
     @staticmethod
     def get_undercloud_ip():
-        out, _ = execute('virsh domifaddr undercloud', shell=True)
+        out, _ = execute('virsh domifaddr undercloud', shell=True,
+                         as_root=True)
         return re.findall('([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)', out)[0]
 
     @staticmethod
     def get_undercloud():
         return Node('undercloud', address=TripleoHelper.get_undercloud_ip(),
-                    user='stack')
+                    user='stack', password='stack')
 
 
 class TripleOHelperException(Exception):
