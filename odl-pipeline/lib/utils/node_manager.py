@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2015 All rights reserved
+# Copyright (c) 2017 All rights reserved
 # This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -45,5 +45,6 @@ class NodeManager(object):
 
 
 class NodeManagerException(Exception):
+
     def __init__(self, value):
         self.value = value
