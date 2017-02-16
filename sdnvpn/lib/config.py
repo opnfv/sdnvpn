@@ -38,6 +38,31 @@ class CommonConfig(object):
         self.image_path = '{0}/{1}'.format(CONST.dir_functest_data,
                                            self.image_filename)
 
+        self.installer_type = ft_utils.get_parameter_from_yaml(
+            "testcases.testcase_3.installer.type", self.config_file)
+        self.installer_ip = ft_utils.get_parameter_from_yaml(
+            "testcases.testcase_3.installer.ip", self.config_file)
+        self.installer_user = ft_utils.get_parameter_from_yaml(
+            "testcases.testcase_3.installer.user", self.config_file)
+
+        try:
+            self.installer_password = ft_utils.get_parameter_from_yaml(
+                "testcases.testcase_3.installer.password", self.config_file)
+        except:
+            self.installer_password = None
+
+        try:
+            self.installer_key_file = ft_utils.get_parameter_from_yaml(
+                "testcases.testcase_3.installer.key_file", self.config_file)
+        except:
+            self.installer_key_file = None
+
+        try:
+            self.installer_cluster = ft_utils.get_parameter_from_yaml(
+                "testcases.testcase_3.installer.cluster", self.config_file)
+        except:
+            self.installer_cluster = None
+
 
 class TestcaseConfig(object):
     """
