@@ -67,7 +67,7 @@ testcases:
       route_distinguishers2: '222:222'
 
   testcase_3:
-      enabled: false
+      enabled: true
       description: Data center gateway integration
       testname_db: functest_testcase_3
 
