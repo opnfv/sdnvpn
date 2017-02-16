@@ -70,6 +70,12 @@ testcases:
       enabled: false
       description: Data center gateway integration
       testname_db: functest_testcase_3
+      installer:
+          type: fuel
+          ip: 10.20.0.2
+          user: root
+          password: r00tme
+          cluster: 15 # Change this to the id of the desired fuel env (1, 2, 3...)
 
   testcase_4:
       enabled: true
