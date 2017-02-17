@@ -116,7 +116,7 @@ testcases:
       route_distinguishers: '11:11'
 
   testcase_8:
-      enabled: false
+      enabled: true
       description: Test floating IP and router assoc coexistence
       testname_db: functest_testcase_8
       image_name: sdnvpn-image
