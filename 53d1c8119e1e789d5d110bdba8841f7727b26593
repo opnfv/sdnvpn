@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_dc1c44c4",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-02-17T09:02:58Z",
+      "side": 1,
+      "message": "zrpcd leaves zombies, so this would exit with zero if at any point in time bgpd was started \u0026 stopped, even if there is no running bgpd instance.\n  https://github.com/6WIND/zrpcd/issues/15",
+      "range": {
+        "startLine": 76,
+        "startChar": 13,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "53d1c8119e1e789d5d110bdba8841f7727b26593",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
