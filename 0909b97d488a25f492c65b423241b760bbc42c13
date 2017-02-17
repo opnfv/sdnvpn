@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_775d32e9",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-02-17T13:08:10Z",
+      "side": 1,
+      "message": "just for style, i think we can get rid of this",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "0909b97d488a25f492c65b423241b760bbc42c13",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
