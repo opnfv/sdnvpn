@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_4b5ac384",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T13:58:13Z",
+      "side": 1,
+      "message": "this is a very good test I think! But it looks like it is written only for noha deployments. Better idea would be to go through all the controllers and check where odl is running and if so that odl is as well running. Only on the controller where odl is running quagga should run as well. I am not quite sure about the ha from quagga. When we deploy odl in HA then we have to think about ha of quagga as well.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 53
+      },
+      "revId": "8ec7d5e458916e1aa01819f91beefb9927dc38bf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
