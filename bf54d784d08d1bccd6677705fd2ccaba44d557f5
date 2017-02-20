@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_0b684bb9",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T09:37:16Z",
+      "side": 1,
+      "message": "this should go into utils class",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "bf54d784d08d1bccd6677705fd2ccaba44d557f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_2b650fe1",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T09:37:16Z",
+      "side": 1,
+      "message": "functest has a cool way of snapshooting openstack. It saves the state of the environment and sets it up late on again. May be it is a good idea of merging it with our needs.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 58
+      },
+      "revId": "bf54d784d08d1bccd6677705fd2ccaba44d557f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_cb61d3d4",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T09:37:16Z",
+      "side": 1,
+      "message": "very cool!",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 18
+      },
+      "revId": "bf54d784d08d1bccd6677705fd2ccaba44d557f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_eb5e1712",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T09:37:16Z",
+      "side": 1,
+      "message": "If you check the state of tripleo manager before you did the first changes to it you will see I included the python-neutron in there. I think that is a much better way of interacting with openstack then going over the cli and then parsing it always. Especially cause the output of the cli clients do change form time to time.\nSorry -1 for this.",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 40
+      },
+      "revId": "bf54d784d08d1bccd6677705fd2ccaba44d557f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_ab87bf60",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-20T09:37:16Z",
+      "side": 1,
+      "message": "I think adding this is ok cause you want point to other creds as they are in the standard pod-config. But it should only be required\u003dFalse. And if it is not given it should search in the standard location.",
+      "range": {
+        "startLine": 337,
+        "startChar": 0,
+        "endLine": 340,
+        "endChar": 42
+      },
+      "revId": "bf54d784d08d1bccd6677705fd2ccaba44d557f5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
