@@ -1,6 +1,6 @@
-===============================================================================
-OPNFV Release Note for the Colorado.1.0 release of OPNFV for SDN VPN feature
-===============================================================================
+==========================================================================
+OPNFV Release Note for the Danube.1.0 release of OPNFV for SDN VPN feature
+==========================================================================
 
 License
 =======
@@ -12,13 +12,13 @@ License. .. http://creativecommons.org/licenses/by/4.0 ..
 Abstract
 ========
 
-This document comprises the release notes for the SDN VPN feature contained in the Colorado
+This document comprises the release notes for the SDN VPN feature contained in the Danube
 release of OPNFV.
 
 Important notes
 ===============
 
-In the Colorado release, SDN VPN only supports ODL as a backend. Make sure to always deploy
+In the Danube release, SDN VPN only supports ODL as a backend. Make sure to always deploy
 SDN VPN and ODL together. Make use of deployment scenarios including the SDNVPN feature.
 
 Summary
@@ -30,43 +30,43 @@ through the OpenStack Neutron BGPVPN API extension.
 Release Data
 ============
 
-+--------------------------------------+--------------------------------------+
-| **Project**                          | sdnvpn                               |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| **Repo/tag**                         | Colorado.1.0                         |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| **Release designation**              | Colorado 1.0 follow-up release       |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| **Release date**                     | September 22 2016                    |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
-| **Purpose of the delivery**          | Including BGP stack - Quagga         |
-|                                      | Fuel 9.0 baseline + Bug-fixes        |
-|                                      | HEAT integration                     |
-|                                      | 2 new e2e testcases for Functest     |
-|                                      | Documentation                        |
-|                                      |                                      |
-+--------------------------------------+--------------------------------------+
++--------------------------------------+-------------------------------------------+
+| **Project**                          | sdnvpn                                    |
+|                                      |                                           |
++--------------------------------------+-------------------------------------------+
+| **Repo/tag**                         | Danube.1.0                                |
+|                                      |                                           |
++--------------------------------------+-------------------------------------------+
+| **Release designation**              | Danube 1.0 follow-up release              |
+|                                      |                                           |
++--------------------------------------+-------------------------------------------+
+| **Release date**                     | March 23 2016                             |
+|                                      |                                           |
++--------------------------------------+-------------------------------------------+
+| **Purpose of the delivery**          | Including BGP stack - 6WIND Zrpcd/Quagga  |
+|                                      | Fuel 10.0 baseline + bug fixes            |
+|                                      | Deployment with Apex                      |
+|                                      | Integration with Boron SR2.0 and bugfixes |
+|                                      | 4 new e2e testcases for Functest          |
+|                                      | Horizon integration for networking-bgpvpn |
+|                                      |                                           |
++--------------------------------------+-------------------------------------------+
 
 Version change
 --------------
 
-Compared to the Brahmaputra release, a new version of ODL including several critical
-bugfixes is deployed. Together with the new BGP stack and HEAT integration the user
-can use now full stack bgp. New testcases to functest were added to guarantee
-functionality.
+Compared to the Colorado release, a new version of ODL including
+several critical bugfixes is deployed. Together with the new BGP
+stack, integration with Apex, the Horizon dashboards and bugfixes the
+user has even more features available. New testcases were added to
+functest to guarantee functionality.
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-ODL has been upgraded to Beryllium SR3.
+ODL has been upgraded to Boron SR2.
 
 Document changes
 ~~~~~~~~~~~~~~~~
-The amount documentation is increased substantially. E2E deployment docu and examples to use bgpvpn
-is added.
 
 Reason for version
 ------------------
@@ -74,14 +74,25 @@ Reason for version
 Feature additions
 ~~~~~~~~~~~~~~~~~
 
-SDN VPN adds the possibility to create and associate BGP/MPLS based Virtual Private Networks (VPNs)
-through the OpenStack Neutron BGPVPN API extension.
+SDN VPN adds the possibility to create and associate BGP/MPLS based
+Virtual Private Networks (VPNs) through the OpenStack Neutron BGPVPN
+API extension.
 
+A new installer based on Apex is provided.
+
+The Horizon dashboard for the OpenStack Neutron BGPVPN API extensions
+is available.
 
 Bug corrections
 ~~~~~~~~~~~~~~~
 
-Several bugs in ODL VPN Service have been fixed in this release.
+- Several bugs in ODL VPN Service have been fixed in this release.
+
+- Floating IP is now working and tested in functest, relevant Tempest
+  tests have been enabled.
+
+- Performance issues have been rectified and the relevant tests have
+  been enabled again.
 
 Deliverables
 ------------
@@ -90,8 +101,12 @@ Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~
 
 - Fuel plugin for OpenStack BGPVPN
-- Changes to ODL Fuel plugin to activate VPN Service Karaf feature
+- Changes to ODL Fuel plugin to activate the NetVirt Karaf features
+  and to apply the appropriate configuration. Also changes to
+  implement integration with 6Wind Zrpcd and Quagga.
+- Changes to Apex to enable a BGPVPN deployment.
 - Integration of VPN Service functional tests and BGPVPN API tests into Functest framework
+- Changes to 6Wind Zrpcd to enable integration with Apex.
 
 Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,7 +117,7 @@ Documentation deliverables
 
 - User guide
 
-- Release noes (this document)
+- Release notes (this document)
 
 Known Limitations, Issues and Workarounds
 =========================================
@@ -110,40 +125,18 @@ Known Limitations, Issues and Workarounds
 System Limitations
 ------------------
 
-Floating ip will come with the Boron release so yardstick testcases cannot be run
-and the user is only able to access the node through tenat network. Boron is targeted
-for Colorado 2.0.
-Due to lacking support for floating IPs in ODL VPNService (which replaces Netvirt as
-Neutron backend in the SDN VPN scenarios), the following test suites have some restrictions
-and are not executed:
-- Tempest:
- tempest.api.compute.servers.test_create_server.ServersTestJSON
- tempest.api.compute.servers.test_create_server.ServersTestManualDisk
- tempest.api.compute.servers.test_server_actions.ServerActionsTestJSON
- tempest.scenario.test_network_basic_ops.TestNetworkBasicOps.test_network_basic_ops
- tempest.scenario.test_server_basic_ops.TestServerBasicOps.test_server_basic_ops
- tempest.scenario.test_volume_boot_pattern.TestVolumeBootPattern.test_volume_boot_pattern
- tempest.scenario.test_volume_boot_pattern.TestVolumeBootPatternV2.test_volume_boot_pattern
-
 Yardstick uses the floating ip mechanism to connect to the instances using SSH.
 Therefore, the default test cases have been replaced by the ones running tests on the
 bare-metal servers. Feature specific Yardstick test cases have not been implemented,
-we plan to add these in Colorado 2.0.
-
-It is known that the performance of management operations is quite low. To work around
-the overall timeout of functest, the performance tool Rally was excluded from the
-test list. For Colorado 2.0 a much higher performance is expected and Rally it is
-expected to be included again.
-
-A timeout in promise occurs. This timeout was set from 5 to 10 seconds for all scenarios
-a jira ticket was written to change it back
-in Colorado 2.0: https://jira.opnfv.org/browse/PROMISE-79.
-
-Parser testcase was removed from functest due to low performance. In Colorado 2.0
-a big performance improvement is forseen and Parser will then be added again.
+we plan to add these in Danube 2.0.
 
 Known issues
 ------------
+
+Moving to the new NetVirt has caused a regression in which a subnet
+cannot be both attached to a Router and Network associated to a VPN.
+This has been worked around in the tests and the upstream bug is being
+tracked.
 
 Workarounds
 -----------
@@ -151,8 +144,9 @@ Workarounds
 Test results
 ============
 
-The deployment scenarios have successfully deployed in OPNFV CI many times and all Functest tests
-(general and feature specific) are passing.
+The deployment scenarios have successfully deployed in OPNFV CI many
+times and all Functest tests (general and feature specific) are
+passing.
 
 References
 ==========
