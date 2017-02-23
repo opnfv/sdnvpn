@@ -33,9 +33,9 @@ has a quite large number of backend drivers (Bagpipe, OpenContrail,
 Nuage and OpenDaylight currently). In OPNFV, currently only the OpenDaylight driver
 is supported.
 
-The BGPVPN ODL driver maps the BGPVPN API onto the OpenDaylight VPNService, which exposes the data
+The BGPVPN ODL driver maps the BGPVPN API onto the OpenDaylight NetVirt service, which exposes the data
 center overlay like a virtual router to which Neutron Networks and Routers (and in the future also Ports)
-are connected. The VPNService has access to the state of the Neutron API through the OpenDaylight
+are connected. NetVirt has access to the state of the Neutron API through the OpenDaylight
 Neutron Northbound Interface module, which has been enhanced to support the BGPVPN API extension.
 It uses an internal mesh of VxLAN tunnels to interconnect the vSwitches on the data
 center compute nodes. For the purpose of BGP based route exchange with other BGP speakers the ODL
@@ -83,7 +83,7 @@ Limitations, Issues and Workarounds
 .. some insight at this point.
 
 Currently, in OPNFV only ODL is supported as a backend for BGPVPN. API calls are
-mapped onto the ODL VPN Service REST API through the BGPVPN ODL driver and the
+mapped onto the ODL NetVirt REST API through the BGPVPN ODL driver and the
 ODL Neutron Northbound module.
 
 No DPDK-enabled vhost user ports are supported.
@@ -93,5 +93,5 @@ Integration with data center gateway will not work due to missing OVS patches fo
 References
 ==========
 
-For more information on the OPNFV Colorado release, please visit
-http://www.opnfv.org/colorado
+For more information on the OPNFV Danube release, please visit
+http://www.opnfv.org/danube

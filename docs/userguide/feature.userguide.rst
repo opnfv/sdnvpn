@@ -18,7 +18,7 @@ SDN VPN feature description
 A high-level description of the scenarios is provided in this section.
 For details of the scenarios and their provided capabilities refer to
 the scenario description document:
-http://artifacts.opnfv.org/colorado/sdnpvn/scenarios/os-odl_l2-bgpvpn/index.html
+http://artifacts.opnfv.org/danube/sdnpvn/scenarios/os-odl_l2-bgpvpn/index.html
 
 The BGPVPN feature enables creation of BGP VPNs on the Neutron API according to the OpenStack
 BGPVPN blueprint at https://blueprints.launchpad.net/neutron/+spec/neutron-bgp-vpn.
@@ -27,7 +27,7 @@ how to associate it with the existing Neutron object model, as well as a unique
 definition of the related semantics. The BGPVPN framework supports a backend
 driver model with currently available drivers for Bagpipe, OpenContrail, Nuage
 and OpenDaylight. The OPNFV scenario makes use of the OpenDaylight driver and backend
-implementation through the ODL VPNService project.
+implementation through the ODL NetVirt project.
 
 Hardware requirements
 =====================
@@ -64,10 +64,10 @@ See in Installation section below how to configure this.
 
 Preparing the host to install Fuel by script
 ============================================
-.. Not all of these options are relevant for all scenario's.  I advise following the
+.. Not all of these options are relevant for all scenarios.  I advise following the
 .. instructions applicable to the deploy tool used in the scenario.
 
-Before starting the installation of the <scenario> scenario some preparation of the
+Before starting the installation of the os-odl_l2-bgpnvp scenario some preparation of the
 machine that will host the Fuel VM must be done.
 
 Installation of required packages
@@ -98,20 +98,19 @@ First of all the opnfv-fuel repository needs to be cloned:
 
  git clone ssh://<user>@gerrit.opnfv.org:29418/fuel
 
-This command downloads the whole repository fuel. We need now to switch it to
-the stable Colorado branch:
+This command downloads the whole repository fuel. To checkout a specific
+version of OPNFV, checkout the appropriate branch:
 ::
 
  cd fuel
- git checkout stable/colorado
+ git checkout stable/<colorado|danube>
 
-Now download the appropriate OPNFV Fuel ISO into an appropriate folder:
+Now download the corresponding OPNFV Fuel ISO into an appropriate folder from
+the website
 ::
+ https://www.opnfv.org/software/downloads/release-archives
 
- wget http://artifacts.opnfv.org/fuel/colorado/opnfv-colorado.1.0.iso
-
-The exact name of the ISO image may change.
-Check https://www.opnfv.org/opnfv-colorado-fuel-users to get the latest ISO.
+Have in mind that the fuel repo version needs to map with the downloaded artifact.
 
 Simplified scenario deployment procedure using Fuel
 ===================================================
@@ -221,8 +220,11 @@ If plugins are installed and you want to update them use --force flag.
 
 Now the feature can be configured. Create a new environment with "Neutron with ML2 plugin" and
 in there "Neutron with tunneling segmentation".
-Then go to settings/other and check "OpenDaylight plugin", "Install Openvswitch with NSH/DPDK" and
-"BGPVPN plugin". Then you should be able to check "BGPVPN extensions" in OpenDaylight plugin section.
+Go to Networks/Settings/Other and check "Assign public network to all nodes". This is required for
+features such as floating IP, which require the Compute hosts to have public interfaces.
+Then go to settings/other and check "OpenDaylight plugin", "Use ODL to manage L3 traffic",
+"BGPVPN plugin" and set the OpenDaylight package version to "5.2.0-1". Then you should
+be able to check "BGPVPN extensions" in OpenDaylight plugin section.
 
 Now the deploy button on fuel dashboard can be used to deploy the environment.
 
