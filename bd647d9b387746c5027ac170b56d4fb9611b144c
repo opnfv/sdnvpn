@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_14a70751",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-02-23T07:26:18Z",
+      "side": 1,
+      "message": "Move this right before the loop starts please",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "bd647d9b387746c5027ac170b56d4fb9611b144c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_54ad7f30",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 15
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-02-23T07:26:18Z",
+      "side": 1,
+      "message": "moving this out of the loop still needs to be done",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 40
+      },
+      "revId": "bd647d9b387746c5027ac170b56d4fb9611b144c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
