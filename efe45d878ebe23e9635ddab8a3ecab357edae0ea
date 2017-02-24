@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_6ab6988c",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-02-24T09:00:17Z",
+      "side": 1,
+      "message": "no I think yardstick is fully enabled or? Could you check that. If not we should now fully enable it.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 35
+      },
+      "revId": "efe45d878ebe23e9635ddab8a3ecab357edae0ea",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
