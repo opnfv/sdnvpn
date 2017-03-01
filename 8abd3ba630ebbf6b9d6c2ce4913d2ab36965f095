@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_5f558f1b",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-01T09:38:56Z",
+      "side": 1,
+      "message": "where does that quagga come from? do we install another version as installed for the infrastructure?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "8abd3ba630ebbf6b9d6c2ce4913d2ab36965f095",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
