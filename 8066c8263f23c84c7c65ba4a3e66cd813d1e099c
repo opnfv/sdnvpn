@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_7a8981c9",
+        "filename": "docs/userguide/feature.userguide.rst",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-01T14:44:28Z",
+      "side": 1,
+      "message": "d is not yet released. that will not work. remove this and point to the website:\nhttps://www.opnfv.org/software/downloads/release-archives\nwhere they can download the artifacts.\n\nIn addition there is not stable/d yet. so remove that so that they use just master.\nmake a small hint that they can as well use older versions.\n\nLike this:\nThis command downloads the whole repository fuel.\nIf you want to checkout a specific version of opnfv then use:\n::\n\n cd fuel\n git checkout stable/\u003ccolorado|danube\u003e\n\nNow download the appropriate OPNFV Fuel ISO into an appropriate folder from the website: https://www.opnfv.org/software/downloads/release-archives\nHave in mind that the fuel repo version needs to map with the downloaded artifact.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 65
+      },
+      "revId": "8066c8263f23c84c7c65ba4a3e66cd813d1e099c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
