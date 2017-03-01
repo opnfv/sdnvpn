@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "dabed58f_fa881124",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-01T13:12:49Z",
+      "side": 1,
+      "message": "Path should be different from DAEMONS_FILE_LOCATION path",
+      "revId": "8abd3ba630ebbf6b9d6c2ce4913d2ab36965f095",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dabed58f_5f558f1b",
         "filename": "sdnvpn/artifacts/quagga_setup.sh",
         "patchSetId": 6
