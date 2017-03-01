@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_ff4a4382",
+        "filename": "docs/release-notes/release-notes.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-01T09:25:09Z",
+      "side": 1,
+      "message": "please explain further.",
+      "range": {
+        "startLine": 139,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 18
+      },
+      "revId": "ba31ba5450a646653b0c7649dfa09a4289a63d75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
