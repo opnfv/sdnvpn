@@ -22,6 +22,30 @@
       "revId": "8abd3ba630ebbf6b9d6c2ce4913d2ab36965f095",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_baa5b905",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-01T10:39:52Z",
+      "side": 1,
+      "message": "this is just the normal quagga present in the ubuntu repos, we don\u0027t need anything specific like we do for the ODL speaker.",
+      "parentUuid": "dabed58f_5f558f1b",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "8abd3ba630ebbf6b9d6c2ce4913d2ab36965f095",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
