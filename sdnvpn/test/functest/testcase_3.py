@@ -28,8 +28,7 @@ import functest.utils.functest_utils as ft_utils
 import functest.utils.functest_logger as ft_logger
 
 from sdnvpn.lib.results import Results
-
-from opnfv.deployment.factory import Factory as DeploymentFactory
+from sdnvpn.lib import utils as test_utils
 
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
@@ -57,21 +56,13 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    # TODO unhardcode this to work with apex
-    deploymentHandler = DeploymentFactory.get_handler(
-        'fuel',
-        '10.20.0.2',
-        'root',
-        'r00tme')
-
-    openstack_nodes = deploymentHandler.get_nodes()
+    openstack_nodes = test_utils.get_nodes()
 
     controllers = [node for node in openstack_nodes
                    if node.is_odl()]
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
     results.record_action(msg)
     results.add_to_summary(0, "-")
-
     if not controllers:
         msg = ("Controller (ODL) list is empty. Skipping rest of tests.")
         logger.info(msg)
@@ -105,13 +96,12 @@ def main():
         start_quagga = "odl:configure-bgp -op start-bgp-server " \
                        "--as-num 100 --router-id {0}".format(controller.ip)
 
-        test_utils.run_odl_cmd(controller, start_quagga)
-
         logger.info("Checking if bgpd is running"
                     " on the controller node")
 
         # Check if there is a non-zombie bgpd process
-        output_bgpd = controller.run_cmd("ps --no-headers -C bgpd -o state")
+        output_bgpd = controller.run_cmd("ps --no-headers -C "
+                                         "bgpd -o state")
         states = output_bgpd.split()
         running = any([s != 'Z' for s in states])
 
@@ -134,7 +124,8 @@ def main():
         # logger.info("Checking if bgpd is still running"
         #             " on the controller node")
 
-        # output_bgpd = controller.run_cmd("ps --no-headers -C bgpd -o state")
+        # output_bgpd = controller.run_cmd("ps --no-headers -C " \
+        #                                  "bgpd -o state")
         # states = output_bgpd.split()
         # running = any([s != 'Z' for s in states])
 
