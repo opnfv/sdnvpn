@@ -12,6 +12,7 @@ import time
 
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
+import os
 import re
 
 from sdnvpn.lib import config as sdnvpn_config
@@ -193,6 +194,15 @@ def generate_userdata_with_ssh(ips_array):
           "done\n"
           % ips)
     return (u1 + u2)
+
+
+def get_installer_type():
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+
+    if installer_type not in ["fuel", "apex"]:
+        raise ValueError("%s is not supported" % installer_type)
+    else:
+        return installer_type
 
 
 def wait_for_instance(instance):

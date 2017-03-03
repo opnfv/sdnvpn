@@ -12,6 +12,7 @@ import argparse
 import functest.utils.functest_logger as ft_logger
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib.results import Results
+from sdnvpn.lib import utils as test_utils
 from opnfv.deployment.factory import Factory as DeploymentFactory
 
 parser = argparse.ArgumentParser()
@@ -34,96 +35,105 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    # TODO unhardcode this to work with apex
-    deploymentHandler = DeploymentFactory.get_handler(
-        'fuel',
-        '10.20.0.2',
-        'root',
-        'r00tme')
+    installer_type = test_utils.get_installer_type()
 
-    openstack_nodes = deploymentHandler.get_nodes()
+    if installer_type in ["apex"]:
+        print("This test case has not been implemented for PAEX installer yet")
 
-    controllers = [node for node in openstack_nodes
-                   if node.is_odl()]
+        # TODO insert some info for Results
 
-    msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
-    results.record_action(msg)
-    results.add_to_summary(0, "-")
+    if installer_type in ["fuel"]:
+        deploymentHandler = DeploymentFactory.get_handler(
+            installer_type,
+            '10.20.0.2',
+            'root',
+            'r00tme')
+        openstack_nodes = deploymentHandler.get_nodes()
 
-    if not controllers:
-        msg = ("Controller (ODL) list is empty")
-        logger.info(msg)
-        results.add_failure(msg)
-    else:
-        msg = ("Controller (ODL) list is ready")
-        logger.info(msg)
-        results.add_success(msg)
+        controllers = [node for node in openstack_nodes
+                       if node.is_odl()]
 
-    for controller in controllers:
-        logger.info("Starting bgp speaker of controller at IP %s "
-                    % controller.ip)
-        logger.info("Checking if zrpcd is "
-                    "running on the controller node")
-
-        cmd = "systemctl status zrpcd"
-        output = controller.run_cmd(cmd)
-        msg = ("zrpcd is running")
-
-        if not output:
-            logger.info("zrpcd is not running on the controller node")
+        msg = 'Verify that OpenDaylight can ' \
+              'start/communicate with zrpcd/Quagga'
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+        if not controllers:
+            msg = ("Controller (ODL) list is empty")
+            logger.info(msg)
             results.add_failure(msg)
         else:
-            logger.info("zrpcd is running on the controller node")
+            msg = ("Controller (ODL) list is ready")
+            logger.info(msg)
             results.add_success(msg)
 
-        results.add_to_summary(0, "-")
+        for controller in controllers:
+            logger.info("Starting bgp speaker of controller at IP %s "
+                        % controller.ip)
+            logger.info("Checking if zrpcd is "
+                        "running on the controller node")
 
-        # TODO here we need the external ip of the controller
-        cmd_start_quagga = '/opt/opendaylight/bin/client "odl:configure-bgp ' \
-                           '-op start-bgp-server --as-num 100 ' \
-                           '--router-id {0}"'.format(controller.ip)
+            cmd = "systemctl status zrpcd"
+            output = controller.run_cmd(cmd)
+            msg = ("zrpcd is running")
 
-        controller.run_cmd(cmd_start_quagga)
+            if not output:
+                logger.info("zrpcd is not running on the controller node")
+                results.add_failure(msg)
+            else:
+                logger.info("zrpcd is running on the controller node")
+                results.add_success(msg)
 
-        logger.info("Checking if bgpd is running"
-                    " on the controller node")
+            results.add_to_summary(0, "-")
 
-        # Check if there is a non-zombie bgpd process
-        output_bgpd = controller.run_cmd("ps --no-headers -C bgpd -o state")
-        states = output_bgpd.split()
-        running = any([s != 'Z' for s in states])
+            # TODO here we need the external ip of the controller
+            cmd_start_quagga = '/opt/opendaylight/bin/client ' \
+                               '"odl:configure-bgp -op start-bgp-server ' \
+                               '--as-num 100 ' \
+                               '--router-id {0}"'.format(controller.ip)
 
-        msg = ("bgpd is running")
-        if not running:
-            logger.info("bgpd is not running on the controller node")
-            results.add_failure(msg)
-        else:
-            logger.info("bgpd is running on the controller node")
-            results.add_success(msg)
+            controller.run_cmd(cmd_start_quagga)
 
-        results.add_to_summary(0, "-")
+            logger.info("Checking if bgpd is running"
+                        " on the controller node")
 
-        cmd_stop_quagga = '/opt/opendaylight/bin/client -v "odl:configure' \
-                          '-bgp -op stop-bgp-server"'
+            # Check if there is a non-zombie bgpd process
+            output_bgpd = controller.run_cmd("ps --no-headers -C "
+                                             "bgpd -o state")
+            states = output_bgpd.split()
+            running = any([s != 'Z' for s in states])
 
-        controller.run_cmd(cmd_stop_quagga)
+            msg = ("bgpd is running")
+            if not running:
+                logger.info("bgpd is not running on the controller node")
+                results.add_failure(msg)
+            else:
+                logger.info("bgpd is running on the controller node")
+                results.add_success(msg)
 
-        # disabled because of buggy upstream
-        # https://github.com/6WIND/zrpcd/issues/15
-        # logger.info("Checking if bgpd is still running"
-        #             " on the controller node")
+            results.add_to_summary(0, "-")
 
-        # output_bgpd = controller.run_cmd("ps --no-headers -C bgpd -o state")
-        # states = output_bgpd.split()
-        # running = any([s != 'Z' for s in states])
+            cmd_stop_quagga = '/opt/opendaylight/bin/client -v ' \
+                              '"odl:configure -bgp -op stop-bgp-server"'
 
-        # msg = ("bgpd is stopped")
-        # if not running:
-        #     logger.info("bgpd is not running on the controller node")
-        #     results.add_success(msg)
-        # else:
-        #     logger.info("bgpd is still running on the controller node")
-        #     results.add_failure(msg)
+            controller.run_cmd(cmd_stop_quagga)
+
+            # disabled because of buggy upstream
+            # https://github.com/6WIND/zrpcd/issues/15
+            # logger.info("Checking if bgpd is still running"
+            #             " on the controller node")
+
+            # output_bgpd = controller.run_cmd("ps --no-headers -C " \
+            #                                  "bgpd -o state")
+            # states = output_bgpd.split()
+            # running = any([s != 'Z' for s in states])
+
+            # msg = ("bgpd is stopped")
+            # if not running:
+            #     logger.info("bgpd is not running on the controller node")
+            #     results.add_success(msg)
+            # else:
+            #     logger.info("bgpd is still running on the controller node")
+            #     results.add_failure(msg)
 
     return results.compile_summary()
 
