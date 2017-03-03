@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_82796731",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T09:39:46Z",
+      "side": 1,
+      "message": "1) for APEX there is an example in releng that can be used as is\n2) we don\u0027t use print ever",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 79
+      },
+      "revId": "bb09d3c27dcb68f4a61557ece46612d8f976ef9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_627c7321",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T09:39:46Z",
+      "side": 1,
+      "message": "this whole thing needs to be moved to utils. write a function there that returns a deployment handler instead of having that logic in the test",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 55
+      },
+      "revId": "bb09d3c27dcb68f4a61557ece46612d8f976ef9e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
