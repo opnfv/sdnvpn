@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_22aafb19",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T13:54:09Z",
+      "side": 1,
+      "message": "functest already has a handle for executing commands, use that please.",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 26
+      },
+      "revId": "c88cbd4375e80f2dc6935fb5e6ffa9e558ef3196",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_42a7ef4f",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T13:54:09Z",
+      "side": 1,
+      "message": "no, look at the functest job for apex and see where the ssh key is injected in the container and use that.",
+      "range": {
+        "startLine": 228,
+        "startChar": 12,
+        "endLine": 228,
+        "endChar": 55
+      },
+      "revId": "c88cbd4375e80f2dc6935fb5e6ffa9e558ef3196",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_0269f7f8",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T13:54:09Z",
+      "side": 1,
+      "message": "each function should do one thing. This function should only return the handler object.",
+      "range": {
+        "startLine": 244,
+        "startChar": 8,
+        "endLine": 244,
+        "endChar": 49
+      },
+      "revId": "c88cbd4375e80f2dc6935fb5e6ffa9e558ef3196",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_e2638318",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-03T13:54:09Z",
+      "side": 1,
+      "message": "this function is not needed and wouldn\u0027t work anyway because you can\u0027t ssh without the key.",
+      "range": {
+        "startLine": 252,
+        "startChar": 3,
+        "endLine": 265,
+        "endChar": 27
+      },
+      "revId": "c88cbd4375e80f2dc6935fb5e6ffa9e558ef3196",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
