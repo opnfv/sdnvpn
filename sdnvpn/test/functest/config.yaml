@@ -1,5 +1,5 @@
 defaults:
-  flavor: m1.tiny # adapt to your environment
+  flavor: m1.micro # adapt to your environment
 
 testcases:
   tempest:
