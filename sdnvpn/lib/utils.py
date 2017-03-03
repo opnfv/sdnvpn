@@ -9,12 +9,13 @@
 #
 import sys
 import time
-
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
+from opnfv.deployment.factory import Factory as DeploymentFactory
+import os
 import re
-
 from sdnvpn.lib import config as sdnvpn_config
+import subprocess
 
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
 
@@ -129,6 +130,27 @@ def create_instance(nova_client,
     return instance
 
 
+def exec_cmd(cmd, verbose=None):
+    success = True
+    logger.debug("Executing '%s'" % cmd)
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT)
+    output = ""
+    for line in iter(p.stdout.readline, b''):
+        output += line
+
+    if verbose:
+        logger.debug(output)
+
+    p.stdout.close()
+    returncode = p.wait()
+    if returncode != 0:
+        logger.error("Command %s failed to execute." % cmd)
+        success = False
+
+    return output, success
+
+
 def generate_ping_userdata(ips_array):
     ips = ""
     for ip in ips_array:
@@ -193,6 +215,54 @@ def generate_userdata_with_ssh(ips_array):
           "done\n"
           % ips)
     return (u1 + u2)
+
+
+def get_handler_nodes():
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    installer_ip = get_installer_ip()
+
+    if installer_type not in ["fuel", "apex"]:
+        raise ValueError("%s is not supported" % installer_type)
+    else:
+        if installer_type in ["apex"]:
+            pkey = get_installer_ssh_keys(installer_ip)
+            deploymentHandler = DeploymentFactory.get_handler(
+                installer_type,
+                installer_ip,
+                'root',
+                pkey_file=pkey)
+
+        if installer_type in ["fuel"]:
+            deploymentHandler = DeploymentFactory.get_handler(
+                installer_type,
+                installer_ip,
+                'root',
+                'r00tme')
+
+        openstack_nodes = deploymentHandler.get_nodes()
+
+        return deploymentHandler, openstack_nodes
+
+
+def get_installer_ip():
+    return str(os.environ['INSTALLER_IP'])
+
+
+def get_installer_ssh_keys(installer_ip):
+    cmd = ('sudo scp root@{0}:/root/.ssh/id_rsa pkey'
+           .format(installer_ip))
+    print(cmd)
+    _, success = exec_cmd(cmd)
+
+    if not success:
+        return False
+    else:
+        cmd = ("sudo chown $(whoami):$(whoami) pkey && chmod 400 pkey")
+        _, success = exec_cmd(cmd)
+        cmd_pkey_path = ('echo $(readlink -f "pkey")')
+        path, _ = exec_cmd(cmd_pkey_path)
+        print(path.strip())
+        return path.strip()
 
 
 def wait_for_instance(instance):
