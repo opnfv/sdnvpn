@@ -9,11 +9,11 @@
 #
 import sys
 import time
-
 import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
+from opnfv.deployment.factory import Factory as DeploymentFactory
+import os
 import re
-
 from sdnvpn.lib import config as sdnvpn_config
 
 logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
@@ -193,6 +193,38 @@ def generate_userdata_with_ssh(ips_array):
           "done\n"
           % ips)
     return (u1 + u2)
+
+
+def get_developHandler():
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    installer_ip = get_installer_ip()
+
+    if installer_type not in ["fuel", "apex"]:
+        raise ValueError("%s is not supported" % installer_type)
+    else:
+        if installer_type in ["apex"]:
+            developHandler = DeploymentFactory.get_handler(
+                installer_type,
+                installer_ip,
+                'root',
+                pkey_file="/root/.ssh/id_rsa")
+
+        if installer_type in ["fuel"]:
+            developHandler = DeploymentFactory.get_handler(
+                installer_type,
+                installer_ip,
+                'root',
+                'r00tme')
+        return developHandler
+
+
+def get_nodes():
+    developHandler = get_developHandler()
+    return developHandler.get_nodes()
+
+
+def get_installer_ip():
+    return str(os.environ['INSTALLER_IP'])
 
 
 def wait_for_instance(instance):
