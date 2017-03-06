@@ -10,6 +10,7 @@
 
 import argparse
 import importlib
+import os
 import sys
 import time
 import yaml
@@ -42,6 +43,12 @@ def push_results(testname, start_time, end_time, criteria, details):
 
 
 def main():
+    # Workaround for https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-100
+    cmd_line = "neutron quota-update --subnet -1 --network -1"
+    logger.info("Setting subnet/net quota to unlimited : %s" % cmd_line)
+    cmd = os.popen(cmd_line)
+    output = cmd.read()
+    logger.debug(output)
 
     with open(COMMON_CONFIG.config_file) as f:
         config_yaml = yaml.safe_load(f)
