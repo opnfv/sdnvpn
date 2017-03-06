@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_93f9ba4f",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-06T12:03:41Z",
+      "side": 1,
+      "message": "get_installerHandler is a better name I think.",
+      "range": {
+        "startLine": 198,
+        "startChar": 4,
+        "endLine": 198,
+        "endChar": 22
+      },
+      "revId": "5a296ba5071683abf5da6ae160a6479a10ffb36f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
