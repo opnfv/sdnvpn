@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Romanos Skiadas <rski@intracom-telecom.com>
+Code-Review+2: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Submitted-by: Nikolas Hermanns <nikolas.hermanns@ericsson.com>
+Submitted-at: Mon, 06 Mar 2017 11:59:08 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/29287
+Project: sdnvpn
+Branch: refs/heads/master
