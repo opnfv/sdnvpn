@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabed58f_1c74f797",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-07T08:55:46Z",
+      "side": 1,
+      "message": "please undo this",
+      "range": {
+        "startLine": 2,
+        "startChar": 10,
+        "endLine": 2,
+        "endChar": 18
+      },
+      "revId": "f85fc12e76ede23a44f9676baf7498708619ab1e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
