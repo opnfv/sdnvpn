@@ -22,6 +22,29 @@
       "revId": "be5cd25ed85bb42f4115b49aec13ddfec20c1b97",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabed58f_a74b542a",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-07T14:41:39Z",
+      "side": 1,
+      "message": "Duplication (check lines 35-36)",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 60
+      },
+      "revId": "be5cd25ed85bb42f4115b49aec13ddfec20c1b97",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
