@@ -15,7 +15,7 @@ OWN_IP=%s
 
 ZEBRA_CONFIG_LOCATION="/etc/quagga/zebra.conf"
 DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
-BGPD_CONFIG_LOCATION="/etc/quagga/daemons"
+BGPD_CONFIG_LOCATION="/etc/quagga/bgpd.conf"
 BGPD_LOG_FILE="/var/log/bgpd.log"
 
 DEBIAN_FONTEND=noninteractive apt-get update
