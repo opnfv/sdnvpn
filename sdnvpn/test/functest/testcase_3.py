@@ -29,7 +29,6 @@ import functest.utils.functest_logger as ft_logger
 
 from sdnvpn.lib.results import Results
 
-
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig("testcase_3")
 
@@ -42,11 +41,6 @@ parser.add_argument("-r", "--report",
                     action="store_true")
 
 args = parser.parse_args()
-
-logger = ft_logger.Logger("sdnvpn-testcase-3").getLogger()
-
-COMMON_CONFIG = sdnvpn_config.CommonConfig()
-TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig("testcase_3")
 
 
 def main():
