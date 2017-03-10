@@ -167,7 +167,7 @@ def main():
         glance_client,
         COMMON_CONFIG.ubuntu_image_name,
         COMMON_CONFIG.ubuntu_image_path,
-        disk="qcow2",
+        disk="raw",
         container="bare",
         public="public")
 
@@ -223,7 +223,7 @@ def main():
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
-                                            public=True)
+                                            public="public")
 
     instance = test_utils.create_instance(
         nova_client,
