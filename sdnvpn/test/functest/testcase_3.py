@@ -229,7 +229,7 @@ def main():
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
-                                            public=True)
+                                            public="public")
 
     instance = test_utils.create_instance(
         nova_client,
