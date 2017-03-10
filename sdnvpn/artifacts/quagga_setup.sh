@@ -18,7 +18,7 @@ DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
 BGPD_CONFIG_LOCATION="/etc/quagga/daemons"
 BGPD_LOG_FILE="/var/log/bgpd.log"
 
-DEBIAN_FONTEND=noninteractive apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get install quagga -y
 
 touch $BGPD_LOG_FILE
