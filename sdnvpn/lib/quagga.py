@@ -29,10 +29,18 @@ def bootstrap_quagga(fip_addr, controller_ip):
     return rc == 0
 
 
-def gen_quagga_setup_script(controller_ip, instance_floating_ip):
+def gen_quagga_setup_script(controller_ip,
+                            fake_floating_ip,
+                            compute_ext_ip,
+                            ext_net_mask,
+                            ext_net_address):
     with open(COMMON_CONFIG.quagga_setup_script_path) as f:
         template = f.read()
-    script = template % (controller_ip, instance_floating_ip)
+    script = template % (controller_ip,
+                         fake_floating_ip,
+                         compute_ext_ip,
+                         ext_net_mask,
+                         ext_net_address)
     return script
 
 

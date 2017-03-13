@@ -12,6 +12,15 @@ sleep 20
 # Variables to be filled in with python
 NEIGHBOR_IP=%s
 OWN_IP=%s
+# directly access the instance from the external net without NAT
+COMPUTE_EXT_IP=%s
+EXT_NET_MASK=%s
+EXT_NET_ADDRESS=%s
+
+
+ip link set ens7 up
+ip addr add $OWN_IP/$EXT_NET_MASK dev ens7
+ip route add $EXT_NET_ADDRESS/$EXT_NET_MASK via $COMPUTE_EXT_IP
 
 ZEBRA_CONFIG_LOCATION="/etc/quagga/zebra.conf"
 DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
