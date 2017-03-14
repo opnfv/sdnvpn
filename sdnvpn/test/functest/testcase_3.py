@@ -53,6 +53,7 @@ def main():
 
     controllers = [node for node in openstack_nodes
                    if node.is_odl()]
+    computes = [node for node in openstack_nodes if node.is_compute()]
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
     results.record_action(msg)
     results.add_to_summary(0, "-")
@@ -85,7 +86,6 @@ def main():
 
         results.add_to_summary(0, "-")
 
-        # TODO here we need the external ip of the controller
         start_quagga = "odl:configure-bgp -op start-bgp-server " \
                        "--as-num 100 --router-id {0}".format(controller.ip)
         test_utils.run_odl_cmd(controller, start_quagga)
@@ -181,9 +181,27 @@ def main():
     # We also create the FIP first because it is used in the
     # cloud-init script.
     fip = os_utils.create_floating_ip(neutron_client)
-
+    # fake_fip is needed to bypass NAT
+    # see below for the reason why.
+    fake_fip = os_utils.create_floating_ip(neutron_client)
+    # pin quagga to some compute
+    compute_node = nova_client.hypervisors.list()[0]
+    quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
+    # Map the hypervisor used above to a compute handle
+    # returned by releng's manager
+    for comp in computes:
+        if compute_node.host_ip in comp.run_cmd("ip a"):
+            compute = comp
+            break
+    # Get the mask of ext net of the compute where quagga is running
+    # TODO check this works on apex
+    cmd = "ip a | grep br-ex | grep inet | awk '{print $2}'"
+    ext_cidr = compute.run_cmd(cmd).split("/")
+    ext_net_mask = ext_cidr[1]
     quagga_bootstrap_script = quagga.gen_quagga_setup_script(
-        controllers[0].ip, fip['fip_addr'])
+        controllers[0].ip,
+        fake_fip['fip_addr'],
+        ext_net_mask)
     quagga_vm = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.quagga_instance_name,
@@ -192,7 +210,9 @@ def main():
         sg_id,
         fixed_ip=TESTCASE_CONFIG.quagga_instance_ip,
         flavor=TESTCASE_CONFIG.quagga_instance_flavor,
-        userdata=quagga_bootstrap_script)
+        userdata=quagga_bootstrap_script,
+        compute_node=quagga_compute_node)
+
     fip_added = os_utils.add_floating_ip(nova_client,
                                          quagga_vm.id,
                                          fip['fip_addr'])
@@ -210,6 +230,15 @@ def main():
     else:
         results.add_failure(testcase)
     results.add_to_summary(0, "=")
+
+    # This part works around NAT
+    # What we do is attach the instance directly to the OpenStack
+    # external network. This way is is directly accessible from the
+    # controller without NAT. We assign a floating IP for this
+    # to make sure no overlaps happen.
+    libvirt_instance_name = getattr(quagga_vm, "OS-EXT-SRV-ATTR:instance_name")
+    compute.run_cmd("virsh attach-interface %s"
+                    " bridge br-ex" % libvirt_instance_name)
 
     results.add_to_summary(0, '-')
     results.add_to_summary(1, "Peer Quagga with OpenDaylight")
