@@ -68,6 +68,6 @@ log file ${BGPD_LOG_FILE}
 end
 CATEOF
 chown quagga:quagga $BGPD_CONFIG_LOCATION
-
+service quagga restart
 pgrep bgpd
 pgrep zebra
