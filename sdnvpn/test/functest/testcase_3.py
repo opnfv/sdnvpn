@@ -11,13 +11,10 @@
 #   - Set up a Quagga instance in the functest container
 #   - Start a BGP router with OpenDaylight
 #   - Add the functest Quagga as a neighbor
-#   - Verify that the OpenDaylight and functest Quaggas peer
-# - Exchange routing information with Quagga:
-#   - Create a network, instance and BGPVPN in OpenStack
-#   - Verify the route to the instance is present in the OpenDaylight FIB
-#   - Verify that the functest Quagga also learns these routes
+#   - Verify that the OpenDaylight and gateway Quagga peer
 import os
 import argparse
+import time
 
 from sdnvpn.lib import quagga
 import sdnvpn.lib.utils as test_utils
@@ -67,69 +64,71 @@ def main():
         logger.info(msg)
         results.add_success(msg)
 
-    for controller in controllers:
-        logger.info("Starting bgp speaker of controller at IP %s "
-                    % controller.ip)
-        logger.info("Checking if zrpcd is "
-                    "running on the controller node")
+    controller = controllers[0]  # We don't handle HA well
+    get_ext_ip_cmd = "ip a | grep br-ex | grep inet | awk '{print $2}'"
+    controller_ext_ip = controller.run_cmd(get_ext_ip_cmd).split("/")[0]
+    logger.info("Starting bgp speaker of controller at IP %s "
+                % controller_ext_ip)
+    logger.info("Checking if zrpcd is "
+                "running on the controller node")
 
-        cmd = "systemctl status zrpcd"
-        output = controller.run_cmd(cmd)
-        msg = ("zrpcd is running")
+    cmd = "systemctl status zrpcd"
+    output = controller.run_cmd(cmd)
+    msg = ("zrpcd is running")
 
-        if not output:
-            logger.info("zrpcd is not running on the controller node")
-            results.add_failure(msg)
-        else:
-            logger.info("zrpcd is running on the controller node")
-            results.add_success(msg)
+    if not output:
+        logger.info("zrpcd is not running on the controller node")
+        results.add_failure(msg)
+    else:
+        logger.info("zrpcd is running on the controller node")
+        results.add_success(msg)
 
-        results.add_to_summary(0, "-")
+    results.add_to_summary(0, "-")
 
-        start_quagga = "odl:configure-bgp -op start-bgp-server " \
-                       "--as-num 100 --router-id {0}".format(controller.ip)
-        test_utils.run_odl_cmd(controller, start_quagga)
+    start_quagga = "odl:configure-bgp -op start-bgp-server " \
+                   "--as-num 100 --router-id {0}".format(controller_ext_ip)
+    test_utils.run_odl_cmd(controller, start_quagga)
 
-        logger.info("Checking if bgpd is running"
-                    " on the controller node")
+    logger.info("Checking if bgpd is running"
+                " on the controller node")
 
-        # Check if there is a non-zombie bgpd process
-        output_bgpd = controller.run_cmd("ps --no-headers -C "
-                                         "bgpd -o state")
-        states = output_bgpd.split()
-        running = any([s != 'Z' for s in states])
+    # Check if there is a non-zombie bgpd process
+    output_bgpd = controller.run_cmd("ps --no-headers -C "
+                                     "bgpd -o state")
+    states = output_bgpd.split()
+    running = any([s != 'Z' for s in states])
 
-        msg = ("bgpd is running")
-        if not running:
-            logger.info("bgpd is not running on the controller node")
-            results.add_failure(msg)
-        else:
-            logger.info("bgpd is running on the controller node")
-            results.add_success(msg)
+    msg = ("bgpd is running")
+    if not running:
+        logger.info("bgpd is not running on the controller node")
+        results.add_failure(msg)
+    else:
+        logger.info("bgpd is running on the controller node")
+        results.add_success(msg)
 
-        results.add_to_summary(0, "-")
+    results.add_to_summary(0, "-")
 
-        stop_quagga = 'odl:configure-bgp -op stop-bgp-server'
+    # We should be able to restart the speaker
+    # but the test is disabled because of buggy upstream
+    # https://github.com/6WIND/zrpcd/issues/15
+    # stop_quagga = 'odl:configure-bgp -op stop-bgp-server'
+    # test_utils.run_odl_cmd(controller, stop_quagga)
 
-        test_utils.run_odl_cmd(controller, stop_quagga)
+    # logger.info("Checking if bgpd is still running"
+    #             " on the controller node")
 
-        # disabled because of buggy upstream
-        # https://github.com/6WIND/zrpcd/issues/15
-        # logger.info("Checking if bgpd is still running"
-        #             " on the controller node")
+    # output_bgpd = controller.run_cmd("ps --no-headers -C " \
+    #                                  "bgpd -o state")
+    # states = output_bgpd.split()
+    # running = any([s != 'Z' for s in states])
 
-        # output_bgpd = controller.run_cmd("ps --no-headers -C " \
-        #                                  "bgpd -o state")
-        # states = output_bgpd.split()
-        # running = any([s != 'Z' for s in states])
-
-        # msg = ("bgpd is stopped")
-        # if not running:
-        #     logger.info("bgpd is not running on the controller node")
-        #     results.add_success(msg)
-        # else:
-        #     logger.info("bgpd is still running on the controller node")
-        #     results.add_failure(msg)
+    # msg = ("bgpd is stopped")
+    # if not running:
+    #     logger.info("bgpd is not running on the controller node")
+    #     results.add_success(msg)
+    # else:
+    #     logger.info("bgpd is still running on the controller node")
+    #     results.add_failure(msg)
 
     # Taken from the sfc tests
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
@@ -195,11 +194,10 @@ def main():
             break
     # Get the mask of ext net of the compute where quagga is running
     # TODO check this works on apex
-    cmd = "ip a | grep br-ex | grep inet | awk '{print $2}'"
-    ext_cidr = compute.run_cmd(cmd).split("/")
+    ext_cidr = compute.run_cmd(get_ext_ip_cmd).split("/")
     ext_net_mask = ext_cidr[1]
     quagga_bootstrap_script = quagga.gen_quagga_setup_script(
-        controllers[0].ip,
+        controller_ext_ip,
         fake_fip['fip_addr'],
         ext_net_mask)
     quagga_vm = test_utils.create_instance(
@@ -223,14 +221,6 @@ def main():
     else:
         results.add_failure(msg)
 
-    testcase = "Bootstrap quagga inside an OpenStack instance"
-    success = False
-    if success:
-        results.add_success(testcase)
-    else:
-        results.add_failure(testcase)
-    results.add_to_summary(0, "=")
-
     # This part works around NAT
     # What we do is attach the instance directly to the OpenStack
     # external network. This way is is directly accessible from the
@@ -240,43 +230,46 @@ def main():
     compute.run_cmd("virsh attach-interface %s"
                     " bridge br-ex" % libvirt_instance_name)
 
+    testcase = "Bootstrap quagga inside an OpenStack instance"
+    success = True
+    # ubuntu images take a long time to start
+    tries = 20
+    sleep_time = 30
+    while tries > 0:
+        instance_log = quagga_vm.get_console_output()
+        if "Failed to run module" in instance_log:
+            success = False
+            logger.error("Cloud init failed to bootstrap quagga. Reason: %s",
+                         instance_log)
+            break
+        if "Cloud-init v. 0.7.9 finished at" in instance_log:
+            success = True
+            break
+        time.sleep(sleep_time)
+        tries = tries - 1
+
+    if tries == 0:
+        logger.error("Cloud init timed out while bootstrapping"
+                     "quagga. Reason: %s",
+                     instance_log)
+        success = False
+
+    if success:
+        results.add_success(testcase)
+    else:
+        results.add_failure(testcase)
+    results.add_to_summary(0, "=")
+
     results.add_to_summary(0, '-')
     results.add_to_summary(1, "Peer Quagga with OpenDaylight")
     results.add_to_summary(0, '-')
 
-    neighbor = quagga.odl_add_neighbor(fip['fip_addr'], controller)
+    neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
+                                       controller_ext_ip,
+                                       controller)
     peer = quagga.check_for_peering(controller)
 
-    image_id = os_utils.create_glance_image(glance_client,
-                                            TESTCASE_CONFIG.image_name,
-                                            COMMON_CONFIG.image_path,
-                                            disk=COMMON_CONFIG.image_format,
-                                            container="bare",
-                                            public="public")
-
-    instance = test_utils.create_instance(
-        nova_client,
-        TESTCASE_CONFIG.instance_1_name,
-        image_id,
-        net_id,
-        sg_id,
-        fixed_ip=TESTCASE_CONFIG.instance_1_ip,
-        secgroup_name=TESTCASE_CONFIG.secgroup_name)
-
-    kwargs = {"import_targets": TESTCASE_CONFIG.import_targets,
-              "export_targets": TESTCASE_CONFIG.export_targets,
-              "route_targets": TESTCASE_CONFIG.export_targets,
-              "name": "bgpvpn-3-1"}
-
-    bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
-    bgpvpn_id = bgpvpn['bgpvpn']['id']
-    os_utils.create_network_association(
-        neutron_client, bgpvpn_id, net_id)
-
-    test_utils.wait_for_instance(instance)
-
-    exchange = quagga.check_for_route_exchange(fip['fip_addr'])
-    if neighbor and peer and exchange:
+    if neighbor and peer:
         results.add_success("Peering with quagga")
     else:
         results.add_failure("Peering with quagga")
