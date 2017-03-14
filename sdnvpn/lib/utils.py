@@ -386,12 +386,42 @@ def check_odl_fib(ip, controller_ip):
 
 
 def run_odl_cmd(odl_node, cmd):
-    '''
-    Run a command in the OpenDaylight Karaf shell
+    '''Run a command in the OpenDaylight Karaf shell
 
     This is a bit flimsy because of shell quote escaping, make sure that
     the cmd passed does not have any top level double quotes or this
     function will break.
+
+    The /dev/null is used because client works, but outputs something
+    that contains "ERROR" and run_cmd doesn't like that.
+
     '''
-    karaf_cmd = '/opt/opendaylight/bin/client "%s" ' % cmd
+    karaf_cmd = '/opt/opendaylight/bin/client "%s" 2>/dev/null' % cmd
     return odl_node.run_cmd(karaf_cmd)
+
+
+def wait_for_cloud_init(instance):
+    success = True
+    # ubuntu images take a long time to start
+    tries = 20
+    sleep_time = 30
+    while tries > 0:
+        instance_log = instance.get_console_output()
+        if "Failed to run module" in instance_log:
+            success = False
+            logger.error("Cloud init failed to run. Reason: %s",
+                         instance_log)
+            break
+        if re.search(r"Cloud-init v. .+ finished at" in instance_log):
+            success = True
+            break
+        time.sleep(sleep_time)
+        tries = tries - 1
+
+    if tries == 0:
+        logger.error("Cloud init timed out"
+                     ". Reason: %s",
+                     instance_log)
+        success = False
+
+    return success
