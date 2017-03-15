@@ -50,6 +50,13 @@ def main():
     output = cmd.read()
     logger.debug(output)
 
+    # Workaround for https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115
+    cmd_line = "nova quota-class-update --instances -1 default"
+    logger.info("Setting instances quota to unlimited : %s" % cmd_line)
+    cmd = os.popen(cmd_line)
+    output = cmd.read()
+    logger.debug(output)
+
     with open(COMMON_CONFIG.config_file) as f:
         config_yaml = yaml.safe_load(f)
 
