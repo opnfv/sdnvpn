@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_5f404656",
+        "filename": "sdnvpn/lib/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T12:31:24Z",
+      "side": 1,
+      "message": "this flavor might be used for things other than quagga, \"custom\" is a better name",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 44
+      },
+      "revId": "fb2456068992da9eb6a1030db945ce8a437e9049",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_1f22ceb9",
+        "filename": "sdnvpn/lib/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T12:31:24Z",
+      "side": 1,
+      "message": "too much, 10 is enough",
+      "range": {
+        "startLine": 52,
+        "startChar": 34,
+        "endLine": 52,
+        "endChar": 36
+      },
+      "revId": "fb2456068992da9eb6a1030db945ce8a437e9049",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_ff249ac7",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T12:31:24Z",
+      "side": 1,
+      "message": "this is no longer in config.yaml, you moved it to common config.",
+      "range": {
+        "startLine": 212,
+        "startChar": 15,
+        "endLine": 212,
+        "endChar": 53
+      },
+      "revId": "fb2456068992da9eb6a1030db945ce8a437e9049",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
