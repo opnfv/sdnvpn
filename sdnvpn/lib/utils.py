@@ -28,6 +28,17 @@ ODL_USER = 'admin'
 ODL_PASS = 'admin'
 
 
+def create_flavor(name, ram, disk, vcpus, public=True):
+    logger.debug("Creating or getting flavor %s", name)
+    _, flavor_id = os_utils.get_or_create_flavor(name, ram, disk,
+                                                 vcpus, public)
+    if not flavor_id:
+        logger.error(
+            "There has been a problem when creating/getting the flavor")
+        sys.exit(-1)
+    return flavor_id
+
+
 def create_net(neutron_client, name):
     logger.debug("Creating network %s", name)
     net_id = os_utils.create_neutron_net(neutron_client, name)
