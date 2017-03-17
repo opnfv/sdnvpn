@@ -28,6 +28,13 @@ ODL_USER = 'admin'
 ODL_PASS = 'admin'
 
 
+def create_custom_flavor():
+    return os_utils.get_or_create_flavor(common_config.custom_flavor_name,
+                                         common_config.custom_flavor_ram,
+                                         common_config.custom_flavor_disk,
+                                         common_config.custom_flavor_vcpus)
+
+
 def create_net(neutron_client, name):
     logger.debug("Creating network %s", name)
     net_id = os_utils.create_neutron_net(neutron_client, name)
