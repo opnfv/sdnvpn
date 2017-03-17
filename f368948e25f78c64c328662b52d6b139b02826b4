@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_7a31980a",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-17T16:19:44Z",
+      "side": 1,
+      "message": "mhh I am not sure if I like that. Either create a flavor and delete it later, or create the custom flavor in a more central place.\n\nTimewise we are very limited so it is ok to merge it but please create a jira so that we do cleanup later on for D-2.",
+      "range": {
+        "startLine": 203,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 48
+      },
+      "revId": "f368948e25f78c64c328662b52d6b139b02826b4",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
