@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_ff5d7a49",
+        "filename": "sdnvpn/lib/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T12:19:54Z",
+      "side": 1,
+      "message": "this should be custom, m1.small is the name openstack uses and shuold probably be avoided",
+      "range": {
+        "startLine": 50,
+        "startChar": 35,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "1995f83f789da966e0bb3280bc2d4edb2db54595",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_1f5bae55",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T12:19:54Z",
+      "side": 1,
+      "message": "create_custom_flavor",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 17
+      },
+      "revId": "1995f83f789da966e0bb3280bc2d4edb2db54595",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
