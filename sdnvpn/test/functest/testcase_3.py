@@ -47,8 +47,11 @@ def main():
 
     openstack_nodes = test_utils.get_nodes()
 
+    # node.is_odl() doesn't work in Apex
+    # https://jira.opnfv.org/browse/RELENG-192
     controllers = [node for node in openstack_nodes
-                   if node.is_odl()]
+                   if "running" in
+                   node.run_cmd("sudo systemctl status opendaylight")]
     computes = [node for node in openstack_nodes if node.is_compute()]
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
     results.record_action(msg)
@@ -64,8 +67,11 @@ def main():
         results.add_success(msg)
 
     controller = controllers[0]  # We don't handle HA well
-    get_ext_ip_cmd = "ip a | grep br-ex | grep inet | awk '{print $2}'"
-    controller_ext_ip = controller.run_cmd(get_ext_ip_cmd).split("/")[0]
+    get_ext_ip_cmd = "sudo ip a | grep br-ex | grep inet | awk '{print $2}'"
+    ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).split("/")
+    ext_net_mask = ext_net_cidr[1].split('\n')[0]
+    controller_ext_ip = ext_net_cidr[0]
+
     logger.info("Starting bgp speaker of controller at IP %s "
                 % controller_ext_ip)
     logger.info("Checking if zrpcd is "
@@ -161,11 +167,19 @@ def main():
         TESTCASE_CONFIG.quagga_subnet_cidr,
         TESTCASE_CONFIG.quagga_router_name)
 
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type == "fuel":
+        disk = 'raw'
+    elif installer_type == "apex":
+        disk = 'qcow2'
+    else:
+        logger.error("Incompatible installer type")
+
     ubuntu_image_id = os_utils.create_glance_image(
         glance_client,
         COMMON_CONFIG.ubuntu_image_name,
         COMMON_CONFIG.ubuntu_image_path,
-        disk="raw",
+        disk,
         container="bare",
         public="public")
 
@@ -188,13 +202,9 @@ def main():
     # Map the hypervisor used above to a compute handle
     # returned by releng's manager
     for comp in computes:
-        if compute_node.host_ip in comp.run_cmd("ip a"):
+        if compute_node.host_ip in comp.run_cmd("sudo ip a"):
             compute = comp
             break
-    # Get the mask of ext net of the compute where quagga is running
-    # TODO check this works on apex
-    ext_cidr = compute.run_cmd(get_ext_ip_cmd).split("/")
-    ext_net_mask = ext_cidr[1]
     quagga_bootstrap_script = quagga.gen_quagga_setup_script(
         controller_ext_ip,
         fake_fip['fip_addr'],
@@ -223,14 +233,7 @@ def main():
     else:
         results.add_failure(msg)
 
-    # This part works around NAT
-    # What we do is attach the instance directly to the OpenStack
-    # external network. This way is is directly accessible from the
-    # controller without NAT. We assign a floating IP for this
-    # to make sure no overlaps happen.
-    libvirt_instance_name = getattr(quagga_vm, "OS-EXT-SRV-ATTR:instance_name")
-    compute.run_cmd("virsh attach-interface %s"
-                    " bridge br-ex" % libvirt_instance_name)
+    test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
     testcase = "Bootstrap quagga inside an OpenStack instance"
     cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
