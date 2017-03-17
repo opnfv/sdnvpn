@@ -20,8 +20,27 @@ OWN_IP=%s
 # directly access the instance from the external net without NAT
 EXT_NET_MASK=%s
 
-ip link set ens7 up
-ip addr add $OWN_IP/$EXT_NET_MASK dev ens7
+if [[ $(getent hosts | awk '{print $2}') != *"$(cat /etc/hostname | awk '{print $1}')"* ]]
+then 
+echo "127.0.1.1 $(cat /etc/hostname | awk '{print $1}')" | tee -a /etc/hosts
+fi
+
+quagga_int=''
+for net_int in $(netstat -ia | awk 'NR>2{print $1}');
+do
+if [ -z "$(ifconfig | grep $net_int)" ]
+then
+quagga_int=$net_int
+break
+fi
+done
+if [ -z "$quagga_int" ]
+then
+echo 'No available network interface'
+fi
+
+ip link set $quagga_int up
+ip addr add $OWN_IP/$EXT_NET_MASK dev $quagga_int
 
 ZEBRA_CONFIG_LOCATION="/etc/quagga/zebra.conf"
 DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
