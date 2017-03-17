@@ -47,6 +47,10 @@ class CommonConfig(object):
         self.ubuntu_image_path = '{0}/{1}'.format(
             CONST.dir_functest_data,
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img")
+        self.custom_flavor_name = 'm1.quagga'
+        self.custom_flavor_ram = 1024
+        self.custom_flavor_disk = 20
+        self.custom_flavor_vcpus = 1
 
 
 class TestcaseConfig(object):
