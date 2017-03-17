@@ -199,6 +199,12 @@ def main():
         controller_ext_ip,
         fake_fip['fip_addr'],
         ext_net_mask)
+
+    test_utils.create_flavor(TESTCASE_CONFIG.quagga_instance_flavor,
+                             TESTCASE_CONFIG.quagga_instance_ram,
+                             TESTCASE_CONFIG.quagga_instance_disk,
+                             TESTCASE_CONFIG.quagga_instance_cpus)
+
     quagga_vm = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.quagga_instance_name,
