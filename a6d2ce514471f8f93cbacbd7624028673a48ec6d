@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_5f036673",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T10:16:05Z",
+      "side": 1,
+      "message": "remove these here too",
+      "range": {
+        "startLine": 31,
+        "startChar": 18,
+        "endLine": 31,
+        "endChar": 53
+      },
+      "revId": "a6d2ce514471f8f93cbacbd7624028673a48ec6d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_dfee76b4",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T10:16:05Z",
+      "side": 1,
+      "message": "remove most of these and make it a passthrough to get_or_create_flavor with the right arguments:\n\ndef create_flavor():\n    return os_utils.get_or_create_flavor(COMMON_CONFIG.custom_flavor_name, etc etc)[1]",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "a6d2ce514471f8f93cbacbd7624028673a48ec6d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_7f2bcaeb",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T10:16:05Z",
+      "side": 1,
+      "message": "move these to common config and name them custom_instance_%",
+      "range": {
+        "startLine": 88,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 29
+      },
+      "revId": "a6d2ce514471f8f93cbacbd7624028673a48ec6d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_3ffeb26c",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-17T10:16:05Z",
+      "side": 1,
+      "message": "remove these arguments",
+      "range": {
+        "startLine": 203,
+        "startChar": 29,
+        "endLine": 206,
+        "endChar": 64
+      },
+      "revId": "a6d2ce514471f8f93cbacbd7624028673a48ec6d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
