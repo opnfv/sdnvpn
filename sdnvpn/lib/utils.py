@@ -437,3 +437,30 @@ def wait_for_cloud_init(instance):
         success = False
 
     return success
+
+
+def attach_instance_to_ext_br(instance, compute_node):
+    libvirt_instance_name = getattr(instance, "OS-EXT-SRV-ATTR:instance_name")
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type == "fuel":
+        bridge = "br-ex"
+    elif installer_type == "apex":
+        # In Apex, br-ex is an ovs bridge and virsh attach-interface
+        # won't just work. We work around it by creating a linux
+        # bridge, attaching that to br-ex with a veth pair
+        # and virsh-attaching the instance to the linux-bridge
+        bridge = "br-quagga"
+        cmd = """
+        set -xe
+        sudo brctl addbr {bridge} &&
+        sudo ip link set {bridge} up &&
+        sudo ip link add quagga-tap type veth peer name ovs-quagga-tap &&
+        sudo ip link set dev ovs-quagga-tap up &&
+        sudo ip link set dev quagga-tap up &&
+        sudo ovs-vsctl add-port br-ex ovs-quagga-tap &&
+        sudo brctl addif {bridge} quagga-tap
+        """
+        compute_node.run_cmd(cmd.format(bridge=bridge))
+
+    compute_node.run_cmd("sudo virsh attach-interface %s"
+                         " bridge %s" % (libvirt_instance_name, bridge))
