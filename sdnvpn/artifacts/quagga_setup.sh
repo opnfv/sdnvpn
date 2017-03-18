@@ -5,6 +5,11 @@ set -xe
 # change the password because this script is run on a passwordless cloud-image
 echo 'ubuntu:opnfv' | chpasswd
 
+# dns fix
+
+echo "8.8.8.8" > /etc/resolvconf/resolv.conf.d/head
+resolvconf -u
+
 # Wait for a floating IP
 # as a workaround to NAT breakage
 sleep 20
