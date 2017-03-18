@@ -44,7 +44,8 @@ def push_results(testname, start_time, end_time, criteria, details):
 
 def main():
     # Workaround for https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-100
-    cmd_line = "neutron quota-update --subnet -1 --network -1"
+    # and SDNVPN-126
+    cmd_line = "neutron quota-update --subnet -1 --network -1 --port -1"
     logger.info("Setting subnet/net quota to unlimited : %s" % cmd_line)
     cmd = os.popen(cmd_line)
     output = cmd.read()
