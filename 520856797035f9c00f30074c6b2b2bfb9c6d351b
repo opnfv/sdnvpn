@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_38723e7d",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-22T09:29:08Z",
+      "side": 1,
+      "message": "there also was a jira for that\nhttps://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-123",
+      "parentUuid": "9ab8dda7_f88fc673",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 70
+      },
+      "revId": "520856797035f9c00f30074c6b2b2bfb9c6d351b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_b84dce74",
         "filename": "sdnvpn/test/functest/testcase_3.py",
         "patchSetId": 4
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "https://jira.opnfv.org/browse/FUEL-264 has been opened in fuel JIRA and\nhttps://jira.opnfv.org/browse/SDNVPN-129 a remainder for our project",
       "parentUuid": "9ab8dda7_b84dce74",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 51
+      },
+      "revId": "520856797035f9c00f30074c6b2b2bfb9c6d351b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_7858b6fa",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-22T09:29:08Z",
+      "side": 1,
+      "message": "https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-124 there already was a ticket in the sdnvpn jira",
+      "parentUuid": "9ab8dda7_7841960a",
       "range": {
         "startLine": 170,
         "startChar": 0,
