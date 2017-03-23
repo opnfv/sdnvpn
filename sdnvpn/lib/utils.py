@@ -408,7 +408,7 @@ def run_odl_cmd(odl_node, cmd):
     that contains "ERROR" and run_cmd doesn't like that.
 
     '''
-    karaf_cmd = '/opt/opendaylight/bin/client "%s" 2>/dev/null' % cmd
+    karaf_cmd = '/opt/opendaylight/bin/client -h 127.0.0.1 "%s" 2>/dev/null' % cmd
     return odl_node.run_cmd(karaf_cmd)
 
 

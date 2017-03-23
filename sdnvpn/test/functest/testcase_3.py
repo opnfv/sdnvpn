@@ -68,9 +68,19 @@ def main():
 
     controller = controllers[0]  # We don't handle HA well
     get_ext_ip_cmd = "sudo ip a | grep br-ex | grep inet | awk '{print $2}'"
-    ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).split("/")
-    ext_net_mask = ext_net_cidr[1].split('\n')[0]
-    controller_ext_ip = ext_net_cidr[0]
+
+    ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).strip().split('\n')
+    ext_net_mask = ext_net_cidr[0].split('/')[1]
+    controller_ext_ip = ext_net_cidr[0].split('/')[0]
+
+    add_quagga_user = 'sudo usermod -a -G quaggavt quagga'
+    test_utils.run_odl_cmd(controller, add_quagga_user)
+
+    create_quagga_run_folder = "sudo mkdir -p /var/run/quagga/"
+    test_utils.run_odl_cmd(controller, create_quagga_run_folder)
+
+    chown_quagga_folder = 'sudo chown quagga:quagga -R /var/run/quagga/'
+    test_utils.run_odl_cmd(controller, chown_quagga_folder)
 
     logger.info("Starting bgp speaker of controller at IP %s "
                 % controller_ext_ip)

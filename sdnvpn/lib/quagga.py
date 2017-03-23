@@ -45,7 +45,7 @@ def gen_quagga_setup_script(controller_ip,
 
 
 def check_for_peering(controller):
-    cmd = 'show-bgp --cmd \\"ip bgp neighbors\\"'
+    cmd = 'odl:show-bgp --cmd \\"ip bgp neighbors\\"'
     tries = 20
     neighbors = None
     bgp_state_regex = re.compile("(BGP state =.*)")
