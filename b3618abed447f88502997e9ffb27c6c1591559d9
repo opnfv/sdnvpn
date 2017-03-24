@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_acdd8b44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T13:59:49Z",
+      "side": 1,
+      "message": "how? what was broken?",
+      "range": {
+        "startLine": 9,
+        "startChar": 3,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "b3618abed447f88502997e9ffb27c6c1591559d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_4c008faa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T13:59:49Z",
+      "side": 1,
+      "message": "ensure it by doing what and why?",
+      "range": {
+        "startLine": 10,
+        "startChar": 3,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "b3618abed447f88502997e9ffb27c6c1591559d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_8cf687d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T13:59:49Z",
+      "side": 1,
+      "message": "why? How was it broken before and how is it fixed now?",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 12,
+        "endChar": 51
+      },
+      "revId": "b3618abed447f88502997e9ffb27c6c1591559d9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
