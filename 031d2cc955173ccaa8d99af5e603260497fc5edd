@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_cc81df4b",
+        "filename": "sdnvpn/lib/quagga.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-24T13:08:31Z",
+      "side": 1,
+      "message": "better to keep it as it is, to be more indicative that it runs on karaf",
+      "range": {
+        "startLine": 48,
+        "startChar": 10,
+        "endLine": 48,
+        "endChar": 15
+      },
+      "revId": "031d2cc955173ccaa8d99af5e603260497fc5edd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_ac7cab73",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-24T13:08:31Z",
+      "side": 1,
+      "message": "the case does not run properly without this",
+      "range": {
+        "startLine": 411,
+        "startChar": 47,
+        "endLine": 411,
+        "endChar": 59
+      },
+      "revId": "031d2cc955173ccaa8d99af5e603260497fc5edd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_6c96b396",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-24T13:08:31Z",
+      "side": 1,
+      "message": "Keep it is as an improved way to split the cidrs",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 53
+      },
+      "revId": "031d2cc955173ccaa8d99af5e603260497fc5edd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
