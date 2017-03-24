@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_c95d51eb",
+        "filename": "sdnvpn/lib/quagga.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T09:18:13Z",
+      "side": 1,
+      "message": "Why is this needed? I could run the test end-to-end without the odl: prefix",
+      "range": {
+        "startLine": 48,
+        "startChar": 11,
+        "endLine": 48,
+        "endChar": 15
+      },
+      "revId": "505cf24f337b7b8de73c089de7d637376652ef92",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_6972257e",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T09:18:13Z",
+      "side": 1,
+      "message": "why is this needed either? the tests worked without it",
+      "range": {
+        "startLine": 411,
+        "startChar": 46,
+        "endLine": 411,
+        "endChar": 58
+      },
+      "revId": "505cf24f337b7b8de73c089de7d637376652ef92",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_a90fbde0",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T09:18:13Z",
+      "side": 1,
+      "message": "probably good to avoid unnecessary whitespace changes",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "505cf24f337b7b8de73c089de7d637376652ef92",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_090b69d7",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T09:18:13Z",
+      "side": 1,
+      "message": "please explain what the changes to this do and why it is needed in the commit message.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 74,
+        "endChar": 53
+      },
+      "revId": "505cf24f337b7b8de73c089de7d637376652ef92",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_4969618a",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 2479
+      },
+      "writtenOn": "2017-03-24T09:18:13Z",
+      "side": 1,
+      "message": "these are only required in Apex, they should probably be wrapped in an if.\nbtw, these should be done in Apex\u0027s quagga rpm spec. It\u0027s ok to put them here for now, but they need to be upstreamed.",
+      "range": {
+        "startLine": 76,
+        "startChar": 3,
+        "endLine": 83,
+        "endChar": 59
+      },
+      "revId": "505cf24f337b7b8de73c089de7d637376652ef92",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
