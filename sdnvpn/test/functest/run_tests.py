@@ -20,13 +20,7 @@ import functest.utils.functest_utils as ft_utils
 from sdnvpn.lib import config as sdnvpn_config
 
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-args = parser.parse_args()
-
-logger = ft_logger.Logger("sdnvpn-run-tests").getLogger()
+logger = ft_logger.Logger(__name__).getLogger()
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TEST_DB_URL = COMMON_CONFIG.test_db
@@ -42,7 +36,7 @@ def push_results(testname, start_time, end_time, criteria, details):
                                 details)
 
 
-def main():
+def main(report=False):
     # Workaround for https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-100
     # and SDNVPN-126
     cmd_line = "neutron quota-update --subnet -1 --network -1 --port -1"
@@ -99,4 +93,9 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-r", "--report",
+                        help="Create json result file",
+                        action="store_true")
+    args = parser.parse_args()
+    main(report=args.report)
