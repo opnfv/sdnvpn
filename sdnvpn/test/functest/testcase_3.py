@@ -71,18 +71,6 @@ def main():
     ext_net_mask = ext_net_cidr[0].split('/')[1]
     controller_ext_ip = ext_net_cidr[0].split('/')[0]
 
-    # TODO This code has to be adapted into Apex quagga rpm spec
-    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
-    if installer_type == "apex":
-        add_quagga_user = 'sudo usermod -a -G quaggavt quagga'
-        test_utils.run_odl_cmd(controller, add_quagga_user)
-
-        create_quagga_run_folder = "sudo mkdir -p /var/run/quagga/"
-        test_utils.run_odl_cmd(controller, create_quagga_run_folder)
-
-        chown_quagga_folder = 'sudo chown quagga:quagga -R /var/run/quagga/'
-        test_utils.run_odl_cmd(controller, chown_quagga_folder)
-
     logger.info("Starting bgp speaker of controller at IP %s "
                 % controller_ext_ip)
     logger.info("Checking if zrpcd is "
