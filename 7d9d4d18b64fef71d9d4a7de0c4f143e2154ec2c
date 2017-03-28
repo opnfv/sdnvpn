@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_a2e26f01",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-03-28T06:18:06Z",
+      "side": 0,
+      "message": "this line is needed, in order to be used for the image disk type selection. this is why flake8 complains.. Maybe it is better to be transferred at line 180",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 62
+      },
+      "revId": "7d9d4d18b64fef71d9d4a7de0c4f143e2154ec2c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
