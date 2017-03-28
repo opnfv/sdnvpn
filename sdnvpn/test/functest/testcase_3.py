@@ -52,6 +52,7 @@ def main():
                    if "running" in
                    node.run_cmd("sudo systemctl status opendaylight")]
     computes = [node for node in openstack_nodes if node.is_compute()]
+
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
     results.record_action(msg)
     results.add_to_summary(0, "-")
@@ -151,7 +152,9 @@ def main():
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
-    test_utils.open_icmp_ssh(neutron_client, sg_id)
+    test_utils.open_icmp(neutron_client, sg_id)
+    test_utils.open_http_port(neutron_client, sg_id)
+
     test_utils.open_bgp_port(neutron_client, sg_id)
     net_id, _, _ = test_utils.create_network(neutron_client,
                                              TESTCASE_CONFIG.net_1_name,
