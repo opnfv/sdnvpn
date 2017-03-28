@@ -40,7 +40,11 @@ class ODLReInstaller(Service):
         self.nodes = NodeManager(node_config['servers']).get_nodes()
         for node in self.nodes:
             node.execute('ovs-vsctl del-controller br-int', as_root=True)
+        first_controller = None
         for node in self.nodes:
+            if not first_controller:
+                if 'controller' in node.execute('echo $HOSTNAME')[0]:
+                    first_controller = node
             # Check if ODL runs on this node
             rv, _ = node.execute('ps aux |grep -v grep |grep karaf',
                                  as_root=True, check_exit_code=[0, 1])
@@ -52,6 +56,8 @@ class ODLReInstaller(Service):
             self.disconnect_ovs(node)
 
         # Upgrade ODL
+        if not self.odl_node:
+            self.odl_node = first_controller
         self.reinstall_odl(self.odl_node, odl_artifact)
 
         # Wait for ODL to come back up
