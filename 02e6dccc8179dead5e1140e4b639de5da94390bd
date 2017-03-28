@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_20ad1789",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 334
+      },
+      "writtenOn": "2017-03-28T14:06:32Z",
+      "side": 1,
+      "message": "i think this logic is fine.  I\u0027m just wondering if when we yum remove opendaylight, does it actually remove all the dynamic files created by opendaylight in the /opt/opendaylight directory.  I need to check.",
+      "range": {
+        "startLine": 103,
+        "startChar": 26,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "02e6dccc8179dead5e1140e4b639de5da94390bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
