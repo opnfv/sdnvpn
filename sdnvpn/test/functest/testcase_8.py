@@ -73,7 +73,9 @@ def main():
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
-    test_utils.open_icmp_ssh(neutron_client, sg_id)
+    test_utils.open_icmp(neutron_client, sg_id)
+    test_utils.open_http_port(neutron_client, sg_id)
+
     vm_2 = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.instance_2_name,
