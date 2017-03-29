@@ -22,6 +22,30 @@
       "revId": "02e6dccc8179dead5e1140e4b639de5da94390bd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_751aea18",
+        "filename": "odl-pipeline/lib/odl_reinstaller/odl_reinstaller.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-29T14:10:01Z",
+      "side": 1,
+      "message": "see line 91. everything is deleted already!",
+      "parentUuid": "9ab8dda7_20ad1789",
+      "range": {
+        "startLine": 103,
+        "startChar": 26,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "02e6dccc8179dead5e1140e4b639de5da94390bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
