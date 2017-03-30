@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_847e4ead",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-03-30T11:32:11Z",
+      "side": 1,
+      "message": "just a question, why does it need to be 2 times in there?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "d900e3f166536bfffdfba094757fbee4337630b8",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
