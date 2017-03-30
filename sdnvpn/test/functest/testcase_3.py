@@ -138,8 +138,8 @@ def main():
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
         logger.info("Downloading image")
         ft_utils.download_url(
-            "https://cloud-images.ubuntu.com/releases/16.04/"
-            "release/ubuntu-16.04-server-cloudimg-amd64-disk1.img",
+            "http://artifacts.opnfv.org/sdnvpn/"
+            "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
             "/home/opnfv/functest/data/")
     else:
         logger.info("Using old image")
