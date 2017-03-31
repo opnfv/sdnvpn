@@ -85,19 +85,25 @@ class ODLReInstaller(Service):
         LOG.info("OpenDaylight Upgrade Successful!")
 
     @staticmethod
-    def reinstall_odl(node, odl_tarball):
+    def reinstall_odl(node, odl_artifact):
         tar_tmp_path = '/tmp/odl-artifact/'
-        node.copy('to', odl_tarball, tar_tmp_path + odl_tarball)
+        node.copy('to', odl_artifact, tar_tmp_path + odl_artifact)
         node.execute('rm -rf /opt/opendaylight/*', as_root=True)
         node.execute('mkdir -p /opt/opendaylight/*', as_root=True)
-        LOG.info('Extracting %s to /opt/opendaylight/ on node %s'
-                 % (odl_tarball, node.name))
-        node.execute('tar -zxf %s --strip-components=1 -C '
-                     '/opt/opendaylight/'
-                     % (tar_tmp_path + odl_tarball), as_root=True)
-        node.execute('chown -R odl:odl /opt/opendaylight', as_root=True)
+        if 'tar.gz' in odl_artifact:
+            LOG.info('Extracting %s to /opt/opendaylight/ on node %s'
+                     % (odl_artifact, node.name))
+            node.execute('tar -zxf %s --strip-components=1 -C '
+                         '/opt/opendaylight/'
+                         % (tar_tmp_path + odl_artifact), as_root=True)
+            node.execute('chown -R odl:odl /opt/opendaylight', as_root=True)
+        if '.rpm' in odl_artifact:
+            LOG.info('Installing %s on node %s'
+                     % (odl_artifact, node.name))
+            node.execute('yum remove -y opendaylight; yum install -y %s'
+                         % (tar_tmp_path + odl_artifact), as_root=True)
         node.execute('rm -rf ' + tar_tmp_path, as_root=True)
-        LOG.info('Installing and Starting Opendaylight on node %s' % node.name)
+        LOG.info('Starting Opendaylight on node %s' % node.name)
         node.execute('puppet apply -e "include opendaylight" '
                      '--modulepath=/etc/puppet/modules/ '
                      '--verbose --debug --trace --detailed-exitcodes',
