@@ -343,22 +343,57 @@ def assert_and_get_compute_nodes(nova_client, required_node_number=2):
     return compute_nodes
 
 
-def open_icmp_ssh(neutron_client, security_group_id):
-    os_utils.create_secgroup_rule(neutron_client,
-                                  security_group_id,
-                                  'ingress',
-                                  'icmp')
-    os_utils.create_secgroup_rule(neutron_client,
-                                  security_group_id,
-                                  'tcp',
-                                  80, 80)
+def open_icmp(neutron_client, security_group_id):
+    if os_utils.check_security_group_rules(neutron_client,
+                                           security_group_id,
+                                           'ingress',
+                                           'icmp'):
+
+        if not os_utils.create_secgroup_rule(neutron_client,
+                                             security_group_id,
+                                             'ingress',
+                                             'icmp'):
+            logger.error("Failed to create icmp security group rule...")
+    else:
+        logger.info("This rule exists for security group: %s"
+                    % security_group_id)
+
+
+def open_http_port(neutron_client, security_group_id):
+    if os_utils.check_security_group_rules(neutron_client,
+                                           security_group_id,
+                                           'ingress',
+                                           'tcp',
+                                           80, 80):
+
+        if not os_utils.create_secgroup_rule(neutron_client,
+                                             security_group_id,
+                                             'ingress',
+                                             'tcp',
+                                             80, 80):
+
+            logger.error("Failed to create http security group rule...")
+    else:
+        logger.info("This rule exists for security group: %s"
+                    % security_group_id)
 
 
 def open_bgp_port(neutron_client, security_group_id):
-    os_utils.create_secgroup_rule(neutron_client,
-                                  security_group_id,
-                                  'tcp',
-                                  179, 179)
+    if os_utils.check_security_group_rules(neutron_client,
+                                           security_group_id,
+                                           'ingress',
+                                           'tcp',
+                                           179, 179):
+
+        if not os_utils.create_secgroup_rule(neutron_client,
+                                             security_group_id,
+                                             'ingress',
+                                             'tcp',
+                                             179, 179):
+            logger.error("Failed to create bgp security group rule...")
+    else:
+        logger.info("This rule exists for security group: %s"
+                    % security_group_id)
 
 
 def exec_cmd(cmd, verbose):
