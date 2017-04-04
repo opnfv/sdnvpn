@@ -106,8 +106,7 @@ class ODLReInstaller(Service):
         if '.rpm' in odl_artifact:
             LOG.info('Installing %s on node %s'
                      % (odl_artifact, node.name))
-            node.execute('yum remove -y opendaylight', as_root=True)
-            node.execute('yum install -y %s'
+            node.execute('yum remove -y opendaylight; yum install -y %s'
                          % (tar_tmp_path + odl_artifact), as_root=True)
         node.execute('rm -rf ' + tar_tmp_path, as_root=True)
         LOG.info('Starting Opendaylight on node %s' % node.name)

@@ -13,7 +13,6 @@ import importlib
 import os
 import sys
 import time
-import traceback
 import yaml
 
 import functest.utils.functest_logger as ft_logger
@@ -69,17 +68,11 @@ def main(report=False):
             logger.info("%s\n" % ("=" * len(title)))
             t = importlib.import_module(testcase, package=None)
             start_time = time.time()
-            try:
-                result = t.main()
-            except Exception as ex:
-                result = -1
-                logger.info("Caught Exception in %s: %s Trace: %s" %
-                            (test_name, ex, traceback.format_exc()))
+            result = t.main()
             end_time = time.time()
             if result < 0:
                 status = "FAIL"
                 overall_status = "FAIL"
-                logger.info("Testcase %s failed" % test_name)
             else:
                 status = result.get("status")
                 details = result.get("details")
