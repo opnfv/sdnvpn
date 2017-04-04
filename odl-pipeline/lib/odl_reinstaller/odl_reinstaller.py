@@ -94,8 +94,8 @@ class ODLReInstaller(Service):
     def reinstall_odl(node, odl_artifact):
         tar_tmp_path = '/tmp/odl-artifact/'
         node.copy('to', odl_artifact, tar_tmp_path + odl_artifact)
-        node.execute('rm -rf /opt/opendaylight/*', as_root=True)
-        node.execute('mkdir -p /opt/opendaylight/*', as_root=True)
+        node.execute('rm -rf /opt/opendaylight/', as_root=True)
+        node.execute('mkdir -p /opt/opendaylight/', as_root=True)
         if 'tar.gz' in odl_artifact:
             LOG.info('Extracting %s to /opt/opendaylight/ on node %s'
                      % (odl_artifact, node.name))
@@ -147,6 +147,9 @@ class ODLReInstaller(Service):
                                  as_root=True)
             except ProcessExecutionError:
                 LOG.info("No tunnel or patch ports configured")
+            LOG.info("Deleting all groups from {}".format(br))
+            node.execute('ovs-ofctl -OOpenFlow13 del-groups {}'.format(br),
+                         as_root=True, shell=True)
 
     @staticmethod
     def connect_ovs(node):
