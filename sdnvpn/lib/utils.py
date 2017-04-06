@@ -488,13 +488,15 @@ def attach_instance_to_ext_br(instance, compute_node):
         bridge = "br-quagga"
         cmd = """
         set -xe
-        sudo brctl addbr {bridge} &&
-        sudo ip link set {bridge} up &&
-        sudo ip link add quagga-tap type veth peer name ovs-quagga-tap &&
-        sudo ip link set dev ovs-quagga-tap up &&
-        sudo ip link set dev quagga-tap up &&
-        sudo ovs-vsctl add-port br-ex ovs-quagga-tap &&
-        sudo brctl addif {bridge} quagga-tap
+        if ! brctl show |grep -q ^br-quagga;then
+          sudo brctl addbr {bridge} &&
+          sudo ip link set {bridge} up &&
+          sudo ip link add quagga-tap type veth peer name ovs-quagga-tap &&
+          sudo ip link set dev ovs-quagga-tap up &&
+          sudo ip link set dev quagga-tap up &&
+          sudo ovs-vsctl add-port br-ex ovs-quagga-tap &&
+          sudo brctl addif {bridge} quagga-tap
+        fi
         """
         compute_node.run_cmd(cmd.format(bridge=bridge))
 
