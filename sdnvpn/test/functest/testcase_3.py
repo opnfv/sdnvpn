@@ -254,6 +254,8 @@ def main():
                                        controller)
     peer = quagga.check_for_peering(controller)
 
+    test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+
     if neighbor and peer:
         results.add_success("Peering with quagga")
     else:

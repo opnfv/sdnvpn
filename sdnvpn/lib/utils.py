@@ -502,3 +502,34 @@ def attach_instance_to_ext_br(instance, compute_node):
 
     compute_node.run_cmd("sudo virsh attach-interface %s"
                          " bridge %s" % (libvirt_instance_name, bridge))
+
+
+def detach_instance_from_ext_br(instance, compute_node):
+    libvirt_instance_name = getattr(instance, "OS-EXT-SRV-ATTR:instance_name")
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type == "fuel":
+        bridge = "br-ex"
+    elif installer_type == "apex":
+        # In Apex, br-ex is an ovs bridge and virsh attach-interface
+        # won't just work. We work around it by creating a linux
+        # bridge, attaching that to br-ex with a veth pair
+        # and virsh-attaching the instance to the linux-bridge
+        bridge = "br-quagga"
+        cmd = """
+            sudo brctl delif {bridge} quagga-tap &&
+            sudo ovs-vsctl del-port br-ex ovs-quagga-tap &&
+            sudo ip link set dev quagga-tap down &&
+            sudo ip link set dev ovs-quagga-tap down &&
+            sudo ip link del quagga-tap type veth peer name ovs-quagga-tap &&
+            sudo ip link set {bridge} down &&
+            sudo brctl delbr {bridge}
+        """
+        compute_node.run_cmd(cmd.format(bridge=bridge))
+
+    mac = compute_node.run_cmd("for vm in $(sudo virsh list | "
+                               "grep running | awk '{print $2}'); "
+                               "do echo -n ; sudo virsh dumpxml $vm| "
+                               "grep -oP '52:54:[\da-f:]+' ;done")
+    compute_node.run_cmd("sudo virsh detach-interface --domain %s"
+                         " --type bridge --mac %s"
+                         % (libvirt_instance_name, mac))
