@@ -236,24 +236,25 @@ def main():
         results.add_failure(msg)
     test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
-    testcase = "Bootstrap quagga inside an OpenStack instance"
-    cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
-    if cloud_init_success:
-        results.add_success(testcase)
-    else:
-        results.add_failure(testcase)
-    results.add_to_summary(0, "=")
+    try:
+        testcase = "Bootstrap quagga inside an OpenStack instance"
+        cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
+        if cloud_init_success:
+            results.add_success(testcase)
+        else:
+            results.add_failure(testcase)
+        results.add_to_summary(0, "=")
 
-    results.add_to_summary(0, '-')
-    results.add_to_summary(1, "Peer Quagga with OpenDaylight")
-    results.add_to_summary(0, '-')
+        results.add_to_summary(0, '-')
+        results.add_to_summary(1, "Peer Quagga with OpenDaylight")
+        results.add_to_summary(0, '-')
 
-    neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
-                                       controller_ext_ip,
-                                       controller)
-    peer = quagga.check_for_peering(controller)
-
-    test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+        neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
+                                           controller_ext_ip,
+                                           controller)
+        peer = quagga.check_for_peering(controller)
+    finally:
+        test_utils.detach_instance_from_ext_br(quagga_vm, compute)
 
     if neighbor and peer:
         results.add_success("Peering with quagga")
