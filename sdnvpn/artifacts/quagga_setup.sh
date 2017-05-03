@@ -5,11 +5,6 @@ set -xe
 # change the password because this script is run on a passwordless cloud-image
 echo 'ubuntu:opnfv' | chpasswd
 
-# dns fix
-
-echo "nameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/head
-resolvconf -u
-
 # Wait for a floating IP
 # as a workaround to NAT breakage
 sleep 20
@@ -47,8 +42,12 @@ DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
 BGPD_CONFIG_LOCATION="/etc/quagga/bgpd.conf"
 BGPD_LOG_FILE="/var/log/bgpd.log"
 
-DEBIAN_FRONTEND=noninteractive apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install quagga -y
+# Quagga is already installed to run as well in setups without inet
+# dns fix
+# echo "nameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/head
+# resolvconf -u
+# DEBIAN_FRONTEND=noninteractive apt-get update
+# DEBIAN_FRONTEND=noninteractive apt-get install quagga -y
 
 touch $BGPD_LOG_FILE
 chown quagga:quagga $BGPD_LOG_FILE

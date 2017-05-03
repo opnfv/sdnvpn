@@ -234,7 +234,6 @@ def main():
         results.add_success(msg)
     else:
         results.add_failure(msg)
-
     test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
     testcase = "Bootstrap quagga inside an OpenStack instance"
