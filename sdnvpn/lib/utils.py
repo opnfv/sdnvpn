@@ -509,6 +509,14 @@ def attach_instance_to_ext_br(instance, compute_node):
 
 def detach_instance_from_ext_br(instance, compute_node):
     libvirt_instance_name = getattr(instance, "OS-EXT-SRV-ATTR:instance_name")
+    mac = compute_node.run_cmd("for vm in $(sudo virsh list | "
+                               "grep running | awk '{print $2}'); "
+                               "do echo -n ; sudo virsh dumpxml $vm| "
+                               "grep -oP '52:54:[\da-f:]+' ;done")
+    compute_node.run_cmd("sudo virsh detach-interface --domain %s"
+                         " --type bridge --mac %s"
+                         % (libvirt_instance_name, mac))
+
     installer_type = str(os.environ['INSTALLER_TYPE'].lower())
     if installer_type == "fuel":
         bridge = "br-ex"
@@ -528,11 +536,3 @@ def detach_instance_from_ext_br(instance, compute_node):
             sudo brctl delbr {bridge}
         """
         compute_node.run_cmd(cmd.format(bridge=bridge))
-
-    mac = compute_node.run_cmd("for vm in $(sudo virsh list | "
-                               "grep running | awk '{print $2}'); "
-                               "do echo -n ; sudo virsh dumpxml $vm| "
-                               "grep -oP '52:54:[\da-f:]+' ;done")
-    compute_node.run_cmd("sudo virsh detach-interface --domain %s"
-                         " --type bridge --mac %s"
-                         % (libvirt_instance_name, mac))
