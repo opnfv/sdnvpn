@@ -52,6 +52,11 @@ class ODLReInstaller(Service):
                 self.odl_node = node
                 LOG.info("ODL node found: {}".format(self.odl_node.name))
                 node.execute('systemctl stop opendaylight', as_root=True)
+                # rc 5 means the service is not there.
+                node.execute('systemctl stop bgpd', as_root=True,
+                             check_exit_code=[0, 5])
+                node.execute('systemctl stop zrpcd', as_root=True,
+                             check_exit_code=[0, 5])
 
             self.disconnect_ovs(node)
 
@@ -90,8 +95,21 @@ class ODLReInstaller(Service):
             self.validate_ovs(node)
         LOG.info("OpenDaylight Upgrade Successful!")
 
-    @staticmethod
-    def reinstall_odl(node, odl_artifact):
+    def _start_service_if_enabled(self, node, service):
+        # rc 3 means service inactive
+        # rc 5 mean no service available
+        status, _ = node.execute('systemctl status {}'.
+                                 format(service), check_exit_code=[0, 3, 5])
+        if 'service; enabled' in status:
+            LOG.info('Starting {}'.format(service))
+            node.execute('systemctl start {}'.format(service), as_root=True)
+
+    def reinstall_odl(self, node, odl_artifact):
+        # Check for Quagga
+        self._start_service_if_enabled(node, 'zrpcd')
+        self._start_service_if_enabled(node, 'bgpd')
+
+        # Install odl
         tar_tmp_path = '/tmp/odl-artifact/'
         node.copy('to', odl_artifact, tar_tmp_path + odl_artifact)
         node.execute('rm -rf /opt/opendaylight/', as_root=True)
