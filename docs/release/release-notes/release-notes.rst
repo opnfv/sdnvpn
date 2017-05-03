@@ -34,13 +34,13 @@ Release Data
 | **Project**                          | sdnvpn                                    |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Repo/tag**                         | Danube.1.0                                |
+| **Repo/tag**                         | Danube.2.0                                |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release designation**              | Danube 1.0 follow-up release              |
+| **Release designation**              | Danube 2.0 follow-up release              |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release date**                     | March 23 2016                             |
+| **Release date**                     | May 4 2017                                |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
 | **Purpose of the delivery**          | Including BGP stack - 6WIND Zrpcd/Quagga  |
