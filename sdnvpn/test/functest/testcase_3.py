@@ -245,21 +245,25 @@ def main():
             results.add_failure(testcase)
         results.add_to_summary(0, "=")
 
-        results.add_to_summary(0, '-')
-        results.add_to_summary(1, "Peer Quagga with OpenDaylight")
-        results.add_to_summary(0, '-')
+        # TODO remove this and include apex again
+        installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+        if installer_type != "apex":
 
-        neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
-                                           controller_ext_ip,
-                                           controller)
-        peer = quagga.check_for_peering(controller)
+            results.add_to_summary(0, '-')
+            results.add_to_summary(1, "Peer Quagga with OpenDaylight")
+            results.add_to_summary(0, '-')
+
+            neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
+                                               controller_ext_ip,
+                                               controller)
+            peer = quagga.check_for_peering(controller)
+            if neighbor and peer:
+                results.add_success("Peering with quagga")
+            else:
+                results.add_failure("Peering with quagga")
+
     finally:
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
-
-    if neighbor and peer:
-        results.add_success("Peering with quagga")
-    else:
-        results.add_failure("Peering with quagga")
 
     return results.compile_summary()
 
