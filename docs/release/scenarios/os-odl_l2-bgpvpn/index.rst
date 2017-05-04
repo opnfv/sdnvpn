@@ -1,4 +1,6 @@
-.. _sdnvpn-os-odl_l2-bgpvpn:
+.. _sdnvpn-os-odl_l2-bgpvpn-noha:
+
+.. _sdnvpn-os-odl_l2-bgpvpn-ha:
 
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
