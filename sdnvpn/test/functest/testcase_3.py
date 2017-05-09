@@ -77,7 +77,7 @@ def main():
     logger.info("Checking if zrpcd is "
                 "running on the controller node")
 
-    cmd = "systemctl status zrpcd"
+    cmd = "systemctl status zrpcd |grep -i running"
     output = controller.run_cmd(cmd)
     msg = ("zrpcd is running")
 
