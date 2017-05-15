@@ -7,6 +7,7 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
+import logging
 import os
 import sys
 import time
@@ -14,13 +15,12 @@ import requests
 import re
 import subprocess
 
-import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 from opnfv.deployment.factory import Factory as DeploymentFactory
 
 from sdnvpn.lib import config as sdnvpn_config
 
-logger = ft_logger.Logger("sndvpn_test_utils").getLogger()
+logger = logging.getLogger('sndvpn_test_utils')
 
 common_config = sdnvpn_config.CommonConfig()
 
