@@ -9,9 +9,9 @@
 #
 
 import argparse
+import logging
 from random import randint
 
-import functest.utils.functest_logger as ft_logger
 import functest.utils.openstack_utils as os_utils
 
 from sdnvpn.lib import utils as test_utils
@@ -26,7 +26,7 @@ parser.add_argument("-r", "--report",
 
 args = parser.parse_args()
 
-logger = ft_logger.Logger("sdnvpn-testcase-4").getLogger()
+logger = logging.getLogger('sdnvpn-testcase-4')
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_4')

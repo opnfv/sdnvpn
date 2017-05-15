@@ -7,12 +7,12 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
+import logging
 import time
 
-import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
-logger = ft_logger.Logger("sdnvpn-results").getLogger()
+logger = logging.getLogger('sdnvpn-results')
 
 
 class Results(object):
