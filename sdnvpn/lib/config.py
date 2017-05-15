@@ -8,13 +8,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 
 import yaml
+import logging
 import os
 
 from functest.utils.constants import CONST
-import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
-logger = ft_logger.Logger("sndvpn_test_config").getLogger()
+logger = logging.getLogger('sdnvpn_test_config')
 
 
 class CommonConfig(object):
