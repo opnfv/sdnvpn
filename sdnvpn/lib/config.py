@@ -8,13 +8,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 
 import yaml
+import logging
 import os
 
 from functest.utils.constants import CONST
-import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 
-logger = ft_logger.Logger("sndvpn_test_config").getLogger()
+logger = logging.getLogger('sdnvpn_test_config')
 
 
 class CommonConfig(object):
@@ -22,6 +22,7 @@ class CommonConfig(object):
     Common configuration parameters across testcases
     """
     def __init__(self):
+        logging.basicConfig()
         self.repo_path = CONST.dir_repo_sdnvpn
         self.config_file = os.path.join(self.repo_path,
                                         'sdnvpn/test/functest/config.yaml')
@@ -60,6 +61,7 @@ class TestcaseConfig(object):
     """
 
     def __init__(self, testcase):
+        logging.basicConfig()
         common_config = CommonConfig()
         test_config = None
         with open(common_config.config_file) as f:

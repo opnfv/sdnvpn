@@ -10,18 +10,19 @@
 
 import argparse
 import importlib
+import logging
 import os
 import sys
 import time
 import traceback
 import yaml
 
-import functest.utils.functest_logger as ft_logger
 import functest.utils.functest_utils as ft_utils
 from sdnvpn.lib import config as sdnvpn_config
 
 
-logger = ft_logger.Logger(__name__).getLogger()
+logger = logging.getLogger('sdnvpn-run-tests')
+logger.setLevel(logging.DEBUG)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TEST_DB_URL = COMMON_CONFIG.test_db
@@ -100,6 +101,7 @@ def main(report=False):
 
 
 if __name__ == '__main__':
+    logging.basicConfig()
     parser = argparse.ArgumentParser()
     parser.add_argument("-r", "--report",
                         help="Create json result file",
