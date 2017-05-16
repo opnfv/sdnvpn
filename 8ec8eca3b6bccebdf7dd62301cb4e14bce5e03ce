@@ -53,6 +53,29 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_6603dd42",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 25
+      },
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_66dc3de5",
         "filename": "sdnvpn/test/functest/testcase_2.py",
         "patchSetId": 5
@@ -64,6 +87,29 @@
       "writtenOn": "2017-05-16T08:04:15Z",
       "side": 1,
       "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_86fe1137",
+        "filename": "sdnvpn/test/functest/testcase_2.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 25
+      },
       "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
@@ -87,6 +133,29 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_26fde53a",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 272,
+        "startChar": 4,
+        "endLine": 272,
+        "endChar": 25
+      },
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_46e1f998",
         "filename": "sdnvpn/test/functest/testcase_4.py",
         "patchSetId": 5
@@ -104,6 +173,29 @@
     },
     {
       "key": {
+        "uuid": "9ab8dda7_46f81949",
+        "filename": "sdnvpn/test/functest/testcase_4.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 25
+      },
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_06f30174",
         "filename": "sdnvpn/test/functest/testcase_7.py",
         "patchSetId": 5
@@ -115,6 +207,52 @@
       "writtenOn": "2017-05-16T08:04:15Z",
       "side": 1,
       "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_e696edef",
+        "filename": "sdnvpn/test/functest/testcase_7.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 25
+      },
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_069a2114",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:17:47Z",
+      "side": 1,
+      "message": "logging.basicConfig(level\u003dlogging.INFO) would be OK",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 25
+      },
       "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
