@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9ab8dda7_a6d235d0",
+        "filename": "sdnvpn/lib/results.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis needed here for the results to be printed",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab8dda7_26e645b5",
         "filename": "sdnvpn/test/functest/run_tests.py",
         "patchSetId": 5
@@ -13,6 +30,108 @@
       "writtenOn": "2017-05-16T08:03:28Z",
       "side": 1,
       "message": "I think you could switch to logging.basicConfig(level\u003dlogging.DEBUG).",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_c6d5e9b9",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_66dc3de5",
+        "filename": "sdnvpn/test/functest/testcase_2.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_86d7f1be",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_46e1f998",
+        "filename": "sdnvpn/test/functest/testcase_4.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_06f30174",
+        "filename": "sdnvpn/test/functest/testcase_7.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_a6e9d581",
+        "filename": "sdnvpn/test/functest/testcase_8.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-16T08:04:15Z",
+      "side": 1,
+      "message": "logger.setLevel(logging.INFO)\nis also needed here in order to run this case autonomously as we did before",
       "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
