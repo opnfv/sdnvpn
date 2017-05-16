@@ -141,8 +141,6 @@ OpenStack NAT does not work. Instances created in subnets that are connected to
 the public network via a gateway should have external connectivity. This does
 not work and can be worked around by assigning a Floating IP to the instance [1].
 
-For Apex the peering with the virtual Peer is not working due to limitation
-of apex networking.
 
 Workarounds
 -----------
