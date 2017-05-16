@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_26e645b5",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T08:03:28Z",
+      "side": 1,
+      "message": "I think you could switch to logging.basicConfig(level\u003dlogging.DEBUG).",
+      "revId": "8ec8eca3b6bccebdf7dd62301cb4e14bce5e03ce",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
