@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_264ac5c5",
+        "filename": "sdnvpn/lib/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T07:16:36Z",
+      "side": 1,
+      "message": "I would prefer not to call basicConfig() here. It could be called by other python scipts which have their own config.",
+      "revId": "077e90acb83f7ea04b1d278df84cef9b2553a92a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_464579b1",
+        "filename": "sdnvpn/lib/config.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T07:16:36Z",
+      "side": 1,
+      "message": "I would prefer not to call basicConfig() here. It could be called by other python scipts which have their own config.",
+      "revId": "077e90acb83f7ea04b1d278df84cef9b2553a92a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_6640bda5",
+        "filename": "sdnvpn/lib/results.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T07:16:36Z",
+      "side": 1,
+      "message": "I would prefer not to call basicConfig() here. It could be called by other python scipts which have their own config.",
+      "revId": "077e90acb83f7ea04b1d278df84cef9b2553a92a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_e62cad04",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T07:16:36Z",
+      "side": 1,
+      "message": "in __main__?",
+      "revId": "077e90acb83f7ea04b1d278df84cef9b2553a92a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ab8dda7_26f3a59f",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T07:16:36Z",
+      "side": 1,
+      "message": "you could set here the default logging level",
+      "revId": "077e90acb83f7ea04b1d278df84cef9b2553a92a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
