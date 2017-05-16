@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_8950625f",
+        "filename": "sdnvpn/lib/results.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-05-16T16:08:28Z",
+      "side": 1,
+      "message": "I think it\u0027s useless here.",
+      "revId": "410a914cb0cb5cbf06e0deac835293b611e060ec",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
