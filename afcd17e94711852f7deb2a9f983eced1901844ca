@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ab8dda7_5c5f8641",
+        "filename": "sdnvpn/lib/results.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-05-17T06:29:20Z",
+      "side": 1,
+      "message": "Sorry for the inconvenience, but we need this: \nlogger.setLevel(logging.INFO)",
+      "revId": "afcd17e94711852f7deb2a9f983eced1901844ca",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
