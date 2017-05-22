@@ -43,13 +43,18 @@ def main():
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
+    (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
+     subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
+
     image_id = os_utils.create_glance_image(glance_client,
                                             TESTCASE_CONFIG.image_name,
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public='public')
-    network_1_id, _, router_1_id = test_utils.create_network(
+    image_ids.append(image_id)
+
+    network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
         neutron_client,
         TESTCASE_CONFIG.net_1_name,
         TESTCASE_CONFIG.subnet_1_name,
@@ -59,14 +64,21 @@ def main():
     network_2_id = test_utils.create_net(
         neutron_client,
         TESTCASE_CONFIG.net_2_name)
-    test_utils.create_subnet(neutron_client,
-                             TESTCASE_CONFIG.subnet_2_name,
-                             TESTCASE_CONFIG.subnet_2_cidr,
-                             network_2_id)
 
-    sg_id = os_utils.create_security_group_full(neutron_client,
-                                                TESTCASE_CONFIG.secgroup_name,
-                                                TESTCASE_CONFIG.secgroup_descr)
+    subnet_2_id = test_utils.create_subnet(
+        neutron_client,
+        TESTCASE_CONFIG.subnet_2_name,
+        TESTCASE_CONFIG.subnet_2_cidr,
+        network_2_id)
+    interfaces.append(tuple((router_1_id, subnet_1_id)))
+    network_ids.extend([network_1_id, network_2_id])
+    router_ids.append(router_1_id)
+    subnet_ids.extend([subnet_1_id, subnet_2_id])
+
+    sg_id = os_utils.create_security_group_full(
+        neutron_client,
+        TESTCASE_CONFIG.secgroup_name,
+        TESTCASE_CONFIG.secgroup_descr)
 
     compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
 
@@ -133,6 +145,8 @@ def main():
         compute_node=av_zone_1,
         userdata=u1)
 
+    instance_ids.extend([vm_1.id, vm_2.id, vm_3.id, vm_4.id, vm_5.id])
+
     msg = ("Create VPN with eRT<>iRT")
     results.record_action(msg)
     vpn_name = "sdnvpn-" + str(randint(100000, 999999))
@@ -143,6 +157,7 @@ def main():
     bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn)
+    bgpvpn_ids.append(bgpvpn_id)
 
     msg = ("Associate router '%s' to the VPN." % TESTCASE_CONFIG.router_1_name)
     results.record_action(msg)
@@ -203,6 +218,11 @@ def main():
 
     results.add_to_summary(0, "=")
     logger.info("\n%s" % results.summary)
+
+    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
+                            image_ids)
+    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
+                               subnet_ids, router_ids, network_ids)
 
     return results.compile_summary()
 
