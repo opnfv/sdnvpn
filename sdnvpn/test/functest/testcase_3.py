@@ -149,6 +149,9 @@ def main():
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
 
+    (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
+     subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
+
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
@@ -156,18 +159,26 @@ def main():
     test_utils.open_http_port(neutron_client, sg_id)
 
     test_utils.open_bgp_port(neutron_client, sg_id)
-    net_id, _, _ = test_utils.create_network(neutron_client,
-                                             TESTCASE_CONFIG.net_1_name,
-                                             TESTCASE_CONFIG.subnet_1_name,
-                                             TESTCASE_CONFIG.subnet_1_cidr,
-                                             TESTCASE_CONFIG.router_1_name)
-
-    quagga_net_id, _, _ = test_utils.create_network(
+    net_id, subnet_1_id, router_1_id = test_utils.create_network(
         neutron_client,
-        TESTCASE_CONFIG.quagga_net_name,
-        TESTCASE_CONFIG.quagga_subnet_name,
-        TESTCASE_CONFIG.quagga_subnet_cidr,
-        TESTCASE_CONFIG.quagga_router_name)
+        TESTCASE_CONFIG.net_1_name,
+        TESTCASE_CONFIG.subnet_1_name,
+        TESTCASE_CONFIG.subnet_1_cidr,
+        TESTCASE_CONFIG.router_1_name)
+
+    quagga_net_id, subnet_quagga_id, \
+        router_quagga_id = test_utils.create_network(
+            neutron_client,
+            TESTCASE_CONFIG.quagga_net_name,
+            TESTCASE_CONFIG.quagga_subnet_name,
+            TESTCASE_CONFIG.quagga_subnet_cidr,
+            TESTCASE_CONFIG.quagga_router_name)
+
+    interfaces.append(tuple((router_1_id, subnet_1_id)))
+    interfaces.append(tuple((router_quagga_id, subnet_quagga_id)))
+    network_ids.extend([net_id, quagga_net_id])
+    router_ids.extend([router_1_id, router_quagga_id])
+    subnet_ids.extend([subnet_1_id, subnet_quagga_id])
 
     installer_type = str(os.environ['INSTALLER_TYPE'].lower())
     if installer_type == "fuel":
@@ -185,6 +196,8 @@ def main():
         container="bare",
         public="public")
 
+    image_ids.append(ubuntu_image_id)
+
     # NOTE(rski) The order of this seems a bit weird but
     # there is a reason for this, namely
     # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
@@ -198,6 +211,8 @@ def main():
     # fake_fip is needed to bypass NAT
     # see below for the reason why.
     fake_fip = os_utils.create_floating_ip(neutron_client)
+
+    floatingip_ids.extend([fip['fip_id'], fake_fip['fip_id']])
     # pin quagga to some compute
     compute_node = nova_client.hypervisors.list()[0]
     quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
@@ -224,6 +239,8 @@ def main():
         flavor=COMMON_CONFIG.custom_flavor_name,
         userdata=quagga_bootstrap_script,
         compute_node=quagga_compute_node)
+
+    instance_ids.append(quagga_vm)
 
     fip_added = os_utils.add_floating_ip(nova_client,
                                          quagga_vm.id,
@@ -264,6 +281,11 @@ def main():
 
     finally:
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+
+    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
+                            image_ids)
+    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
+                               subnet_ids, router_ids, network_ids)
 
     return results.compile_summary()
 
