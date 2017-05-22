@@ -52,13 +52,18 @@ def main():
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
+    floatingip_ids, instance_ids, router_ids, network_ids, image_ids, \
+        subnet_ids, interfaces = ([] for i in range(7))
+
     image_id = os_utils.create_glance_image(glance_client,
                                             TESTCASE_CONFIG.image_name,
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public='public')
-    network_1_id, _, router_1_id = test_utils.create_network(
+    image_ids.append(image_id)
+
+    network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
         neutron_client,
         TESTCASE_CONFIG.net_1_name,
         TESTCASE_CONFIG.subnet_1_name,
@@ -67,10 +72,17 @@ def main():
     network_2_id = test_utils.create_net(
         neutron_client,
         TESTCASE_CONFIG.net_2_name)
-    test_utils.create_subnet(neutron_client,
-                             TESTCASE_CONFIG.subnet_2_name,
-                             TESTCASE_CONFIG.subnet_2_cidr,
-                             network_2_id)
+
+    subnet_2_id = test_utils.create_subnet(
+        neutron_client,
+        TESTCASE_CONFIG.subnet_2_name,
+        TESTCASE_CONFIG.subnet_2_cidr,
+        network_2_id)
+
+    interfaces.append(tuple((router_1_id, subnet_1_id)))
+    network_ids.extend([network_1_id, network_2_id])
+    router_ids.append(router_1_id)
+    subnet_ids.extend([subnet_1_id, subnet_2_id])
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -96,6 +108,7 @@ def main():
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         userdata=u1)
+    instance_ids.extend([vm_1.id, vm_2.id])
 
     results.record_action("Create VPN with eRT==iRT")
     vpn_name = "sdnvpn-7"
@@ -138,6 +151,7 @@ def main():
     results.record_action(msg)
 
     fip = os_utils.create_floating_ip(neutron_client)
+
     fip_added = os_utils.add_floating_ip(nova_client, vm_1.id, fip['fip_addr'])
     if fip_added:
         results.add_success(msg)
@@ -148,6 +162,12 @@ def main():
     results.add_to_summary(0, "-")
     results.ping_ip_test(fip['fip_addr'])
 
+    floatingip_ids.append(fip['fip_id'])
+
+    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
+                            image_ids)
+    test_utils.cleanup_neutron(neutron_client, interfaces, subnet_ids,
+                               router_ids, network_ids)
     return results.compile_summary()
 
 

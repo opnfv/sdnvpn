@@ -44,6 +44,9 @@ def main():
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
+    floatingip_ids, instance_ids, router_ids, network_ids, image_ids, \
+        subnet_ids, interfaces = ([] for i in range(7))
+
     logger.debug("Using private key %s injected to the VMs."
                  % COMMON_CONFIG.keyfile_path)
     keyfile = open(COMMON_CONFIG.keyfile_path, 'r')
@@ -57,15 +60,17 @@ def main():
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public='public')
+    image_ids.append(image_id)
+
     network_1_id = test_utils.create_net(
         neutron_client,
         TESTCASE_CONFIG.net_1_name)
-    test_utils.create_subnet(
+    subnet_1a_id = test_utils.create_subnet(
         neutron_client,
         TESTCASE_CONFIG.subnet_1a_name,
         TESTCASE_CONFIG.subnet_1a_cidr,
         network_1_id)
-    test_utils.create_subnet(
+    subnet_1b_id = test_utils.create_subnet(
         neutron_client,
         TESTCASE_CONFIG.subnet_1b_name,
         TESTCASE_CONFIG.subnet_1b_cidr,
@@ -74,16 +79,18 @@ def main():
     network_2_id = test_utils.create_net(
         neutron_client,
         TESTCASE_CONFIG.net_2_name)
-    test_utils.create_subnet(
+    subnet_2a_id = test_utils.create_subnet(
         neutron_client,
         TESTCASE_CONFIG.subnet_2a_name,
         TESTCASE_CONFIG.subnet_2a_cidr,
         network_2_id)
-    test_utils.create_subnet(
+    subnet_2b_id = test_utils.create_subnet(
         neutron_client,
         TESTCASE_CONFIG.subnet_2b_name,
         TESTCASE_CONFIG.subnet_2b_cidr,
         network_2_id)
+    network_ids.extend([network_1_id, network_2_id])
+    subnet_ids.extend([subnet_1a_id, subnet_1b_id, subnet_2a_id, subnet_2b_id])
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -164,6 +171,7 @@ def main():
         compute_node=av_zone_1,
         userdata=u1,
         files=files)
+    instance_ids.extend([vm_1.id, vm_2.id, vm_3.id, vm_4.id, vm_5.id])
 
     msg = ("Create VPN1 with eRT=iRT")
     results.record_action(msg)
@@ -242,6 +250,11 @@ def main():
     results.check_ssh_output(vm_4, vm_1,
                              expected="not reachable",
                              timeout=30)
+
+    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
+                            image_ids)
+    test_utils.cleanup_neutron(neutron_client, interfaces, subnet_ids,
+                               router_ids, network_ids)
 
     return results.compile_summary()
 

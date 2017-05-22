@@ -536,3 +536,75 @@ def detach_instance_from_ext_br(instance, compute_node):
             sudo brctl delbr {bridge}
         """
         compute_node.run_cmd(cmd.format(bridge=bridge))
+
+
+def cleanup_neutron(neutron_client, interfaces, subnet_ids,
+                    router_ids, network_ids):
+
+    if len(interfaces) != 0:
+        for router_id, subnet_id in interfaces:
+            if not os_utils.remove_interface_router(neutron_client,
+                                                    router_id, subnet_id):
+                logging.error('Fail to delete all interface routers. '
+                              'Interface router with id {} was not deleted.'.
+                              format(router_id))
+
+    if len(router_ids) != 0:
+        for router_id in router_ids:
+            if not os_utils.remove_gateway_router(neutron_client, router_id):
+                logging.error('Fail to delete all gateway routers. '
+                              'Gateway router with id {} was not deleted.'.
+                              format(router_id))
+
+    if len(subnet_ids) != 0:
+        for subnet_id in subnet_ids:
+            if not os_utils.delete_neutron_subnet(neutron_client, subnet_id):
+                logging.error('Fail to delete all subnets. '
+                              'Subnet with id {} was not deleted.'.
+                              format(subnet_id))
+                return False
+
+    if len(router_ids) != 0:
+        for router_id in router_ids:
+            if not os_utils.delete_neutron_router(neutron_client, router_id):
+                logging.error('Fail to delete all routers. '
+                              'Router with id {} was not deleted.'.
+                              format(router_id))
+                return False
+
+    if len(network_ids) != 0:
+        for network_id in network_ids:
+            if not os_utils.delete_neutron_net(neutron_client, network_id):
+                logging.error('Fail to delete all networks. '
+                              'Network with id {} was not deleted.'.
+                              format(network_id))
+                return False
+    return True
+
+
+def cleanup_nova(nova_client, floatingip_ids, instance_ids, image_ids):
+
+    if len(floatingip_ids) != 0:
+        for floatingip_id in floatingip_ids:
+            if not os_utils.delete_floating_ip(nova_client, floatingip_id):
+                logging.error('Fail to delete all floating ips. '
+                              'Floating ip with id {} was not deleted.'.
+                              format(floatingip_id))
+                return False
+
+    if len(instance_ids) != 0:
+        for instance_id in instance_ids:
+            if not os_utils.delete_instance(nova_client, instance_id):
+                logging.error('Fail to delete all instances. '
+                              'Instance with id {} was not deleted.'.
+                              format(instance_id))
+                return False
+
+    if len(image_ids) != 0:
+        for image_id in image_ids:
+            if not os_utils.delete_glance_image(nova_client, image_id):
+                logging.error('Fail to delete all images. '
+                              'Image with id {} was not deleted.'.
+                              format(image_id))
+                return False
+    return True

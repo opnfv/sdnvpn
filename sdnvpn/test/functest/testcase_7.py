@@ -52,24 +52,36 @@ def main():
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
+    floatingip_ids, instance_ids, router_ids, network_ids, image_ids, \
+        subnet_ids, interfaces = ([] for i in range(7))
+
     image_id = os_utils.create_glance_image(glance_client,
                                             TESTCASE_CONFIG.image_name,
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
                                             container="bare",
                                             public='public')
-    network_1_id, _, _ = test_utils.create_network(
+    image_ids.append(image_id)
+
+    network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
         neutron_client,
         TESTCASE_CONFIG.net_1_name,
         TESTCASE_CONFIG.subnet_1_name,
         TESTCASE_CONFIG.subnet_1_cidr,
         TESTCASE_CONFIG.router_1_name)
-    network_2_id, _, _ = test_utils.create_network(
+
+    network_2_id, subnet_2_id, router_2_id = test_utils.create_network(
         neutron_client,
         TESTCASE_CONFIG.net_2_name,
         TESTCASE_CONFIG.subnet_2_name,
         TESTCASE_CONFIG.subnet_2_cidr,
         TESTCASE_CONFIG.router_2_name)
+
+    interfaces.append(tuple((router_1_id, subnet_1_id)))
+    interfaces.append(tuple((router_2_id, subnet_2_id)))
+    network_ids.extend([network_1_id, network_2_id])
+    router_ids.extend([router_1_id, router_2_id])
+    subnet_ids.extend([subnet_1_id, subnet_2_id])
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -95,6 +107,8 @@ def main():
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         userdata=u1)
+
+    instance_ids.extend([vm_1.id, vm_2.id])
 
     msg = ("Create VPN with eRT==iRT")
     results.record_action(msg)
@@ -146,6 +160,12 @@ def main():
         results.add_failure(msg)
 
     results.ping_ip_test(fip['fip_addr'])
+
+    floatingip_ids.append(fip['fip_id'])
+    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
+                            image_ids)
+    test_utils.cleanup_neutron(neutron_client, interfaces, subnet_ids,
+                               router_ids, network_ids)
 
     return results.compile_summary()
 
