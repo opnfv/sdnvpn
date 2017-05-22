@@ -37,7 +37,7 @@ class CommonConfig(object):
             "defaults.flavor", self.config_file)
         self.image_filename = CONST.openstack_image_file_name
         self.image_format = CONST.openstack_image_disk_format
-        self.image_path = '{0}/{1}'.format(CONST.dir_functest_data,
+        self.image_path = '{0}/{1}'.format(CONST.dir_functest_images,
                                            self.image_filename)
         # This is the ubuntu image used by sfc
         # Basically vanilla ubuntu + some scripts in there
