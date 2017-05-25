@@ -154,7 +154,7 @@ def generate_ping_userdata(ips_array):
             "while true; do\n"
             " for i do\n"
             "  ip=$i\n"
-            "  ping -c 1 $ip 2>&1 >/dev/null\n"
+            "  ping -c 10 $ip 2>&1 >/dev/null\n"
             "  RES=$?\n"
             "  if [ \"Z$RES\" = \"Z0\" ] ; then\n"
             "   echo ping $ip OK\n"
