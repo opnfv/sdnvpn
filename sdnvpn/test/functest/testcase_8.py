@@ -144,6 +144,7 @@ def main():
     else:
         results.add_failure(msg)
 
+    results.add_to_summary(0, "=")
     results.record_action("Ping %s via Floating IP" % vm_1.name)
     results.add_to_summary(0, "-")
     results.ping_ip_test(fip['fip_addr'])
