@@ -165,7 +165,7 @@ class Results(object):
                     break
 
     def ping_ip_test(self, address):
-        ping = "ping %s -c 3" % address
+        ping = "ping %s -c 10" % address
         testcase_name = "Ping IP %s" % address
         logger.debug(testcase_name)
         exit_code = ft_utils.execute_command(ping)
