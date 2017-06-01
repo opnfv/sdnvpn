@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Georg Kunz <georg.kunz@ericsson.com>
+Code-Review+2: Jose Lausuch <jose.lausuch@ericsson.com>
+Code-Review+1: Thomas Sounapoglou <soth@intracom-telecom.com>
+Submitted-by: Jose Lausuch <jose.lausuch@ericsson.com>
+Submitted-at: Thu, 01 Jun 2017 13:59:36 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/35135
+Project: sdnvpn
+Branch: refs/heads/master
