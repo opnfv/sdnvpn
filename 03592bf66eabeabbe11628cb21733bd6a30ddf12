@@ -69,6 +69,24 @@
       "revId": "03592bf66eabeabbe11628cb21733bd6a30ddf12",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_925c6f27",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-06-07T15:15:26Z",
+      "side": 1,
+      "message": "Or this proposal aiming at overprotecting:\nif \"case_name\" not in kwargs:\n   kwargs[\"case_name\"]\u003d\"bgpvpn\"\nif \"project_name\" not in kwargs:\n   kwargs[\"project_name\"]\u003d\"sdnvpn\"\nsuper(SdnvpnFunctest, self).__init__(**kwargs)",
+      "parentUuid": "5aaae553_d22bc780",
+      "revId": "03592bf66eabeabbe11628cb21733bd6a30ddf12",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
