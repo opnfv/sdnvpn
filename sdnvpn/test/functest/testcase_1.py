@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import argparse
 import logging
 from random import randint
 
@@ -18,15 +17,7 @@ from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib.results import Results
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-
-args = parser.parse_args()
-
-logger = logging.getLogger('sdnvpn-testcase-1')
+logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_1')
