@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5aaae553_f21cc36c",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-06-07T14:47:56Z",
+      "side": 1,
+      "message": "we could add that in logging.ini, yes.",
+      "parentUuid": "5aaae553_ff056c14",
+      "revId": "03592bf66eabeabbe11628cb21733bd6a30ddf12",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aaae553_9f179851",
         "filename": "sdnvpn/test/functest/run_tests.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-07T14:43:36Z",
       "side": 1,
       "message": "this is now useless if functest\u0027s testcases.yaml is well configured. project and case names are set via kwargs in TestCase. But it\u0027s fine to keep them as default values if kwargs is empty.",
+      "revId": "03592bf66eabeabbe11628cb21733bd6a30ddf12",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_d22bc780",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-06-07T14:47:56Z",
+      "side": 1,
+      "message": "Right. I can remove them from here and add them to testcases.yaml later on",
+      "parentUuid": "5aaae553_9f179851",
       "revId": "03592bf66eabeabbe11628cb21733bd6a30ddf12",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
