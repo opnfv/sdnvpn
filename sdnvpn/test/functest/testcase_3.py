@@ -13,7 +13,6 @@
 #   - Verify that the OpenDaylight and gateway Quagga peer
 import logging
 import os
-import argparse
 
 from sdnvpn.lib import quagga
 import sdnvpn.lib.utils as test_utils
@@ -24,18 +23,11 @@ import functest.utils.functest_utils as ft_utils
 
 from sdnvpn.lib.results import Results
 
+
+logger = logging.getLogger(__name__)
+
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig("testcase_3")
-
-logger = logging.getLogger('sdnvpn-testcase-3')
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-
-args = parser.parse_args()
 
 
 def main():
