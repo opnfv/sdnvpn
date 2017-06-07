@@ -5,13 +5,10 @@ testcases:
   sdnvpn.test.functest.tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
-      testname_db: functest_tempest # declared name in the test api
-      # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
   sdnvpn.test.functest.testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
-      testname_db: functest_testcase_1
       instance_1_name: sdnvpn-1-1
       instance_2_name: sdnvpn-1-2
       instance_3_name: sdnvpn-1-3
@@ -35,7 +32,6 @@ testcases:
   sdnvpn.test.functest.testcase_2:
       enabled: true
       description: Tenant separation
-      testname_db: functest_testcase_2
       instance_1_name: sdnvpn-2-1
       instance_2_name: sdnvpn-2-2
       instance_3_name: sdnvpn-2-3
@@ -69,7 +65,6 @@ testcases:
   sdnvpn.test.functest.testcase_3:
       enabled: true
       description: Data center gateway integration
-      testname_db: functest_testcase_3
       secgroup_name: sdnvpn-sg
       secgroup_descr: Security group for SDNVPN test cases
       image_name: sdnvpn-image
@@ -93,7 +88,6 @@ testcases:
   sdnvpn.test.functest.testcase_4:
       enabled: true
       description: VPN provides connectivity between subnets using router association
-      testname_db: functest_testcase_4
       instance_1_name: sdnvpn-4-1
       instance_2_name: sdnvpn-4-2
       instance_3_name: sdnvpn-4-3
@@ -117,7 +111,6 @@ testcases:
   sdnvpn.test.functest.testcase_7:
       enabled: false
       description: Network associate VPNs with routers attached (ODL Bug 6962)
-      testname_db: functest_testcase_7
       image_name: sdnvpn-image
       instance_1_name: sdnvpn-7-1
       instance_2_name: sdnvpn-7-2
@@ -137,7 +130,6 @@ testcases:
   sdnvpn.test.functest.testcase_8:
       enabled: true
       description: Test floating IP and router assoc coexistence
-      testname_db: functest_testcase_8
       image_name: sdnvpn-image
       instance_1_name: sdnvpn-8-1
       instance_2_name: sdnvpn-8-2

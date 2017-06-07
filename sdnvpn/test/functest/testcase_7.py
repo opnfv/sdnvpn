@@ -18,7 +18,6 @@ network associated:
 - Assign a floating IP to a VM
 - Ping it
 """
-import argparse
 import logging
 import sys
 
@@ -27,15 +26,8 @@ from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-
-args = parser.parse_args()
-
-logger = logging.getLogger('sdnvpn-testcase-7')
+logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_7')
