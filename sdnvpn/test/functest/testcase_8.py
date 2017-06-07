@@ -18,7 +18,6 @@ Test whether router assoc can coexist with floating IP
 - Assign a floating IP to the VM in the router assoc network
 - Ping it the floating ip
 """
-import argparse
 import logging
 
 import functest.utils.openstack_utils as os_utils
@@ -27,15 +26,8 @@ import sdnvpn.lib.utils as test_utils
 from sdnvpn.lib.results import Results
 import sdnvpn.lib.config as sdnvpn_config
 
-parser = argparse.ArgumentParser()
 
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-
-args = parser.parse_args()
-
-logger = logging.getLogger('sdnvpn-testcase-8')
+logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_8')
