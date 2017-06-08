@@ -22,6 +22,30 @@
       "revId": "7acfb0e90e9adeceebbd7cbc8055862b8deb374c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_55e4a10c",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-06-08T14:03:09Z",
+      "side": 1,
+      "message": "yes, wrong copy paste :) thanks",
+      "parentUuid": "5aaae553_d5d89155",
+      "range": {
+        "startLine": 94,
+        "startChar": 32,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "7acfb0e90e9adeceebbd7cbc8055862b8deb374c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
