@@ -22,6 +22,30 @@
       "revId": "df2a70e109402e1c1f89b0ae075538605ac53fcd",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aaae553_7582fd01",
+        "filename": "sdnvpn/test/functest/run_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-06-08T14:25:24Z",
+      "side": 1,
+      "message": "I would move the logger directly into the class but I agree you have to call basicConfig() in main.",
+      "parentUuid": "5aaae553_159ce968",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "df2a70e109402e1c1f89b0ae075538605ac53fcd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
