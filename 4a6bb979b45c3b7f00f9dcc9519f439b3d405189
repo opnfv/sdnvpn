@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_0c0cfb93",
+        "filename": "requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-06-26T08:11:46Z",
+      "side": 1,
+      "message": "I guess we can include bgpvpn package later on here",
+      "revId": "4a6bb979b45c3b7f00f9dcc9519f439b3d405189",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
