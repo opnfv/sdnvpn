@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Panagiotis Georgiopoulos <panageo@intracom-telecom.com>
+Code-Review+1: Jose Lausuch <jose.lausuch@ericsson.com>
+Code-Review+2: Tim Irnich <tim.irnich@ericsson.com>
+Submitted-by: Tim Irnich <tim.irnich@ericsson.com>
+Submitted-at: Mon, 26 Jun 2017 15:41:46 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/36225
+Project: sdnvpn
+Branch: refs/heads/master
