@@ -34,13 +34,13 @@ Release Data
 | **Project**                          | sdnvpn                                    |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Repo/tag**                         | Danube.2.0                                |
+| **Repo/tag**                         | Danube.3.0                                |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release designation**              | Danube 2.0 follow-up release              |
+| **Release designation**              | Danube 3.0 follow-up release              |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release date**                     | May 4 2017                                |
+| **Release date**                     | June 23 2017                              |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
 | **Purpose of the delivery**          | Including BGP stack - 6WIND Zrpcd/Quagga  |
@@ -63,7 +63,7 @@ functest to guarantee functionality.
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-ODL has been upgraded to Boron SR2.
+ODL has been upgraded to Boron SR4.
 
 Document changes
 ~~~~~~~~~~~~~~~~
