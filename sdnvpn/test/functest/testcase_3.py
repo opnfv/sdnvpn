@@ -270,14 +270,29 @@ def main():
                                            controller_ext_ip,
                                            controller)
         peer = quagga.check_for_peering(controller)
+        if neighbor and peer:
+            results.add_success("Peering with quagga")
+        else:
+            results.add_failure("Peering with quagga")
+
+        cmd_vrf = ("odl:bgp-vrf --rd {0} --import-rts {1} --export-rts {2} "
+                   "add".format(TESTCASE_CONFIG.route_distinguishers,
+                                TESTCASE_CONFIG.import_targets,
+                                TESTCASE_CONFIG.export_targets))
+        logger.info("Add a network to be adverised towards Quagga")
+        test_utils.run_odl_cmd(controller, cmd_vrf)
+        cmd_network = ("odl:bgp-network --rd {0} --prefix 192.168.5.0/24 "
+                       "--nexthop {1} add".
+                       format(TESTCASE_CONFIG.route_distinguishers,
+                              fake_fip['fip_addr']))
+        test_utils.run_odl_cmd(controller, cmd_network)
+        results.get_route_exchange_status(quagga_vm,
+                                          expected="PASS",
+                                          timeout=50)
+        results.add_to_summary(0, "=")
 
     finally:
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
-
-    if neighbor and peer:
-        results.add_success("Peering with quagga")
-    else:
-        results.add_failure("Peering with quagga")
 
     test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
                             image_ids)

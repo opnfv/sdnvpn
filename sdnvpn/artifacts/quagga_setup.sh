@@ -94,3 +94,17 @@ chown quagga:quagga $BGPD_CONFIG_LOCATION
 service quagga restart
 pgrep bgpd
 pgrep zebra
+# Start checking for accepted BGP routes
+while true; do
+accepted_routes_list=$(sudo vtysh -c 'show ip bgp neighbor' | grep 'accepted prefixes' | awk '{print $1}')
+status="KO"
+for i in $accepted_routes_list; do
+if [ $i -gt "0" ]; then
+status="OK"
+break
+fi
+done
+# Print "Routes: KO" if no routes where accepted else print "Routes: OK"
+echo "Routes: $status, Cloud-init finished"
+sleep 1
+done

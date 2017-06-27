@@ -462,7 +462,7 @@ def wait_for_cloud_init(instance):
             logger.error("Cloud init failed to run. Reason: %s",
                          instance_log)
             break
-        if re.search(r"Cloud-init v. .+ finished at", instance_log):
+        if re.search(r"Cloud-init finished", instance_log):
             success = True
             break
         time.sleep(sleep_time)
@@ -612,3 +612,18 @@ def cleanup_nova(nova_client, floatingip_ids, instance_ids, image_ids):
                               format(image_id))
                 return False
     return True
+
+
+def check_exchange_bgp_routes():
+    return ("#!/bin/sh\n"
+            "BGP_NEIGHBORS=$(sudo vtysh -c 'show ip bgp neighbor')\n"
+            "PREFIXES=$(echo \"$BGP_NEIGHBORS\" | grep 'accepted prefixes')\n"
+            "ACCEPTED_ROUTES=$(echo \"$PREFIXES\" | awk '{print $1}')\n"
+            "status='KO'\n"
+            "for i in $ACCEPTED_ROUTES; do\n"
+            "  if [ $i -gt '0' ]; then\n"
+            "    status='OK'\n"
+            "    break\n"
+            "  fi\n"
+            "done\n"
+            "echo 'Routes: $status'\n")
