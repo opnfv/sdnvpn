@@ -11,7 +11,7 @@
 #   - Start a BGP router with OpenDaylight
 #   - Add the functest Quagga as a neighbor
 #   - Verify that the OpenDaylight and gateway Quagga peer
-
+#   - Verify route exchanging from controller node to Quagga Vm
 import logging
 import os
 import sys
@@ -76,7 +76,6 @@ def main():
     running = any([s != 'Z' for s in states])
 
     msg = ("zrpcd is running")
-
     if not running:
         logger.info("zrpcd is not running on the controller node")
         results.add_failure(msg)
@@ -161,7 +160,13 @@ def main():
         test_utils.open_http_port(neutron_client, sg_id)
 
         test_utils.open_bgp_port(neutron_client, sg_id)
-        net_id, subnet_1_id, router_1_id = test_utils.create_network(
+
+        image_id = os_utils.create_glance_image(
+            glance_client, TESTCASE_CONFIG.image_name,
+            COMMON_CONFIG.image_path, disk=COMMON_CONFIG.image_format,
+            container="bare", public='public')
+
+        net_1_id, subnet_1_id, router_1_id = test_utils.create_network(
             neutron_client,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
@@ -178,7 +183,7 @@ def main():
 
         interfaces.append(tuple((router_1_id, subnet_1_id)))
         interfaces.append(tuple((router_quagga_id, subnet_quagga_id)))
-        network_ids.extend([net_id, quagga_net_id])
+        network_ids.extend([net_1_id, quagga_net_id])
         router_ids.extend([router_1_id, router_quagga_id])
         subnet_ids.extend([subnet_1_id, subnet_quagga_id])
 
@@ -198,7 +203,7 @@ def main():
             container="bare",
             public="public")
 
-        image_ids.append(ubuntu_image_id)
+        image_ids.extend([image_id, ubuntu_image_id])
 
         # NOTE(rski) The order of this seems a bit weird but
         # there is a reason for this, namely
@@ -213,12 +218,13 @@ def main():
         # fake_fip is needed to bypass NAT
         # see below for the reason why.
         fake_fip = os_utils.create_floating_ip(neutron_client)
-
         floatingip_ids.extend([fip['fip_id'], fake_fip['fip_id']])
+
         # pin quagga to some compute
         compute_node = nova_client.hypervisors.list()[0]
-        quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
+        av_zone_1 = "nova:" + compute_node.hypervisor_hostname
         # Map the hypervisor used above to a compute handle
+        # returned by releng's manager
         # returned by releng's manager
         for comp in computes:
             if compute_node.host_ip in comp.run_cmd("sudo ip a"):
@@ -241,7 +247,7 @@ def main():
             fixed_ip=TESTCASE_CONFIG.quagga_instance_ip,
             flavor=COMMON_CONFIG.custom_flavor_name,
             userdata=quagga_bootstrap_script,
-            compute_node=quagga_compute_node)
+            compute_node=av_zone_1)
 
         instance_ids.append(quagga_vm)
 
@@ -257,6 +263,49 @@ def main():
             results.add_failure(msg)
         test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
+        msg = ("Create VPN to define a VRF")
+        results.record_action(msg)
+        vpn_name = vpn_name = "sdnvpn-3"
+        kwargs = {
+            "import_targets": TESTCASE_CONFIG.import_targets,
+            "export_targets": TESTCASE_CONFIG.export_targets,
+            "route_targets": TESTCASE_CONFIG.route_targets,
+            "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
+            "name": vpn_name
+        }
+        bgpvpn = test_utils.create_bgpvpn(neutron_client, **kwargs)
+        bgpvpn_id = bgpvpn['bgpvpn']['id']
+        logger.debug("VPN1 created details: %s" % bgpvpn)
+        bgpvpn_ids.append(bgpvpn_id)
+
+        msg = ("Associate network '%s' to the VPN." %
+               TESTCASE_CONFIG.net_1_name)
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+
+        test_utils.create_network_association(
+            neutron_client, bgpvpn_id, net_1_id)
+
+        # create a vm and connect it with network1,
+        # which is going to be bgpvpn associated
+        userdata_common = test_utils.generate_userdata_common()
+
+        vm_bgpvpn = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_1_name,
+            image_id,
+            net_1_id,
+            sg_id,
+            fixed_ip=TESTCASE_CONFIG.instance_1_ip,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_1,
+            userdata=userdata_common)
+
+        # wait for VM to get IP
+        instance_up = test_utils.wait_for_instances_up(vm_bgpvpn)
+        if not instance_up:
+            logger.error("One or more instances are down")
+
         try:
             testcase = "Bootstrap quagga inside an OpenStack instance"
             cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
@@ -270,31 +319,82 @@ def main():
             results.add_to_summary(1, "Peer Quagga with OpenDaylight")
             results.add_to_summary(0, '-')
 
+            # QuaggaVM-side: add controller as a neighbor
+            cmd = ("sudo /usr/bin/vtysh -c 'conf t' "
+                   "-c 'router bgp 100' "
+                   "-c 'neighbor {0} remote-as 100' "
+                   "-c 'no neighbor {0} activate' "
+                   "-c 'address-family vpnv4 unicast' "
+                   "-c 'neighbor {0} activate' "
+                   "-c 'end'".
+                   format(controller_ext_ip))
+
+            test_utils.run_ubuntu_instance_cmd(compute, fip['fip_addr'], cmd)
+
             neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
                                                controller_ext_ip,
                                                controller)
             peer = quagga.check_for_peering(controller)
 
+            if neighbor and peer:
+                results.add_success("Peering with quagga")
+            else:
+                results.add_failure("Peering with quagga")
+
+            # add a BGP static route with nexthop the neighbor_ip
+            cmd_network = ("odl:bgp-network --rd {0} --prefix {1}"
+                           "--nexthop {2} add".
+                           format(TESTCASE_CONFIG.route_distinguishers,
+                                  TESTCASE_CONFIG.odl_network,
+                                  fake_fip['fip_addr']))
+            test_utils.run_odl_cmd(controller, cmd_network)
+
+            msg = "Controller node advertises routes towards Quagga-VM"
+            routes = quagga.check_for_route_exchange(
+                         compute,
+                         fip['fip_addr'],
+                         TESTCASE_CONFIG.route_distinguishers,
+                         TESTCASE_CONFIG.odl_network)
+            if routes:
+                results.add_success(msg)
+            else:
+                results.add_failure(msg)
+
+            # QuaggaVM-side: add a BGP static route
+            cmd = ("sudo /usr/bin/vtysh -c 'conf t' -c 'router bgp 100' "
+                   "-c 'address-family vpnv4 unicast' "
+                   "-c 'network {0} rd {1} tag 2000' "
+                   "-c 'end'".
+                   format(TESTCASE_CONFIG.quagga_network,
+                          TESTCASE_CONFIG.route_distinguishers))
+
+            test_utils.run_ubuntu_instance_cmd(compute, fip['fip_addr'], cmd)
+
+            fib = test_utils.check_odl_fib(fake_fip['fip_addr'],
+                                           controller_ext_ip)
+            if fib:
+                results.add_success("%s VM advertises routes towards "
+                                    "Controller node",
+                                    TESTCASE_CONFIG.quagga_instance_name)
+            else:
+                results.add_failure("%s VM advertises routes towards "
+                                    "Controller node",
+                                    TESTCASE_CONFIG.quagga_instance_name)
+            results.add_to_summary(0, "=")
+
         finally:
             test_utils.detach_instance_from_ext_br(quagga_vm, compute)
 
-        if neighbor and peer:
-            results.add_success("Peering with quagga")
-        else:
-            results.add_failure("Peering with quagga")
-
     except Exception as e:
-        logger.error("exception occurred while executing testcase_3: %s", e)
+        logger.error("exception occurred executing testcase_3: %s", e)
         raise
+
     finally:
-        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
-        test_utils.cleanup_glance(glance_client, image_ids)
+        test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
-
     return results.compile_summary()
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

@@ -29,6 +29,8 @@ class CommonConfig(object):
         def __init__(self):
             self.config_file = pkg_resources.resource_filename(
                 'sdnvpn', 'test/functest/config.yaml')
+            self.ubuntu_keyfile_path = pkg_resources.resource_filename(
+                'sdnvpn', 'artifacts/id_rsa_ubuntu')
             self.keyfile_path = pkg_resources.resource_filename(
                 'sdnvpn', 'artifacts/id_rsa')
             self.test_db = CONST.results_test_db_url

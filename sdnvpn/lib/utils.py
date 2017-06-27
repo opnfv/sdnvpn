@@ -506,14 +506,14 @@ def check_odl_fib(ip, controller_ip):
     """Check that there is an entry in the ODL Fib for `ip`"""
     url = "http://" + controller_ip + \
           ":8181/restconf/config/odl-fib:fibEntries/"
-    logger.debug("Querring '%s' for FIB entries", url)
+    logging.debug("Querring '%s' for FIB entries", url)
     res = requests.get(url, auth=(ODL_USER, ODL_PASS))
     if res.status_code != 200:
-        logger.error("OpenDaylight response status code: %s", res.status_code)
+        logging.error("OpenDaylight response status code: %s", res.status_code)
         return False
-    logger.debug("Checking whether '%s' is in the OpenDaylight FIB"
-                 % controller_ip)
-    logger.debug("OpenDaylight FIB: \n%s" % res.text)
+    logging.debug("Checking whether neighbour ip '%s' is "
+                  "in the OpenDaylight FIB" % ip)
+    logging.debug("OpenDaylight FIB: \n%s" % res.text)
     return ip in res.text
 
 
@@ -528,6 +528,14 @@ def run_odl_cmd(odl_node, cmd):
     karaf_cmd = ('/opt/opendaylight/bin/client -h 127.0.0.1 "%s"'
                  ' 2>/dev/null' % cmd)
     return odl_node.run_cmd(karaf_cmd)
+
+
+def run_ubuntu_instance_cmd(compute_node, instance_ip, cmd):
+    '''Run a cmd command in the running instance shell
+    '''
+    key = common_config.ubuntu_keyfile_path
+    ssh_cmd = ('ssh -i %s ubuntu@%s "%s"' % (key, instance_ip, cmd))
+    return compute_node.run_cmd(ssh_cmd)
 
 
 def wait_for_cloud_init(instance):

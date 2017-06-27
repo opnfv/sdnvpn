@@ -6,7 +6,7 @@ import time
 
 import functest.utils.functest_utils as ft_utils
 import sdnvpn.lib.config as config
-from sdnvpn.lib.utils import run_odl_cmd, exec_cmd
+from sdnvpn.lib.utils import run_odl_cmd, run_ubuntu_instance_cmd
 
 logger = logging.getLogger('sdnvpn-quagga')
 
@@ -74,11 +74,13 @@ def check_for_peering(controller):
     return True
 
 
-def check_for_route_exchange(ip):
+def check_for_route_exchange(compute_node, instance_ip, rd, ip):
     """Check that Quagga has learned the route to an IP"""
     logger.debug("Checking that '%s' is in the Zebra routing table", ip)
-    routes, success = exec_cmd("vtysh -c 'show ip route'", verbose=True)
-    if not success:
-        return False
-    logger.debug("Zebra routing table: %s", routes)
-    return ip in routes
+
+    cmd = ("sudo /usr/bin/vtysh -c 'show ip bgp vpnv4 rd {0}' |grep {1}".
+           format(rd, ip))
+    routes = run_ubuntu_instance_cmd(compute_node, instance_ip, cmd)
+    if routes:
+        return True
+    return False
