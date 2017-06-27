@@ -81,9 +81,10 @@ testcases:
       quagga_instance_ip: 10.10.11.5
       instance_1_name: sdnvpn-3-1
       instance_1_ip: 10.10.10.5
-      import_targets: '31:31'
-      export_targets: '32:32'
-
+      route_targets: '88:88'
+      import_targets: '88:88'
+      export_targets: '88:88'
+      route_distinguishers: '18:18'
 
   sdnvpn.test.functest.testcase_4:
       enabled: true
