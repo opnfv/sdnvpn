@@ -212,10 +212,10 @@ def main():
     results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
     results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
 
-    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
-                            image_ids)
-    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
-                               subnet_ids, router_ids, network_ids)
+    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
+                               interfaces, subnet_ids, router_ids,
+                               network_ids)
 
     return results.compile_summary()
 

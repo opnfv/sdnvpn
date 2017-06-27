@@ -219,11 +219,10 @@ def main():
     results.add_to_summary(0, "=")
     logger.info("\n%s" % results.summary)
 
-    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
-                            image_ids)
-    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
-                               subnet_ids, router_ids, network_ids)
-
+    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
+                               interfaces, subnet_ids, router_ids,
+                               network_ids)
     return results.compile_summary()
 
 
