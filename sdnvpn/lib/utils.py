@@ -942,3 +942,18 @@ def get_odl_bgp_entity_owner(controllers):
                 if re.search(odl_bgp_owner, line):
                     return controller
         return None
+
+
+def add_quagga_external_gre_end_point(controller_ip, remote_tep_ip):
+    json_body = {'input':
+                 {'destination-ip': remote_tep_ip,
+                  'tunnel-type': "odl-interface:tunnel-type-mpls-over-gre"}
+                 }
+    url = ('http://admin:admin@{ip}:8081/restconf/operations/'
+           'itm-rpc:add-external-tunnel-endpoint'.format(controller_ip))
+    try:
+        requests.post(url, json=json_body)
+    except:
+        logger.error("Failed to create external tunnel endpoint on"
+                     "ODL %s" % remote_tep_ip)
+    return None
