@@ -452,8 +452,8 @@ def run_odl_cmd(odl_node, cmd):
 def wait_for_cloud_init(instance):
     success = True
     # ubuntu images take a long time to start
-    tries = 20
-    sleep_time = 30
+    tries = 30
+    sleep_time = 60
     logger.info("Waiting for cloud init of instance: {}"
                 "".format(instance.name))
     while tries > 0:
@@ -463,7 +463,7 @@ def wait_for_cloud_init(instance):
             logger.error("Cloud init failed to run. Reason: %s",
                          instance_log)
             break
-        if re.search(r"Cloud-init v. .+ finished at", instance_log):
+        if re.search(r"/opt/quagga/bin/vtysh -c", instance_log):
             success = True
             break
         time.sleep(sleep_time)
