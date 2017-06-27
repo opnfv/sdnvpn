@@ -506,14 +506,14 @@ def check_odl_fib(ip, controller_ip):
     """Check that there is an entry in the ODL Fib for `ip`"""
     url = "http://" + controller_ip + \
           ":8181/restconf/config/odl-fib:fibEntries/"
-    logger.debug("Querring '%s' for FIB entries", url)
+    logging.debug("Querring '%s' for FIB entries", url)
     res = requests.get(url, auth=(ODL_USER, ODL_PASS))
     if res.status_code != 200:
-        logger.error("OpenDaylight response status code: %s", res.status_code)
+        logging.error("OpenDaylight response status code: %s", res.status_code)
         return False
-    logger.debug("Checking whether '%s' is in the OpenDaylight FIB"
-                 % controller_ip)
-    logger.debug("OpenDaylight FIB: \n%s" % res.text)
+    logging.debug("Checking whether neighbour ip '%s' is "
+                  "in the OpenDaylight FIB" % ip)
+    logging.debug("OpenDaylight FIB: \n%s" % res.text)
     return ip in res.text
 
 
@@ -530,11 +530,24 @@ def run_odl_cmd(odl_node, cmd):
     return odl_node.run_cmd(karaf_cmd)
 
 
+def run_ubuntu_instance_cmd(compute_node, instance_ip, cmd):
+    '''Run a cmd command in the running instance shell
+    '''
+    src = common_config.ubuntu_keyfile_path
+    dest = "/home/heat-admin/key_vm"
+    compute_node.put_file(src, dest)
+    cmd_chmod = ('chmod 600 %s' % dest)
+    compute_node.run_cmd(cmd_chmod)
+    ssh_cmd = ('ssh -o StrictHostKeyChecking=no -i %s ubuntu@%s '
+               '-v "%s"' % (dest, instance_ip, cmd))
+    return compute_node.run_cmd(ssh_cmd)
+
+
 def wait_for_cloud_init(instance):
     success = True
     # ubuntu images take a long time to start
-    tries = 20
-    sleep_time = 30
+    tries = 30
+    sleep_time = 60
     logger.info("Waiting for cloud init of instance: {}"
                 "".format(instance.name))
     while tries > 0:
@@ -544,7 +557,7 @@ def wait_for_cloud_init(instance):
             logger.error("Cloud init failed to run. Reason: %s",
                          instance_log)
             break
-        if re.search(r"Cloud-init v. .+ finished at", instance_log):
+        if re.search(r"/opt/quagga/bin/vtysh -c", instance_log):
             success = True
             break
         time.sleep(sleep_time)

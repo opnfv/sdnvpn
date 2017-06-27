@@ -8,6 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 import logging
+import re
 import time
 
 import functest.utils.functest_utils as ft_utils
@@ -193,3 +194,49 @@ class Results(object):
             logger.info(failure_message)
 
         return {"status": self.test_result, "details": self.details}
+
+    def get_route_exchange_status(self, vm, expected="PASS", timeout=30):
+        instance_log = vm.get_console_output()
+        if "request failed" in instance_log:
+            # Normally, image displays this message when userdata fails
+            logger.debug("It seems userdata is not supported in "
+                         "nova boot...")
+            return False
+        else:
+            test_case = ("Controller node advertises routes"
+                         " towards '%s'" % vm.name)
+            while True:
+                instance_log = vm.get_console_output()
+                lines = instance_log.split('\n')
+                last_n_lines = lines[-5:]
+                if any([re.search(r"Routes: OK", line) for
+                        line in last_n_lines]):
+                    msg = (" Quagga instance '%s' accept prefixes"
+                           " from Controller node'" % vm.name)
+                    if expected == "PASS":
+                        logger.debug("[PASS] %s" % msg)
+                        self.add_success(test_case)
+                    else:
+                        logger.debug("[FAIL] %s" % msg)
+                        logger.debug("\n%s" % last_n_lines)
+                        self.add_failure(test_case)
+                    break
+                elif all([re.search(r"Routes: KO", line) for
+                         line in last_n_lines]):
+                    msg = (" Quagga instance '%s' cannot accept prefixes from"
+                           " Controller node'" % vm.name)
+                    if expected == "FAIL":
+                        logger.debug("[PASS] %s" % msg)
+                        self.add_success(test_case)
+                    else:
+                        logger.debug("[FAIL] %s" % msg)
+                        self.add_failure(test_case)
+                    break
+                time.sleep(1)
+                timeout -= 1
+                if timeout == 0:
+                    logger.debug("[FAIL] Timeout reached for '%s'. "
+                                 "No exchange route inforrmation has "
+                                 "been captured in the console log" % vm.name)
+                    self.add_failure(test_case)
+                    break
