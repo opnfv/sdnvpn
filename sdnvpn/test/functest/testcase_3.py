@@ -186,7 +186,14 @@ def main():
         test_utils.open_http_port(neutron_client, sg_id)
 
         test_utils.open_bgp_port(neutron_client, sg_id)
-        net_id, subnet_1_id, router_1_id = test_utils.create_network(
+
+        image_id = os_utils.create_glance_image(
+            glance_client, TESTCASE_CONFIG.image_name,
+            COMMON_CONFIG.image_path, disk=COMMON_CONFIG.image_format,
+            container="bare", public='public')
+        image_ids.append(image_id)
+
+        net_1_id, subnet_1_id, router_1_id = test_utils.create_network(
             neutron_client,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
@@ -203,7 +210,7 @@ def main():
 
         interfaces.append(tuple((router_1_id, subnet_1_id)))
         interfaces.append(tuple((router_quagga_id, subnet_quagga_id)))
-        network_ids.extend([net_id, quagga_net_id])
+        network_ids.extend([net_1_id, quagga_net_id])
         router_ids.extend([router_1_id, router_quagga_id])
         subnet_ids.extend([subnet_1_id, subnet_quagga_id])
 
@@ -250,7 +257,11 @@ def main():
         quagga_bootstrap_script = quagga.gen_quagga_setup_script(
             controller_ext_ip,
             fake_fip['fip_addr'],
-            ext_net_mask)
+            ext_net_mask,
+            TESTCASE_CONFIG.external_network_ip_prefix,
+            TESTCASE_CONFIG.route_distinguishers,
+            TESTCASE_CONFIG.import_targets,
+            TESTCASE_CONFIG.export_targets)
 
         quagga_vm = test_utils.create_instance(
             nova_client,
@@ -306,6 +317,83 @@ def main():
         else:
             results.add_failure("Peering with quagga")
 
+        test_utils.add_quagga_external_gre_end_point(controllers,
+                                                     fake_fip['fip_addr'])
+        test_utils.wait_before_subtest()
+
+        msg = ("Create VPN to define a VRF")
+        results.record_action(msg)
+        vpn_name = vpn_name = "sdnvpn-3"
+        kwargs = {
+            "import_targets": TESTCASE_CONFIG.import_targets,
+            "export_targets": TESTCASE_CONFIG.export_targets,
+            "route_targets": TESTCASE_CONFIG.route_targets,
+            "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
+            "name": vpn_name
+        }
+        bgpvpn = test_utils.create_bgpvpn(neutron_client, **kwargs)
+        bgpvpn_id = bgpvpn['bgpvpn']['id']
+        logger.debug("VPN1 created details: %s" % bgpvpn)
+        bgpvpn_ids.append(bgpvpn_id)
+
+        msg = ("Associate network '%s' to the VPN." %
+               TESTCASE_CONFIG.net_1_name)
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+
+        # create a vm and connect it with network1,
+        # which is going to be bgpvpn associated
+        userdata_common = test_utils.generate_ping_userdata(
+            [TESTCASE_CONFIG.external_network_ip])
+
+        compute_node = nova_client.hypervisors.list()[0]
+        av_zone_1 = "nova:" + compute_node.hypervisor_hostname
+        vm_bgpvpn = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_1_name,
+            image_id,
+            net_1_id,
+            sg_id,
+            fixed_ip=TESTCASE_CONFIG.instance_1_ip,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_1,
+            userdata=userdata_common)
+        instance_ids.append(vm_bgpvpn)
+
+        # wait for VM to get IP
+        instance_up = test_utils.wait_for_instances_up(vm_bgpvpn)
+        if not instance_up:
+            logger.error("One or more instances are down")
+
+        test_utils.create_network_association(
+            neutron_client, bgpvpn_id, net_1_id)
+
+        test_utils.wait_before_subtest()
+
+        msg = ("External IP prefix %s is exchanged with ODL"
+               % TESTCASE_CONFIG.external_network_ip_prefix)
+        fib_added = test_utils.is_fib_entry_present_on_odl(
+            controllers,
+            TESTCASE_CONFIG.external_network_ip_prefix,
+            TESTCASE_CONFIG.route_distinguishers)
+        if fib_added:
+            results.add_success(msg)
+        else:
+            results.add_failure(msg)
+
+        # TODO: uncomment the following once OVS is installed with > 2.8.3 and
+        # underlay connectivity is established between vxlan overlay and
+        # external network.
+        # results.get_ping_status_target_ip(
+        #    vm_bgpvpn,
+        #    TESTCASE_CONFIG.external_network_name,
+        #    TESTCASE_CONFIG.external_network_ip,
+        #    expected="PASS",
+        #    timeout=300)
+
+        results.add_to_summary(0, "=")
+        logger.info("\n%s" % results.summary)
+
     except Exception as e:
         logger.error("exception occurred while executing testcase_3: %s", e)
         raise
@@ -315,6 +403,14 @@ def main():
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
+        bgp_nbr_disconnect_cmd = ("bgp-nbr -i %s -a 200 del"
+                                  % fake_fip['fip_addr'])
+        bgp_server_stop_cmd = ("bgp-rtr -r %s -a 100 del"
+                               % controller_ext_ip)
+        odl_zrpc_disconnect_cmd = "bgp-connect -p 7644 -h 127.0.0.1 del"
+        test_utils.run_odl_cmd(controller, bgp_nbr_disconnect_cmd)
+        test_utils.run_odl_cmd(controller, bgp_server_stop_cmd)
+        test_utils.run_odl_cmd(controller, odl_zrpc_disconnect_cmd)
 
     return results.compile_summary()
 

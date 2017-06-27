@@ -44,12 +44,14 @@ def bootstrap_quagga(fip_addr, controller_ip):
 
 def gen_quagga_setup_script(controller_ip,
                             fake_floating_ip,
-                            ext_net_mask):
+                            ext_net_mask,
+                            ip_prefix, rd, irt, ert):
     with open(COMMON_CONFIG.quagga_setup_script_path) as f:
         template = f.read()
     script = template % (controller_ip,
                          fake_floating_ip,
-                         ext_net_mask)
+                         ext_net_mask,
+                         ip_prefix, rd, irt, ert)
     return script
 
 
