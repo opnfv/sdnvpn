@@ -462,7 +462,7 @@ def wait_for_cloud_init(instance):
             logger.error("Cloud init failed to run. Reason: %s",
                          instance_log)
             break
-        if re.search(r"Cloud-init v. .+ finished at", instance_log):
+        if re.search(r"Cloud-init finished", instance_log):
             success = True
             break
         time.sleep(sleep_time)
