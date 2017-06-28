@@ -279,7 +279,7 @@ def wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, net_id):
                  % (bgpvpn_id, net_id))
 
     while tries > 0 and net_id not in nets:
-        nets = os_utils.get_bgpvpn_networks(neutron_client, bgpvpn_id)
+        nets = get_bgpvpn_networks(neutron_client, bgpvpn_id)
         time.sleep(sleep_time)
         tries -= 1
     if net_id not in nets:
@@ -303,7 +303,7 @@ def wait_for_bgp_router_assoc(neutron_client, bgpvpn_id, router_id):
     logger.debug("Waiting for router %s to associate with BGPVPN %s "
                  % (bgpvpn_id, router_id))
     while tries > 0 and router_id not in routers:
-        routers = os_utils.get_bgpvpn_routers(neutron_client, bgpvpn_id)
+        routers = get_bgpvpn_routers(neutron_client, bgpvpn_id)
         time.sleep(sleep_time)
         tries -= 1
     if router_id not in routers:
@@ -543,7 +543,7 @@ def cleanup_neutron(neutron_client, bgpvpn_ids, interfaces, subnet_ids,
 
     if len(bgpvpn_ids) != 0:
         for bgpvpn_id in bgpvpn_ids:
-            os_utils.delete_bgpvpn(neutron_client, bgpvpn_id)
+            delete_bgpvpn(neutron_client, bgpvpn_id)
 
     if len(interfaces) != 0:
         for router_id, subnet_id in interfaces:
@@ -612,3 +612,41 @@ def cleanup_nova(nova_client, floatingip_ids, instance_ids, image_ids):
                               format(image_id))
                 return False
     return True
+
+
+def create_bgpvpn(neutron_client, **kwargs):
+    # route_distinguishers
+    # route_targets
+    json_body = {"bgpvpn": kwargs}
+    return neutron_client.create_bgpvpn(json_body)
+
+
+def update_bgpvpn(neutron_client, bgpvpn_id, **kwargs):
+    json_body = {"bgpvpn": kwargs}
+    return neutron_client.update_bgpvpn(bgpvpn_id, json_body)
+
+
+def delete_bgpvpn(neutron_client, bgpvpn_id):
+    return neutron_client.delete_bgpvpn(bgpvpn_id)
+
+
+def get_bgpvpn(neutron_client, bgpvpn_id):
+    return neutron_client.show_bgpvpn(bgpvpn_id)
+
+
+def get_bgpvpn_routers(neutron_client, bgpvpn_id):
+    return get_bgpvpn(neutron_client, bgpvpn_id)['bgpvpn']['routers']
+
+
+def get_bgpvpn_networks(neutron_client, bgpvpn_id):
+    return get_bgpvpn(neutron_client, bgpvpn_id)['bgpvpn']['networks']
+
+
+def create_router_association(neutron_client, bgpvpn_id, router_id):
+    json_body = {"router_association": {"router_id": router_id}}
+    return neutron_client.create_router_association(bgpvpn_id, json_body)
+
+
+def create_network_association(neutron_client, bgpvpn_id, neutron_network_id):
+    json_body = {"network_association": {"network_id": neutron_network_id}}
+    return neutron_client.create_network_association(bgpvpn_id, json_body)

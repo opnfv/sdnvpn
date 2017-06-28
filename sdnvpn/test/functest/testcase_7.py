@@ -117,7 +117,7 @@ def main():
               "export_targets": TESTCASE_CONFIG.targets,
               "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
               "name": vpn_name}
-    bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn = test_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn)
     bgpvpn_ids.append(bgpvpn_id)
@@ -128,9 +128,9 @@ def main():
     results.record_action(msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
+    test_utils.create_network_association(
         neutron_client, bgpvpn_id, network_1_id)
-    os_utils.create_network_association(
+    test_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
 
     test_utils.wait_for_bgp_net_assoc(
@@ -154,7 +154,8 @@ def main():
     results.add_to_summary(0, '-')
 
     fip = os_utils.create_floating_ip(neutron_client)
-    fip_added = os_utils.add_floating_ip(nova_client, vm_2.id, fip['fip_addr'])
+    fip_added = os_utils.add_floating_ip(nova_client, vm_2.id,
+                                           fip['fip_addr'])
     if fip_added:
         results.add_success(msg)
     else:
