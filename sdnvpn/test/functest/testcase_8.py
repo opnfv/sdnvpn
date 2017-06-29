@@ -116,7 +116,7 @@ def main():
               "export_targets": TESTCASE_CONFIG.targets,
               "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
               "name": vpn_name}
-    bgpvpn = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn = test_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn_id = bgpvpn['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn)
     bgpvpn_ids.append(bgpvpn_id)
@@ -127,9 +127,9 @@ def main():
     results.record_action(msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_router_association(
+    test_utils.create_router_association(
         neutron_client, bgpvpn_id, router_1_id)
-    os_utils.create_network_association(
+    test_utils.create_network_association(
         neutron_client, bgpvpn_id, network_2_id)
 
     test_utils.wait_for_bgp_router_assoc(

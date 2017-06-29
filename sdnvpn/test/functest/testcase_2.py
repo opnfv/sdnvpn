@@ -181,7 +181,7 @@ def main():
               "route_targets": TESTCASE_CONFIG.targets2,
               "route_distinguishers": TESTCASE_CONFIG.route_distinguishers1,
               "name": vpn1_name}
-    bgpvpn1 = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn1 = test_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn1_id = bgpvpn1['bgpvpn']['id']
     logger.debug("VPN1 created details: %s" % bgpvpn1)
     bgpvpn_ids.append(bgpvpn1_id)
@@ -190,7 +190,7 @@ def main():
     results.record_action(msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
+    test_utils.create_network_association(
         neutron_client, bgpvpn1_id, network_1_id)
 
     # Wait for VMs to get ips.
@@ -224,7 +224,7 @@ def main():
               "route_targets": TESTCASE_CONFIG.targets1,
               "route_distinguishers": TESTCASE_CONFIG.route_distinguishers2,
               "name": vpn2_name}
-    bgpvpn2 = os_utils.create_bgpvpn(neutron_client, **kwargs)
+    bgpvpn2 = test_utils.create_bgpvpn(neutron_client, **kwargs)
     bgpvpn2_id = bgpvpn2['bgpvpn']['id']
     logger.debug("VPN created details: %s" % bgpvpn2)
     bgpvpn_ids.append(bgpvpn2_id)
@@ -233,7 +233,7 @@ def main():
     results.record_action(msg)
     results.add_to_summary(0, "-")
 
-    os_utils.create_network_association(
+    test_utils.create_network_association(
         neutron_client, bgpvpn2_id, network_2_id)
 
     test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn1_id, network_1_id)
