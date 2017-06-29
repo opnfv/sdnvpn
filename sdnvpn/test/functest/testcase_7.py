@@ -164,11 +164,11 @@ def main():
     results.ping_ip_test(fip['fip_addr'])
 
     floatingip_ids.append(fip['fip_id'])
-    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
-                            image_ids)
-    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
-                               subnet_ids, router_ids, network_ids)
 
+    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
+                               interfaces, subnet_ids, router_ids,
+                               network_ids)
     return results.compile_summary()
 
 

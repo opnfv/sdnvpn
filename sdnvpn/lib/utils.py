@@ -538,8 +538,16 @@ def detach_instance_from_ext_br(instance, compute_node):
         compute_node.run_cmd(cmd.format(bridge=bridge))
 
 
-def cleanup_neutron(neutron_client, bgpvpn_ids, interfaces, subnet_ids,
-                    router_ids, network_ids):
+def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
+                    subnet_ids, router_ids, network_ids):
+
+    if len(floatingip_ids) != 0:
+        for floatingip_id in floatingip_ids:
+            if not os_utils.delete_floating_ip(neutron_client, floatingip_id):
+                logging.error('Fail to delete all floating ips. '
+                              'Floating ip with id {} was not deleted.'.
+                              format(floatingip_id))
+                return False
 
     if len(bgpvpn_ids) != 0:
         for bgpvpn_id in bgpvpn_ids:
@@ -586,16 +594,7 @@ def cleanup_neutron(neutron_client, bgpvpn_ids, interfaces, subnet_ids,
     return True
 
 
-def cleanup_nova(nova_client, floatingip_ids, instance_ids, image_ids):
-
-    if len(floatingip_ids) != 0:
-        for floatingip_id in floatingip_ids:
-            if not os_utils.delete_floating_ip(nova_client, floatingip_id):
-                logging.error('Fail to delete all floating ips. '
-                              'Floating ip with id {} was not deleted.'.
-                              format(floatingip_id))
-                return False
-
+def cleanup_nova(nova_client, instance_ids, image_ids):
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
             if not os_utils.delete_instance(nova_client, instance_id):

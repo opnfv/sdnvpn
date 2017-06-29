@@ -279,13 +279,11 @@ def main():
     else:
         results.add_failure("Peering with quagga")
 
-    test_utils.cleanup_nova(nova_client, floatingip_ids, instance_ids,
-                            image_ids)
-    test_utils.cleanup_neutron(neutron_client, bgpvpn_ids, interfaces,
-                               subnet_ids, router_ids, network_ids)
-
+    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
+                               interfaces, subnet_ids, router_ids,
+                               network_ids)
     return results.compile_summary()
-
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
