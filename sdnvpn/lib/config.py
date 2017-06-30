@@ -10,6 +10,7 @@
 import yaml
 import logging
 import os
+import pkg_resources
 
 from functest.utils.constants import CONST
 import functest.utils.functest_utils as ft_utils
@@ -22,15 +23,13 @@ class CommonConfig(object):
     Common configuration parameters across testcases
     """
     def __init__(self):
-        self.repo_path = CONST.dir_repo_sdnvpn
-        self.config_file = os.path.join(self.repo_path,
-                                        'sdnvpn/test/functest/config.yaml')
-        self.keyfile_path = os.path.join(self.repo_path,
-                                         'sdnvpn/artifacts/id_rsa')
+        self.config_file = pkg_resources.resource_filename(
+            'sdnvpn', 'test/functest/config.yaml')
+        self.keyfile_path = pkg_resources.resource_filename(
+            'sdnvpn', 'artifacts/id_rsa')
         self.test_db = CONST.results_test_db_url
-        self.quagga_setup_script_path = os.path.join(
-            self.repo_path,
-            "sdnvpn/artifacts/quagga_setup.sh")
+        self.quagga_setup_script_path = pkg_resources.resource_filename(
+            'sdnvpn', 'artifacts/quagga_setup.sh')
         self.line_length = 90  # length for the summary table
         self.vm_boot_timeout = 180
         self.default_flavor = ft_utils.get_parameter_from_yaml(
