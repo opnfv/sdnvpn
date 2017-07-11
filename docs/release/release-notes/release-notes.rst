@@ -1,5 +1,5 @@
 ==========================================================================
-OPNFV Release Note for the Danube.1.0 release of OPNFV for SDN VPN feature
+OPNFV Release Note for the Danube.3.0 release of OPNFV for SDN VPN feature
 ==========================================================================
 
 License
@@ -141,6 +141,11 @@ OpenStack NAT does not work. Instances created in subnets that are connected to
 the public network via a gateway should have external connectivity. This does
 not work and can be worked around by assigning a Floating IP to the instance [1].
 
+Currently arbitrary failures on Jenkins CI occur for Apex deployment. Specifically the
+check of bgpd service running on Controller node, in testcase 3, has a constant failure
+trend. Yet these failures cannot be reproduced when testcases run on a local virtual
+deployment. External factors concerning the running environment, seem to affect the
+appearance of these failures [2].
 
 Workarounds
 -----------
@@ -150,6 +155,11 @@ by not network associating subnets attached to routers.
 
 The NAT issues are worked around by assigning floating IPs to VMs that require
 external connectivity.
+
+A more sophisticated logging mechanism will be implemented, during the testcases
+run. Gathering this logging information will give a more clear picture of the
+running environment and external factors that affect the testcases. This may also
+help to reveal issues of other system components.
 
 Test results
 ============
@@ -162,3 +172,4 @@ References
 ==========
 [0] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-94
 [1] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
+[2] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-167
