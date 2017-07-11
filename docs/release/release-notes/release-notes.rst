@@ -141,6 +141,13 @@ OpenStack NAT does not work. Instances created in subnets that are connected to
 the public network via a gateway should have external connectivity. This does
 not work and can be worked around by assigning a Floating IP to the instance [1].
 
+Currently arbitrary failures on Jenkins CI occur. Yet these failures cannot be
+reproduced when testcases run on a local virtual deployment, either Apex or Fuel.
+External factors concerning the running environment, seem to affect the appearance
+rate of these failures. In future release a more sophisticated logging mechanism will be
+implemented, during the testcases run. Gathering this logging information will
+give a more clear picture of the running environment and factors that affect the
+testcases. It also may help to reveal issues of other system components.
 
 Workarounds
 -----------
