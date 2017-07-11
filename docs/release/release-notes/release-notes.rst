@@ -1,5 +1,5 @@
 ==========================================================================
-OPNFV Release Note for the Danube.1.0 release of OPNFV for SDN VPN feature
+Release Note for the Danube.3.0 release of OPNFV for SDN VPN feature
 ==========================================================================
 
 License
@@ -137,10 +137,18 @@ cannot be both attached to a Router and Network associated to a VPN.
 This has been worked around in the tests and the upstream bug is being
 tracked [0].
 
-OpenStack NAT does not work. Instances created in subnets that are connected to
-the public network via a gateway should have external connectivity. This does
-not work and can be worked around by assigning a Floating IP to the instance [1].
+NAT for a VM which is in a private neutron network does not work. Instances
+created in subnets that are connected to the public network via a gateway
+should have external connectivity. This does not work and can be worked
+around by assigning a Floating IP to the instance [1].
 
+Currently we observe non-deterministic failures of individual tests within the
+SDNVPN section of the Functest suite, which are not reproducible in the development
+environment. In a development environment all Functest tests are successful.
+Sporadic failures have been observed in test cases 1,4 and 8. Furthermore, the
+check of bgpd service running on Controller node, in test case 3, has a constant
+failure trend for Apex environment. Also for Apex environment we observe constant
+failure in refstack, during the server action test_reboot_server_hard [2].
 
 Workarounds
 -----------
@@ -151,14 +159,19 @@ by not network associating subnets attached to routers.
 The NAT issues are worked around by assigning floating IPs to VMs that require
 external connectivity.
 
+For the failures observed in CI, no workaround is required since the faults were
+not reproducible in live deployments.[3]
+
 Test results
 ============
 
 The deployment scenarios have successfully deployed in OPNFV CI many
-times and all Functest tests (general and feature specific) are
-passing.
+times and all Functest tests (general and feature specific) are passing,
+with the exceptions described above.
 
 References
 ==========
 [0] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-94
 [1] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
+[2] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-172
+[3] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-170
