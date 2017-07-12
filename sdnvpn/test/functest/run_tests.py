@@ -19,7 +19,7 @@ import yaml
 
 import functest.utils.functest_utils as ft_utils
 from sdnvpn.lib import config as sdnvpn_config
-
+from sdnvpn.lib.gather_logs import gather_logs
 
 logger = logging.getLogger('sdnvpn-run-tests')
 
@@ -92,7 +92,7 @@ def main(report=False):
             if report:
                 push_results(
                     test_name_db, start_time, end_time, status, details)
-
+    gather_logs('overall')
     if overall_status == "FAIL":
         sys.exit(-1)
 
