@@ -57,12 +57,12 @@ on top of the normally recommended configuration.
 Together with the commonly used recommendation this sums up to:
 ::
 
- 4 virtual cores
+ 6 virtual cores
  16 GB virtual memory
 
 See in Installation section below how to configure this.
 
-Preparing the host to install Fuel by script
+[FUEL] Preparing the host to install Fuel by script
 ============================================
 .. Not all of these options are relevant for all scenarios.  I advise following the
 .. instructions applicable to the deploy tool used in the scenario.
@@ -70,7 +70,7 @@ Preparing the host to install Fuel by script
 Before starting the installation of the os-odl_l2-bgpnvp scenario some preparation of the
 machine that will host the Fuel VM must be done.
 
-Installation of required packages
+[FUEL] Installation of required packages
 ---------------------------------
 To be able to run the installation of the basic OPNFV fuel installation the
 Jumphost (or the host which serves the VMs for the virtual deployment) needs to
@@ -89,7 +89,7 @@ install the following packages:
                   python-novaclient python-neutronclient python-glanceclient \
                   python-keystoneclient debtcollector netifaces enum
 
-Download the source code and artifact
+[FUEL] Download the source code and artifact
 -------------------------------------
 To be able to install the scenario os-odl_l2-bgpvpn one can follow the way
 CI is deploying the scenario.
@@ -112,14 +112,14 @@ the website
 
 Have in mind that the fuel repo version needs to map with the downloaded artifact.
 
-Simplified scenario deployment procedure using Fuel
+[FUEL] Simplified scenario deployment procedure using Fuel
 ===================================================
 
 This section describes the installation of the os-odl_l2-bgpvpn-ha or
 os-odl_l2-bgpvpn-noha OPNFV reference platform stack across a server cluster
 or a single host as a virtual deployment.
 
-Scenario Preparation
+[FUEL] Scenario Preparation
 --------------------
 dea.yaml and dha.yaml need to be copied and changed according to the lab-name/host
 where you deploy.
@@ -154,7 +154,7 @@ Add at the bottom of dha.yaml
 Check if the default settings in dea.yaml are in line with your intentions
 and make changes as required.
 
-Installation procedures
+[FUEL] Installation procedures
 -----------------------
 
 We describe several alternative procedures in the following.
@@ -170,7 +170,7 @@ Before starting any of the following procedures, go to
 
  cd <opnfv-fuel-repo>/ci
 
-Full automatic virtual deployment High Availablity Mode
+[FUEL] Full automatic virtual deployment High Availablity Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following command will deploy the high-availability flavor of SDNVPN scenario os-odl_l2-bgpvpn-ha
@@ -180,7 +180,7 @@ node discovery and platform deployment) will take place without any further prom
 
  sudo bash ./deploy.sh -b file://<path-to-opnfv-fuel-repo>/config/ -l devel-pipeline -p <your-lab-name> -s os-odl_l2-bgpvpn-ha -i file://<path-to-fuel-iso>
 
-Full automatic virtual deployment NO High Availability Mode
+[FUEL] Full automatic virtual deployment NO High Availability Mode
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following command will deploy the SDNVPN scenario in its non-high-availability flavor (note the
@@ -189,7 +189,7 @@ different scenario name for the -s switch). Otherwise it does the same as descri
 
  sudo bash ./deploy.sh -b file://<path-to-opnfv-fuel-repo>/config/ -l devel-pipeline -p <your-lab-name> -s os-odl_l2-bgpvpn-noha -i file://<path-to-fuel-iso>
 
-Automatic Fuel installation and manual scenario deployment
+[FUEL] Automatic Fuel installation and manual scenario deployment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A useful alternative to the full automatic procedure is to only autodeploy the Fuel host and to run host selection, role assignment and SDNVPN scenario configuration manually.
@@ -205,7 +205,7 @@ The result of this installation is a fuel sever with the right config for
 BGPVPN. Now the deploy button on fuel dashboard can be used to deploy the environment.
 It is as well possible to do the configuration manuell.
 
-Feature configuration on existing Fuel
+[FUEL] Feature configuration on existing Fuel
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 If a Fuel server is already provided but the fuel plugins for Opendaylight, Openvswitch
 and BGPVPN are not provided install them by:
@@ -228,7 +228,111 @@ be able to check "BGPVPN extensions" in OpenDaylight plugin section.
 
 Now the deploy button on fuel dashboard can be used to deploy the environment.
 
-Feature and API usage guidelines and example
+[APEX] Virtual deployment
+=========================
+
+[APEX] Prerequisites
+^^^^^^^^^^^^^^^^^^^^
+For Virtual Apex deployment a host with Centos 7 is needed. This installation
+was tested on centos-release-7-2.1511.el7.centos.2.10.x86_64 however any other
+Centos 7 version should be fine.
+
+[APEX] Deploy
+=============
+Download the Apex repo from opnfv gerrit and checkout stable/danube:
+::
+
+ git clone ssh://<user>@gerrit.opnfv.org:29418/apex
+ cd apex
+ git checkout stable/danube
+
+In apex/contrib you will find simple_deploy.sh:
+::
+
+ #!/bin/bash
+ set -e
+ apex_home=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/../
+ export CONFIG=$apex_home/build
+ export LIB=$apex_home/lib
+ export RESOURCES=$apex_home/.build/
+ export PYTHONPATH=$PYTHONPATH:$apex_home/lib/python
+ $apex_home/ci/dev_dep_check.sh || true
+ $apex_home/ci/clean.sh
+ pushd $apex_home/build
+ make clean
+ make undercloud
+ make overcloud-opendaylight
+ popd
+ pushd $apex_home/ci
+ echo "All further output will be piped to $PWD/nohup.out"
+ (nohup ./deploy.sh -v -n $apex_home/config/network/network_settings.yaml -d $apex_home/config/deploy/os-odl_l3-nofeature-noha.yaml &)
+ tail -f nohup.out
+ popd
+
+This script will:
+
+- "dev_dep_check.sh" install all required packages.
+- "clean.sh" clean existing deployments
+- "make clean" clean existing builds
+- "make undercloud" building the undercloud image
+- "make overcloud-opendaylight" build the overcloud image and convert that to a overcloud with opendaylight image
+- "deploy.sh" deploy the os-odl_l3-nofeature-nohs.yaml scenario
+
+Change the scenario to os-odl-bgpvpn-noha.yaml. More scenraios can be found:
+./apex/config/deploy/
+
+Execute the script in a own screen process:
+::
+
+ yum install -y screen
+ screen -S deploy
+ bash ./simple_deploy.sh
+
+[APEX] Accessing the undercloud
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Determin the mac address of the undercloud vm:
+::
+
+ # virsh domiflist undercloud
+ -> Default network
+ Interface  Type       Source     Model       MAC
+ -------------------------------------------------------
+ vnet0      network    default    virtio      00:6a:9d:24:02:31
+ vnet1      bridge     admin      virtio      00:6a:9d:24:02:33
+ vnet2      bridge     external   virtio      00:6a:9d:24:02:35
+ # arp -n |grep 00:6a:9d:24:02:31
+ 192.168.122.34           ether   00:6a:9d:24:02:31   C                     virbr0
+ # ssh stack@192.168.122.34
+ -> no password needed (password stack)
+
+List overcloud deployment info:
+::
+
+ # source stackrc
+ # # Compute and controller:
+ # nova list
+ # # Networks
+ # neutron net-list
+
+List overcloud openstack info:
+::
+
+ # source overcloudrc
+ # nova list
+ # ...
+
+[APEX] Access the overcloud hosts
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+On the undercloud:
+::
+
+ # . stackrc
+ # nova list
+ # ssh heat-admin@<ip-of-host>
+ -> there is no password the user has direct sudo rights.
+
+
+Feature and API usage guidelines and example [For Apex and Fuel]
 ============================================
 .. Describe with examples how to use specific features, provide API examples and details required to
 .. operate the feature on the platform.
