@@ -153,3 +153,10 @@ testcases:
       secgroup_descr: Security group for SDNVPN test cases
       targets: '88:88'
       route_distinguishers: '18:18'
+
+  testcase_9:
+      enabled: true
+      description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
+      testname_db: functest_testcase_9
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
