@@ -649,3 +649,37 @@ def create_router_association(neutron_client, bgpvpn_id, router_id):
 def create_network_association(neutron_client, bgpvpn_id, neutron_network_id):
     json_body = {"network_association": {"network_id": neutron_network_id}}
     return neutron_client.create_network_association(bgpvpn_id, json_body)
+
+
+def is_fail_mode_secure():
+    """
+    Checks the value of the attribute fail_mode,
+    if it is set to secure. This check is performed
+    on all OVS br-int interfaces, for all OpenStack nodes.
+    """
+    is_secure = {}
+    openstack_nodes = get_nodes()
+    get_ovs_int_cmd = ("sudo ovs-vsctl show | "
+                       "grep -i bridge | "
+                       "awk '{print $2}'")
+    # Define OVS get fail_mode command
+    get_ovs_fail_mode_cmd = ("sudo ovs-vsctl get-fail-mode br-int")
+    for openstack_node in openstack_nodes:
+        if not openstack_node.is_active():
+            continue
+
+        ovs_int_list = \
+            openstack_node.run_cmd(get_ovs_int_cmd).strip().split('\n')
+        if 'br-int' in ovs_int_list:
+            # Execute get fail_mode command
+            br_int_fail_mode = \
+                openstack_node.run_cmd(get_ovs_fail_mode_cmd).strip()
+            if br_int_fail_mode == 'secure':
+                # success
+                is_secure[openstack_node.name] = True
+            else:
+                # failure
+                logging.error('The fail_mode for br-int was not secure '
+                              'in {} node'.format(openstack_node.name))
+                is_secure[openstack_node.name] = False
+    return is_secure
