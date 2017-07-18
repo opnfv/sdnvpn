@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_333802a0",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:18:00Z",
+      "side": 1,
+      "message": "don\u0027t use backslash, use brackets when you need to have a multi line instruction",
+      "range": {
+        "startLine": 671,
+        "startChar": 23,
+        "endLine": 671,
+        "endChar": 24
+      },
+      "revId": "fb28904693774934c54b514107babc4b98dfd96e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_533d7e8e",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:18:00Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 675,
+        "startChar": 31,
+        "endLine": 675,
+        "endChar": 32
+      },
+      "revId": "fb28904693774934c54b514107babc4b98dfd96e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_f3ca6aa0",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:18:00Z",
+      "side": 1,
+      "message": "missing shebang line",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 40
+      },
+      "revId": "fb28904693774934c54b514107babc4b98dfd96e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_b3c4f292",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:18:00Z",
+      "side": 1,
+      "message": "this should go before import logging",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "fb28904693774934c54b514107babc4b98dfd96e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_13d0664f",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:18:00Z",
+      "side": 1,
+      "message": "I prefer\n\nfrom sdnvpn.lib import utils as test_utils\nfrom sdnvpn.lib import config as sdnvpn_config",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "fb28904693774934c54b514107babc4b98dfd96e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
