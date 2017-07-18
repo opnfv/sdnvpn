@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa4ed85_b372b27a",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-07-18T14:53:23Z",
+      "side": 1,
+      "message": "run_tests loads the module and run main() directly, so this is only needed when running this script directly from the console. If that is not even needed, we can remove this, otherwise we should change all these calls to main by sys.exit(main()), but maybe in another patch.",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 10
+      },
+      "revId": "99bae44820c3acb77933dbdd8d1296e5f28878df",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
