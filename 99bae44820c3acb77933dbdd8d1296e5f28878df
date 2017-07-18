@@ -22,6 +22,30 @@
       "revId": "99bae44820c3acb77933dbdd8d1296e5f28878df",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1aa4ed85_530b3ed6",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6811
+      },
+      "writtenOn": "2017-07-18T15:06:17Z",
+      "side": 1,
+      "message": "This is generally helpful, in order to run testcases standalone when develop something new for local functional testing and debugging. But we could remove it or make the recommended change. Currently all testcases have it. Maybe we make a Jira issue for this.",
+      "parentUuid": "1aa4ed85_b372b27a",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 10
+      },
+      "revId": "99bae44820c3acb77933dbdd8d1296e5f28878df",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
