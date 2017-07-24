@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ### Configuration Required
-set -e
+# set -e
 
 tmp_folder=/tmp/opnfv-logs-$HOSTNAME/
 rm -rf $tmp_folder
@@ -80,6 +80,9 @@ log_command_exec(){
   echo "$cmd" >> $file
   echo "==========================================================" >> $file
   $cmd 2>&1 >> $file
+  if [ "$?" -ne "0" ]; then
+  echo "Something went wrong with log gathering"
+  fi
 }
 
 flows()
@@ -94,10 +97,13 @@ flows()
 node(){
  node=$tmp_folder/$HOSTNAME.txt
  log_command_exec "$node" ifconfig -a
- files_folders=( /opt/opendaylight/data/log/ /var/log/openvswitch/ /var/log/neutron/)
+ files_folders=( /opt/opendaylight/data/log/ /var/log/openvswitch/ /var/log/neutron/ /var/log/nova/)
  for ((i = 0; i < ${#files_folders[@]};i++));do
    if [ -e ${files_folders[$i]} ];then
      cp -r ${files_folders[$i]} $tmp_folder/
+     if [ "$?" -ne "0" ]; then
+     echo "Something went wrong with log tranferring from nodes"
+     fi
    fi
  done
  # not all messages only tail the last 10k lines
@@ -110,6 +116,9 @@ _curl_data_store(){
   touch $file
   echo "============================= $url ======================" >> $file
   curl --silent -u admin:admin -X GET http://$odl_ip_port/$url | python -mjson.tool 2>&1 >> $file
+  if [ "$?" -ne "0" ]; then
+  echo "Something went wrong while reading from datastore"
+  fi
 }
 
 _get_output_karaf(){
@@ -118,7 +127,9 @@ _get_output_karaf(){
   shift
   echo "============================ KARAF $@ ===================" >> $file
   sshpass -p karaf ssh -p 8101 -o "StrictHostKeyChecking no" karaf@localhost "$@" 2>&1 >> $file
-
+  if [ "$?" -ne "0" ]; then
+  echo "Something went wrong with log gathering from karaf"
+  fi
 }
 datastore()
 {

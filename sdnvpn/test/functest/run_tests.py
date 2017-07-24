@@ -97,7 +97,7 @@ def main(report=False):
         gather_logs('overall')
     except Exception as ex:
         logger.error(('Something went wrong in the Log gathering.'
-                      'Ex: Trace: %s')
+                      'Ex: %s, Trace: %s')
                      % ex, traceback.format_exc())
     if overall_status == "FAIL":
         sys.exit(-1)
