@@ -15,10 +15,10 @@
 #   - Verify that the OpenDaylight and gateway Quagga peer
 import argparse
 import logging
+import sys
 
-from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib import config as sdnvpn_config
-
+from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
@@ -75,4 +75,4 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    main()
+    sys.exit(main())

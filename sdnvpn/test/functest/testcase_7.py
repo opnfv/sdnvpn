@@ -20,11 +20,11 @@ network associated:
 """
 import argparse
 import logging
+import sys
 
-import functest.utils.openstack_utils as os_utils
-
-from sdnvpn.lib import utils as test_utils
+from functest.utils import openstack_utils as os_utils
 from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 
 parser = argparse.ArgumentParser()
@@ -174,4 +174,4 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    main()
+    sys.exit(main())

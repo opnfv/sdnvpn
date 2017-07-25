@@ -11,17 +11,17 @@
 #   - Start a BGP router with OpenDaylight
 #   - Add the functest Quagga as a neighbor
 #   - Verify that the OpenDaylight and gateway Quagga peer
+
+import argparse
 import logging
 import os
-import argparse
+import sys
 
+from functest.utils import functest_utils as ft_utils
+from functest.utils import openstack_utils as os_utils
 from sdnvpn.lib import quagga
-import sdnvpn.lib.utils as test_utils
-import sdnvpn.lib.config as sdnvpn_config
-
-import functest.utils.openstack_utils as os_utils
-import functest.utils.functest_utils as ft_utils
-
+from sdnvpn.lib import utils as test_utils
+from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib.results import Results
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
@@ -287,4 +287,4 @@ def main():
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    main()
+    sys.exit(main())
