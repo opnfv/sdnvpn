@@ -143,7 +143,7 @@ def create_instance(nova_client,
     return instance
 
 
-def generate_ping_userdata(ips_array):
+def generate_ping_userdata(ips_array, ping_count=10):
     ips = ""
     for ip in ips_array:
         ips = ("%s %s" % (ips, ip))
@@ -154,7 +154,7 @@ def generate_ping_userdata(ips_array):
             "while true; do\n"
             " for i do\n"
             "  ip=$i\n"
-            "  ping -c 10 $ip 2>&1 >/dev/null\n"
+            "  ping -c %s $ip 2>&1 >/dev/null\n"
             "  RES=$?\n"
             "  if [ \"Z$RES\" = \"Z0\" ] ; then\n"
             "   echo ping $ip OK\n"
@@ -163,7 +163,7 @@ def generate_ping_userdata(ips_array):
             " done\n"
             " sleep 1\n"
             "done\n"
-            % ips)
+            % (ips, ping_count))
 
 
 def generate_userdata_common():
