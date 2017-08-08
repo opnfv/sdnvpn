@@ -164,3 +164,17 @@ testcases:
       router_1_name: sdnvpn-10-1-router
       secgroup_name: sdnvpn-sg
       secgroup_descr: Security group for SDNVPN test cases
+
+  sdnvpn.test.functest.testcase_11:
+      enabled: true
+      description: Check relevant OVS groups are removed upon deletion of OpenStack topology
+      testname_db: functest_testcase_11
+      instance_1_name: sdnvpn-11-1
+      instance_2_name: sdnvpn-11-2
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-11-1-net
+      subnet_1_name: sdnvpn-11-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-11-1-router
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
