@@ -65,6 +65,7 @@ def main():
 
     return results.compile_summary()
 
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     sys.exit(main())
