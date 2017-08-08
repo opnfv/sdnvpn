@@ -681,3 +681,20 @@ def is_fail_mode_secure():
                               'in {} node'.format(openstack_node.name))
                 is_secure[openstack_node.name] = False
     return is_secure
+
+
+def get_ovs_groups(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
+    """
+    Gets, as input, a list of compute nodes and a list of OVS bridges
+    and returns the command console output, as a list of lines, that
+    contains all the OVS groups from all bridges and nodes in lists.
+    """
+    cmd_out_lines = []
+    for compute_node in compute_node_list:
+        for ovs_br in ovs_br_list:
+            if ovs_br in compute_node.run_cmd("sudo ovs-vsctl show"):
+                ovs_groups_cmd = ("sudo ovs-ofctl dump-groups {} -O {} | "
+                                  "grep group".format(ovs_br, of_protocol))
+                cmd_out_lines += (compute_node.run_cmd(ovs_groups_cmd).strip().
+                                  split("\n"))
+    return cmd_out_lines
