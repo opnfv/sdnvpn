@@ -62,7 +62,6 @@ def create_subnet(neutron_client, name, cidr, net_id):
 def create_network(neutron_client, net, subnet1, cidr1,
                    router, subnet2=None, cidr2=None):
     """Network assoc won't work for networks/subnets created by this function.
-
     It is an ODL limitation due to it handling routers as vpns.
     See https://bugs.opendaylight.org/show_bug.cgi?id=6962"""
     network_dic = os_utils.create_network_full(neutron_client,
@@ -247,11 +246,12 @@ def get_instance_ip(instance):
 
 
 def wait_for_instance(instance):
-    logger.info("Waiting for instance %s to get a DHCP lease..." % instance.id)
+    logger.info("Waiting for instance %s to get a DHCP lease and "
+                "prompt for login..." % instance.id)
     # The sleep this function replaced waited for 80s
     tries = 40
     sleep_time = 2
-    pattern = "Lease of .* obtained, lease time"
+    pattern = ".* login:"
     expected_regex = re.compile(pattern)
     console_log = ""
     while tries > 0 and not expected_regex.search(console_log):
@@ -260,7 +260,7 @@ def wait_for_instance(instance):
         tries -= 1
 
     if not expected_regex.search(console_log):
-        logger.error("Instance %s seems to have failed leasing an IP."
+        logger.error("Instance %s seems not to boot up properly."
                      % instance.id)
         return False
     return True
@@ -328,7 +328,6 @@ def wait_before_subtest(*args, **kwargs):
 
 def assert_and_get_compute_nodes(nova_client, required_node_number=2):
     """Get the compute nodes in the deployment
-
     Exit if the deployment doesn't have enough compute nodes"""
     compute_nodes = os_utils.get_hypervisors(nova_client)
 
@@ -434,14 +433,11 @@ def check_odl_fib(ip, controller_ip):
 
 def run_odl_cmd(odl_node, cmd):
     '''Run a command in the OpenDaylight Karaf shell
-
     This is a bit flimsy because of shell quote escaping, make sure that
     the cmd passed does not have any top level double quotes or this
     function will break.
-
     The /dev/null is used because client works, but outputs something
     that contains "ERROR" and run_cmd doesn't like that.
-
     '''
     karaf_cmd = ('/opt/opendaylight/bin/client -h 127.0.0.1 "%s"'
                  ' 2>/dev/null' % cmd)
