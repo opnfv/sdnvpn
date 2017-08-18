@@ -48,10 +48,6 @@ def main():
 
     logger.debug("Using private key %s injected to the VMs."
                  % COMMON_CONFIG.keyfile_path)
-    keyfile = open(COMMON_CONFIG.keyfile_path, 'r')
-    key = keyfile.read()
-    keyfile.close()
-    files = {"/home/cirros/id_rsa": key}
 
     image_id = os_utils.create_glance_image(glance_client,
                                             TESTCASE_CONFIG.image_name,
@@ -90,6 +86,21 @@ def main():
         network_2_id)
     network_ids.extend([network_1_id, network_2_id])
     subnet_ids.extend([subnet_1a_id, subnet_1b_id, subnet_2a_id, subnet_2b_id])
+    # The following 2 routers are temporary and used in order to create
+    # the appropriate datapath to transfere the private keys (id_rsa files)
+    # to the coresponded VMs. They are deleted before the actual test is
+    # started
+    router1_id, router1_interfaces = test_utils.create_router(
+        neutron_client,
+        TESTCASE_CONFIG.router_1_name,
+        [subnet_1a_id, subnet_1b_id])
+    router2_id, router2_interfaces = test_utils.create_router(
+        neutron_client,
+        TESTCASE_CONFIG.router_2_name,
+        [subnet_2a_id, subnet_2b_id])
+    interfaces.extend(router1_interfaces)
+    interfaces.extend(router2_interfaces)
+    router_ids.extend([router1_id, router2_id])
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -100,7 +111,7 @@ def main():
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
-    # boot INTANCES
+    # boot INSTANCES
     userdata_common = test_utils.generate_userdata_common()
     vm_2 = test_utils.create_instance(
         nova_client,
@@ -149,8 +160,7 @@ def main():
         fixed_ip=TESTCASE_CONFIG.instance_4_ip,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1,
-        userdata=u4,
-        files=files)
+        userdata=u4)
 
     # We boot VM1 at the end because we need to get the IPs first to generate
     # the userdata
@@ -168,9 +178,64 @@ def main():
         fixed_ip=TESTCASE_CONFIG.instance_1_ip,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1,
-        userdata=u1,
-        files=files)
+        userdata=u1)
     instance_ids.extend([vm_1.id, vm_2.id, vm_3.id, vm_4.id, vm_5.id])
+
+    # Wait for VMs to get ips.
+    instances_get_ip = test_utils.wait_instances_get_dhcp_lease(vm_1, vm_2,
+                                                                vm_3, vm_4,
+                                                                vm_5)
+
+    if not instances_get_ip:
+        logger.error("One or more instances is down")
+        sys.exit(-1)
+
+    # We use the following floating ips, in order to create the appropriate
+    # datapath to pass the id_rsa key to vm_1 and vm_4
+    fip_1 = os_utils.create_floating_ip(neutron_client)
+    vm_1_fip_added = os_utils.add_floating_ip(nova_client,
+                                              vm_1.id,
+                                              fip_1['fip_addr'])
+    if not vm_1_fip_added:
+        logger.error("Fail to assign floating ip to vm_1")
+        sys.exit(-1)
+    fip_2 = os_utils.create_floating_ip(neutron_client)
+    vm_4_fip_added = os_utils.add_floating_ip(nova_client,
+                                              vm_4.id,
+                                              fip_2['fip_addr'])
+    if not vm_4_fip_added:
+        logger.error("Fail to assign floating ip to vm_4")
+        sys.exit(-1)
+
+    floatingip_ids.extend([fip_1['fip_id'], fip_2['fip_id']])
+    cmd_copy_key_1 = ("cp %s /tmp/id_rsa; "
+                      "chmod 600 /tmp/id_rsa; "
+                      "sshpass -p '%s' scp -oStrictHostKeyChecking=no "
+                      "-oUserKnownHostsFile=/dev/null /tmp/id_rsa "
+                      "%s@%s:/home/%s/.ssh" %
+                      (COMMON_CONFIG.keyfile_path,
+                       TESTCASE_CONFIG.instance_pwd,
+                       TESTCASE_CONFIG.instance_uname, fip_1['fip_addr'],
+                       TESTCASE_CONFIG.instance_uname))
+    cmd_copy_key_2 = ("cp %s /tmp/id_rsa; "
+                      "chmod 600 /tmp/id_rsa; "
+                      "sshpass -p '%s' scp -oStrictHostKeyChecking=no "
+                      "-oUserKnownHostsFile=/dev/null /tmp/id_rsa "
+                      "%s@%s:/home/%s/.ssh" %
+                      (COMMON_CONFIG.keyfile_path,
+                       TESTCASE_CONFIG.instance_pwd,
+                       TESTCASE_CONFIG.instance_uname, fip_2['fip_addr'],
+                       TESTCASE_CONFIG.instance_uname))
+    test_utils.wait_before_subtest()
+    test_utils.exec_cmd(cmd_copy_key_1, True)
+    test_utils.exec_cmd(cmd_copy_key_2, True)
+    test_utils.cleanup_neutron(neutron_client,
+                               floatingip_ids, [],
+                               interfaces, [], router_ids, [])
+    test_utils.wait_before_subtest()
+
+    # At this point the setup is clean from any extra components.
+    # It is ready for the actual test process
 
     msg = ("Create VPN1 with eRT=iRT")
     results.record_action(msg)
@@ -191,15 +256,7 @@ def main():
 
     test_utils.create_network_association(
         neutron_client, bgpvpn1_id, network_1_id)
-
-    # Wait for VMs to get ips.
-    instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
-                                                    vm_3, vm_4,
-                                                    vm_5)
-
-    if not instances_up:
-        logger.error("One or more instances is down")
-        sys.exit(-1)
+    test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn1_id, network_1_id)
 
     logger.info("Waiting for the VMs to connect to each other using the"
                 " updated network configuration")
@@ -212,7 +269,7 @@ def main():
     # 10.10.11.13 should return sdnvpn-3 to sdnvpn-1
     results.check_ssh_output(vm_1, vm_3,
                              expected=TESTCASE_CONFIG.instance_3_name,
-                             timeout=30)
+                             timeout=200)
 
     results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
@@ -234,8 +291,6 @@ def main():
 
     test_utils.create_network_association(
         neutron_client, bgpvpn2_id, network_2_id)
-
-    test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn1_id, network_1_id)
     test_utils.wait_for_bgp_net_assoc(neutron_client, bgpvpn2_id, network_2_id)
 
     logger.info("Waiting for the VMs to connect to each other using the"
@@ -245,7 +300,7 @@ def main():
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
     results.check_ssh_output(vm_4, vm_5,
                              expected=TESTCASE_CONFIG.instance_5_name,
-                             timeout=30)
+                             timeout=200)
 
     # 10.10.10.11 should return "not reachable" to sdnvpn-4
     results.check_ssh_output(vm_4, vm_1,
@@ -253,8 +308,8 @@ def main():
                              timeout=30)
 
     test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
-    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
-                               interfaces, subnet_ids, router_ids,
+    test_utils.cleanup_neutron(neutron_client, [], bgpvpn_ids,
+                               [], subnet_ids, [],
                                network_ids)
     return results.compile_summary()
 

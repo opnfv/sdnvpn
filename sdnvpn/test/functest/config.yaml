@@ -36,6 +36,8 @@ testcases:
       enabled: true
       description: Tenant separation
       testname_db: functest_testcase_2
+      instance_uname: cirros
+      instance_pwd: cubswin:)
       instance_1_name: sdnvpn-2-1
       instance_2_name: sdnvpn-2-2
       instance_3_name: sdnvpn-2-3

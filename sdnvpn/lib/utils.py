@@ -90,6 +90,26 @@ def create_network(neutron_client, net, subnet1, cidr1,
     return net_id, subnet_id, router_id
 
 
+def create_router(neutron_client, router_name, subnets_list, is_gateway=True):
+    if len(subnets_list) == 0:
+        logger.error("Invalid parameters for create_router. "
+                     "Subnets_list must have at least one valid subnet id.")
+        sys.exit(1)
+    if not is_gateway and len(subnets_list) == 1:
+        logger.error("Invalid parameters for create_router. "
+                     "More than one subnet ids must be defined "
+                     "in subnets_list, or the router must be a gateway")
+        sys.exit(1)
+    router_interfaces = []
+    router_id = os_utils.create_neutron_router(neutron_client, router_name)
+    if is_gateway:
+        os_utils.add_gateway_router(neutron_client, router_id)
+    for subnet_id in subnets_list:
+        os_utils.add_interface_router(neutron_client, router_id, subnet_id)
+        router_interfaces.append(tuple((router_id, subnet_id)))
+    return router_id, router_interfaces
+
+
 def create_instance(nova_client,
                     name,
                     image_id,
@@ -195,14 +215,16 @@ def generate_userdata_with_ssh(ips_array):
     u2 = ("#!/bin/sh\n"
           "set%s\n"
           "while true; do\n"
-          " for i do\n"
-          "  ip=$i\n"
-          "  hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa "
+          " if [ -f /home/cirros/.ssh/id_rsa ]; then\n"
+          "  for i do\n"
+          "   ip=$i\n"
+          "   hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa "
           "cirros@$ip 'hostname' </dev/zero 2>/dev/null)\n"
-          "  RES=$?\n"
-          "  if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;\n"
-          "  else echo $ip 'not reachable';fi;\n"
-          " done\n"
+          "   RES=$?\n"
+          "   if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;\n"
+          "   else echo $ip 'not reachable';fi;\n"
+          "  done\n"
+          " fi\n"
           " sleep 1\n"
           "done\n"
           % ips)
@@ -246,12 +268,13 @@ def get_instance_ip(instance):
     return instance_ip
 
 
-def wait_for_instance(instance):
-    logger.info("Waiting for instance %s to get a DHCP lease..." % instance.id)
+def wait_for_instance(instance, console_pattern):
+    """This is a helper function that is used to check
+    for varius states of an instance"""
     # The sleep this function replaced waited for 80s
     tries = 40
     sleep_time = 2
-    pattern = "Lease of .* obtained, lease time"
+    pattern = console_pattern
     expected_regex = re.compile(pattern)
     console_log = ""
     while tries > 0 and not expected_regex.search(console_log):
@@ -260,15 +283,35 @@ def wait_for_instance(instance):
         tries -= 1
 
     if not expected_regex.search(console_log):
-        logger.error("Instance %s seems to have failed leasing an IP."
-                     % instance.id)
         return False
     return True
 
 
-def wait_for_instances_up(*args):
-    check = [wait_for_instance(instance) for instance in args]
-    return all(check)
+def wait_instances_get_dhcp_lease(*instances):
+    # Wait until instances gets a DHCP lease
+    for instance in instances:
+        logger.info("Waiting for instance %s to get a DHCP lease..."
+                    % instance.id)
+        check_dhcp = wait_for_instance(instance,
+                                       "Lease of .* obtained, lease time")
+        if not check_dhcp:
+            logger.error("Instance %s seems to have failed leasing an IP."
+                         % instance.id)
+            sys.exit(1)
+
+
+def wait_for_instances_up(*instances):
+    # Wait until the logging prompt appears in console output
+    for instance in instances:
+        logger.info("Waiting for login prompt of instance %s."
+                    % instance.id)
+        check_logging = wait_for_instance(instance,
+                                          ".* login:")
+        if not check_logging:
+            logger.error("Instance %s seems to have hang. "
+                         "No login prompt has appear yet."
+                         % instance.id)
+            sys.exit(1)
 
 
 def wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, net_id):
