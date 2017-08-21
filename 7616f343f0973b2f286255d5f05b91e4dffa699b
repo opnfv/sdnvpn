@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_ce4bfdae",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 2697
+      },
+      "writtenOn": "2017-08-21T07:55:39Z",
+      "side": 1,
+      "message": "shouldn\u0027t there be an else to create it?",
+      "range": {
+        "startLine": 227,
+        "startChar": 11,
+        "endLine": 227,
+        "endChar": 17
+      },
+      "revId": "7616f343f0973b2f286255d5f05b91e4dffa699b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
