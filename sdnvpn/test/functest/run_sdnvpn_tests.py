@@ -67,7 +67,8 @@ def main(report=False):
                      (test_name, test_descr))
             logger.info(title)
             logger.info("%s\n" % ("=" * len(title)))
-            t = importlib.import_module(testcase, package=None)
+            module = 'sdnvpn.test.functest.' + testcase
+            t = importlib.import_module(module, package=None)
             start_time = time.time()
             try:
                 result = t.main()
