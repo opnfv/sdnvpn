@@ -2,13 +2,13 @@ defaults:
   flavor: m1.tiny # adapt to your environment
 
 testcases:
-  tempest:
+  sdnvpn.test.functest.tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
       testname_db: functest_tempest # declared name in the test api
       # http://testresults.opnfv.org/test/api/v1/projects/sdnvpn/cases
 
-  testcase_1:
+  sdnvpn.test.functest.testcase_1:
       enabled: true
       description: VPN provides connectivity between subnets
       testname_db: functest_testcase_1
@@ -32,7 +32,7 @@ testcases:
       targets2: '55:55'
       route_distinguishers: '11:11'
 
-  testcase_2:
+  sdnvpn.test.functest.testcase_2:
       enabled: true
       description: Tenant separation
       testname_db: functest_testcase_2
@@ -66,7 +66,7 @@ testcases:
       route_distinguishers1: '111:111'
       route_distinguishers2: '222:222'
 
-  testcase_3:
+  sdnvpn.test.functest.testcase_3:
       enabled: true
       description: Data center gateway integration
       testname_db: functest_testcase_3
@@ -90,7 +90,7 @@ testcases:
       export_targets: '32:32'
 
 
-  testcase_4:
+  sdnvpn.test.functest.testcase_4:
       enabled: true
       description: VPN provides connectivity between subnets using router association
       testname_db: functest_testcase_4
@@ -114,7 +114,7 @@ testcases:
       targets2: '55:55'
       route_distinguishers: '12:12'
 
-  testcase_7:
+  sdnvpn.test.functest.testcase_7:
       enabled: false
       description: Network associate VPNs with routers attached (ODL Bug 6962)
       testname_db: functest_testcase_7
@@ -134,7 +134,7 @@ testcases:
       targets: '77:77'
       route_distinguishers: '11:11'
 
-  testcase_8:
+  sdnvpn.test.functest.testcase_8:
       enabled: true
       description: Test floating IP and router assoc coexistence
       testname_db: functest_testcase_8
@@ -154,7 +154,7 @@ testcases:
       targets: '88:88'
       route_distinguishers: '18:18'
 
-  testcase_9:
+  sdnvpn.test.functest.testcase_9:
       enabled: true
       description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
       testname_db: functest_testcase_9
