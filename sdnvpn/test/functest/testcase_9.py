@@ -22,9 +22,10 @@ from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
-TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig("testcase_9")
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
+    "sdnvpn.test.functest.testcase_9")
 
-logger = logging.getLogger('sdnvpn-testcase-9')
+logger = logging.getLogger('__name__')
 
 parser = argparse.ArgumentParser()
 

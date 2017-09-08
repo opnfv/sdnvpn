@@ -29,12 +29,13 @@ parser.add_argument("-r", "--report",
 
 args = parser.parse_args()
 
-logger = logging.getLogger('sdnvpn-testcase-10')
+logger = logging.getLogger('__name__')
 
 std_out_lock = Lock()
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
-TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig('testcase_10')
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
+    'sdnvpn.test.functest.testcase_10')
 
 
 def monitor(in_data, out_data, vm):

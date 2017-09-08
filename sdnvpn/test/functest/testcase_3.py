@@ -27,7 +27,8 @@ from sdnvpn.lib.results import Results
 logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
-TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig("testcase_3")
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
+    "sdnvpn.test.functest.testcase_3")
 
 
 def main():
