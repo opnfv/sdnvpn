@@ -59,8 +59,7 @@ class SdnvpnFunctest(testcase.TestCase):
                          (test_name, test_descr))
                 self.__logger.info(title)
                 self.__logger.info("%s\n" % ("=" * len(title)))
-                module = 'sdnvpn.test.functest.' + test_name
-                t = importlib.import_module(module, package=None)
+                t = importlib.import_module(test_name, package=None)
                 try:
                     result = t.main()
                 except Exception as ex:
