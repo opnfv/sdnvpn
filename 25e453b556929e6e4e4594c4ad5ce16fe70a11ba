@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da33351e_b9148e44",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-09-27T19:22:50Z",
+      "side": 1,
+      "message": "Did you doublecheck if those are still the only ones? I remember tmorin said they have added more sometime.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 40
+      },
+      "revId": "25e453b556929e6e4e4594c4ad5ce16fe70a11ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_9911ca54",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-09-27T19:22:50Z",
+      "side": 1,
+      "message": "using network association",
+      "range": {
+        "startLine": 39,
+        "startChar": 52,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "25e453b556929e6e4e4594c4ad5ce16fe70a11ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_d917d243",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-09-27T19:22:50Z",
+      "side": 1,
+      "message": "Do our release notes explain why?",
+      "range": {
+        "startLine": 149,
+        "startChar": 37,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "25e453b556929e6e4e4594c4ad5ce16fe70a11ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da33351e_39287e85",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-09-27T19:22:50Z",
+      "side": 1,
+      "message": "this is not a bgpvpn specific test right? We might want to move it up into functest or even Tempest...",
+      "range": {
+        "startLine": 179,
+        "startChar": 19,
+        "endLine": 179,
+        "endChar": 65
+      },
+      "revId": "25e453b556929e6e4e4594c4ad5ce16fe70a11ba",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
