@@ -45,7 +45,7 @@ def gather_logs(name):
             % node.get_dict()['name'])
 
     ft_utils.execute_command_raise('cd %s;tar czvf sdnvpn-logs-%s.tar.gz'
-                                   ' sdnvpn-logs/'
+                                   ' /tmp/sdnvpn-logs/'
                                    % (CONST.__getattribute__('dir_results'),
                                       name))
 
