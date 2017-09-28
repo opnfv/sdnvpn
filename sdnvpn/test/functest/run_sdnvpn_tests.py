@@ -89,7 +89,7 @@ class SdnvpnFunctest(testcase.TestCase):
         except Exception as ex:
             self.__logger.error(('Something went wrong in the Log gathering.'
                                  'Ex: %s, Trace: %s')
-                                % ex, traceback.format_exc())
+                                % (ex, traceback.format_exc()))
 
         if overall_status == "PASS":
             self.result = 100
