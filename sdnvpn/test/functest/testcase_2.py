@@ -61,27 +61,33 @@ def main():
         TESTCASE_CONFIG.subnet_1a_name,
         TESTCASE_CONFIG.subnet_1a_cidr,
         network_1_id)
-    subnet_1b_id = test_utils.create_subnet(
-        neutron_client,
-        TESTCASE_CONFIG.subnet_1b_name,
-        TESTCASE_CONFIG.subnet_1b_cidr,
-        network_1_id)
+# TODO: uncomment the commented lines once ODL has
+# support for mulitple subnets under same neutron network
+#     subnet_1b_id = test_utils.create_subnet(
+#         neutron_client,
+#         TESTCASE_CONFIG.subnet_1b_name,
+#         TESTCASE_CONFIG.subnet_1b_cidr,
+#         network_1_id)
 
     network_2_id = test_utils.create_net(
         neutron_client,
         TESTCASE_CONFIG.net_2_name)
-    subnet_2a_id = test_utils.create_subnet(
-        neutron_client,
-        TESTCASE_CONFIG.subnet_2a_name,
-        TESTCASE_CONFIG.subnet_2a_cidr,
-        network_2_id)
+#     subnet_2a_id = test_utils.create_subnet(
+#         neutron_client,
+#         TESTCASE_CONFIG.subnet_2a_name,
+#         TESTCASE_CONFIG.subnet_2a_cidr,
+#         network_2_id)
     subnet_2b_id = test_utils.create_subnet(
         neutron_client,
         TESTCASE_CONFIG.subnet_2b_name,
         TESTCASE_CONFIG.subnet_2b_cidr,
         network_2_id)
     network_ids.extend([network_1_id, network_2_id])
-    subnet_ids.extend([subnet_1a_id, subnet_1b_id, subnet_2a_id, subnet_2b_id])
+    subnet_ids.extend([subnet_1a_id,
+                       # subnet_1b_id,
+                       # subnet_2a_id,
+                       subnet_2b_id
+                       ])
 
     sg_id = os_utils.create_security_group_full(neutron_client,
                                                 TESTCASE_CONFIG.secgroup_name,
@@ -105,33 +111,34 @@ def main():
         compute_node=av_zone_1,
         userdata=userdata_common)
 
-    vm_3 = test_utils.create_instance(
-        nova_client,
-        TESTCASE_CONFIG.instance_3_name,
-        image_id,
-        network_1_id,
-        sg_id,
-        fixed_ip=TESTCASE_CONFIG.instance_3_ip,
-        secgroup_name=TESTCASE_CONFIG.secgroup_name,
-        compute_node=av_zone_2,
-        userdata=userdata_common)
-
-    vm_5 = test_utils.create_instance(
-        nova_client,
-        TESTCASE_CONFIG.instance_5_name,
-        image_id,
-        network_2_id,
-        sg_id,
-        fixed_ip=TESTCASE_CONFIG.instance_5_ip,
-        secgroup_name=TESTCASE_CONFIG.secgroup_name,
-        compute_node=av_zone_2,
-        userdata=userdata_common)
+#     vm_3 = test_utils.create_instance(
+#         nova_client,
+#         TESTCASE_CONFIG.instance_3_name,
+#         image_id,
+#         network_1_id,
+#         sg_id,
+#         fixed_ip=TESTCASE_CONFIG.instance_3_ip,
+#         secgroup_name=TESTCASE_CONFIG.secgroup_name,
+#         compute_node=av_zone_2,
+#         userdata=userdata_common)
+# 
+#     vm_5 = test_utils.create_instance(
+#         nova_client,
+#         TESTCASE_CONFIG.instance_5_name,
+#         image_id,
+#         network_2_id,
+#         sg_id,
+#         fixed_ip=TESTCASE_CONFIG.instance_5_ip,
+#         secgroup_name=TESTCASE_CONFIG.secgroup_name,
+#         compute_node=av_zone_2,
+#         userdata=userdata_common)
 
     # We boot vm5 first because we need vm5_ip for vm4 userdata
     u4 = test_utils.generate_userdata_with_ssh(
-        [TESTCASE_CONFIG.instance_1_ip,
-         TESTCASE_CONFIG.instance_3_ip,
-         TESTCASE_CONFIG.instance_5_ip])
+        [TESTCASE_CONFIG.instance_1_ip
+        #TESTCASE_CONFIG.instance_3_ip,
+        #TESTCASE_CONFIG.instance_5_ip
+        ])
     vm_4 = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.instance_4_name,
@@ -148,9 +155,10 @@ def main():
     # the userdata
     u1 = test_utils.generate_userdata_with_ssh(
         [TESTCASE_CONFIG.instance_2_ip,
-         TESTCASE_CONFIG.instance_3_ip,
-         TESTCASE_CONFIG.instance_4_ip,
-         TESTCASE_CONFIG.instance_5_ip])
+         # TESTCASE_CONFIG.instance_3_ip,
+         TESTCASE_CONFIG.instance_4_ip
+         # TESTCASE_CONFIG.instance_5_ip
+         ])
     vm_1 = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.instance_1_name,
@@ -162,7 +170,12 @@ def main():
         compute_node=av_zone_1,
         userdata=u1,
         files=files)
-    instance_ids.extend([vm_1.id, vm_2.id, vm_3.id, vm_4.id, vm_5.id])
+    instance_ids.extend([vm_1.id,
+                         vm_2.id,
+                         # vm_3.id,
+                         vm_4.id
+                         # vm_5.id
+                         ])
 
     msg = ("Create VPN1 with eRT=iRT")
     results.record_action(msg)
@@ -185,9 +198,12 @@ def main():
         neutron_client, bgpvpn1_id, network_1_id)
 
     # Wait for VMs to get ips.
-    instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
-                                                    vm_3, vm_4,
-                                                    vm_5)
+    instances_up = test_utils.wait_for_instances_up(vm_1,
+                                                    vm_2,
+                                                    #vm_3,
+                                                    vm_4
+                                                    #vm_5
+                                                    )
 
     if not instances_up:
         logger.error("One or more instances is down")
@@ -202,9 +218,9 @@ def main():
                              expected=TESTCASE_CONFIG.instance_2_name,
                              timeout=200)
     # 10.10.11.13 should return sdnvpn-3 to sdnvpn-1
-    results.check_ssh_output(vm_1, vm_3,
-                             expected=TESTCASE_CONFIG.instance_3_name,
-                             timeout=30)
+    # results.check_ssh_output(vm_1, vm_3,
+    #                         expected=TESTCASE_CONFIG.instance_3_name,
+    #                        timeout=30)
 
     results.add_to_summary(0, "-")
     msg = ("Create VPN2 with eRT=iRT")
@@ -235,9 +251,9 @@ def main():
     test_utils.wait_before_subtest()
 
     # 10.10.11.13 should return sdnvpn-5 to sdnvpn-4
-    results.check_ssh_output(vm_4, vm_5,
-                             expected=TESTCASE_CONFIG.instance_5_name,
-                             timeout=30)
+    # results.check_ssh_output(vm_4, vm_5,
+    #                        expected=TESTCASE_CONFIG.instance_5_name,
+    #                        timeout=30)
 
     # 10.10.10.11 should return "not reachable" to sdnvpn-4
     results.check_ssh_output(vm_4, vm_1,
