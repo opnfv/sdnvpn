@@ -15,6 +15,7 @@
 import logging
 import os
 import sys
+import traceback
 
 from functest.utils import functest_utils as ft_utils
 from functest.utils import openstack_utils as os_utils
@@ -145,137 +146,145 @@ def main():
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
 
-    sg_id = os_utils.create_security_group_full(neutron_client,
-                                                TESTCASE_CONFIG.secgroup_name,
-                                                TESTCASE_CONFIG.secgroup_descr)
-    test_utils.open_icmp(neutron_client, sg_id)
-    test_utils.open_http_port(neutron_client, sg_id)
-
-    test_utils.open_bgp_port(neutron_client, sg_id)
-    net_id, subnet_1_id, router_1_id = test_utils.create_network(
-        neutron_client,
-        TESTCASE_CONFIG.net_1_name,
-        TESTCASE_CONFIG.subnet_1_name,
-        TESTCASE_CONFIG.subnet_1_cidr,
-        TESTCASE_CONFIG.router_1_name)
-
-    quagga_net_id, subnet_quagga_id, \
-        router_quagga_id = test_utils.create_network(
-            neutron_client,
-            TESTCASE_CONFIG.quagga_net_name,
-            TESTCASE_CONFIG.quagga_subnet_name,
-            TESTCASE_CONFIG.quagga_subnet_cidr,
-            TESTCASE_CONFIG.quagga_router_name)
-
-    interfaces.append(tuple((router_1_id, subnet_1_id)))
-    interfaces.append(tuple((router_quagga_id, subnet_quagga_id)))
-    network_ids.extend([net_id, quagga_net_id])
-    router_ids.extend([router_1_id, router_quagga_id])
-    subnet_ids.extend([subnet_1_id, subnet_quagga_id])
-
-    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
-    if installer_type == "fuel":
-        disk = 'raw'
-    elif installer_type == "apex":
-        disk = 'qcow2'
-    else:
-        logger.error("Incompatible installer type")
-
-    ubuntu_image_id = os_utils.create_glance_image(
-        glance_client,
-        COMMON_CONFIG.ubuntu_image_name,
-        COMMON_CONFIG.ubuntu_image_path,
-        disk,
-        container="bare",
-        public="public")
-
-    image_ids.append(ubuntu_image_id)
-
-    # NOTE(rski) The order of this seems a bit weird but
-    # there is a reason for this, namely
-    # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
-    # so we create the quagga instance using cloud-init
-    # and immediately give it a floating IP.
-    # The cloud-init script should contain a small sleep for
-    # this to work.
-    # We also create the FIP first because it is used in the
-    # cloud-init script.
-    fip = os_utils.create_floating_ip(neutron_client)
-    # fake_fip is needed to bypass NAT
-    # see below for the reason why.
-    fake_fip = os_utils.create_floating_ip(neutron_client)
-
-    floatingip_ids.extend([fip['fip_id'], fake_fip['fip_id']])
-    # pin quagga to some compute
-    compute_node = nova_client.hypervisors.list()[0]
-    quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
-    # Map the hypervisor used above to a compute handle
-    # returned by releng's manager
-    for comp in computes:
-        if compute_node.host_ip in comp.run_cmd("sudo ip a"):
-            compute = comp
-            break
-    quagga_bootstrap_script = quagga.gen_quagga_setup_script(
-        controller_ext_ip,
-        fake_fip['fip_addr'],
-        ext_net_mask)
-
-    test_utils.create_custom_flavor()
-
-    quagga_vm = test_utils.create_instance(
-        nova_client,
-        TESTCASE_CONFIG.quagga_instance_name,
-        ubuntu_image_id,
-        quagga_net_id,
-        sg_id,
-        fixed_ip=TESTCASE_CONFIG.quagga_instance_ip,
-        flavor=COMMON_CONFIG.custom_flavor_name,
-        userdata=quagga_bootstrap_script,
-        compute_node=quagga_compute_node)
-
-    instance_ids.append(quagga_vm)
-
-    fip_added = os_utils.add_floating_ip(nova_client,
-                                         quagga_vm.id,
-                                         fip['fip_addr'])
-
-    msg = "Assign a Floating IP to %s " % TESTCASE_CONFIG.quagga_instance_name
-    if fip_added:
-        results.add_success(msg)
-    else:
-        results.add_failure(msg)
-    test_utils.attach_instance_to_ext_br(quagga_vm, compute)
-
     try:
-        testcase = "Bootstrap quagga inside an OpenStack instance"
-        cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
-        if cloud_init_success:
-            results.add_success(testcase)
+        sg_id = os_utils.create_security_group_full(
+            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            TESTCASE_CONFIG.secgroup_descr)
+        test_utils.open_icmp(neutron_client, sg_id)
+        test_utils.open_http_port(neutron_client, sg_id)
+
+        test_utils.open_bgp_port(neutron_client, sg_id)
+        net_id, subnet_1_id, router_1_id = test_utils.create_network(
+            neutron_client,
+            TESTCASE_CONFIG.net_1_name,
+            TESTCASE_CONFIG.subnet_1_name,
+            TESTCASE_CONFIG.subnet_1_cidr,
+            TESTCASE_CONFIG.router_1_name)
+
+        quagga_net_id, subnet_quagga_id, \
+            router_quagga_id = test_utils.create_network(
+                neutron_client,
+                TESTCASE_CONFIG.quagga_net_name,
+                TESTCASE_CONFIG.quagga_subnet_name,
+                TESTCASE_CONFIG.quagga_subnet_cidr,
+                TESTCASE_CONFIG.quagga_router_name)
+
+        interfaces.append(tuple((router_1_id, subnet_1_id)))
+        interfaces.append(tuple((router_quagga_id, subnet_quagga_id)))
+        network_ids.extend([net_id, quagga_net_id])
+        router_ids.extend([router_1_id, router_quagga_id])
+        subnet_ids.extend([subnet_1_id, subnet_quagga_id])
+
+        installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+        if installer_type == "fuel":
+            disk = 'raw'
+        elif installer_type == "apex":
+            disk = 'qcow2'
         else:
-            results.add_failure(testcase)
-        results.add_to_summary(0, "=")
+            logger.error("Incompatible installer type")
 
-        results.add_to_summary(0, '-')
-        results.add_to_summary(1, "Peer Quagga with OpenDaylight")
-        results.add_to_summary(0, '-')
+        ubuntu_image_id = os_utils.create_glance_image(
+            glance_client,
+            COMMON_CONFIG.ubuntu_image_name,
+            COMMON_CONFIG.ubuntu_image_path,
+            disk,
+            container="bare",
+            public="public")
 
-        neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
-                                           controller_ext_ip,
-                                           controller)
-        peer = quagga.check_for_peering(controller)
+        image_ids.append(ubuntu_image_id)
 
+        # NOTE(rski) The order of this seems a bit weird but
+        # there is a reason for this, namely
+        # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
+        # so we create the quagga instance using cloud-init
+        # and immediately give it a floating IP.
+        # The cloud-init script should contain a small sleep for
+        # this to work.
+        # We also create the FIP first because it is used in the
+        # cloud-init script.
+        fip = os_utils.create_floating_ip(neutron_client)
+        # fake_fip is needed to bypass NAT
+        # see below for the reason why.
+        fake_fip = os_utils.create_floating_ip(neutron_client)
+
+        floatingip_ids.extend([fip['fip_id'], fake_fip['fip_id']])
+        # pin quagga to some compute
+        compute_node = nova_client.hypervisors.list()[0]
+        quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
+        # Map the hypervisor used above to a compute handle
+        # returned by releng's manager
+        for comp in computes:
+            if compute_node.host_ip in comp.run_cmd("sudo ip a"):
+                compute = comp
+                break
+        quagga_bootstrap_script = quagga.gen_quagga_setup_script(
+            controller_ext_ip,
+            fake_fip['fip_addr'],
+            ext_net_mask)
+
+        test_utils.create_custom_flavor()
+
+        quagga_vm = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.quagga_instance_name,
+            ubuntu_image_id,
+            quagga_net_id,
+            sg_id,
+            fixed_ip=TESTCASE_CONFIG.quagga_instance_ip,
+            flavor=COMMON_CONFIG.custom_flavor_name,
+            userdata=quagga_bootstrap_script,
+            compute_node=quagga_compute_node)
+
+        instance_ids.append(quagga_vm)
+
+        fip_added = os_utils.add_floating_ip(nova_client,
+                                             quagga_vm.id,
+                                             fip['fip_addr'])
+
+        msg = ("Assign a Floating IP to %s " %
+               TESTCASE_CONFIG.quagga_instance_name)
+        if fip_added:
+            results.add_success(msg)
+        else:
+            results.add_failure(msg)
+        test_utils.attach_instance_to_ext_br(quagga_vm, compute)
+
+        try:
+            testcase = "Bootstrap quagga inside an OpenStack instance"
+            cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
+            if cloud_init_success:
+                results.add_success(testcase)
+            else:
+                results.add_failure(testcase)
+            results.add_to_summary(0, "=")
+
+            results.add_to_summary(0, '-')
+            results.add_to_summary(1, "Peer Quagga with OpenDaylight")
+            results.add_to_summary(0, '-')
+
+            neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
+                                               controller_ext_ip,
+                                               controller)
+            peer = quagga.check_for_peering(controller)
+
+        finally:
+            test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+
+        if neighbor and peer:
+            results.add_success("Peering with quagga")
+        else:
+            results.add_failure("Peering with quagga")
+
+    except:
+        logging.exception("======== EXCEPTION =========")
+        exc_type, exc_value, exc_tb = sys.exc_info()
+        traceback.print_exception(exc_type, exc_value, exc_tb)
     finally:
-        test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+        test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+                                   bgpvpn_ids, interfaces, subnet_ids,
+                                   router_ids, network_ids)
 
-    if neighbor and peer:
-        results.add_success("Peering with quagga")
-    else:
-        results.add_failure("Peering with quagga")
-
-    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
-    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
-                               interfaces, subnet_ids, router_ids,
-                               network_ids)
     return results.compile_summary()
 
 if __name__ == '__main__':
