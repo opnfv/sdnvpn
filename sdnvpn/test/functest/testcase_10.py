@@ -13,7 +13,6 @@ import logging
 import re
 import sys
 import time
-import traceback
 
 from functest.utils import openstack_utils as os_utils
 from multiprocessing import Process, Manager, Lock
@@ -249,10 +248,9 @@ def main():
         else:
             results.add_failure(monitor_err_msg)
 
-    except:
-        logging.exception("======== EXCEPTION =========")
-        exc_type, exc_value, exc_tb = sys.exc_info()
-        traceback.print_exception(exc_type, exc_value, exc_tb)
+    except Exception as e:
+        logger.error("exception occurred while executing testcase_10: %s", e)
+        raise
     finally:
         # Give a stop signal to all threads
         logging.info("Sending stop signal to monitor thread")
@@ -262,10 +260,10 @@ def main():
         for thread in threads:
             thread.join()
 
-    test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
-    test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
-                               interfaces, subnet_ids, router_ids,
-                               network_ids)
+        test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+        test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
+                                   interfaces, subnet_ids, router_ids,
+                                   network_ids)
 
     return results.compile_summary()
 
