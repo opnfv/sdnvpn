@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_ed40ac37",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-13T13:35:27Z",
+      "side": 1,
+      "message": "It looks elegant, you can also catch the exception with\n\n    except Exception as e:\n        logger.error\u003d\"whatever\")\n        raise Exception(e)\n\nto avoid traceback module.",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 11
+      },
+      "revId": "07469739cf4ed7830aa5f43033e3557ace884a7f",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
