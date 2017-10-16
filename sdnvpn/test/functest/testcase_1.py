@@ -30,7 +30,7 @@ def main():
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
-
+    results.details.append("name: %s" % TESTCASE_CONFIG.description)
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
@@ -164,8 +164,20 @@ def main():
             # TODO: Handle this appropriately
 
         results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
+        results.details.append({"SN1_ping_test_1: %s can ping %s: %s" %
+                                TESTCASE_CONFIG.instance_1_name,
+                                TESTCASE_CONFIG.instance_2_name,
+                                results.test_result})
         results.get_ping_status(vm_1, vm_3, expected="PASS", timeout=30)
+        results.details.append("SN1_ping_test_2: %s can ping %s: %s" %
+                               (TESTCASE_CONFIG.instance_1_name,
+                                TESTCASE_CONFIG.instance_3_name,
+                                results.test_result))
         results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
+        results.details.append("SN1_ping_test_3: %s can not ping %s: %s" %
+                               (TESTCASE_CONFIG.instance_1_name,
+                                TESTCASE_CONFIG.instance_4_name,
+                                results.test_result))
 
         msg = ("Associate network '%s' to the VPN." %
                TESTCASE_CONFIG.net_2_name)
@@ -185,6 +197,10 @@ def main():
         test_utils.wait_before_subtest()
 
         results.get_ping_status(vm_4, vm_5, expected="PASS", timeout=30)
+        results.details.append("SN2_ping_test_1: %s can ping %s: %s" %
+                               (TESTCASE_CONFIG.instance_4_name,
+                                TESTCASE_CONFIG.instance_5_name,
+                                results.test_result))
         # TODO enable again when isolation in VPN with iRT != eRT works
         # results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
         # results.get_ping_status(vm_1, vm_5, expected="FAIL", timeout=30)
@@ -204,7 +220,15 @@ def main():
         test_utils.wait_before_subtest()
 
         results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
+        results.details.append("SN1_SN2_ping_test_1: %s can ping %s: %s" %
+                               (TESTCASE_CONFIG.instance_1_name,
+                                TESTCASE_CONFIG.instance_4_name,
+                                results.test_result))
         results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
+        results.details.append("SN1_SN2_ping_test_2: %s can ping %s: %s" %
+                               (TESTCASE_CONFIG.instance_1_name,
+                                TESTCASE_CONFIG.instance_5_name,
+                                results.test_result))
 
     except Exception as e:
         logger.error("exception occurred while executing testcase_1: %s", e)
