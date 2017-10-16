@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_1777dad5",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-16T09:18:08Z",
+      "side": 1,
+      "message": "ok, but I would also raise the message of the exception in case the log is not showed on the console, but it\u0027s up to you.\n\n    raise Exception(e)",
+      "range": {
+        "startLine": 211,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 13
+      },
+      "revId": "ee5ce358fcefc67547147f57dc7ba91450ac3566",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
