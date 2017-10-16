@@ -22,6 +22,30 @@
       "revId": "ee5ce358fcefc67547147f57dc7ba91450ac3566",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1a137f5d",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-16T09:41:31Z",
+      "side": 1,
+      "message": "Josh, Can\u0027t we simply use raise keyword to rethrow the raised exception (with message) ? why do we need to wrap it over another Exception object. I\u0027m curious to know.",
+      "parentUuid": "9a3d3df0_1777dad5",
+      "range": {
+        "startLine": 211,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 13
+      },
+      "revId": "ee5ce358fcefc67547147f57dc7ba91450ac3566",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
