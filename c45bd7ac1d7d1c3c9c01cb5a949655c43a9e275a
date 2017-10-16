@@ -62,6 +62,30 @@
       "revId": "c45bd7ac1d7d1c3c9c01cb5a949655c43a9e275a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_da447776",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-16T14:42:54Z",
+      "side": 1,
+      "message": "ah! okay. you mean Runner#run_test does it ? In that case, sdnvpn doesn\u0027t need to do it. \nHope i need to populate results.details dictionary for each testcase which makes test report to be rendered properly.\n\nTim, Can you revert the merge ? The currebt one doesn\u0027t actually fix the issue.",
+      "parentUuid": "9a3d3df0_3ae2c39f",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "c45bd7ac1d7d1c3c9c01cb5a949655c43a9e275a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
