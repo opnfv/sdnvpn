@@ -46,6 +46,30 @@
       "revId": "ee5ce358fcefc67547147f57dc7ba91450ac3566",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_5a4b4759",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-16T09:52:02Z",
+      "side": 1,
+      "message": "you are right, we don\u0027t need it. \"raise\" without arguments will always raise the last exception thrown, so it\u0027s should be ok like this.",
+      "parentUuid": "9a3d3df0_1a137f5d",
+      "range": {
+        "startLine": 211,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 13
+      },
+      "revId": "ee5ce358fcefc67547147f57dc7ba91450ac3566",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
