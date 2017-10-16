@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Thomas Sounapoglou <soth@intracom-telecom.com>
+Code-Review+2: Tim Irnich <tim.irnich@ericsson.com>
+Submitted-by: Tim Irnich <tim.irnich@ericsson.com>
+Submitted-at: Mon, 16 Oct 2017 15:27:04 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/44911
+Project: sdnvpn
+Branch: refs/heads/master
