@@ -39,6 +39,29 @@
       "revId": "c45bd7ac1d7d1c3c9c01cb5a949655c43a9e275a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3ae2c39f",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-16T13:43:05Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to call this function since the framework will do it for you. You only need to populate the varaible\n\n    self.details\n\nwith some formatting, for instance:\n\n    \u0027details\u0027: [\n    {u\"\u0027sdnvpn-1-1\u0027 can ping \u0027sdnvpn-1-2\u0027\": \u0027PASS\u0027},\n    {u\"\u0027sdnvpn-1-1\u0027 can ping \u0027sdnvpn-1-3\u0027\": \u0027PASS\u0027},\n    {u\"\u0027sdnvpn-1-1\u0027 cannot ping \u0027sdnvpn-1-4\u0027\": \u0027PASS\u0027},\n    {u\"\u0027sdnvpn-1-4\u0027 can ping \u0027sdnvpn-1-5\u0027\": \u0027PASS\u0027},\n    {u\"\u0027sdnvpn-1-1\u0027 can ping \u0027sdnvpn-1-4\u0027\": \u0027PASS\u0027},\n    {u\"\u0027sdnvpn-1-1\u0027 can ping \u0027sdnvpn-1-5\u0027\": \u0027PASS\u0027}]\n\nor similar. The format for the \"details\" argument is 100% free, it can be anything as long as it follows some logic.",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "c45bd7ac1d7d1c3c9c01cb5a949655c43a9e275a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
