@@ -84,6 +84,10 @@ class SdnvpnFunctest(testcase.TestCase):
 
         self.stop_time = time.time()
 
+        # Ignoring the return value of push_to_db because we shouldn't make
+        # sdnvpn to fail for an issue related to db write.
+        self.push_to_db()
+
         try:
             gather_logs('overall')
         except Exception as ex:
