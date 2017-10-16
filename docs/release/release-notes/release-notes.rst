@@ -12,20 +12,22 @@ License. .. http://creativecommons.org/licenses/by/4.0 ..
 Abstract
 ========
 
-This document comprises the release notes for the SDN VPN feature contained in the Danube
+This document comprises the release notes for the SDN VPN feature contained in the Euphrates
 release of OPNFV.
 
 Important notes
 ===============
 
-In the Danube release, SDN VPN only supports ODL as a backend. Make sure to always deploy
-SDN VPN and ODL together. Make use of deployment scenarios including the SDNVPN feature.
+In the Euphrates release, SDN VPN only supports ODL as a backend. Make sure to always deploy
+SDN VPN and ODL together. Make use of deployment scenarios including the SDNVPN feature such as os_odl_bgpvpn_{ha|noha}.
 
 Summary
 =======
 
-SDN VPN adds the possibility to create and associate BGP/MPLS based Virtual Private Networks (VPNs)
-through the OpenStack Neutron BGPVPN API extension.
+SDN VPN adds the possibility to create and associate BGP/MPLS based
+Virtual Private Networks (VPNs) through the OpenStack Neutron BGPVPN API
+extension. See the scenario description and the user guide for details.
+
 
 Release Data
 ============
@@ -34,21 +36,18 @@ Release Data
 | **Project**                          | sdnvpn                                    |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Repo/tag**                         | Danube.3.0                                |
+| **Repo/tag**                         | Euhprates 1.0                             |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release designation**              | Danube 3.0 follow-up release              |
+| **Release designation**              | Euphrates 1.0 - initial release           |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release date**                     | June 23 2017                              |
+| **Release date**                     | Oct 20 2017                               |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Purpose of the delivery**          | Including BGP stack - 6WIND Zrpcd/Quagga  |
-|                                      | Fuel 10.0 baseline + bug fixes            |
-|                                      | Deployment with Apex                      |
-|                                      | Integration with Boron SR2.0 and bugfixes |
-|                                      | 4 new e2e testcases for Functest          |
-|                                      | Horizon integration for networking-bgpvpn |
+| **Purpose of the delivery**          | Rebased to new upstream versions          |
+|                                      | Removed Fuel deployment scenario          |
+|                                      | Couple of new test cases                  |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
 
@@ -63,10 +62,13 @@ functest to guarantee functionality.
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-ODL has been upgraded to Boron SR4.
+ODL has been upgraded to Carbon SR2.
 
 Document changes
 ~~~~~~~~~~~~~~~~
+The previous monolithic user guide, which was also covering install and
+config, has been broken up into multiple documents.
+
 
 Reason for version
 ------------------
@@ -78,23 +80,15 @@ SDN VPN adds the possibility to create and associate BGP/MPLS based
 Virtual Private Networks (VPNs) through the OpenStack Neutron BGPVPN
 API extension.
 
-A new installer based on Apex is provided.
+There has been no functional scope change in the Euphrates release, the
+main deliverable is newer upstream versions and additional test
+coverage.
 
-The Horizon dashboard for the OpenStack Neutron BGPVPN API extensions
-is available.
 
 Bug corrections
 ~~~~~~~~~~~~~~~
 
 - Several bugs in ODL VPN Service have been fixed in this release.
-
-- Floating IP is now working and tested in functest, relevant Tempest
-  tests have been enabled.
-
-- Performance issues have been rectified and the relevant tests have
-  been enabled again.
-
-- Yardstick testcases have been enabled again.
 
 Deliverables
 ------------
@@ -102,11 +96,7 @@ Deliverables
 Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~
 
-- Fuel plugin for OpenStack BGPVPN
-- Changes to ODL Fuel plugin to activate the NetVirt Karaf features
-  and to apply the appropriate configuration. Also changes to
-  implement integration with 6Wind Zrpcd and Quagga.
-- Changes to Apex to enable a BGPVPN deployment.
+- Changes to Apex to enable a BGPVPN deployment and integration of Quagga BGP.
 - Integration of VPN Service functional tests and BGPVPN API tests into Functest framework.
 - Enabling performance tests in Yardstick.
 - Changes to 6Wind Zrpcd to enable integration with Apex.
