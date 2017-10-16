@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_e592809e",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-10-16T15:36:41Z",
+      "side": 1,
+      "message": "update this.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "c75d15b53910578507179235d0706b8d31d517a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_45908c95",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-10-16T15:36:41Z",
+      "side": 1,
+      "message": "summarize docs updates",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "c75d15b53910578507179235d0706b8d31d517a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_a5f878e6",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-10-16T15:36:41Z",
+      "side": 1,
+      "message": "no feature scope change in Euphrates.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "c75d15b53910578507179235d0706b8d31d517a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_05dde470",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-10-16T15:36:41Z",
+      "side": 1,
+      "message": "scenario not supported on Fuel anymore.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "c75d15b53910578507179235d0706b8d31d517a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_25bbc80f",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 321
+      },
+      "writtenOn": "2017-10-16T15:36:41Z",
+      "side": 1,
+      "message": "bgpd does not come up both in controller and DC-GW VM - to be fixed in Euphrates SR1. \nMulti-subnet under same network not supported in ODL, testcase needs to be reworked in Fraser. \nCheck list of ODL bugs raised from Thomas (incl. ODl bug for updating L3VPN after creation).",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 12
+      },
+      "revId": "c75d15b53910578507179235d0706b8d31d517a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
