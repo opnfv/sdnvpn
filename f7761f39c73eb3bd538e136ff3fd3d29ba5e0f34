@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_7ab9e62d",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-17T15:04:54Z",
+      "side": 1,
+      "message": "There is a suggestion from functest not to include too many logs (?) into details. Let us decide what to decide to put it.",
+      "revId": "f7761f39c73eb3bd538e136ff3fd3d29ba5e0f34",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
