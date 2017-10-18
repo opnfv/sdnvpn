@@ -85,7 +85,13 @@ class SdnvpnFunctest(testcase.TestCase):
         self.stop_time = time.time()
 
         try:
-            gather_logs('overall')
+            installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+            if installer_type in ["fuel", "apex"]:
+                gather_logs('overall')
+            else:
+                self.__logger.info("Skipping log gathering because installer"
+                                   "type %s is neither fuel nor apex" %
+                                   installer_type)
         except Exception as ex:
             self.__logger.error(('Something went wrong in the Log gathering.'
                                  'Ex: %s, Trace: %s')
