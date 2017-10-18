@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_cebb1471",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2017-10-18T11:57:20Z",
+      "side": 1,
+      "message": "References needs to be updated, right?\nsdnvpn-os-odl-bgpvpn-noha\nsdnvpn-os-odl-bgpvpn-ha",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 31
+      },
+      "revId": "aae2573c2f271ad2fb471ab9b813f60d706f5c68",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
