@@ -34,6 +34,24 @@
       "revId": "f7761f39c73eb3bd538e136ff3fd3d29ba5e0f34",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_f30fe1df",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-18T07:38:19Z",
+      "side": 1,
+      "message": "I do not think this current proposal of updating result details is necessary, as in fact all the needed \"details\" have been included in self.details\n\n\u003e\u003e Linda, I saw it and thought that result.details is not filled up test cases. But looks like results.get_ping_status, results.check_ssh_output updates details by invoking add_to_summary. So It\u0027s not required to explicitly update results.details as you mentioned. Jose, Can you agree to this ?",
+      "parentUuid": "9a3d3df0_d0173350",
+      "revId": "f7761f39c73eb3bd538e136ff3fd3d29ba5e0f34",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
