@@ -16,6 +16,24 @@
       "revId": "f7761f39c73eb3bd538e136ff3fd3d29ba5e0f34",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d0173350",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5441
+      },
+      "writtenOn": "2017-10-18T06:45:34Z",
+      "side": 1,
+      "message": "I do not think this current proposal of updating result details is necessary, as in fact all the needed \"details\" have been included in self.details (see: https://github.com/opnfv/sdnvpn/blob/master/sdnvpn/test/functest/run_sdnvpn_tests.py#L76), which is obtained from result.py (see: https://github.com/opnfv/sdnvpn/blob/master/sdnvpn/lib/results.py#L100).\n\nThe key issue is Functest executes the script run_sdnvpn_tests.py as a bash command as Jose mentioned, so self.details is not part of the class in functest framework and will be useless. Then we need to do is to run bgpvpn as a python module and then use all internal things that the class Testcase offers in Functest (https://github.com/opnfv/functest/blob/master/functest/core/testcase.py#L42-L48).",
+      "parentUuid": "9a3d3df0_7ab9e62d",
+      "revId": "f7761f39c73eb3bd538e136ff3fd3d29ba5e0f34",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
