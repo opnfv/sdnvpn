@@ -94,6 +94,30 @@
       "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2ee72014",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-18T10:00:05Z",
+      "side": 1,
+      "message": "sure, will do.",
+      "parentUuid": "9a3d3df0_eedd3844",
+      "range": {
+        "startLine": 84,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 34
+      },
+      "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
