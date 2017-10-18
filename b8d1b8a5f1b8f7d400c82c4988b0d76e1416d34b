@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a3d3df0_84e28dd3",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-10-18T15:21:17Z",
+      "side": 1,
+      "message": "You could consider using neutron API instead.",
+      "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_4ebb840e",
         "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
         "patchSetId": 3
@@ -115,6 +132,23 @@
         "endLine": 84,
         "endChar": 34
       },
+      "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_e4e719e3",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-10-18T15:21:17Z",
+      "side": 1,
+      "message": "The previous instruction was good too.",
       "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
