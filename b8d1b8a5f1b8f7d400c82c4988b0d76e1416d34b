@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_4ebb840e",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5441
+      },
+      "writtenOn": "2017-10-18T09:28:47Z",
+      "side": 1,
+      "message": "Nothing to do with this topic, but could we add a judgement of INSTALLER_TYPE for \"gather_logs\" for the moment, so gather_logs will be run only when INSTALLER_TYPE is apex or fuel.",
+      "range": {
+        "startLine": 84,
+        "startChar": 12,
+        "endLine": 84,
+        "endChar": 34
+      },
+      "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
