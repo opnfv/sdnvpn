@@ -12,23 +12,21 @@ import importlib
 import logging
 import os
 import sys
-import time
 import traceback
 import yaml
 
-from functest.core import testcase
+from functest.core import feature as base
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib.gather_logs import gather_logs
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
 
-class SdnvpnFunctest(testcase.TestCase):
+class SdnvpnFunctest(base.Feature):
 
     __logger = logging.getLogger(__name__)
 
-    def run(self):
-        self.start_time = time.time()
+    def execute(self):
 
         cmd_line = "neutron quota-update --subnet -1 --network -1 --port -1"
         self.__logger.info("Setting subnet/net quota to unlimited : %s"
@@ -82,8 +80,6 @@ class SdnvpnFunctest(testcase.TestCase):
                     if status == "FAIL":
                         overall_status = "FAIL"
 
-        self.stop_time = time.time()
-
         try:
             gather_logs('overall')
         except Exception as ex:
@@ -93,13 +89,13 @@ class SdnvpnFunctest(testcase.TestCase):
 
         if overall_status == "PASS":
             self.result = 100
-            return testcase.TestCase.EX_OK
+            return base.Feature.EX_OK
 
-        return testcase.TestCase.EX_RUN_ERROR
+        return base.Feature.EX_RUN_ERROR
 
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s'
                         '- %(levelname)s - %(message)s')
     SDNVPN = SdnvpnFunctest()
-    sys.exit(SDNVPN.run())
+    sys.exit(SDNVPN.execute())
