@@ -213,7 +213,9 @@ def get_installerHandler():
     installer_ip = get_installer_ip()
 
     if installer_type not in ["fuel", "apex"]:
-        raise ValueError("%s is not supported" % installer_type)
+        logger.warn("installer type %s is neither fuel nor apex."
+                    "returning None for installer handler" % installer_type)
+        return None
     else:
         if installer_type in ["apex"]:
             developHandler = DeploymentFactory.get_handler(
