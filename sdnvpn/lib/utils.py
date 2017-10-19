@@ -681,3 +681,36 @@ def is_fail_mode_secure():
                               'in {} node'.format(openstack_node.name))
                 is_secure[openstack_node.name] = False
     return is_secure
+
+
+def update_nw_subnet_port_quota(neutron_client, nw_quota, subnet_quota,
+                                port_quota, tenant_id=None):
+    json_body = {"quota": {
+        "network": nw_quota,
+        "subnet": subnet_quota,
+        "port": port_quota
+    }}
+
+    try:
+        neutron_client.update_quota(tenant_id=tenant_id,
+                                    body=json_body)
+        return True
+    except Exception as e:
+        logger.error("Error [update_nw_subnet_port_quota(neutron_client,"
+                     " '%s', '%s', '%s', '%s')]: %s" %
+                     (tenant_id, nw_quota, subnet_quota, port_quota, e))
+        return False
+
+
+def update_instance_quota_class(nova_client, instances_quota):
+    json_body = {"quota_class_set": {
+        "instances": instances_quota
+    }}
+
+    try:
+        nova_client.quota_classes.update("default", body=json_body)
+        return True
+    except Exception as e:
+        logger.error("Error [update_instance_quota_class(nova_client,"
+                     " '%s' )]: %s" % (instances_quota, e))
+        return False
