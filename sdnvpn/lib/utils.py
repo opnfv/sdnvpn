@@ -20,7 +20,7 @@ from opnfv.deployment.factory import Factory as DeploymentFactory
 
 from sdnvpn.lib import config as sdnvpn_config
 
-logger = logging.getLogger('sndvpn_test_utils')
+logger = logging.getLogger('sdnvpn_test_utils')
 
 common_config = sdnvpn_config.CommonConfig()
 
