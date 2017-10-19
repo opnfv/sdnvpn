@@ -18,6 +18,7 @@ import yaml
 from functest.core import feature as base
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib.gather_logs import gather_logs
+from sdnvpn.lib.openstack_utils import os_utils
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
@@ -28,21 +29,17 @@ class SdnvpnFunctest(base.Feature):
 
     def execute(self):
 
-        cmd_line = "neutron quota-update --subnet -1 --network -1 --port -1"
-        self.__logger.info("Setting subnet/net quota to unlimited : %s"
-                           % cmd_line)
-        cmd = os.popen(cmd_line)
-        output = cmd.read()
-        self.__logger.debug(output)
+        self.__logger.info("Setting subnet/net quota to unlimited")
+        os_utils.update_nw_subnet_port_quota(
+            COMMON_CONFIG.neutron_nw_quota,
+            COMMON_CONFIG.neutron_subnet_quota,
+            COMMON_CONFIG.port_quota)
 
         # Workaround for
         # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115
-        cmd_line = "nova quota-class-update --instances -1 default"
-        self.__logger.info("Setting instances quota to unlimited : %s"
-                           % cmd_line)
-        cmd = os.popen(cmd_line)
-        output = cmd.read()
-        self.__logger.debug(output)
+        self.__logger.info("Setting instances quota to unlimited")
+        os_utils.update_instance_quota_class(
+            COMMON_CONFIG.nova_instances_quota_class)
 
         with open(COMMON_CONFIG.config_file) as f:
             config_yaml = yaml.safe_load(f)
