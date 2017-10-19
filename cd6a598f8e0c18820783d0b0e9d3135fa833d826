@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_446520e0",
+        "filename": "sdnvpn/test/functest/testcase_10.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-10-19T07:38:18Z",
+      "side": 0,
+      "message": "Or it may be moved into __main__ block.",
+      "revId": "cd6a598f8e0c18820783d0b0e9d3135fa833d826",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
