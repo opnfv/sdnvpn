@@ -149,12 +149,10 @@ testcases:
   sdnvpn.test.functest.testcase_9:
       enabled: true
       description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
-      testname_db: functest_testcase_9
 
   sdnvpn.test.functest.testcase_10:
       enabled: true
       description: Test if interupts occure during ping, when removing and adding instances 
-      testname_db: functest_testcase_10
       instance_1_name: sdnvpn-10-1
       instance_2_name: sdnvpn-10-2
       instance_3_name: sdnvpn-10-3

@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import argparse
 import logging
 import re
 import sys
@@ -20,13 +19,6 @@ from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument("-r", "--report",
-                    help="Create json result file",
-                    action="store_true")
-
-args = parser.parse_args()
 
 logger = logging.getLogger('__name__')
 
