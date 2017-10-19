@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_356f64c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-19T18:36:21Z",
+      "side": 1,
+      "message": "you don\u0027t need to use this prefix, if you are not sure that the patch is ready, it\u0027s safer to use verify -1\nThis way, I am not sure you are ready for us to review this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "734815bd463b7a08a32bb2789c31b84386d31d6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
