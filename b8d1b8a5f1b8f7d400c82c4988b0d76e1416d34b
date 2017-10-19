@@ -188,6 +188,24 @@
       "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_64af84e4",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2017-10-19T07:39:48Z",
+      "side": 1,
+      "message": "The exit codes are defined in TestCase. Both are correct",
+      "parentUuid": "9a3d3df0_7f527014",
+      "revId": "b8d1b8a5f1b8f7d400c82c4988b0d76e1416d34b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
