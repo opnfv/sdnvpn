@@ -54,6 +54,10 @@ class CommonConfig(object):
             self.custom_flavor_ram = 1024
             self.custom_flavor_disk = 10
             self.custom_flavor_vcpus = 1
+            self.neutron_nw_quota = -1
+            self.neutron_subnet_quota = -1
+            self.neutron_port_quota = -1
+            self.nova_instances_quota_class = -1
 
     commonCfgInstance = None
 
