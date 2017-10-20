@@ -22,6 +22,30 @@
       "revId": "734815bd463b7a08a32bb2789c31b84386d31d6c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_8449e3d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-20T08:11:02Z",
+      "side": 1,
+      "message": "yes, I\u0027m still testing this patch with openstack to see quota is properly set with these new apis. so i have made it as [wip]. From the next time, I will specify the reason for [wip] or verify -1.\nI thought you can still review the change, hence added you guys.",
+      "parentUuid": "9a3d3df0_356f64c7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 6
+      },
+      "revId": "734815bd463b7a08a32bb2789c31b84386d31d6c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
