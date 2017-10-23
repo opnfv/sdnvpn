@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_7dbeee00",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5441
+      },
+      "writtenOn": "2017-10-23T09:10:52Z",
+      "side": 1,
+      "message": "\u0027OS_TENANT_NAME\u0027 is not supported by Apex, so \u0027OS_PROJECT_NAME\u0027 is recommended here.",
+      "range": {
+        "startLine": 37,
+        "startChar": 55,
+        "endLine": 37,
+        "endChar": 69
+      },
+      "revId": "cf6b86658397a6c7c47187d74e21dd049ba5fb9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
