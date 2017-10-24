@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_b3870761",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5441
+      },
+      "writtenOn": "2017-10-24T10:50:00Z",
+      "side": 1,
+      "message": "I am wondering if it is necessary to reset these quota (subnet/net/port/instance) as before after running bgpvpn, especially on non-OPNFV deployments.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "dae7043958733b6d14d5e0260b5effcafb07235c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
