@@ -22,6 +22,30 @@
       "revId": "dae7043958733b6d14d5e0260b5effcafb07235c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3348172d",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T11:53:17Z",
+      "side": 1,
+      "message": "yes, it would be good to reset the values after bgpvpn runs. But i don\u0027t think this is impacting any of the OPNFV CI/CD test results now. Shall we get opinion from others before making any changes ?",
+      "parentUuid": "9a3d3df0_b3870761",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "dae7043958733b6d14d5e0260b5effcafb07235c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
