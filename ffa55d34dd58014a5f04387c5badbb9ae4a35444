@@ -22,6 +22,30 @@
       "revId": "ffa55d34dd58014a5f04387c5badbb9ae4a35444",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_38ad9432",
+        "filename": "sdnvpn/test/functest/testcase_11.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T09:00:42Z",
+      "side": 1,
+      "message": "Its expected that ODL will always send group_add during OVS reconnection. \nBut it\u0027s upto OVS remove the stale flows/groups because ODL doesn\u0027t send flow/group add for the deleted VMs anymore. Now modified the testcase to validate ovs groups before and after resync. But its not working as expected in OVS and sent an email to OVS team.",
+      "parentUuid": "da33351e_a502143c",
+      "range": {
+        "startLine": 155,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 61
+      },
+      "revId": "ffa55d34dd58014a5f04387c5badbb9ae4a35444",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
