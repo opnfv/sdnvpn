@@ -45,6 +45,30 @@
       "revId": "8d1180b18d01a264b1c74f2ea2d763cd822c5465",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_580cd842",
+        "filename": "sdnvpn/test/functest/testcase_11.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T10:03:27Z",
+      "side": 1,
+      "message": "yes, I think that\u0027s why image_ids are passed here for image cleanup. are you referring to something else ?",
+      "parentUuid": "9a3d3df0_b836c401",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 69
+      },
+      "revId": "8d1180b18d01a264b1c74f2ea2d763cd822c5465",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
