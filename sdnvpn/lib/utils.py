@@ -247,13 +247,10 @@ def get_instance_ip(instance):
     return instance_ip
 
 
-def wait_for_instance(instance):
-    logger.info("Waiting for instance %s to get a DHCP lease and "
-                "prompt for login..." % instance.id)
-    # The sleep this function replaced waited for 80s
+def wait_for_instance(instance, pattern=".* login:"):
+    logger.info("Waiting for instance %s to boot up" % instance.id)
     tries = 40
     sleep_time = 2
-    pattern = ".* login:"
     expected_regex = re.compile(pattern)
     console_log = ""
     while tries > 0 and not expected_regex.search(console_log):
@@ -262,14 +259,20 @@ def wait_for_instance(instance):
         tries -= 1
 
     if not expected_regex.search(console_log):
-        logger.error("Instance %s seems not to boot up properly."
+        logger.error("Instance %s does not boot up properly."
                      % instance.id)
         return False
     return True
 
 
-def wait_for_instances_up(*args):
-    check = [wait_for_instance(instance) for instance in args]
+def wait_for_instances_up(*instances):
+    check = [wait_for_instance(instance) for instance in instances]
+    return all(check)
+
+
+def wait_for_instances_get_dhcp(*instances):
+    check = [wait_for_instance(instance, "Lease of .* obtained")
+             for instance in instances]
     return all(check)
 
 
