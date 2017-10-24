@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_73bbbf0e",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T11:28:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a3d3df0_b84fe491",
+      "range": {
+        "startLine": 171,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 39
+      },
+      "revId": "8d1180b18d01a264b1c74f2ea2d763cd822c5465",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_b836c401",
         "filename": "sdnvpn/test/functest/testcase_11.py",
         "patchSetId": 7
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "Or another function should be added in test_utils like cleanup_glance:\ntest_utils.cleanup_glance(glance_client,image_ids)",
       "parentUuid": "9a3d3df0_580cd842",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 69
+      },
+      "revId": "8d1180b18d01a264b1c74f2ea2d763cd822c5465",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_d3372baf",
+        "filename": "sdnvpn/test/functest/testcase_11.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T11:28:35Z",
+      "side": 1,
+      "message": "okay, i see it. thanks.\nhave added cleanup_glance and made testcases to invoke this method.",
+      "parentUuid": "9a3d3df0_735f3f0f",
       "range": {
         "startLine": 131,
         "startChar": 8,
