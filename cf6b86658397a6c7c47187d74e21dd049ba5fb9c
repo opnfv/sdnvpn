@@ -22,6 +22,30 @@
       "revId": "cf6b86658397a6c7c47187d74e21dd049ba5fb9c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_386ab41a",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-10-24T07:21:05Z",
+      "side": 1,
+      "message": "I saw OS_TENANT_NAME in the /home/opnfv/functest/conf/openstack.creds and got loaded into env too in apex environment. so I have used it. Anyway \u0027OS_PROJECT_NAME\u0027 is also set in env variable. so changed it.",
+      "parentUuid": "9a3d3df0_7dbeee00",
+      "range": {
+        "startLine": 37,
+        "startChar": 55,
+        "endLine": 37,
+        "endChar": 69
+      },
+      "revId": "cf6b86658397a6c7c47187d74e21dd049ba5fb9c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
