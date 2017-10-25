@@ -46,6 +46,30 @@
       "revId": "dae7043958733b6d14d5e0260b5effcafb07235c",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_2e238e06",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-10-25T07:53:26Z",
+      "side": 1,
+      "message": "if you don\u0027t reset the values, this should be warned somewhere in the release notes or the documentation.",
+      "parentUuid": "9a3d3df0_3348172d",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 53
+      },
+      "revId": "dae7043958733b6d14d5e0260b5effcafb07235c",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
