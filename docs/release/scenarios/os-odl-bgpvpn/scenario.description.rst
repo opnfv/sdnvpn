@@ -91,8 +91,9 @@ should set up the cluster ready for BGPVPNs being created.
 APEX installer configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To install the SDNVPN feature using the APEX installer, follow the APEX installation guide and
-activate the SDNVPN feature when prompted.
+To install the SDNVPN feature using the APEX installer, follow the APEX installation guide
+(https://wiki.opnfv.org/display/apex/Integration+Guide) and activate the SDNVPN feature when prompted (step "# Now execute a deployment")
+i.e. python3 deploy.py -v -n ../config/network/network_settings.yaml -d ../config/deploy/os-odl-bgpvpn-noha.yaml --deploy-dir ../build --lib-dir ../lib --image-dir ../.build --virtual-computes 2 --virtual-default-ram 16
 
 Limitations, Issues and Workarounds
 ===================================
@@ -112,4 +113,4 @@ References
 ==========
 
 For more information on the OPNFV Danube release, please visit
-http://www.opnfv.org/danube
+https://www.opnfv.org/software
