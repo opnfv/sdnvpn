@@ -592,7 +592,7 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     return True
 
 
-def cleanup_nova(nova_client, instance_ids, image_ids):
+def cleanup_nova(nova_client, instance_ids):
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
             if not os_utils.delete_instance(nova_client, instance_id):
@@ -600,10 +600,13 @@ def cleanup_nova(nova_client, instance_ids, image_ids):
                               'Instance with id {} was not deleted.'.
                               format(instance_id))
                 return False
+    return True
 
+
+def cleanup_glance(glance_client, image_ids):
     if len(image_ids) != 0:
         for image_id in image_ids:
-            if not os_utils.delete_glance_image(nova_client, image_id):
+            if not os_utils.delete_glance_image(glance_client, image_id):
                 logging.error('Fail to delete all images. '
                               'Image with id {} was not deleted.'.
                               format(image_id))
@@ -681,3 +684,20 @@ def is_fail_mode_secure():
                               'in {} node'.format(openstack_node.name))
                 is_secure[openstack_node.name] = False
     return is_secure
+
+
+def get_ovs_groups(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
+    """
+    Gets, as input, a list of compute nodes and a list of OVS bridges
+    and returns the command console output, as a list of lines, that
+    contains all the OVS groups from all bridges and nodes in lists.
+    """
+    cmd_out_lines = []
+    for compute_node in compute_node_list:
+        for ovs_br in ovs_br_list:
+            if ovs_br in compute_node.run_cmd("sudo ovs-vsctl show"):
+                ovs_groups_cmd = ("sudo ovs-ofctl dump-groups {} -O {} | "
+                                  "grep group".format(ovs_br, of_protocol))
+                cmd_out_lines += (compute_node.run_cmd(ovs_groups_cmd).strip().
+                                  split("\n"))
+    return cmd_out_lines
