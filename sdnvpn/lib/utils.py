@@ -592,7 +592,7 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     return True
 
 
-def cleanup_nova(nova_client, instance_ids, image_ids):
+def cleanup_nova(nova_client, instance_ids):
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
             if not os_utils.delete_instance(nova_client, instance_id):
@@ -600,10 +600,13 @@ def cleanup_nova(nova_client, instance_ids, image_ids):
                               'Instance with id {} was not deleted.'.
                               format(instance_id))
                 return False
+    return True
 
+
+def cleanup_glance(glance_client, image_ids):
     if len(image_ids) != 0:
         for image_id in image_ids:
-            if not os_utils.delete_glance_image(nova_client, image_id):
+            if not os_utils.delete_glance_image(glance_client, image_id):
                 logging.error('Fail to delete all images. '
                               'Image with id {} was not deleted.'.
                               format(image_id))
