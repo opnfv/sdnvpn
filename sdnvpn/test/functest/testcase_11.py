@@ -128,7 +128,8 @@ def main():
         raise
     finally:
         # Cleanup topology
-        test_utils.cleanup_nova(nova_client, instance_ids, image_ids)
+        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
                                    interfaces, subnet_ids, router_ids,
                                    network_ids)
