@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_5d083391",
+        "filename": "sdnvpn/test/functest/testcase_11.py",
+        "patchSetId": 9
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-11-07T15:12:24Z",
+      "side": 1,
+      "message": "This check would fail now since ovs fix is in progress: https://patchwork.ozlabs.org/patch/835093/",
+      "revId": "44139decdc4776cb1274ed65df30ba19e4d56493",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
