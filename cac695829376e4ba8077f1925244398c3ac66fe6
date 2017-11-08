@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_abaf7993",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2017-11-08T15:14:36Z",
+      "side": 1,
+      "message": "I think this functionality should be included into cleanup_nova function. Till now we clean up based on module clients",
+      "range": {
+        "startLine": 617,
+        "startChar": 0,
+        "endLine": 625,
+        "endChar": 15
+      },
+      "revId": "cac695829376e4ba8077f1925244398c3ac66fe6",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
