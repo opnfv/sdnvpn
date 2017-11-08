@@ -592,7 +592,13 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     return True
 
 
-def cleanup_nova(nova_client, instance_ids):
+def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
+    if flavor_ids is not None and len(flavor_ids) != 0:
+        for flavor_id in flavor_ids:
+            if not nova_client.flavors.delete(flavor_id):
+                logging.error('Fail to delete flavor. '
+                              'Flavor with id {} was not deleted.'.
+                              format(flavor_id))
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
             if not os_utils.delete_instance(nova_client, instance_id):
