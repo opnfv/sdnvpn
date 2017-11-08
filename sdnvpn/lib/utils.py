@@ -611,6 +611,17 @@ def cleanup_nova(nova_client, instance_ids, image_ids):
     return True
 
 
+def cleanup_flavor(nova_client, flavor_ids):
+    if len(flavor_ids) != 0:
+        for flavor_id in flavor_ids:
+            if not nova_client.flavors.delete(flavor_id):
+                logging.error('Fail to delete flavor. '
+                              'Flavor with id {} was not deleted.'.
+                              format(flavor_id))
+                return False
+    return True
+
+
 def create_bgpvpn(neutron_client, **kwargs):
     # route_distinguishers
     # route_targets
