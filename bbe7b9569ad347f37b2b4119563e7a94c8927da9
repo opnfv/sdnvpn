@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_f1d85081",
+        "filename": "sdnvpn/test/functest/testcase_4.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 459
+      },
+      "writtenOn": "2017-11-09T12:24:24Z",
+      "side": 1,
+      "message": "https://jira.opnfv.org/browse/SDNVPN-187",
+      "range": {
+        "startLine": 208,
+        "startChar": 14,
+        "endLine": 208,
+        "endChar": 64
+      },
+      "revId": "bbe7b9569ad347f37b2b4119563e7a94c8927da9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
