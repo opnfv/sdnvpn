@@ -143,7 +143,7 @@ def main():
     neutron_client = os_utils.get_neutron_client()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
-     subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
+     subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
 
     try:
         sg_id = os_utils.create_security_group_full(
@@ -221,7 +221,8 @@ def main():
             fake_fip['fip_addr'],
             ext_net_mask)
 
-        test_utils.create_custom_flavor()
+        _, flavor_id = test_utils.create_custom_flavor()
+        flavor_ids.append(flavor_id)
 
         quagga_vm = test_utils.create_instance(
             nova_client,
@@ -278,7 +279,7 @@ def main():
         logger.error("exception occurred while executing testcase_3: %s", e)
         raise
     finally:
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
