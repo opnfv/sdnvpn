@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
-    'sdnvpn.test.functest.testcase_4')
+    'sdnvpn.test.functest.testcase_5')
 
 
 def main():
@@ -73,20 +73,11 @@ def main():
             TESTCASE_CONFIG.secgroup_descr)
 
         compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+
         av_zone_1 = "nova:" + compute_nodes[0]
+        av_zone_2 = "nova:" + compute_nodes[1]
 
-        vm_1 = test_utils.create_instance(
-            nova_client,
-            TESTCASE_CONFIG.instance_1_name,
-            image_id,
-            network_2_id,
-            sg_id,
-            secgroup_name=TESTCASE_CONFIG.secgroup_name,
-            compute_node=av_zone_1)
-        vm_1_ip = test_utils.get_instance_ip(vm_1)
-
-        u1 = test_utils.generate_ping_userdata([vm_1_ip])
-
+        # boot INTANCES
         vm_2 = test_utils.create_instance(
             nova_client,
             TESTCASE_CONFIG.instance_2_name,
@@ -94,24 +85,66 @@ def main():
             network_1_id,
             sg_id,
             secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_1)
+        vm_2_ip = test_utils.get_instance_ip(vm_2)
+
+        vm_3 = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_3_name,
+            image_id,
+            network_1_id,
+            sg_id,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_2)
+        vm_3_ip = test_utils.get_instance_ip(vm_3)
+
+        vm_5 = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_5_name,
+            image_id,
+            network_2_id,
+            sg_id,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_2)
+        vm_5_ip = test_utils.get_instance_ip(vm_5)
+
+        # We boot vm5 first because we need vm5_ip for vm4 userdata
+        u4 = test_utils.generate_ping_userdata([vm_5_ip])
+        vm_4 = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_4_name,
+            image_id,
+            network_2_id,
+            sg_id,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_1,
+            userdata=u4)
+        vm_4_ip = test_utils.get_instance_ip(vm_4)
+
+        # We boot VM1 at the end because we need to get the IPs
+        # first to generate the userdata
+        u1 = test_utils.generate_ping_userdata([vm_2_ip,
+                                                vm_3_ip,
+                                                vm_4_ip,
+                                                vm_5_ip])
+        vm_1 = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_1_name,
+            image_id,
+            network_1_id,
+            sg_id,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
             compute_node=av_zone_1,
             userdata=u1)
 
-        instance_ids.extend([vm_1.id, vm_2.id])
+        instance_ids.extend([vm_1.id, vm_2.id, vm_3.id, vm_4.id, vm_5.id])
 
-        # Wait for VMs to get ips.
-        instances_up = test_utils.wait_for_instances_up(vm_1)
-        instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_2)
-        if (not instances_up or not instances_dhcp_up):
-            logger.error("One or more instances are down")
-            # TODO: Handle this appropriately
-
-        msg = ("Create VPN with eRT=iRT")
+        msg = ("Create VPN with eRT<>iRT")
         results.record_action(msg)
         vpn_name = "sdnvpn-" + str(randint(100000, 999999))
         kwargs = {
-            "import_targets": TESTCASE_CONFIG.targets,
-            "export_targets": TESTCASE_CONFIG.targets,
+            "import_targets": TESTCASE_CONFIG.targets1,
+            "export_targets": TESTCASE_CONFIG.targets2,
             "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
             "name": vpn_name
         }
@@ -120,14 +153,6 @@ def main():
         logger.debug("VPN created details: %s" % bgpvpn)
         bgpvpn_ids.append(bgpvpn_id)
 
-        msg = ("Associate network '%s' to the VPN." %
-               TESTCASE_CONFIG.net_2_name)
-        results.add_to_summary(0, "-")
-        results.record_action(msg)
-        results.add_to_summary(0, "-")
-        test_utils.create_network_association(
-            neutron_client, bgpvpn_id, network_2_id)
-
         msg = ("Associate router '%s' to the VPN." %
                TESTCASE_CONFIG.router_1_name)
         results.record_action(msg)
@@ -135,6 +160,26 @@ def main():
 
         test_utils.create_router_association(
             neutron_client, bgpvpn_id, router_1_id)
+
+        # Wait for VMs to get ips.
+        instances_up = test_utils.wait_for_instances_up(vm_2, vm_3, vm_5)
+        instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_1, vm_4)
+
+        if (not instances_up or not instances_dhcp_up):
+            logger.error("One or more instances are down")
+            # TODO: Handle this appropriately
+
+        results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
+        results.get_ping_status(vm_1, vm_3, expected="PASS", timeout=30)
+        results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
+
+        msg = ("Associate network '%s' to the VPN." %
+               TESTCASE_CONFIG.net_2_name)
+        results.add_to_summary(0, "-")
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+        test_utils.create_network_association(
+            neutron_client, bgpvpn_id, network_2_id)
 
         test_utils.wait_for_bgp_router_assoc(
             neutron_client, bgpvpn_id, router_1_id)
@@ -145,7 +190,28 @@ def main():
                     " updated network configuration")
         test_utils.wait_before_subtest()
 
-        results.get_ping_status(vm_2, vm_1, expected="PASS", timeout=30)
+        results.get_ping_status(vm_4, vm_5, expected="PASS", timeout=30)
+        results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
+        results.get_ping_status(vm_1, vm_5, expected="FAIL", timeout=30)
+
+        msg = ("Update VPN with eRT=iRT ...")
+        results.add_to_summary(0, "-")
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+        kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
+                  "export_targets": TESTCASE_CONFIG.targets1,
+                  "name": vpn_name}
+        bgpvpn = test_utils.update_bgpvpn(neutron_client,
+                                          bgpvpn_id, **kwargs)
+
+        # TODO: remove the commented line after ODL provides fix
+        # for https://jira.opnfv.org/browse/SDNVPN-187?filter=-1
+        # logger.info("Waiting for the VMs to connect to each other using the"
+        #            " updated network configuration")
+        # test_utils.wait_before_subtest()
+
+        # results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
+        # results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
 
         results.add_to_summary(0, "=")
         logger.info("\n%s" % results.summary)
