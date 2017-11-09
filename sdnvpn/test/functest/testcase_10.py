@@ -142,11 +142,11 @@ def main():
     instance_ids.extend([vm_1.id, vm_3.id])
 
     # Wait for VMs to get ips.
-    instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
-                                                    vm_3)
+    instances_up = test_utils.wait_for_instances_up(vm_2)
+    instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_1, vm_3)
 
-    if not instances_up:
-        logger.error("One or more instances is down")
+    if (not instances_up or not instances_dhcp_up):
+        logger.error("One or more instances are down")
         # TODO: Handle this appropriately
     # Create monitor threads to monitor traffic between vm_1, vm_2 and vm_3
     m = Manager()
@@ -208,9 +208,10 @@ def main():
             compute_node=av_zone_1,
             userdata=u4)
         instance_ids.append(vm_4.id)
+
         # Wait for VMs to get ips.
-        instances_up = test_utils.wait_for_instances_up(vm_4)
-        if not instances_up:
+        instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_4)
+        if not instances_dhcp_up:
             logger.error("Instance vm_4 failed to start.")
             # TODO: Handle this appropriately
         # Create and start a new monitor thread for vm_4

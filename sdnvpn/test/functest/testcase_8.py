@@ -131,9 +131,13 @@ def main():
         test_utils.wait_for_bgp_net_assoc(
             neutron_client, bgpvpn_id, network_2_id)
 
-        instances_up = test_utils.wait_for_instances_up(vm_1, vm_2)
-        if not instances_up:
-            logger.error("One or more instances is down")
+        # Wait for VMs to get ips.
+        instances_up = test_utils.wait_for_instances_up(vm_2)
+        instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_1)
+
+        if (not instances_up or not instances_dhcp_up):
+            logger.error("One or more instances are down")
+            # TODO: Handle this appropriately
 
         logger.info("Waiting for the VMs to connect to each other using the"
                     " updated network configuration")

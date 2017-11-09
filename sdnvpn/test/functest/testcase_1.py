@@ -154,13 +154,12 @@ def main():
         test_utils.create_network_association(
             neutron_client, bgpvpn_id, network_1_id)
 
-        # Wait for VMs to get ips.
-        instances_up = test_utils.wait_for_instances_up(vm_1, vm_2,
-                                                        vm_3, vm_4,
-                                                        vm_5)
+        # Wait for VMs to be ready.
+        instances_up = test_utils.wait_for_instances_up(vm_2, vm_3, vm_5)
+        instances_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_1, vm_4)
 
-        if not instances_up:
-            logger.error("One or more instances is down")
+        if (not instances_up or not instances_dhcp_up):
+            logger.error("One or more instances are down")
             # TODO: Handle this appropriately
 
         results.get_ping_status(vm_1, vm_2, expected="PASS", timeout=200)
