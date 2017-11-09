@@ -70,11 +70,14 @@ def main():
     logger.info("Checking if zrpcd is "
                 "running on the controller node")
 
-    cmd = "systemctl status zrpcd |grep -i running"
-    output = controller.run_cmd(cmd)
+    output_zrpcd = controller.run_cmd("ps --no-headers -C "
+                                      "zrpcd -o state")
+    states = output_zrpcd.split()
+    running = any([s != 'Z' for s in states])
+
     msg = ("zrpcd is running")
 
-    if not output:
+    if not running:
         logger.info("zrpcd is not running on the controller node")
         results.add_failure(msg)
     else:
@@ -83,6 +86,11 @@ def main():
 
     results.add_to_summary(0, "-")
 
+    # Ensure that ZRPCD ip & port are well configured within ODL
+    add_client_conn_to_bgp = "bgp-connect -p 7644 -h 127.0.0.1 add"
+    test_utils.run_odl_cmd(controller, add_client_conn_to_bgp)
+
+    # Start bgp daemon
     start_quagga = "odl:configure-bgp -op start-bgp-server " \
                    "--as-num 100 --router-id {0}".format(controller_ext_ip)
     test_utils.run_odl_cmd(controller, start_quagga)
