@@ -177,3 +177,15 @@ testcases:
       router_1_name: sdnvpn-11-1-router
       secgroup_name: sdnvpn-sg
       secgroup_descr: Security group for SDNVPN test cases
+
+  sdnvpn.test.functest.testcase_12:
+      enabled: true
+      description: Check Flows and Groups are reprogrammed after OVS reconnect
+      instance_1_name: sdnvpn-12-1
+      instance_2_name: sdnvpn-12-2
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-12-1-net
+      subnet_1_name: sdnvpn-12-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
