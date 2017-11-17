@@ -9,12 +9,14 @@ Jira Project Prefix: sdnvpn
 Mailing list tag: [sdnvpn]
 Repository: sdnvpn
 
-Committers: 
+Committers:
 Tim Irnich (tim.irnich@ericsson.com)
 Thomas Morin (thomas.morin@orange.com)
 Prem Sankar (prem.sankar.g@ericsson.com)
 Jose Lausuch (jose.lausuch@ericsson.com)
-Nikolas Hermanns (nikolas.hermanns@ericsson.com) 
+Nikolas Hermanns (nikolas.hermanns@ericsson.com)
+Thomas Sounapoglou (soth@intracom-telecom.com)
+Periyasamy Palanisamy (periyasamy.palanisamy@ericsson.com)
 
 Link to TSC approval of the project: http://meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-09-01-13.59.html
 Link(s) to approval of additional committers: (Helpdesk #26575)
