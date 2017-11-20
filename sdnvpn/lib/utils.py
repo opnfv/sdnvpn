@@ -28,6 +28,15 @@ ODL_USER = 'admin'
 ODL_PASS = 'admin'
 
 
+class ExtraRoute(object):
+    """
+    Class to represent extra route for a router
+    """
+    def __init__(self, destination, nexthop):
+        self.destination = destination
+        self.nexthop = nexthop
+
+
 def create_custom_flavor():
     return os_utils.get_or_create_flavor(common_config.custom_flavor_name,
                                          common_config.custom_flavor_ram,
@@ -206,6 +215,19 @@ def generate_userdata_with_ssh(ips_array):
           "done\n"
           % ips)
     return (u1 + u2)
+
+
+def generate_userdata_interface_create(interface_name, interface_number,
+                                       ip_Address, net_mask):
+    return ("#!/bin/sh\n"
+            "set -xe\n"
+            "sudo useradd -m sdnvpn\n"
+            "sudo adduser sdnvpn sudo\n"
+            "sudo echo sdnvpn:opnfv | chpasswd\n"
+            "sleep 20\n"
+            "sudo ifconfig %s:%s %s netmask %s up\n"
+            % (interface_name, interface_number,
+               ip_Address, net_mask))
 
 
 def get_installerHandler():
@@ -739,6 +761,39 @@ def get_nova_instances_quota(nova_client):
     except Exception as e:
         logger.error("Error in getting nova instances quota: %s" % e)
         raise
+
+
+def update_router_extra_route(neutron_client, router_id, extra_routes):
+    if len(extra_routes) <= 0:
+        return
+    routes_list = []
+    for extra_route in extra_routes:
+        route_dict = {'destination': extra_route.destination,
+                      'nexthop': extra_route.nexthop}
+        routes_list.append(route_dict)
+    json_body = {'router': {
+        "routes": routes_list
+    }}
+
+    try:
+        neutron_client.update_router(router_id, body=json_body)
+        return True
+    except Exception as e:
+        logger.error("Error in updating router with extra route: %s" % e)
+        raise
+
+
+def update_router_no_extra_route(neutron_client, router_ids):
+    json_body = {'router': {
+        "routes": [
+        ]}}
+
+    for router_id in router_ids:
+        try:
+            neutron_client.update_router(router_id, body=json_body)
+            return True
+        except Exception as e:
+            logger.error("Error in clearing extra route: %s" % e)
 
 
 def get_ovs_groups(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
