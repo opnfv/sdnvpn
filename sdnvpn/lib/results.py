@@ -29,11 +29,17 @@ class Results(object):
                         vm_source,
                         vm_target,
                         expected="PASS", timeout=30):
-        console_log = vm_source.get_console_output()
-
-        ip_source = vm_source.networks.itervalues().next()[0]
         ip_target = vm_target.networks.itervalues().next()[0]
+        self.get_ping_status_target_ip(vm_source, vm_target.name,
+                                       ip_target, expected, timeout)
 
+    def get_ping_status_target_ip(self,
+                                  vm_source,
+                                  target_name,
+                                  ip_target,
+                                  expected="PASS", timeout=30):
+        console_log = vm_source.get_console_output()
+        ip_source = vm_source.networks.itervalues().next()[0]
         if "request failed" in console_log:
             # Normally, cirros displays this message when userdata fails
             logger.debug("It seems userdata is not supported in "
@@ -46,11 +52,11 @@ class Results(object):
             test_case_name = ("'%s' %s '%s'" %
                               (vm_source.name,
                                expected_result,
-                               vm_target.name))
+                               target_name))
             logger.debug("%sPing\n%sfrom '%s' (%s)\n%sto '%s' (%s).\n"
                          "%s-->Expected result: %s.\n"
                          % (tab, tab, vm_source.name, ip_source,
-                            tab, vm_target.name, ip_target,
+                            tab, target_name, ip_target,
                             tab, expected_result))
             while True:
                 console_log = vm_source.get_console_output()
@@ -60,7 +66,7 @@ class Results(object):
                 last_n_lines = lines[-5:]
                 if ("ping %s OK" % ip_target) in last_n_lines:
                     msg = ("'%s' can ping '%s'"
-                           % (vm_source.name, vm_target.name))
+                           % (vm_source.name, target_name))
                     if expected == "PASS":
                         logger.debug("[PASS] %s" % msg)
                         self.add_success(test_case_name)
@@ -71,7 +77,7 @@ class Results(object):
                     break
                 elif ("ping %s KO" % ip_target) in last_n_lines:
                     msg = ("'%s' cannot ping '%s'" %
-                           (vm_source.name, vm_target.name))
+                           (vm_source.name, target_name))
                     if expected == "FAIL":
                         logger.debug("[PASS] %s" % msg)
                         self.add_success(test_case_name)
