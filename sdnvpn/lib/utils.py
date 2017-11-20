@@ -14,6 +14,7 @@ import time
 import requests
 import re
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 
 import functest.utils.openstack_utils as os_utils
 from opnfv.deployment.factory import Factory as DeploymentFactory
@@ -26,6 +27,26 @@ common_config = sdnvpn_config.CommonConfig()
 
 ODL_USER = 'admin'
 ODL_PASS = 'admin'
+
+executor = ThreadPoolExecutor(5)
+
+
+class ExtraRoute(object):
+    """
+    Class to represent extra route for a router
+    """
+    def __init__(self, destination, nexthop):
+        self.destination = destination
+        self.nexthop = nexthop
+
+
+class AllowedAddressPair(object):
+    """
+    Class to represent allowed address pair for a neutron port
+    """
+    def __init__(self, ipaddress, macaddress):
+        self.ipaddress = ipaddress
+        self.macaddress = macaddress
 
 
 def create_custom_flavor():
@@ -87,6 +108,37 @@ def create_network(neutron_client, net, subnet1, cidr1,
             sys.exit(-1)
         logger.debug("Subnet '%s' created successfully" % subnet_id)
     return net_id, subnet_id, router_id
+
+
+def get_port(neutron_client, instance_id):
+    ports = os_utils.get_port_list(neutron_client)
+    if ports is not None:
+        for port in ports:
+            if port['device_id'] == instance_id:
+                return port
+    return None
+
+
+def update_port_allowed_address_pairs(neutron_client, port_id, address_pairs):
+    if len(address_pairs) <= 0:
+        return
+    allowed_address_pairs = []
+    for address_pair in address_pairs:
+        address_pair_dict = {'ip_address': address_pair.ipaddress,
+                             'mac_address': address_pair.macaddress}
+        allowed_address_pairs.append(address_pair_dict)
+    json_body = {'port': {
+        "allowed_address_pairs": allowed_address_pairs
+    }}
+
+    try:
+        port = neutron_client.update_port(port=port_id,
+                                          body=json_body)
+        return port['port']['id']
+    except Exception as e:
+        logger.error("Error [update_neutron_port(neutron_client, '%s', '%s')]:"
+                     " %s" % (port_id, address_pairs, e))
+        return None
 
 
 def create_instance(nova_client,
@@ -208,6 +260,19 @@ def generate_userdata_with_ssh(ips_array):
     return (u1 + u2)
 
 
+def generate_userdata_interface_create(interface_name, interface_number,
+                                       ip_Address, net_mask):
+    return ("#!/bin/sh\n"
+            "set -xe\n"
+            "sudo useradd -m sdnvpn\n"
+            "sudo adduser sdnvpn sudo\n"
+            "sudo echo sdnvpn:opnfv | chpasswd\n"
+            "sleep 20\n"
+            "sudo ifconfig %s:%s %s netmask %s up\n"
+            % (interface_name, interface_number,
+               ip_Address, net_mask))
+
+
 def get_installerHandler():
     installer_type = str(os.environ['INSTALLER_TYPE'].lower())
     installer_ip = get_installer_ip()
@@ -247,9 +312,8 @@ def get_instance_ip(instance):
     return instance_ip
 
 
-def wait_for_instance(instance, pattern=".* login:"):
+def wait_for_instance(instance, pattern=".* login:", tries=40):
     logger.info("Waiting for instance %s to boot up" % instance.id)
-    tries = 40
     sleep_time = 2
     expected_regex = re.compile(pattern)
     console_log = ""
@@ -274,6 +338,23 @@ def wait_for_instances_get_dhcp(*instances):
     check = [wait_for_instance(instance, "Lease of .* obtained")
              for instance in instances]
     return all(check)
+
+
+def async_Wait_for_instances(instances, tries=40):
+    if len(instances) <= 0:
+        return
+    futures = []
+    for instance in instances:
+        future = executor.submit(wait_for_instance,
+                                 instance,
+                                 ".* login:",
+                                 tries)
+        futures.append(future)
+    results = []
+    for future in futures:
+        results.append(future.result())
+    if False in results:
+        logger.error("one or more instances is not yet booted up")
 
 
 def wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, net_id):
@@ -739,6 +820,39 @@ def get_nova_instances_quota(nova_client):
     except Exception as e:
         logger.error("Error in getting nova instances quota: %s" % e)
         raise
+
+
+def update_router_extra_route(neutron_client, router_id, extra_routes):
+    if len(extra_routes) <= 0:
+        return
+    routes_list = []
+    for extra_route in extra_routes:
+        route_dict = {'destination': extra_route.destination,
+                      'nexthop': extra_route.nexthop}
+        routes_list.append(route_dict)
+    json_body = {'router': {
+        "routes": routes_list
+    }}
+
+    try:
+        neutron_client.update_router(router_id, body=json_body)
+        return True
+    except Exception as e:
+        logger.error("Error in updating router with extra route: %s" % e)
+        raise
+
+
+def update_router_no_extra_route(neutron_client, router_ids):
+    json_body = {'router': {
+        "routes": [
+        ]}}
+
+    for router_id in router_ids:
+        try:
+            neutron_client.update_router(router_id, body=json_body)
+            return True
+        except Exception as e:
+            logger.error("Error in clearing extra route: %s" % e)
 
 
 def get_ovs_groups(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
