@@ -741,6 +741,36 @@ def get_nova_instances_quota(nova_client):
         raise
 
 
+def update_router_extra_route(neutron_client, router_id, extra_route, nexthop):
+    json_body = {'router': {
+        "routes": [
+            {
+                "destination": extra_route,
+                "nexthop": nexthop
+            }
+        ]}}
+
+    try:
+        neutron_client.update_router(router_id, body=json_body)
+        return True
+    except Exception as e:
+        logger.error("Error in updating router with extra route: %s" % e)
+        raise
+
+
+def update_router_no_extra_route(neutron_client, router_ids):
+    json_body = {'router': {
+        "routes": [
+        ]}}
+
+    for router_id in router_ids:
+        try:
+            neutron_client.update_router(router_id, body=json_body)
+            return True
+        except Exception as e:
+            logger.error("Error in clearing extra route: %s" % e)
+
+
 def get_ovs_groups(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
     """
     Gets, as input, a list of compute nodes and a list of OVS bridges
