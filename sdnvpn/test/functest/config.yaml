@@ -189,3 +189,32 @@ testcases:
       subnet_1_cidr: 10.10.10.0/24
       secgroup_name: sdnvpn-sg
       secgroup_descr: Security group for SDNVPN test cases
+
+  sdnvpn.test.functest.testcase_13:
+      enabled: true
+      description: Testing extra route ECMP for intra-data center scenario
+      instance_1_name: sdnvpn-13-1
+      instance_2_name: sdnvpn-13-2
+      instance_3_name: sdnvpn-13-3
+      image_name: sdnvpn-image
+      net_1_name: sdnvpn-13-1-net
+      subnet_1_name: sdnvpn-13-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-13-1-router
+      net_2_name: sdnvpn-13-2-net
+      subnet_2_name: sdnvpn-13-2-subnet
+      subnet_2_cidr: 10.10.11.0/24
+      router_2_name: sdnvpn-13-2-router
+      interface_name: lo
+      interface_number: 1
+      extra_route_cidr: 179.24.1.12/32
+      extra_route_ip: 179.24.1.12
+      extra_route_subnet_mask: 255.255.255.255
+      extra_route_name: sdnvpn_extra_route_13
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
+      targets1: '88:88'
+      targets2: '88:88'
+      route_distinguishers:
+          - '12:12'
+          - '13:13'

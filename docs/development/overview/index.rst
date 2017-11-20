@@ -244,3 +244,20 @@ https://wiki.opnfv.org/display/sdnvpn/SDNVPN+Testing
     Reconnect the OVS by adding ip tables drop rule and then remove it
         The flows and groups are still intact and none of the flows/groups
         are removed
+
+    Testcase 13: Test ECMP (Equal-cost multi-path routing) for the extra route
+    This testcase validates spraying behavior in OvS when an extra route is
+    configured such that it can be reached from two nova VMs in the
+    same network.
+
+   Setup procedure:
+   Create and start VM1 and VM2 configured with sub interface set to same ip
+   address in both VMs, connected to a common network/router.
+   Update the VM1 and VM2's Neutron ports with allowed address pairs for sub
+   interface ip/mac addresses.
+   Create BGPVPN with two route distinguishers.
+   Associate router with BGPVPN.
+   Update the router with above sub-interface ip address with nexthops set to
+   VMs ip addresses.
+   Create VM3 and connected to the same network.
+   Ping sub-interface IP address from VM3.
