@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_083abd35",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2017-12-05T15:41:47Z",
+      "side": 1,
+      "message": "adding subinterface doesn\u0027t work with cirros image. I could see eth0:0 is configured with ip address and receives ICMP request, but not responding to it.\nSince cirros doesn\u0027t have much utilities to try with more options to troubleshoot this issue, Let me try with actual Ubuntu image to get datapath to work.",
+      "revId": "411b25763c751943b5f6977fcd6d73f04e4cda75",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
