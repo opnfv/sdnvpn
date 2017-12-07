@@ -1,0 +1,9 @@
+---
+
+networking_odl_git_repo: https://git.openstack.org/openstack/networking-odl
+networking_odl_git_install_branch: stable/pike
+networking_odl_git_project_group: neutron_all
+
+networking_bgpvpn_git_repo: https://git.openstack.org/openstack/networking-bgpvpn
+networking_bgpvpn_git_install_branch: stable/pike
+networking_bgpvpn_project_group: neutron_all

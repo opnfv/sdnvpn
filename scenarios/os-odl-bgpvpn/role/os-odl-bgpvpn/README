@@ -1,0 +1,23 @@
+This is the role which deploys the os-odl-bgpvpn scenarios in xci.
+
+# SCENARIOS #
+
+## os-odl-bgpvpn-noha ##
+
+To run os-odl-bgpvpn-noha you should export the following variables before
+running xci-deploy.sh. Note that you should change xxxx by the path where
+your releng-xci code is:
+
+export XCI_FLAVOR=noha
+export DEPLOY_SCENARIO=os-odl-bgpvpn
+export OPENSTACK_OSA_VERSION=master
+
+
+## os-odl-bgpvpn-ha ##
+
+To run os-odl-bgpvpn-ha you should export the following variables before
+running xci-deploy.sh:
+
+export XCI_FLAVOR=ha
+export DEPLOY_SCENARIO=os-odl-bgpvpn
+export OPENSTACK_OSA_VERSION=master

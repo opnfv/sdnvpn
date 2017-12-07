@@ -1,0 +1,16 @@
+---
+
+- name: Add networking-odl and networking-bgpvpn repos
+  copy:
+    src: openstack-ansible/pike/playbooks/defaults/repo_packages/opendaylight.yml
+    dest: "{{OPENSTACK_OSA_PATH}}/playbooks/defaults/repo_packages/opendaylight.yml"
+
+- name: Provide neutron inventory which adds quagga into neutron server
+  copy:
+    src: openstack-ansible/pike/playbooks/inventory/env.d/neutron.yml
+    dest: "{{OPENSTACK_OSA_PATH}}/playbooks/inventory/env.d/neutron.yml"
+
+- name: Provide Quagga inventory which adds quagga hosts
+  copy:
+    src: openstack-ansible/pike/playbooks/inventory/env.d/quagga.yml
+    dest: "{{OPENSTACK_OSA_PATH}}/playbooks/inventory/env.d/quagga.yml"

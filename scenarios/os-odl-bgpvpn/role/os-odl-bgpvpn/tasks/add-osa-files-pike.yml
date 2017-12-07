@@ -1,0 +1,16 @@
+---
+
+- name: copy quagga variable file
+  copy:
+    src: openstack-ansible/pike/group-vars/quagga_all.yml
+    dest: "{{OPENSTACK_OSA_PATH}}/group-vars/quagga_all.yml"
+
+- name: Add the Quagga configuration playbook
+  copy:
+    src: openstack-ansible/pike/playbooks/os-setup-bgp-odl.yml
+    dest: "{{OPENSTACK_OSA_PATH}}/playbooks/os-setup-bgp-odl.yml"
+
+- name: copy OPNFV role requirements
+  copy:
+    src: "ansible-role-requirements-pike.yml"
+    dest: "{{OPENSTACK_OSA_PATH}}/ansible-role-requirements.yml"

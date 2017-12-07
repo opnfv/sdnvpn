@@ -1,0 +1,77 @@
+---
+# Copyright (c) 2017-2018 Ericsson AB and others.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Install and Configure OpenDaylight for BGPVPN
+  hosts: quagga_all
+  gather_facts: "{{ osa_gather_facts | default(True) }}"
+  user: root
+
+  tasks:
+    - name: Retrieve checksum for quagga download
+      uri:
+        url: "{{ quagga_package_url | replace('tar.gz', 'checksum') }}"
+        return_content: yes
+      register: quagga_package_checksum
+
+    - name: Attempt quagga download
+      get_url:
+        url: "{{ quagga_package_url }}"
+        dest: "/var/cache/{{ quagga_package_url | basename }}"
+        checksum: "sha1:{{ quagga_package_checksum.content | trim }}"
+      register: osa_get_quagga
+
+    - name: Unarchive pre-built quagga packages
+      unarchive:
+        src: "/var/cache/{{ quagga_package_url | basename }}"
+        dest: "{{ temp_quagga_dir | dirname }}"
+        copy: "no"
+
+    - name: Prerequisite check for quagga
+      apt:
+        name: libglib2.0-0
+        state: present
+      when: quagga_install_method == "deb_repo"
+
+    - name: Prerequisite check for quagga
+      yum:
+        name: glib2,glib2-devel
+        state: present
+      when: quagga_install_method == "rpm_repo"
+
+    - name: Install quagga rpm packages
+      shell: |
+        cd {{ temp_quagga_dir }}
+        packages=$(ls |grep -vE 'debuginfo|devel|contrib')
+        yum -y $packages
+      when: quagga_install_method == "rpm_repo"
+
+    - name: Install quagga Debian packages
+      shell: |
+        cd {{ temp_quagga_dir }}
+        packages=$(ls |grep -vE 'debuginfo|devel|contrib')
+        dpkg -i $packages
+      when: quagga_install_method == "deb_repo"
+
+    - name: Start Zebra RPC Daemon for Quagga
+      command: /opt/quagga/etc/init.d/zrpcd start
+      when: inventory_hostname == odl_bgp_speaker_host
+
+    - name: Connect OpenDaylight with Quagga
+      command: "{{ opendaylight_karaf_client }} -h {{ opendaylight_karaf_host }} 'bgp-connect --host {{ opendaylight_karaf_host }} --port {{ bgp_config_server_port }} add'"
+      when: inventory_hostname == odl_bgp_speaker_host
+
+    - name: Configure Opendaylight as BGP speaker
+      command: "{{ opendaylight_karaf_client }} -h {{ opendaylight_karaf_host }} 'odl:configure-bgp -op start-bgp-server --as-num 100 --router-id {{ odl_bgp_speaker_host }}'"
+      when: inventory_hostname == odl_bgp_speaker_host

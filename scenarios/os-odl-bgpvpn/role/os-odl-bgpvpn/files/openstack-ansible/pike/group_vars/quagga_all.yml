@@ -1,0 +1,46 @@
+---
+# Copyright (c) 2017-2018 Ericsson AB and others.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Distro on which quagga packages to be installed
+quagga_install_method: "{{ (ansible_os_family=='Debian') | ternary('deb_repo', 'rpm_repo') }}"
+
+# Quagga deb packages repository location
+quagga_deb_repo: https://wiki.opnfv.org/download/attachments/6827916/quagga-ubuntu.tar.gz
+
+# Quagga rpm packages repository location
+quagga_rpm_repo: https://wiki.opnfv.org/download/attachments/6827916/quagga-4.tar.gz
+
+# Find out correct quagga package url based on the
+# quagga install method
+quagga_package_url: "{% if quagga_install_method == 'deb_repo' %}{{ quagga_deb_repo }}{% else %}{{ quagga_rpm_repo }}{% endif %}"
+
+# Temporary location on which quagga packages to be
+# retrieved for the installation
+temp_quagga_dir: /tmp/quagga
+
+# The neutron server node on which OSA configures ODL
+# as the BGP speaker
+odl_bgp_speaker_host: "{{ ((groups['neutron_server'] | intersect(ansible_play_hosts)) | list)[0] }}"
+
+# BGP Config Server Port at quagga side for ODL to establish
+# thrift connection.
+bgp_config_server_port: 7644
+
+# The ODL client location which is used to run the karaf
+# commands to configure ODL as BGP speaker
+opendaylight_karaf_client: /opt/opendaylight/bin/client
+
+# The ODL karaf host ip address
+opendaylight_karaf_host: 127.0.0.1
