@@ -229,3 +229,18 @@ https://wiki.opnfv.org/display/sdnvpn/SDNVPN+Testing
     OVS re-connects.
         The new groups should be still there, as the topology remains.
         Opendaylight Carbon’ group_add_mod mechanism should handle the already existing group.
+
+    Testcase 12: Test Resync mechanism between Opendaylight and OVS
+	This is the testcase to validate flows and groups are programmed correctly
+	after resync which is triggered by OVS del-controller/set-controller commands
+	and adding/remove iptables drop rule on OF port 6653.
+
+    Sub-testcase 12-1:
+	Create and start 2 VMs, connected to a common Network
+	    New flows and groups were added to OVS
+    Reconnect the OVS by running del-ontroller and set-controller commands
+        The flows and groups are still intact and none of the flows/groups
+		are removed
+    Reconnect the OVS by adding ip tables drop rule and then remove it
+        The flows and groups are still intact and none of the flows/groups
+		are removed
