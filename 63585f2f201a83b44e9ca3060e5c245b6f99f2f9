@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_facb9250",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "nit: remove the trailing space.",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_dac84e57",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "ODL is not needed here if we simulate quagga VM with OVS+ipns",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_3ac21a34",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "what is the purpose of creating bgpd.log ?",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1a72b610",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "why vrf creation is part of quagga_setup.sh ? I think this script should only do quagga bringup.\n\nThe vrf/static route handling should be done in separate scripts according to each testcase (because rd, ert, irt and static routes might vary depend on each testcase) ? Also let us do it via CLI instead of modifying bgpd.conf",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_1a4916b7",
+        "filename": "sdnvpn/artifacts/quagga_setup.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "The ODL route validation should be done by parsing show ip bgp vrf \u003crd\u003e on the quagga vm. \nMoreover when VM is spawned on a neutron network (attached with a bgpvpn), then route for the VM\u0027s ip prefix should exist on quagga.",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_fadc32e6",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-17T12:03:38Z",
+      "side": 1,
+      "message": "you should also make sure route for vm_bgpvpn is also advertised to quagga. This should be actual end to end testing (for control plane) b/w openstack and dc-gw.",
+      "revId": "63585f2f201a83b44e9ca3060e5c245b6f99f2f9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
