@@ -37,9 +37,10 @@ class SdnvpnFunctest(base.Feature):
                                            os.environ['OS_PROJECT_NAME'])
 
         neutron_quota = test_utils.get_neutron_quota(neutron_client, tenant_id)
-        (neutron_nw_quota, neutron_subnet_quota, neutron_port_quota) = (
+        (neutron_nw_quota, neutron_subnet_quota, neutron_port_quota,
+         neutron_router_quota) = (
             neutron_quota['network'], neutron_quota['subnet'],
-            neutron_quota['port'])
+            neutron_quota['port'], neutron_quota['router'])
         instances_quota = test_utils.get_nova_instances_quota(nova_client)
 
         self.__logger.info("Setting net/subnet/port quota to unlimited")
@@ -48,7 +49,8 @@ class SdnvpnFunctest(base.Feature):
             tenant_id,
             COMMON_CONFIG.neutron_nw_quota,
             COMMON_CONFIG.neutron_subnet_quota,
-            COMMON_CONFIG.neutron_port_quota)
+            COMMON_CONFIG.neutron_port_quota,
+            COMMON_CONFIG.neutron_router_quota)
 
         # Workaround for
         # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115
@@ -98,7 +100,8 @@ class SdnvpnFunctest(base.Feature):
                                                tenant_id,
                                                neutron_nw_quota,
                                                neutron_subnet_quota,
-                                               neutron_port_quota)
+                                               neutron_port_quota,
+                                               neutron_router_quota)
 
         self.__logger.info("Resetting instances quota class")
         test_utils.update_instance_quota_class(nova_client, instances_quota)
