@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_d03f8fb2",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-18T10:54:42Z",
+      "side": 1,
+      "message": "what about updating update_nw_subnet_port_quota method for router_quota argument ?",
+      "revId": "397bbf3fe8b181a7fa38963b7bcd11cfadc2c715",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
