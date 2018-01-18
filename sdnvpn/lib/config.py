@@ -57,6 +57,7 @@ class CommonConfig(object):
             self.neutron_nw_quota = -1
             self.neutron_subnet_quota = -1
             self.neutron_port_quota = -1
+            self.neutron_router_quota = -1
             self.nova_instances_quota_class = -1
 
     commonCfgInstance = None
