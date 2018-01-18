@@ -777,11 +777,12 @@ def is_fail_mode_secure():
 
 
 def update_nw_subnet_port_quota(neutron_client, tenant_id, nw_quota,
-                                subnet_quota, port_quota):
+                                subnet_quota, port_quota, router_quota):
     json_body = {"quota": {
         "network": nw_quota,
         "subnet": subnet_quota,
-        "port": port_quota
+        "port": port_quota,
+        "router": router_quota
     }}
 
     try:
@@ -790,8 +791,9 @@ def update_nw_subnet_port_quota(neutron_client, tenant_id, nw_quota,
         return True
     except Exception as e:
         logger.error("Error [update_nw_subnet_port_quota(neutron_client,"
-                     " '%s', '%s', '%s', '%s')]: %s" %
-                     (tenant_id, nw_quota, subnet_quota, port_quota, e))
+                     " '%s', '%s', '%s', '%s. %s')]: %s" %
+                     (tenant_id, nw_quota, subnet_quota,
+                      port_quota, router_quota, e))
         return False
 
 
