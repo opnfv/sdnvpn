@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_b0a3ebfe",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-18T11:19:40Z",
+      "side": 1,
+      "message": "nit: use comma for var separator",
+      "revId": "d88ae0dc4106bdece231f63fc8fbeab38ce14ce0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
