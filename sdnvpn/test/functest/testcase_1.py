@@ -10,6 +10,7 @@
 
 import logging
 import sys
+import time
 
 from functest.utils import openstack_utils as os_utils
 from random import randint
@@ -192,11 +193,43 @@ def main():
         results.add_to_summary(0, "-")
         results.record_action(msg)
         results.add_to_summary(0, "-")
-        kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
-                  "export_targets": TESTCASE_CONFIG.targets1,
-                  "name": vpn_name}
-        bgpvpn = test_utils.update_bgpvpn(neutron_client,
-                                          bgpvpn_id, **kwargs)
+
+        # use bgpvpn-create instead of update till NETVIRT-1067 bug is fixed
+        # kwargs = {"import_targets": TESTCASE_CONFIG.targets1,
+        #           "export_targets": TESTCASE_CONFIG.targets1,
+        #           "name": vpn_name}
+        # bgpvpn = test_utils.update_bgpvpn(neutron_client,
+        #                                   bgpvpn_id, **kwargs)
+
+        test_utils.delete_bgpvpn(neutron_client, bgpvpn_id)
+        kwargs = {
+            "import_targets": TESTCASE_CONFIG.targets1,
+            "export_targets": TESTCASE_CONFIG.targets1,
+            "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
+            "name": vpn_name
+        }
+        time.sleep(10)
+        bgpvpn = test_utils.create_bgpvpn(neutron_client, **kwargs)
+        bgpvpn_id = bgpvpn['bgpvpn']['id']
+        logger.debug("VPN re-created details: %s" % bgpvpn)
+        bgpvpn_ids.append(bgpvpn_id)
+
+        msg = ("Associate network '%s' to the VPN." %
+               TESTCASE_CONFIG.net_1_name)
+        results.record_action(msg)
+        results.add_to_summary(0, "-")
+
+        test_utils.create_network_association(
+            neutron_client, bgpvpn_id, network_1_id)
+
+        test_utils.create_network_association(
+            neutron_client, bgpvpn_id, network_2_id)
+
+        test_utils.wait_for_bgp_net_assocs(neutron_client,
+                                           bgpvpn_id,
+                                           network_1_id,
+                                           network_2_id)
+        # The above code has to be removed after re-enabling bgpvpn-update
 
         logger.info("Waiting for the VMs to connect to each other using the"
                     " updated network configuration")
