@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a3d3df0_e4f00bcb",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2018-01-25T14:54:08Z",
+      "side": 1,
+      "message": "bgpvpn is now created with iRT\u003deRT",
+      "parentUuid": "9a3d3df0_e402cbb2",
+      "revId": "612b0dcc78cff1c1818cc054e2e37fa8e759b26e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a3d3df0_a4fc43b9",
         "filename": "sdnvpn/test/functest/testcase_1.py",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2018-01-25T12:38:12Z",
       "side": 1,
       "message": "reuse already defined kwargs variable.",
+      "revId": "612b0dcc78cff1c1818cc054e2e37fa8e759b26e",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a3d3df0_84e5bf0a",
+        "filename": "sdnvpn/test/functest/testcase_4.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2018-01-25T14:54:08Z",
+      "side": 1,
+      "message": "bgpvpn is now created with iRT\u003deRT",
+      "parentUuid": "9a3d3df0_84f77fd2",
       "revId": "612b0dcc78cff1c1818cc054e2e37fa8e759b26e",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
