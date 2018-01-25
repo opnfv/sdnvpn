@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_84a13f96",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-25T16:01:44Z",
+      "side": 1,
+      "message": "can you use test_utils.wait_before_subtest ?",
+      "revId": "fd0252c9231fd67e7e7add62358a70f790557f84",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
