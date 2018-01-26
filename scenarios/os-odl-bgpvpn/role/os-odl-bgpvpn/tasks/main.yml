@@ -28,7 +28,7 @@
 - name: copy os-odl-bgpvpn scenario specific setup-openstack.yml
   copy:
     src: "setup-openstack.yml"
-    dest: " {{OPENSTACK_OSA_PATH}}/playbooks"
+    dest: "{{OPENSTACK_OSA_PATH}}/playbooks"
 
 - name: Copy the OSA not-yet-upstreamed files for Pike
   include: add-osa-files-pike.yml
