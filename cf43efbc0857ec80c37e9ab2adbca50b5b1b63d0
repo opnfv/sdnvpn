@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3d3df0_a28f0974",
+        "filename": "scenarios/setup-quagga-container/playbooks/setup-quagga.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-01-31T17:58:17Z",
+      "side": 1,
+      "message": "Dear All: This needs more work in defining the inventory for container and provide ability to run lxc_hosts and lxc_container_create role on the localhost (opnfv vm).\n\nI also see problems in running \"lxc_hosts : Place container metadata task\" and unarchive failed with \"\"Failed to find handler for \\\"/tmp/meta.tar.xz\\\". Make sure the required command to extract the file is installed. Command \\\"/bin/tar\\\" could not handle archive. Command \\\"/usr/bin/unzip\\\" could not handle archive.\" error.\n\nI need your thoughts about the approach being used in this playbook and help in debugging the issue.",
+      "revId": "cf43efbc0857ec80c37e9ab2adbca50b5b1b63d0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
