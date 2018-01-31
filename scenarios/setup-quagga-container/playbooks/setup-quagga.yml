@@ -1,0 +1,69 @@
+---
+# SPDX-license-identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2018 Ericsson AB and others.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License, Version 2.0
+# which accompanies this distribution, and is available at
+# http://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
+- hosts: localhost
+  connection: local
+  vars_files:
+  - "../vars/quagga.yml"
+
+  tasks:
+    - name: Retrieve checksum for quagga download
+      uri:
+        url: "{{ quagga_package_url | replace('tar.gz', 'checksum') }}"
+        return_content: yes
+      register: quagga_package_checksum
+
+    - name: Attempt quagga download
+      get_url:
+        url: "{{ quagga_package_url }}"
+        dest: "/var/cache/{{ quagga_package_url | basename }}"
+        checksum: "sha1:{{ quagga_package_checksum.content | trim }}"
+      register: osa_get_quagga
+
+    - name: Unarchive pre-built quagga packages
+      unarchive:
+        src: "/var/cache/{{ quagga_package_url | basename }}"
+        dest: "{{ temp_quagga_dir | dirname }}"
+        copy: "no"
+
+    - name: Prerequisite check for quagga
+      apt:
+        name: libglib2.0-0
+        state: present
+      when: quagga_install_method == "deb_repo"
+
+    - name: Prerequisite check for quagga
+      yum:
+        name: glib2,glib2-devel
+        state: present
+      when: quagga_install_method == "rpm_repo"
+
+    - name: Install quagga rpm packages
+      shell: |
+        cd {{ temp_quagga_dir }}
+        packages=$(ls |grep -vE 'debuginfo|devel|contrib')
+        yum -y $packages
+      when: quagga_install_method == "rpm_repo"
+
+    - name: Install quagga Debian packages
+      shell: |
+        cd {{ temp_quagga_dir }}
+        packages=$(ls |grep -vE 'debuginfo|devel|contrib')
+        dpkg -i $packages
+      when: quagga_install_method == "deb_repo"
+
+    - name: Start BGP daemon in the background
+      shell: |
+        nohup /opt/quagga/sbin/bgpd &
+
+    - name: render the quagga config template
+      template:
+        src: quagga-config.j2
+        dest: /tmp/quagga-config
+        mode: 0755
