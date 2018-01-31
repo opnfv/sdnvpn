@@ -1,0 +1,31 @@
+config terminal
+router bgp {{ quagga_as_num }}
+ bgp router-id {{ quagga_ip_address }}
+ no bgp log-neighbor-changes
+ bgp graceful-restart stalepath-time 90
+ bgp graceful-restart restart-time 900
+ bgp graceful-restart
+ bgp graceful-restart preserve-fw-state
+ bgp bestpath as-path multipath-relax
+ neighbor {{ odl_bgpd_ip_address }} remote-as {{ odl_as_num }}
+ no neighbor {{ odl_bgpd_ip_address }} activate
+ vrf {{ vrf_id }}
+  rd {{ vrf_id }}
+  rt import {{ import_rt }}
+  rt export {{ export_rt }}
+ exit
+!
+address-family vpnv4
+neighbor {{ odl_bgpd_ip_address }} activate
+neighbor {{ odl_bgpd_ip_address }} attribute-unchanged next-hop
+exit
+!
+route-map map permit 1
+ set ip next-hop {{ nexthop_ip_address }}
+exit
+!
+router bgp {{ quagga_as_num }}
+address-family vpnv4
+network {{ static_route_ip_prefix }} rd {{ vrf_id }} tag {{ mpls_label }} route-map map
+exit
+!
