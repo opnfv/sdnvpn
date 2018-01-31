@@ -1,0 +1,2 @@
+[all_containers]
+quagga_container ansible_host=localhost ansible_connection=lxc_ssh ansible_ssh_extra_args=quagga_container

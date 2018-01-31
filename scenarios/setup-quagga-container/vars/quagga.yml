@@ -1,0 +1,65 @@
+---
+# Copyright (c) 2017-2018 Ericsson AB and others.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Distro on which quagga packages to be installed
+quagga_install_method: "{{ (ansible_os_family=='Debian') | ternary('deb_repo', 'rpm_repo') }}"
+
+# Quagga deb packages repository location
+quagga_deb_repo: https://wiki.opnfv.org/download/attachments/6827916/quagga-ubuntu.tar.gz
+
+# Quagga rpm packages repository location
+quagga_rpm_repo: https://wiki.opnfv.org/download/attachments/6827916/quagga-4.tar.gz
+
+# Find out correct quagga package url based on the
+# quagga install method
+quagga_package_url: "{% if quagga_install_method == 'deb_repo' %}{{ quagga_deb_repo }}{% else %}{{ quagga_rpm_repo }}{% endif %}"
+
+# Temporary location on which quagga packages to be
+# retrieved for the installation
+temp_quagga_dir: /tmp/quagga
+
+# bgpd telnet password
+bgpd_telnet_password: sdncbgpc
+
+# ODL BGP daemon ip address for BGP peering
+odl_bgpd_ip_address: 172.29.239.226
+
+# Quagga container's AS number
+quagga_as_num: 200
+
+# ODL BGP AS number
+odl_as_num: 100
+
+# VRF Id used for the testing
+vrf_id: "18:18"
+
+# sample import route target
+import_rt: 88:88
+
+# sample export route target
+export_rt: 88:88
+
+# The nexthop ip address (br-vxlan interface ip address in case of opnfv vm) used for static routes
+# which are exported into quagga
+nexthop_ip_address: 172.29.240.10
+
+# The host mgmt ip address on which quagga is installed
+quagga_ip_address: 172.29.236.10
+
+# The /32 static route exported into quagga
+static_route_ip_prefix: 30.1.1.1/32
+
+# The MPLS label used for the static route
+mpls_label: 100
