@@ -1,0 +1,67 @@
+---
+project: 'SDN Distributed Routing and VPN'
+project_creation_date: 'September 1st, 2015'
+project_category: 'Collaborative Development'
+lifecycle_state: 'Incubation'
+project_lead: &opnfv_sdnvpn_ptl
+    name: 'Tim Irnich'
+    email: 'tim.irnich@ericsson.com'
+    id: 'timirnich'
+    company: 'ericsson.com'
+    timezone: 'Unknown'
+primary_contact: *opnfv_sdnvpn_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.opnfv.org/projects/sdnvpn'
+    key: 'sdnvpn'
+mailing_list:
+    type: 'mailman2'
+    url: 'opnfv-tech-discuss@lists.opnfv.org'
+    tag: '[sdnvpn]'
+realtime_discussion:
+    type: irc
+    server: 'freenode.net'
+    channel: '#opnfv-sdnvpn'
+meetings:
+    - type: 'gotomeeting+irc'
+      agenda:  # eg: 'https://wiki.opnfv.org/display/'
+      url:  # eg: 'https://global.gotomeeting.com/join/819733085'
+      server: 'freenode.net'
+      channel: '#opnfv-meeting'
+      repeats: 'weekly'
+      time:  # eg: '16:00 UTC'
+repositories:
+    - 'sdnvpn'
+committers:
+    - <<: *opnfv_sdnvpn_ptl
+    - name: 'Prem Sankar Gopannan'
+      email: 'prem.sankar.g@ericsson.com'
+      company: 'ericsson.com'
+      id: 'premsankar74'
+    - name: 'Nikolas Hermanns'
+      email: 'nikolas.hermanns@ericsson.com'
+      company: 'ericsson.com'
+      id: 'enikher'
+    - name: 'Jose Lausuch'
+      email: 'jalausuch@suse.com'
+      company: 'suse.com'
+      id: 'jose.lausuch'
+    - name: 'Thomas Morin'
+      email: 'thomas.morin@orange.com'
+      company: 'orange.com'
+      id: 'tmmorin'
+    - name: 'Thomas Sounapoglou'
+      email: 'soth@intracom-telecom.com'
+      company: 'intracom-telecom.com'
+      id: 'tomsou'
+    - name: 'Periyasamy Palanisamy'
+      email: 'periyasamy.palanisamy@ericsson.com'
+      company: 'ericsson.com'
+      id: 'pperiyasamy'
+tsc:
+    # yamllint disable rule:line-length
+    approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-09-01-13.59.html'
+    # yamllint enable rule:line-length
+    changes:
+        - type: 'promotion'
+          link: '(Helpdesk#26575)'
