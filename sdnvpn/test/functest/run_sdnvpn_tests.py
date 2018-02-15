@@ -52,6 +52,7 @@ class SdnvpnFunctest(base.Feature):
             COMMON_CONFIG.neutron_subnet_quota,
             COMMON_CONFIG.neutron_port_quota,
             COMMON_CONFIG.neutron_router_quota)
+        test_utils.create_default_flavor()
 
         # Workaround for
         # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115

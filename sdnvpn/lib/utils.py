@@ -49,6 +49,13 @@ class AllowedAddressPair(object):
         self.macaddress = macaddress
 
 
+def create_default_flavor():
+    return os_utils.get_or_create_flavor(common_config.default_flavor,
+                                         common_config.default_flavor_ram,
+                                         common_config.default_flavor_disk,
+                                         common_config.default_flavor_vcpus)
+
+
 def create_custom_flavor():
     return os_utils.get_or_create_flavor(common_config.custom_flavor_name,
                                          common_config.custom_flavor_ram,
