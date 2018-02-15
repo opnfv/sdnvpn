@@ -33,6 +33,24 @@
       "revId": "7ac5efebf6cd3ddb2a49b88195920af3cee0dbf3",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_32c156e5",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 6527
+      },
+      "writtenOn": "2018-02-15T14:00:05Z",
+      "side": 1,
+      "message": "this is done via fib \u003d test_utils.check_odl_fib (L342)",
+      "parentUuid": "5a3f45e8_72ed9e8b",
+      "revId": "7ac5efebf6cd3ddb2a49b88195920af3cee0dbf3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
