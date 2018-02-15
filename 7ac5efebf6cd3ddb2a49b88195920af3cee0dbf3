@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_32f31675",
+        "filename": "sdnvpn/lib/results.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-02-15T13:48:17Z",
+      "side": 1,
+      "message": "Here you are heavily depend on vm\u0027s console output, shouldn\u0027t we validate exact static route received on the quagga vm by checking CLI output: show ip bgp vpnv4 rd 18:18\n\nis there any problem in connecting with vm and running the command/collecting its output ?",
+      "revId": "7ac5efebf6cd3ddb2a49b88195920af3cee0dbf3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_72ed9e8b",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-02-15T13:48:17Z",
+      "side": 1,
+      "message": "we also need to check quagga\u0027s static route is received by ODL (ex. by checking fib-show)",
+      "revId": "7ac5efebf6cd3ddb2a49b88195920af3cee0dbf3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
