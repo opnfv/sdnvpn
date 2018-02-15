@@ -31,7 +31,6 @@ class CommonConfig(object):
                 'sdnvpn', 'test/functest/config.yaml')
             self.keyfile_path = pkg_resources.resource_filename(
                 'sdnvpn', 'artifacts/id_rsa')
-            self.test_db = CONST.results_test_db_url
             self.quagga_setup_script_path = pkg_resources.resource_filename(
                 'sdnvpn', 'artifacts/quagga_setup.sh')
             self.line_length = 90  # length for the summary table
