@@ -202,7 +202,9 @@ def record_test_result(expected_flow_count, actual_flow_count,
            " actual flow count %s" % (str(expected_flow_count),
                                       str(actual_flow_count)))
     results.add_to_summary(0, "-")
-    if expected_flow_count == actual_flow_count:
+    # Using <= for flow validation because ODL adds some more
+    # ARP/ICMP flows after VMs spawn up
+    if expected_flow_count <= actual_flow_count:
         results.add_success(msg)
     else:
         results.add_failure(msg)

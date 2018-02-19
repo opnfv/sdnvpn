@@ -120,6 +120,35 @@ def main():
 
         test_utils.async_Wait_for_instances([vm_1, vm_2])
 
+        image_2_id = os_utils.create_glance_image(
+            glance_client, TESTCASE_CONFIG.image_name,
+            COMMON_CONFIG.image_path, disk=COMMON_CONFIG.image_format,
+            container="bare", public='public')
+        image_ids.append(image_2_id)
+        # Moved vm_3 creation before associating its network/router with
+        # bgpvpn. If VM is created after its network is associated to bgpvpn
+        # via router, then BGPVPN in ODL uses router's vrf id for newly created
+        # VMs which causes testcase to fail.
+        u3 = test_utils.generate_ping_userdata(
+            [TESTCASE_CONFIG.extra_route_ip])
+        vm_3 = test_utils.create_instance(
+            nova_client,
+            TESTCASE_CONFIG.instance_3_name,
+            image_2_id,
+            network_1_id,
+            sg_id,
+            flavor=COMMON_CONFIG.custom_flavor_name,
+            secgroup_name=TESTCASE_CONFIG.secgroup_name,
+            compute_node=av_zone_2,
+            userdata=u3)
+
+        instance_ids.extend([vm_1.id, vm_2.id, vm_3.id])
+
+        instance_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_3)
+
+        if (not instance_dhcp_up):
+            logger.error("vm_3 instance is down")
+
         msg = ("Create VPN with multiple RDs")
         results.record_action(msg)
         vpn_name = "sdnvpn-" + str(randint(100000, 999999))
@@ -149,35 +178,9 @@ def main():
              test_utils.ExtraRoute(TESTCASE_CONFIG.extra_route_cidr,
                                    vm_2_ip)])
 
-        image_2_id = os_utils.create_glance_image(
-            glance_client, TESTCASE_CONFIG.image_name,
-            COMMON_CONFIG.image_path, disk=COMMON_CONFIG.image_format,
-            container="bare", public='public')
-        image_ids.append(image_2_id)
-
         logger.info("Waiting for the VMs to connect to each other using the"
                     " updated network configuration")
         test_utils.wait_before_subtest()
-
-        u3 = test_utils.generate_ping_userdata(
-            [TESTCASE_CONFIG.extra_route_ip])
-        vm_3 = test_utils.create_instance(
-            nova_client,
-            TESTCASE_CONFIG.instance_3_name,
-            image_2_id,
-            network_1_id,
-            sg_id,
-            flavor=COMMON_CONFIG.custom_flavor_name,
-            secgroup_name=TESTCASE_CONFIG.secgroup_name,
-            compute_node=av_zone_2,
-            userdata=u3)
-
-        instance_ids.extend([vm_1.id, vm_2.id, vm_3.id])
-
-        instance_dhcp_up = test_utils.wait_for_instances_get_dhcp(vm_3)
-
-        if (not instance_dhcp_up):
-            logger.error("vm_3 instance is down")
 
         results.get_ping_status_target_ip(vm_3,
                                           TESTCASE_CONFIG.extra_route_name,
