@@ -19,7 +19,7 @@ import inspect
 
 import sdnvpn.lib.utils as test_utils
 import functest.utils.functest_utils as ft_utils
-from functest.utils.constants import CONST
+from functest.utils import config
 
 LIB_PATH = os.path.dirname(
     os.path.abspath(inspect.getfile(inspect.currentframe())))
@@ -44,10 +44,9 @@ def gather_logs(name):
             'tar -xzvf /tmp/log_output-%s.tar.gz --strip-components=1'
             % node.get_dict()['name'])
 
-    ft_utils.execute_command_raise('cd %s;tar czvf sdnvpn-logs-%s.tar.gz'
-                                   ' /tmp/sdnvpn-logs/'
-                                   % (CONST.__getattribute__('dir_results'),
-                                      name))
+    ft_utils.execute_command_raise(
+        'cd %s;tar czvf sdnvpn-logs-%s.tar.gz /tmp/sdnvpn-logs/' % (
+            getattr(config.CONF, 'dir_results'), name))
 
 
 if __name__ == '__main__':
