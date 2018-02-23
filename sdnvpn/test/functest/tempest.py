@@ -80,7 +80,7 @@ def main():
         if int(failed) == 0:
             status = "PASS"
         else:
-            status = "FAILED"
+            status = "FAIL"
 
         return {"status": status, "details": results}
     except:
