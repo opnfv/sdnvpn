@@ -18,7 +18,8 @@
 - include: os-cinder-install.yml
 - include: os-nova-install.yml
 - include: os-neutron-install.yml
-- include: os-setup-bgp-odl.yml
+# TODO: uncomment this playbook after https://review.openstack.org/#/c/523907/ is merged
+#- include: os-setup-bgp-odl.yml
 - include: os-heat-install.yml
 - include: os-horizon-install.yml
 - include: os-swift-install.yml
