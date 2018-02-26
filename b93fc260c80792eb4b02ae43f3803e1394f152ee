@@ -34,6 +34,24 @@
       "revId": "b93fc260c80792eb4b02ae43f3803e1394f152ee",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_7758dd56",
+        "filename": "sdnvpn/test/functest/tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2018-02-26T12:46:13Z",
+      "side": 1,
+      "message": "Yes. Normally tempest is able to automatically discover the tempest plugins. That\u0027s why I think changing dir is useless.",
+      "parentUuid": "5a3f45e8_f7e7cde2",
+      "revId": "b93fc260c80792eb4b02ae43f3803e1394f152ee",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
