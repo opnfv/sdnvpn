@@ -2,7 +2,7 @@ defaults:
   flavor: m1.tiny # adapt to your environment
 
 testcases:
-  sdnvpn.test.functest.tempest:
+  sdnvpn.test.functest.run_tempest:
       enabled: true
       description: Neutron BGPVPN tests in tempest
 
