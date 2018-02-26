@@ -13,7 +13,9 @@ import sys
 import time
 import requests
 import re
+import shutil
 import subprocess
+import urllib
 from concurrent.futures import ThreadPoolExecutor
 
 from opnfv.deployment.factory import Factory as DeploymentFactory
@@ -896,3 +898,18 @@ def get_ovs_flows(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
                 cmd_out_lines += (compute_node.run_cmd(ovs_flows_cmd).strip().
                                   split("\n"))
     return cmd_out_lines
+
+def download_url(url, dest_path):
+    """
+    Download a file to a destination path given a URL
+    """
+    name = url.rsplit('/')[-1]
+    dest = dest_path + "/" + name
+    try:
+        response = urllib.urlopen(url)
+    except Exception:
+        return False
+
+    with open(dest, 'wb') as lfile:
+        shutil.copyfileobj(response, lfile)
+    return True

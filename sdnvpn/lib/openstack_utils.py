@@ -22,8 +22,10 @@ from novaclient import client as novaclient
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
 
+from functest.utils import config
 from functest.utils import env
-import functest.utils.functest_utils as ft_utils
+
+from sdnvpn.lib import utils as test_utils
 
 logger = logging.getLogger(__name__)
 
@@ -230,7 +232,7 @@ def download_and_add_image_on_glance(glance, image_name, image_url, data_dir):
         if not os.path.exists(dest_path):
             os.makedirs(dest_path)
         file_name = image_url.rsplit('/')[-1]
-        if not ft_utils.download_url(image_url, dest_path):
+        if not test_utils.download_url(image_url, dest_path):
             return False
     except Exception:
         raise Exception("Impossible to download image from {}".format(
@@ -343,8 +345,7 @@ def create_flavor(nova_client, flavor_name, ram, disk, vcpus, public=True):
         flavor = nova_client.flavors.create(
             flavor_name, ram, vcpus, disk, is_public=public)
         try:
-            extra_specs = ft_utils.get_functest_config(
-                'general.flavor_extra_specs')
+            extra_specs = getattr(config.CONF, 'flavor_extra_specs')
             flavor.set_keys(extra_specs)
         except ValueError:
             # flavor extra specs are not configured, therefore skip the update

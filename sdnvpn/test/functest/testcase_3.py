@@ -16,7 +16,6 @@ import logging
 import os
 import sys
 
-from functest.utils import functest_utils as ft_utils
 from sdnvpn.lib import quagga
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
@@ -139,7 +138,7 @@ def main():
     # Taken from the sfc tests
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
         logger.info("Downloading image")
-        ft_utils.download_url(
+        test_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
             "/home/opnfv/functest/data/")
