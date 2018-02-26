@@ -13,9 +13,9 @@ import re
 import sys
 import time
 
-from functest.utils import openstack_utils as os_utils
 from multiprocessing import Process, Manager, Lock
 from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 

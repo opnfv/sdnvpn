@@ -16,8 +16,8 @@ import traceback
 import yaml
 
 from functest.core import feature as base
-from functest.utils import openstack_utils as os_utils
 from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib.gather_logs import gather_logs
 from sdnvpn.lib import utils as test_utils
 

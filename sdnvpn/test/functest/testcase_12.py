@@ -1,4 +1,4 @@
-#!/usr/bin/python
+!/usr/bin/python
 #
 # Copyright (c) 2017 All rights reserved
 # This program and the accompanying materials
@@ -11,8 +11,8 @@
 import logging
 import sys
 
-from functest.utils import openstack_utils as os_utils
 from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
 

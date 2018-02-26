@@ -16,10 +16,10 @@ import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
-import functest.utils.openstack_utils as os_utils
 from opnfv.deployment.factory import Factory as DeploymentFactory
 
 from sdnvpn.lib import config as sdnvpn_config
+import sdnvpn.lib.openstack_utils as os_utils
 
 logger = logging.getLogger('sdnvpn_test_utils')
 
