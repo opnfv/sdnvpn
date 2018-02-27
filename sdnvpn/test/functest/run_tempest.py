@@ -20,8 +20,13 @@ logger = logging.getLogger('sdnvpn-tempest')
 
 
 def main():
-    verifier_repo_dir = tempest_utils.get_verifier_repo_dir(None)
-    src_tempest_dir = tempest_utils.get_verifier_deployment_dir(None, None)
+    verifier_id = tempest_utils.get_verifier_id()
+    verifier_repo_dir = tempest_utils.get_verifier_repo_dir(
+        verifier_id)
+    deployment_id = tempest_utils.get_verifier_deployment_id()
+    src_tempest_dir = tempest_utils.get_verifier_deployment_dir(
+        verifier_id, deployment_id)
+
 
     if not src_tempest_dir:
         logger.error("Rally deployment not found.")
@@ -30,7 +35,8 @@ def main():
     tempest_utils.configure_verifier(src_tempest_dir)
 
     src_tempest_conf = os.path.join(src_tempest_dir, 'tempest.conf')
-    bgpvpn_tempest_conf = src_tempest_dir + '/bgpvpn_tempest.conf'
+    bgpvpn_tempest_conf = os.path.join(src_tempest_dir, 'bgpvpn_tempest.conf')
+    bgpvpn_tempest_list = os.path.join(src_tempest_dir, 'tempest_list.txt')
 
     if not os.path.isfile(src_tempest_conf):
         logger.error("tempest.conf not found in %s." % src_tempest_conf)
@@ -45,9 +51,14 @@ def main():
     with open(bgpvpn_tempest_conf, 'wb') as tempest_conf:
         config.write(tempest_conf)
 
-    cmd_line = (verifier_repo_dir +
-                "/run_tempest.sh -C %s -t -N -- "
-                "networking_bgpvpn_tempest" % bgpvpn_tempest_conf)
+    cmd = ("cd {0};"
+           "testr list-tests networking_bgpvpn_tempest > {1};"
+           "cd -;".format(verifier_repo_dir, bgpvpn_tempest_list))
+    logger.info("Generating bgpvpn tempest list: %s" % cmd)
+    os.popen(cmd)
+
+    cmd_line = ("tempest run --config-file {0} -t --whitelist-file {1}"
+                .format(bgpvpn_tempest_conf, bgpvpn_tempest_list))
     logger.info("Executing: %s" % cmd_line)
     cmd = os.popen(cmd_line)
     output = cmd.read()
