@@ -38,3 +38,15 @@ neutron_ml2_drivers_type: "flat,vlan,vxlan"
 neutron_plugin_base:
   - odl-router_v2
   - bgpvpn
+
+# The neutron server node on which OSA configures ODL
+# as the BGP speaker
+odl_bgp_speaker_host: "{{ ((groups['neutron_server'] | intersect(ansible_play_hosts)) | list)[0] }}"
+
+# The neutron server node ip address (br-admin) on which OSA configures ODL
+# as the BGP speaker
+odl_bgp_speaker_host_ip_address: "{{ hostvars[groups['neutron_server'][0]]['container_address'] }}"
+
+# Configure OpenDaylight with Quagga
+quagga: true
+
