@@ -16,6 +16,24 @@
       "revId": "142dd6068e565e2cf1156fb05f555d27a5241395",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_159fc853",
+        "filename": "sdnvpn/test/functest/testcase_12.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-03-01T09:09:47Z",
+      "side": 1,
+      "message": "Thanks for the info. have changed it for all the sdnvpn python modules.",
+      "parentUuid": "5a3f45e8_f5a17caa",
+      "revId": "142dd6068e565e2cf1156fb05f555d27a5241395",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
