@@ -1,4 +1,4 @@
-!/usr/bin/python
+#!/usr/bin/env python
 #
 # Copyright (c) 2017 All rights reserved
 # This program and the accompanying materials
