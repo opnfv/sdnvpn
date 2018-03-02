@@ -15,7 +15,7 @@ import sys
 import traceback
 import yaml
 
-from functest.core import feature as base
+from xtesting.core import feature
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib.gather_logs import gather_logs
@@ -24,7 +24,7 @@ from sdnvpn.lib import utils as test_utils
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
 
-class SdnvpnFunctest(base.Feature):
+class SdnvpnFunctest(feature.Feature):
 
     __logger = logging.getLogger(__name__)
 
@@ -123,9 +123,9 @@ class SdnvpnFunctest(base.Feature):
 
         if overall_status == "PASS":
             self.result = 100
-            return base.Feature.EX_OK
+            return feature.Feature.EX_OK
 
-        return base.Feature.EX_RUN_ERROR
+        return feature.Feature.EX_RUN_ERROR
 
 
 if __name__ == '__main__':
