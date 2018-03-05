@@ -155,6 +155,9 @@ def main():
      subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
 
     try:
+        _, flavor_id = test_utils.create_custom_flavor()
+        flavor_ids.append(flavor_id)
+
         sg_id = os_utils.create_security_group_full(
             neutron_client, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
@@ -229,9 +232,6 @@ def main():
             controller_ext_ip,
             fake_fip['fip_addr'],
             ext_net_mask)
-
-        _, flavor_id = test_utils.create_custom_flavor()
-        flavor_ids.append(flavor_id)
 
         quagga_vm = test_utils.create_instance(
             nova_client,

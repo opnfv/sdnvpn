@@ -361,7 +361,7 @@ def create_flavor(nova_client, flavor_name, ram, disk, vcpus, public=True):
         flavor = nova_client.flavors.create(
             flavor_name, ram, vcpus, disk, is_public=public)
         try:
-            extra_specs = getattr(config.CONF, 'flavor_extra_specs')
+            extra_specs = {'hw:mem_page_size':'large'}
             flavor.set_keys(extra_specs)
         except ValueError:
             # flavor extra specs are not configured, therefore skip the update

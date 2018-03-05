@@ -196,7 +196,7 @@ def main():
         raise
     finally:
         test_utils.update_router_no_extra_route(neutron_client, router_ids)
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
