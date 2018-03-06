@@ -7,17 +7,15 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-"""
-Test whether router assoc can coexist with floating IP
-- Create VM1 in net1 with a subnet which is connected to a router
-    which is connected with the gateway
-- Create VM2 in net2 with a subnet without a router attached.
-- Create bgpvpn with iRT=eRT
-- Assoc the router of net1 with bgpvpn and assoc net 2 with the bgpvpn
-- Try to ping from one VM to the other
-- Assign a floating IP to the VM in the router assoc network
-- Ping it the floating ip
-"""
+# Test whether router assoc can coexist with floating IP
+# - Create VM1 in net1 with a subnet which is connected to a router
+#    which is connected with the gateway
+# - Create VM2 in net2 with a subnet without a router attached.
+# - Create bgpvpn with iRT=eRT
+# - Assoc the router of net1 with bgpvpn and assoc net 2 with the bgpvpn
+# - Try to ping from one VM to the other
+# - Assign a floating IP to the VM in the router assoc network
+# - Ping it the floating ip
 import logging
 import sys
 
