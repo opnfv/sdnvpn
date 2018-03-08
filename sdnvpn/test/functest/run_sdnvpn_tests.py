@@ -74,9 +74,14 @@ class SdnvpnFunctest(feature.Feature):
                          (test_name, test_descr))
                 self.__logger.info(title)
                 self.__logger.info("%s\n" % ("=" * len(title)))
-                t = importlib.import_module(test_name, package=None)
                 try:
+                    self.__logger.info("Importing the testcase %s" % test_name)
+                    t = importlib.import_module(test_name, package=None)
+                    self.__logger.info("Calling the testcase %s main method"
+                                       % test_name)
                     result = t.main()
+                    self.__logger.info("Execution is complete for the testcase %s"
+                                       % test_name)
                 except Exception as ex:
                     result = -1
                     self.__logger.info("Caught Exception in %s: %s Trace: %s"
