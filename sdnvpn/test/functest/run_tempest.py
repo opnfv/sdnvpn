@@ -56,6 +56,13 @@ def main():
            "cd -;".format(verifier_repo_dir, bgpvpn_tempest_list))
     logger.info("Generating bgpvpn tempest list: %s" % cmd)
     os.popen(cmd)
+    # TODO: Though --config-file parameter is set during the tempest run,
+    # it looks for tempest.conf at /etc/tempest/ directory. so applying
+    # the following workaround. Will remove it when the root cause is found.
+    cmd = ("mkdir /etc/tempest;"
+           "cp {0} /etc/tempest/tempest.conf".format(bgpvpn_tempest_conf))
+    logger.info("Configuring default tempest conf file")
+    os.popen(cmd)
 
     cmd_line = ("tempest run --config-file {0} -t --whitelist-file {1}"
                 .format(bgpvpn_tempest_conf, bgpvpn_tempest_list))
@@ -80,7 +87,7 @@ def main():
         m = re.search('Ran:(.*)tests', output)
         num_tests = m.group(1)
         # Look for tests failed
-        m = re.search('Failed:(.*)', output)
+        m = re.search('- Failed:(.*)', output)
         failed = m.group(1)
         # Look for name of the tests
         testcases = re.findall("\{0\} (.*)", output)
@@ -94,8 +101,8 @@ def main():
             status = "FAIL"
 
         return {"status": status, "details": results}
-    except:
-        logger.error("Problem when parsing the results.")
+    except Exception as e:
+        logger.error("Problem when parsing the results: %s", e)
 
 
 if __name__ == '__main__':
