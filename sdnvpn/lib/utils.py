@@ -9,7 +9,6 @@
 #
 import logging
 import os
-import sys
 import time
 import requests
 import re
@@ -69,7 +68,8 @@ def create_net(neutron_client, name):
     if not net_id:
         logger.error(
             "There has been a problem when creating the neutron network")
-        sys.exit(-1)
+        raise Exception("There has been a problem when creating"
+                        " the neutron network {}".format(name))
     return net_id
 
 
@@ -83,7 +83,8 @@ def create_subnet(neutron_client, name, cidr, net_id):
     if not subnet_id:
         logger.error(
             "There has been a problem when creating the neutron subnet")
-        sys.exit(-1)
+        raise Exception("There has been a problem when creating"
+                        " the neutron subnet {}".format(name))
     return subnet_id
 
 
@@ -100,7 +101,8 @@ def create_network(neutron_client, net, subnet1, cidr1,
     if not network_dic:
         logger.error(
             "There has been a problem when creating the neutron network")
-        sys.exit(-1)
+        raise Exception("There has been a problem when creating"
+                        " the neutron network {}".format(net))
     net_id = network_dic["net_id"]
     subnet_id = network_dic["subnet_id"]
     router_id = network_dic["router_id"]
@@ -112,7 +114,8 @@ def create_network(neutron_client, net, subnet1, cidr1,
         if not subnet_id:
             logger.error(
                 "There has been a problem when creating the second subnet")
-            sys.exit(-1)
+            raise Exception("There has been a problem when creating"
+                            " the second subnet {}".format(subnet2))
         logger.debug("Subnet '%s' created successfully" % subnet_id)
     return net_id, subnet_id, router_id
 
@@ -183,7 +186,7 @@ def create_instance(nova_client,
 
     if instance is None:
         logger.error("Error while booting instance.")
-        sys.exit(-1)
+        raise Exception("Error while booting instance {}".format(name))
     else:
         logger.debug("Instance '%s' booted successfully. IP='%s'." %
                      (name, instance.networks.itervalues().next()[0]))
@@ -429,7 +432,9 @@ def assert_and_get_compute_nodes(nova_client, required_node_number=2):
         logger.error("There are %s compute nodes in the deployment. "
                      "Minimum number of nodes to complete the test is 2."
                      % num_compute_nodes)
-        sys.exit(-1)
+        raise Exception("There are {} compute nodes in the deployment. "
+                        "Minimum number of nodes to complete the test"
+                        " is 2.".format(num_compute_nodes))
 
     logger.debug("Compute nodes: %s" % compute_nodes)
     return compute_nodes
