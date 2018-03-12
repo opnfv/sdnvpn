@@ -360,13 +360,6 @@ def create_flavor(nova_client, flavor_name, ram, disk, vcpus, public=True):
     try:
         flavor = nova_client.flavors.create(
             flavor_name, ram, vcpus, disk, is_public=public)
-        try:
-            extra_specs = {'hw:mem_page_size':'large'}
-            flavor.set_keys(extra_specs)
-        except ValueError:
-            # flavor extra specs are not configured, therefore skip the update
-            pass
-
     except Exception as e:
         logger.error("Error [create_flavor(nova_client, '%s', '%s', '%s', "
                      "'%s')]: %s" % (flavor_name, ram, disk, vcpus, e))
