@@ -11,29 +11,29 @@
 - name: copy user_variables_os-odl-bgpvpn.yml
   copy:
     src: "user_variables_os-odl-bgpvpn.yml"
-    dest: "{{OPENSTACK_OSA_ETC_PATH}}/user_variables_os-odl-bgpvpn.yml"
+    dest: "{{openstack_osa_etc_path}}/user_variables_os-odl-bgpvpn.yml"
 
 - name: copy user_variables_os-odl-bgpvpn-ha.yml
   copy:
-    src: "{{XCI_FLAVOR}}/user_variables_os-odl-bgpvpn-ha.yml"
-    dest: "{{OPENSTACK_OSA_ETC_PATH}}/user_variables_os-odl-bgpvpn-ha.yml"
+    src: "{{xci_flavor}}/user_variables_os-odl-bgpvpn-ha.yml"
+    dest: "{{openstack_osa_etc_path}}/user_variables_os-odl-bgpvpn-ha.yml"
   when:
-  - XCI_FLAVOR == "ha"
+  - xci_flavor == "ha"
 
 - name: copy os-odl-bgpvpn scenario specific openstack_user_config.yml
   copy:
-    src: "{{XCI_FLAVOR}}/openstack_user_config.yml"
-    dest: "{{OPENSTACK_OSA_ETC_PATH}}/openstack_user_config.yml"
+    src: "{{xci_flavor}}/openstack_user_config.yml"
+    dest: "{{openstack_osa_etc_path}}/openstack_user_config.yml"
 
 - name: copy os-odl-bgpvpn scenario specific setup-openstack.yml
   copy:
     src: "setup-openstack.yml"
-    dest: "{{OPENSTACK_OSA_PATH}}/playbooks"
+    dest: "{{openstack_osa_path}}/playbooks"
 
 - name: Copy the OSA not-yet-upstreamed files for Pike
   include: add-osa-files-pike.yml
-  when: OPENSTACK_OSA_VERSION == "stable/pike"
+  when: openstack_osa_version == "stable/pike"
 
 - name: Copy the OSA not-yet-upstreamed inventory files for Pike
   include: add-inventory-files-pike.yml
-  when: OPENSTACK_OSA_VERSION == "stable/pike"
+  when: openstack_osa_version == "stable/pike"
