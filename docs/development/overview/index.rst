@@ -30,22 +30,22 @@ An overview of the SDNVPN Test is depicted here. More details for each test case
 https://wiki.opnfv.org/display/sdnvpn/SDNVPN+Testing
 
     BGPVPN Tempest test cases
-        Create BGPVPN passes
-        Create BGPVPN as non-admin fails
-        Delete BGPVPN as non-admin fails
-        Show BGPVPN as non-owner fails
-        List BGPVPNs as non-owner fails
-        Show network associated BGPVPNs as non-owner fails
-        List network associated BGPVPNs as non-owner fails
-        Associate/Deassociate a network to a BGPVPN resource passes
-        Update route targets on a BGPVPN passes
-        Update route targets on a BGPVPN as non-admin fails
-        Reject the creation of BGPVPN with invalid route targets passes
-        Reject the update of BGPVPN with invalid route targets passes
-        Reject the association on an invalid network to a BGPVPN passes
-        Reject the diassociation on an invalid network to a BGPVPN passes
-        Associate/Deassociate a router to a BGPVPN resource passes
-        Attach the subnet of an associated network to an associated router of the same BGVPN passes
+        - Create BGPVPN passes
+        - Create BGPVPN as non-admin fails
+        - Delete BGPVPN as non-admin fails
+        - Show BGPVPN as non-owner fails
+        - List BGPVPNs as non-owner fails
+        - Show network associated BGPVPNs as non-owner fails
+        - List network associated BGPVPNs as non-owner fails
+        - Associate/Deassociate a network to a BGPVPN resource passes
+        - Update route targets on a BGPVPN passes
+        - Update route targets on a BGPVPN as non-admin fails
+        - Reject the creation of BGPVPN with invalid route targets passes
+        - Reject the update of BGPVPN with invalid route targets passes
+        - Reject the association on an invalid network to a BGPVPN passes
+        - Reject the diassociation on an invalid network to a BGPVPN passes
+        - Associate/Deassociate a router to a BGPVPN resource passes
+        - Attach the subnet of an associated network to an associated router of the same BGVPN passes
 
 
 

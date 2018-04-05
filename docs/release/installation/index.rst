@@ -92,7 +92,7 @@ version of OPNFV, checkout the appropriate branch:
 ::
 
  cd fuel
- git checkout stable/<colorado|danube|euphrates>
+ git checkout stable/<colorado|danube|euphrates|fraser>
 
 Now download the corresponding OPNFV Fuel ISO into an appropriate folder from
 the website
