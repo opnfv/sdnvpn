@@ -10,7 +10,6 @@
 
 import logging
 import sys
-import time
 
 from random import randint
 from sdnvpn.lib import config as sdnvpn_config
@@ -54,16 +53,13 @@ def main():
             TESTCASE_CONFIG.subnet_1_cidr,
             TESTCASE_CONFIG.router_1_name)
 
-        network_2_id = test_utils.create_net(
+        network_2_id, subnet_2_id, router_1_id = test_utils.create_network(
             neutron_client,
-            TESTCASE_CONFIG.net_2_name)
-
-        subnet_2_id = test_utils.create_subnet(
-            neutron_client,
+            TESTCASE_CONFIG.net_2_name,
             TESTCASE_CONFIG.subnet_2_name,
             TESTCASE_CONFIG.subnet_2_cidr,
-            network_2_id)
-        interfaces.append(tuple((router_1_id, subnet_1_id)))
+            TESTCASE_CONFIG.router_1_name)
+        interfaces.append(tuple((router_1_id, subnet_1_id, subnet_2_id)))
         network_ids.extend([network_1_id, network_2_id])
         router_ids.append(router_1_id)
         subnet_ids.extend([subnet_1_id, subnet_2_id])
@@ -146,6 +142,7 @@ def main():
         kwargs = {
             "import_targets": TESTCASE_CONFIG.targets1,
             "export_targets": TESTCASE_CONFIG.targets2,
+            "route_targets": TESTCASE_CONFIG.route_distinguishers,
             "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
             "name": vpn_name
         }
@@ -153,14 +150,6 @@ def main():
         bgpvpn_id = bgpvpn['bgpvpn']['id']
         logger.debug("VPN created details: %s" % bgpvpn)
         bgpvpn_ids.append(bgpvpn_id)
-
-        msg = ("Associate router '%s' to the VPN." %
-               TESTCASE_CONFIG.router_1_name)
-        results.record_action(msg)
-        results.add_to_summary(0, "-")
-
-        test_utils.create_router_association(
-            neutron_client, bgpvpn_id, router_1_id)
 
         # Wait for VMs to get ips.
         instances_up = test_utils.wait_for_instances_up(vm_2, vm_3, vm_5)
@@ -174,18 +163,15 @@ def main():
         results.get_ping_status(vm_1, vm_3, expected="PASS", timeout=30)
         results.get_ping_status(vm_1, vm_4, expected="FAIL", timeout=30)
 
-        msg = ("Associate network '%s' to the VPN." %
-               TESTCASE_CONFIG.net_2_name)
-        results.add_to_summary(0, "-")
+        msg = ("Associate router '%s' to the VPN." %
+               TESTCASE_CONFIG.router_1_name)
         results.record_action(msg)
         results.add_to_summary(0, "-")
-        test_utils.create_network_association(
-            neutron_client, bgpvpn_id, network_2_id)
 
+        test_utils.create_router_association(
+            neutron_client, bgpvpn_id, router_1_id)
         test_utils.wait_for_bgp_router_assoc(
             neutron_client, bgpvpn_id, router_1_id)
-        test_utils.wait_for_bgp_net_assoc(
-            neutron_client, bgpvpn_id, network_2_id)
 
         logger.info("Waiting for the VMs to connect to each other using the"
                     " updated network configuration")
@@ -213,6 +199,7 @@ def main():
         kwargs = {
             "import_targets": TESTCASE_CONFIG.targets1,
             "export_targets": TESTCASE_CONFIG.targets1,
+            "route_targets": TESTCASE_CONFIG.route_distinguishers,
             "route_distinguishers": TESTCASE_CONFIG.route_distinguishers,
             "name": vpn_name
         }
@@ -224,23 +211,16 @@ def main():
         logger.debug("VPN re-created details: %s" % bgpvpn)
         bgpvpn_ids.append(bgpvpn_id)
 
-        msg = ("Associate again network '%s' and router '%s 'to the VPN."
-               % (TESTCASE_CONFIG.net_2_name,
-                  TESTCASE_CONFIG.router_1_name))
+        msg = ("Associate router '%s' again to the VPN." %
+               TESTCASE_CONFIG.router_1_name)
         results.add_to_summary(0, "-")
         results.record_action(msg)
         results.add_to_summary(0, "-")
 
         test_utils.create_router_association(
             neutron_client, bgpvpn_id, router_1_id)
-
-        test_utils.create_network_association(
-            neutron_client, bgpvpn_id, network_2_id)
-
         test_utils.wait_for_bgp_router_assoc(
             neutron_client, bgpvpn_id, router_1_id)
-        test_utils.wait_for_bgp_net_assoc(
-            neutron_client, bgpvpn_id, network_2_id)
         # The above code has to be removed after re-enabling bgpvpn-update
 
         logger.info("Waiting for the VMs to connect to each other using the"
