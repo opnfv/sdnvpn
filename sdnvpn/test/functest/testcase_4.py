@@ -247,8 +247,10 @@ def main():
                     " updated network configuration")
         test_utils.wait_before_subtest()
 
-        results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
-        results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
+        # TODO: uncomment the following once ODL netvirt fixes the following bug
+        # https://jira.opendaylight.org/browse/NETVIRT-932
+        #results.get_ping_status(vm_1, vm_4, expected="PASS", timeout=30)
+        #results.get_ping_status(vm_1, vm_5, expected="PASS", timeout=30)
 
         results.add_to_summary(0, "=")
         logger.info("\n%s" % results.summary)

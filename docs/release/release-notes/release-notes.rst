@@ -115,7 +115,7 @@ Known issues
 Moving to the new NetVirt has caused a regression in which a subnet
 cannot be both attached to a Router and Network associated to a VPN.
 This has been worked around in the tests and the upstream bug is being
-tracked [0].
+tracked [0] and [2].
 
 NAT for a VM which is in a private neutron network does not work. Instances
 created in subnets that are connected to the public network via a gateway
@@ -149,3 +149,4 @@ References
 ==========
 [0] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-94
 [1] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
+[2] https://jira.opendaylight.org/browse/NETVIRT-932
