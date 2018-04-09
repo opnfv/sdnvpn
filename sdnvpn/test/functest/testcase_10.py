@@ -32,7 +32,7 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 def monitor(in_data, out_data, vm):
     # At the beginning of ping we might have some
     # failures, so we ignore the first 10 pings
-    lines_offset = 10
+    lines_offset = 20
     while in_data["stop_thread"] is False:
         try:
             time.sleep(1)
@@ -114,7 +114,7 @@ def main():
         compute_node=av_zone_1)
     vm2_ip = test_utils.get_instance_ip(vm_2)
 
-    u1 = test_utils.generate_ping_userdata([vm2_ip], 1)
+    u1 = test_utils.generate_ping_userdata([vm2_ip])
     vm_1 = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.instance_1_name,
@@ -126,7 +126,7 @@ def main():
         userdata=u1)
     vm1_ip = test_utils.get_instance_ip(vm_1)
 
-    u3 = test_utils.generate_ping_userdata([vm1_ip, vm2_ip], 1)
+    u3 = test_utils.generate_ping_userdata([vm1_ip, vm2_ip])
     vm_3 = test_utils.create_instance(
         nova_client,
         TESTCASE_CONFIG.instance_3_name,
@@ -196,8 +196,15 @@ def main():
             logging.error("Fail to delete vm_2 instance during "
                           "testing process")
             raise Exception("Fail to delete instance vm_2.")
+        for thread_input in thread_inputs:
+            thread_input["stop_thread"] = True
+        for thread in threads:
+            thread.join()
+        threads = []
+        thread_inputs = []
+        thread_inputs = []
         # Create a new vm (vm_4) on compute 1 node
-        u4 = test_utils.generate_ping_userdata([vm1_ip, vm3_ip], 1)
+        u4 = test_utils.generate_ping_userdata([vm1_ip, vm3_ip])
         vm_4 = test_utils.create_instance(
             nova_client,
             TESTCASE_CONFIG.instance_4_name,
@@ -226,7 +233,7 @@ def main():
         thread_inputs.append(monitor_input4)
         thread_outputs.append(monitor_output4)
         logging.info("Starting monitor thread of vm_4")
-        threads[3].start()
+        threads[0].start()
         test_utils.wait_before_subtest()
         monitor_err_msg = ""
         for thread_output in thread_outputs:
