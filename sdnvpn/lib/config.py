@@ -8,13 +8,13 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 
 import yaml
-import logging
 import pkg_resources
 
 from functest.utils import config
 import functest.utils.functest_utils as ft_utils
+from sdnvpn.lib import logutil
 
-logger = logging.getLogger('sdnvpn_test_config')
+logger = logutil.getLogger('sdnvpn_test_config')
 
 
 class CommonConfig(object):

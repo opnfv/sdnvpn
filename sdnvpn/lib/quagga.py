@@ -9,15 +9,15 @@
 #
 """Utilities for setting up quagga peering"""
 
-import logging
 import re
 import time
 
 import functest.utils.functest_utils as ft_utils
 import sdnvpn.lib.config as config
 from sdnvpn.lib.utils import run_odl_cmd, exec_cmd
+from sdnvpn.lib import logutil
 
-logger = logging.getLogger('sdnvpn-quagga')
+logger = logutil.getLogger('sdnvpn-quagga')
 
 COMMON_CONFIG = config.CommonConfig()
 

@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import logging
 import re
 import sys
 import time
@@ -18,9 +17,10 @@ from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
+from sdnvpn.lib import logutil
 
 
-logger = logging.getLogger('__name__')
+logger = logutil.getLogger('__name__')
 
 std_out_lock = Lock()
 
@@ -46,20 +46,20 @@ def monitor(in_data, out_data, vm):
                                                   format(vm.name))
                         # Atomic write to std out
                         with std_out_lock:
-                            logging.error("Failure during ping from "
-                                          "instance {}: {}".
-                                          format(vm.name, console_line))
+                            logger.error("Failure during ping from "
+                                         "instance {}: {}".
+                                         format(vm.name, console_line))
                     elif re.match(r'ping.*OK', console_line):
                         # Atomic write to std out
                         with std_out_lock:
-                            logging.info("Ping from instance {}: {}".
-                                         format(vm.name, console_line))
+                            logger.info("Ping from instance {}: {}".
+                                        format(vm.name, console_line))
                 lines_offset = len(vm_console_out_lines)
         except:
             # Atomic write to std out
             with std_out_lock:
-                logging.error("Failure in monitor_thread of instance {}".
-                              format(vm.name))
+                logger.error("Failure in monitor_thread of instance {}".
+                             format(vm.name))
     # Return to main process
     return
 
@@ -173,11 +173,11 @@ def main():
     thread_inputs = [monitor_input1, monitor_input2, monitor_input3]
     thread_outputs = [monitor_output1, monitor_output2, monitor_output3]
     try:
-        logging.info("Starting all monitor threads")
+        logger.info("Starting all monitor threads")
         # Start all monitor threads
         for thread in threads:
             thread.start()
-        logging.info("Wait before subtest")
+        logger.info("Wait before subtest")
         test_utils.wait_before_subtest()
         monitor_err_msg = ""
         for thread_output in thread_outputs:
@@ -193,8 +193,8 @@ def main():
         # Stop monitor thread 2 and delete instance vm_2
         thread_inputs[1]["stop_thread"] = True
         if not os_utils.delete_instance(nova_client, vm_2.id):
-            logging.error("Fail to delete vm_2 instance during "
-                          "testing process")
+            logger.error("Fail to delete vm_2 instance during "
+                         "testing process")
             raise Exception("Fail to delete instance vm_2.")
         for thread_input in thread_inputs:
             thread_input["stop_thread"] = True
@@ -232,7 +232,7 @@ def main():
         threads.append(monitor_thread4)
         thread_inputs.append(monitor_input4)
         thread_outputs.append(monitor_output4)
-        logging.info("Starting monitor thread of vm_4")
+        logger.info("Starting monitor thread of vm_4")
         threads[0].start()
         test_utils.wait_before_subtest()
         monitor_err_msg = ""
@@ -253,7 +253,7 @@ def main():
         raise
     finally:
         # Give a stop signal to all threads
-        logging.info("Sending stop signal to monitor thread")
+        logger.info("Sending stop signal to monitor thread")
         for thread_input in thread_inputs:
             thread_input["stop_thread"] = True
         # Wait for all threads to stop and return to the main process
@@ -270,5 +270,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
     sys.exit(main())
