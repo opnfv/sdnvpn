@@ -9,16 +9,17 @@
 #
 
 import logging
+from random import randint
 import sys
 
-from random import randint
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
+import sdnvpn.lib.logutil as logutil
 from sdnvpn.lib.results import Results
 
 
-logger = logging.getLogger(__name__)
+logger = logutil.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(

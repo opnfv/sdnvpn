@@ -18,13 +18,15 @@ import sys
 
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import utils as test_utils
+import sdnvpn.lib.logutil as logutil
 from sdnvpn.lib.results import Results
+
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
     "sdnvpn.test.functest.testcase_9")
 
-logger = logging.getLogger('__name__')
+logger = logutil.getLogger('__name__')
 
 
 def main():

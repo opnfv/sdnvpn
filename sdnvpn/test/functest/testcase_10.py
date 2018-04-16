@@ -9,18 +9,19 @@
 #
 
 import logging
+from multiprocessing import Process, Manager, Lock
 import re
 import sys
 import time
 
-from multiprocessing import Process, Manager, Lock
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
+import sdnvpn.lib.logutil as logutil
 from sdnvpn.lib.results import Results
 
 
-logger = logging.getLogger('__name__')
+logger = logutil.getLogger('__name__')
 
 std_out_lock = Lock()
 

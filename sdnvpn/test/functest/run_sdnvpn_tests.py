@@ -13,20 +13,20 @@ import logging
 import os
 import sys
 import traceback
+
 import yaml
 
-from xtesting.core import feature
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
-from sdnvpn.lib.gather_logs import gather_logs
 from sdnvpn.lib import utils as test_utils
+from sdnvpn.lib.gather_logs import gather_logs
+from xtesting.core import feature
+
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 
 
 class SdnvpnFunctest(feature.Feature):
-
-    __logger = logging.getLogger(__name__)
 
     def execute(self):
 
@@ -43,8 +43,8 @@ class SdnvpnFunctest(feature.Feature):
             neutron_quota['port'], neutron_quota['router'])
         instances_quota = test_utils.get_nova_instances_quota(nova_client)
 
-        self.__logger.info("Setting net/subnet/port/router "
-                           "quota to unlimited")
+        self.logger.info("Setting net/subnet/port/router "
+                         "quota to unlimited")
         test_utils.update_nw_subnet_port_quota(
             neutron_client,
             tenant_id,
@@ -56,7 +56,7 @@ class SdnvpnFunctest(feature.Feature):
 
         # Workaround for
         # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115
-        self.__logger.info("Setting instances quota class to unlimited")
+        self.logger.info("Setting instances quota class to unlimited")
         test_utils.update_instance_quota_class(
             nova_client,
             COMMON_CONFIG.nova_instances_quota_class)
@@ -72,37 +72,37 @@ class SdnvpnFunctest(feature.Feature):
                 test_descr = testcases[tc]['description']
                 title = ("Running '%s - %s'" %
                          (test_name, test_descr))
-                self.__logger.info(title)
-                self.__logger.info("%s\n" % ("=" * len(title)))
+                self.logger.info(title)
+                self.logger.info("%s\n" % ("=" * len(title)))
                 try:
-                    self.__logger.info("Importing the testcase %s" % test_name)
+                    self.logger.info("Importing the testcase %s" % test_name)
                     t = importlib.import_module(test_name, package=None)
-                    self.__logger.info("Calling the testcase %s main method"
-                                       % test_name)
+                    self.logger.info("Calling the testcase %s main method"
+                                     % test_name)
                     result = t.main()
-                    self.__logger.info("Execution is complete for the testcase %s"
-                                       % test_name)
+                    self.logger.info("Execution is complete for the"
+                                     " testcase %s" % test_name)
                 except Exception as ex:
                     result = -1
-                    self.__logger.info("Caught Exception in %s: %s Trace: %s"
-                                       % (test_name, ex,
-                                          traceback.format_exc()))
+                    self.logger.info("Caught Exception in %s: %s Trace: %s"
+                                     % (test_name, ex,
+                                        traceback.format_exc()))
                 if result < 0:
                     status = "FAIL"
                     overall_status = "FAIL"
-                    self.__logger.info("Testcase %s failed" % test_name)
+                    self.logger.info("Testcase %s failed" % test_name)
                 else:
                     status = result.get("status")
                     self.details.update(
                         {test_name: {'status': status,
                                      'details': result.get("details")}})
-                    self.__logger.info("Results of test case '%s - %s':\n%s\n"
-                                       % (test_name, test_descr, result))
+                    self.logger.info("Results of test case '%s - %s':\n%s\n"
+                                     % (test_name, test_descr, result))
 
                     if status == "FAIL":
                         overall_status = "FAIL"
 
-        self.__logger.info("Resetting subnet/net/port quota")
+        self.logger.info("Resetting subnet/net/port quota")
         test_utils.update_nw_subnet_port_quota(neutron_client,
                                                tenant_id,
                                                neutron_nw_quota,
@@ -110,7 +110,7 @@ class SdnvpnFunctest(feature.Feature):
                                                neutron_port_quota,
                                                neutron_router_quota)
 
-        self.__logger.info("Resetting instances quota class")
+        self.logger.info("Resetting instances quota class")
         test_utils.update_instance_quota_class(nova_client, instances_quota)
 
         try:
@@ -118,13 +118,13 @@ class SdnvpnFunctest(feature.Feature):
             if installer_type in ["fuel", "apex"]:
                 gather_logs('overall')
             else:
-                self.__logger.info("Skipping log gathering because installer"
-                                   "type %s is neither fuel nor apex" %
-                                   installer_type)
+                self.logger.info("Skipping log gathering because installer"
+                                 "type %s is neither fuel nor apex" %
+                                 installer_type)
         except Exception as ex:
-            self.__logger.error(('Something went wrong in the Log gathering.'
-                                 'Ex: %s, Trace: %s')
-                                % (ex, traceback.format_exc()))
+            self.logger.error(('Something went wrong in the Log gathering.'
+                               'Ex: %s, Trace: %s')
+                              % (ex, traceback.format_exc()))
 
         if overall_status == "PASS":
             self.result = 100

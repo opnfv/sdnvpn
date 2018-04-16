@@ -8,26 +8,26 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import logging
+from functest.utils import env
 import os.path
 import shutil
 import sys
 import time
 import urllib
 
-from keystoneauth1 import loading
-from keystoneauth1 import session
 from cinderclient import client as cinderclient
 from glanceclient import client as glanceclient
 from heatclient import client as heatclient
-from novaclient import client as novaclient
+from keystoneauth1 import loading
+from keystoneauth1 import session
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
+from novaclient import client as novaclient
 
-from functest.utils import config
-from functest.utils import env
+import sdnvpn.lib.logutil as logutil
 
-logger = logging.getLogger(__name__)
+
+logger = logutil.getLogger(__name__)
 
 DEFAULT_API_VERSION = '2'
 DEFAULT_HEAT_API_VERSION = '1'

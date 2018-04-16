@@ -7,20 +7,21 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
-import logging
+from concurrent.futures import ThreadPoolExecutor
 import os
-import time
-import requests
 import re
 import subprocess
-from concurrent.futures import ThreadPoolExecutor
+import time
 
 from opnfv.deployment.factory import Factory as DeploymentFactory
+import requests
 
 from sdnvpn.lib import config as sdnvpn_config
+import sdnvpn.lib.logutil as logutil
 import sdnvpn.lib.openstack_utils as os_utils
 
-logger = logging.getLogger('sdnvpn_test_utils')
+
+logger = logutil.getLogger('sdnvpn_test_utils')
 
 common_config = sdnvpn_config.CommonConfig()
 
@@ -34,6 +35,7 @@ class ExtraRoute(object):
     """
     Class to represent extra route for a router
     """
+
     def __init__(self, destination, nexthop):
         self.destination = destination
         self.nexthop = nexthop
@@ -43,6 +45,7 @@ class AllowedAddressPair(object):
     """
     Class to represent allowed address pair for a neutron port
     """
+
     def __init__(self, ipaddress, macaddress):
         self.ipaddress = ipaddress
         self.macaddress = macaddress
@@ -638,9 +641,9 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     if len(floatingip_ids) != 0:
         for floatingip_id in floatingip_ids:
             if not os_utils.delete_floating_ip(neutron_client, floatingip_id):
-                logging.error('Fail to delete all floating ips. '
-                              'Floating ip with id {} was not deleted.'.
-                              format(floatingip_id))
+                logger.error('Fail to delete all floating ips. '
+                             'Floating ip with id {} was not deleted.'.
+                             format(floatingip_id))
                 return False
 
     if len(bgpvpn_ids) != 0:
@@ -651,39 +654,39 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
         for router_id, subnet_id in interfaces:
             if not os_utils.remove_interface_router(neutron_client,
                                                     router_id, subnet_id):
-                logging.error('Fail to delete all interface routers. '
-                              'Interface router with id {} was not deleted.'.
-                              format(router_id))
+                logger.error('Fail to delete all interface routers. '
+                             'Interface router with id {} was not deleted.'.
+                             format(router_id))
 
     if len(router_ids) != 0:
         for router_id in router_ids:
             if not os_utils.remove_gateway_router(neutron_client, router_id):
-                logging.error('Fail to delete all gateway routers. '
-                              'Gateway router with id {} was not deleted.'.
-                              format(router_id))
+                logger.error('Fail to delete all gateway routers. '
+                             'Gateway router with id {} was not deleted.'.
+                             format(router_id))
 
     if len(subnet_ids) != 0:
         for subnet_id in subnet_ids:
             if not os_utils.delete_neutron_subnet(neutron_client, subnet_id):
-                logging.error('Fail to delete all subnets. '
-                              'Subnet with id {} was not deleted.'.
-                              format(subnet_id))
+                logger.error('Fail to delete all subnets. '
+                             'Subnet with id {} was not deleted.'.
+                             format(subnet_id))
                 return False
 
     if len(router_ids) != 0:
         for router_id in router_ids:
             if not os_utils.delete_neutron_router(neutron_client, router_id):
-                logging.error('Fail to delete all routers. '
-                              'Router with id {} was not deleted.'.
-                              format(router_id))
+                logger.error('Fail to delete all routers. '
+                             'Router with id {} was not deleted.'.
+                             format(router_id))
                 return False
 
     if len(network_ids) != 0:
         for network_id in network_ids:
             if not os_utils.delete_neutron_net(neutron_client, network_id):
-                logging.error('Fail to delete all networks. '
-                              'Network with id {} was not deleted.'.
-                              format(network_id))
+                logger.error('Fail to delete all networks. '
+                             'Network with id {} was not deleted.'.
+                             format(network_id))
                 return False
     return True
 
@@ -695,9 +698,9 @@ def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
             if not os_utils.delete_instance(nova_client, instance_id):
-                logging.error('Fail to delete all instances. '
-                              'Instance with id {} was not deleted.'.
-                              format(instance_id))
+                logger.error('Fail to delete all instances. '
+                             'Instance with id {} was not deleted.'.
+                             format(instance_id))
                 return False
     return True
 
@@ -706,9 +709,9 @@ def cleanup_glance(glance_client, image_ids):
     if len(image_ids) != 0:
         for image_id in image_ids:
             if not os_utils.delete_glance_image(glance_client, image_id):
-                logging.error('Fail to delete all images. '
-                              'Image with id {} was not deleted.'.
-                              format(image_id))
+                logger.error('Fail to delete all images. '
+                             'Image with id {} was not deleted.'.
+                             format(image_id))
                 return False
     return True
 
@@ -779,8 +782,8 @@ def is_fail_mode_secure():
                 is_secure[openstack_node.name] = True
             else:
                 # failure
-                logging.error('The fail_mode for br-int was not secure '
-                              'in {} node'.format(openstack_node.name))
+                logger.error('The fail_mode for br-int was not secure '
+                             'in {} node'.format(openstack_node.name))
                 is_secure[openstack_node.name] = False
     return is_secure
 

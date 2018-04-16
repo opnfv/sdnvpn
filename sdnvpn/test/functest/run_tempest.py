@@ -8,15 +8,17 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 #
-import ConfigParser
 import logging
 import os
 import re
 import shutil
 
+import ConfigParser
 import functest.opnfv_tests.openstack.tempest.conf_utils as tempest_utils
+import sdnvpn.lib.logutil as logutil
 
-logger = logging.getLogger('sdnvpn-tempest')
+
+logger = logutil.getLogger('sdnvpn-tempest')
 
 
 def main():
@@ -26,7 +28,6 @@ def main():
     deployment_id = tempest_utils.get_verifier_deployment_id()
     src_tempest_dir = tempest_utils.get_verifier_deployment_dir(
         verifier_id, deployment_id)
-
 
     if not src_tempest_dir:
         logger.error("Rally deployment not found.")

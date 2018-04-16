@@ -16,12 +16,13 @@
 #   - ovs state (openflow and dp)
 #   - optional - memory dump from odl
 
-import os
-import inspect
-
-import sdnvpn.lib.utils as test_utils
-import functest.utils.functest_utils as ft_utils
 from functest.utils import config
+import inspect
+import os
+
+import functest.utils.functest_utils as ft_utils
+import sdnvpn.lib.utils as test_utils
+
 
 LIB_PATH = os.path.dirname(
     os.path.abspath(inspect.getfile(inspect.currentframe())))

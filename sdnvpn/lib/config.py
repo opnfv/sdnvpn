@@ -7,14 +7,16 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 
-import yaml
-import logging
-import pkg_resources
-
 from functest.utils import config
-import functest.utils.functest_utils as ft_utils
 
-logger = logging.getLogger('sdnvpn_test_config')
+import pkg_resources
+import yaml
+
+import functest.utils.functest_utils as ft_utils
+import sdnvpn.lib.logutil as logutil
+
+
+logger = logutil.getLogger('sdnvpn_test_config')
 
 
 class CommonConfig(object):
@@ -27,6 +29,8 @@ class CommonConfig(object):
         """
 
         def __init__(self):
+            self.dir_results = "/var/lib/xtesting/results"
+            self.result_file = "{}/{}.log".format(self.dir_results, "bgpvpn")
             self.config_file = pkg_resources.resource_filename(
                 'sdnvpn', 'test/functest/config.yaml')
             self.keyfile_path = pkg_resources.resource_filename(
