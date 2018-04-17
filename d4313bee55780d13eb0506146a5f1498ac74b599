@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_1be14dfe",
+        "filename": "sdnvpn/lib/logutil.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2018-04-17T17:24:05Z",
+      "side": 1,
+      "message": "pep8? You can now reuse the helper from Feature",
+      "revId": "d4313bee55780d13eb0506146a5f1498ac74b599",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3bdc0946",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2018-04-17T17:24:05Z",
+      "side": 1,
+      "message": "wrong order. xtesting is thirdparty (not internal).",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "d4313bee55780d13eb0506146a5f1498ac74b599",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_9b155de7",
+        "filename": "sdnvpn/test/functest/testcase_10.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2018-04-17T17:24:05Z",
+      "side": 1,
+      "message": "I would have selected from here if no special rename.",
+      "revId": "d4313bee55780d13eb0506146a5f1498ac74b599",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_dbda454b",
+        "filename": "setup.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3405
+      },
+      "writtenOn": "2018-04-17T17:24:05Z",
+      "side": 1,
+      "message": "You shouldn\u0027t modify that file as it\u0027s fully synced.\nAs soon as I synced all OPNFV projects, I will automatically erase that change.",
+      "revId": "d4313bee55780d13eb0506146a5f1498ac74b599",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
