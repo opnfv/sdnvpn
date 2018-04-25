@@ -1,3 +1,11 @@
+.. _-os-odl-bgpvpn-noha:
+
+.. _-os-odl-bgpvpn-ha:
+
+.. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. (c) Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com> and others
+
 =====================
 SDN VPN Release Notes
 =====================
@@ -92,6 +100,10 @@ Software deliverables
 - Integration of VPN Service functional tests and BGPVPN API tests into Functest framework.
 - Enabling performance tests in Yardstick.
 - Changes to 6Wind Zrpcd to enable integration with Apex.
+- Intra Datacenter ECMP (Equal Cost Multi Pathing) Testcase.
+- OpenDaylight and Open vSwitch Resynchronization Testcase.
+- Improved quality and stability of Testcase runs in CI environment.
+- External BGPVPN scenario added for XCI based deployment for BGPVPN scenarios.
 
 Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
