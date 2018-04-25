@@ -112,5 +112,5 @@ Integration with data center gateway will not work due to missing OVS patches fo
 References
 ==========
 
-For more information on the OPNFV Danube release, please visit
+For more information on the OPNFV Fraser release, please visit
 https://www.opnfv.org/software
