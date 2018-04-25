@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a3f45e8_3af51157",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2409
+      },
+      "writtenOn": "2018-04-25T19:58:14Z",
+      "side": 1,
+      "message": "sorry maybe I was unclear, the release note should have sdnvpn-releasenotes and please make sure that you have an index file this one",
+      "revId": "b1c8323dcd962b456da0438df65b4a37bb12f3d7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
