@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a3f45e8_dadcede6",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-04-25T19:54:13Z",
+      "side": 1,
+      "message": "done, is that correct ?",
+      "parentUuid": "5a3f45e8_9a58a58b",
+      "revId": "6bca1e093f615dc95c8c649e6043cff693e1051a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a3f45e8_da550d51",
         "filename": "docs/release/scenarios/os-odl-bgpvpn/scenario.description.rst",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-25T19:47:32Z",
       "side": 1,
       "message": "same here",
+      "revId": "6bca1e093f615dc95c8c649e6043cff693e1051a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_bad921f5",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn/scenario.description.rst",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-04-25T19:54:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a3f45e8_da550d51",
       "revId": "6bca1e093f615dc95c8c649e6043cff693e1051a",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
