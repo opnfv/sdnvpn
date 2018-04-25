@@ -42,7 +42,7 @@ Release Data
 | **Release designation**              | Fraser 6.0 - initial release              |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release date**                     | Apr 20 2018                               |
+| **Release date**                     | Apr 27 2018                               |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
 | **Purpose of the delivery**          | New test cases                            |
