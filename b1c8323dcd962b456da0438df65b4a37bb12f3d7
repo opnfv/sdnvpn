@@ -16,6 +16,24 @@
       "revId": "b1c8323dcd962b456da0438df65b4a37bb12f3d7",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a3f45e8_3a9cf10e",
+        "filename": "docs/release/release-notes/release-notes.rst",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-04-25T20:05:26Z",
+      "side": 1,
+      "message": "isn\u0027t it already there ?https://github.com/opnfv/sdnvpn/blob/master/docs/release/release-notes/index.rst",
+      "parentUuid": "5a3f45e8_3af51157",
+      "revId": "b1c8323dcd962b456da0438df65b4a37bb12f3d7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
