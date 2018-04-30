@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import logging
 import os.path
 import shutil
 import sys
@@ -24,10 +23,10 @@ from novaclient import client as novaclient
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
 
-from functest.utils import config
 from functest.utils import env
+from sdnvpn.lib import logutil
 
-logger = logging.getLogger(__name__)
+logger = logutil.getLogger(__name__)
 
 DEFAULT_API_VERSION = '2'
 DEFAULT_HEAT_API_VERSION = '1'

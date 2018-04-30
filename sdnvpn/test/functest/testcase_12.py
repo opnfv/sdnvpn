@@ -8,15 +8,15 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import logging
 import sys
 
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
+from sdnvpn.lib import logutil
 
-logger = logging.getLogger(__name__)
+logger = logutil.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
@@ -100,7 +100,7 @@ def main():
         if not instances_up:
             logger.error("One or more instances is down")
 
-        logging.info("Wait before subtest")
+        logger.info("Wait before subtest")
         test_utils.wait_before_subtest()
         # Get added OVS flows and groups
         added_ovs_flows = len(test_utils.get_ovs_flows(compute_nodes,
@@ -140,7 +140,7 @@ def main():
             compute_node.run_cmd("sudo ovs-vsctl set-controller {} {}".
                                  format(ovs_br, ovs_controller_conn))
 
-        logging.info("Wait before subtest resync type 1")
+        logger.info("Wait before subtest resync type 1")
         test_utils.wait_before_subtest()
         # Get OVS flows added after the reconnection
         resynced_ovs_flows = len(test_utils.get_ovs_flows(
@@ -164,7 +164,7 @@ def main():
             compute_node.run_cmd("sudo iptables -D OUTPUT -p tcp --dport 6653"
                                  " -j DROP")
 
-        logging.info("Wait before subtest resync type 2")
+        logger.info("Wait before subtest resync type 2")
         test_utils.wait_before_subtest()
         # Get OVS flows added after the reconnection
         resynced_ovs_flows = len(test_utils.get_ovs_flows(
@@ -222,5 +222,4 @@ def record_test_result(expected_flow_count, actual_flow_count,
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
     sys.exit(main())

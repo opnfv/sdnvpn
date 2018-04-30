@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
-import logging
 import sys
 
 from random import randint
@@ -16,8 +15,9 @@ from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
+from sdnvpn.lib import logutil
 
-logger = logging.getLogger(__name__)
+logger = logutil.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
@@ -206,5 +206,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
     sys.exit(main())
