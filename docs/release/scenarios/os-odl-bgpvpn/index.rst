@@ -1,10 +1,10 @@
-.. _-os-odl-bgpvpn-noha:
-
-.. _-os-odl-bgpvpn-ha:
-
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com> and others
+
+.. _os-odl-bgpvpn-noha:
+
+.. _os-odl-bgpvpn-ha:
 
 ================================================================
 os-odl-bgpvpn-noha and os-odl-bgpvpn-ha overview and description
