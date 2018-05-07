@@ -8,7 +8,6 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 import logging
-import os.path
 
 from xtesting.core import feature
 
@@ -16,8 +15,6 @@ from xtesting.core import feature
 def getLogger(module_name):
     logger = logging.getLogger(module_name)
     log_file = "{}/{}.log".format("/var/lib/xtesting/results", "bgpvpn")
-    if os.path.exists(log_file):
-        feature.Feature.configure_logger(logger, log_file)
-    else:
-        logger.setLevel(logging.DEBUG)
+    open(log_file, 'w+')
+    feature.Feature.configure_logger(logger, log_file)
     return logger
