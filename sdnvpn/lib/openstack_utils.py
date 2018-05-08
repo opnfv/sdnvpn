@@ -877,38 +877,38 @@ def create_network_full(neutron_client,
         logger.info("A network with name '%s' already exists..." % net_name)
     else:
         neutron_client.format = 'json'
-        logger.info('Creating neutron network %s...' % net_name)
-        network_id = create_neutron_net(neutron_client, net_name)
 
+        logger.info('Creating neutron network %s...' % net_name)
+        if network_id == '':
+            network_id = create_neutron_net(neutron_client, net_name)
         if not network_id:
             return False
-
         logger.debug("Network '%s' created successfully" % network_id)
+
         logger.debug('Creating Subnet....')
-        subnet_id = create_neutron_subnet(neutron_client, subnet_name,
-                                          cidr, network_id, dns)
+        if subnet_id == '':
+            subnet_id = create_neutron_subnet(neutron_client, subnet_name,
+                                              cidr, network_id, dns)
         if not subnet_id:
             return None
-
         logger.debug("Subnet '%s' created successfully" % subnet_id)
-        logger.debug('Creating Router...')
-        router_id = create_neutron_router(neutron_client, router_name)
 
+        logger.debug('Creating Router...')
+        if router_id == '':
+            router_id = create_neutron_router(neutron_client, router_name)
         if not router_id:
             return None
-
         logger.debug("Router '%s' created successfully" % router_id)
+
         logger.debug('Adding router to subnet...')
 
         if not add_interface_router(neutron_client, router_id, subnet_id):
             return None
-
         logger.debug("Interface added successfully.")
 
         logger.debug('Adding gateway to router...')
         if not add_gateway_router(neutron_client, router_id):
             return None
-
         logger.debug("Gateway added successfully.")
 
     network_dic = {'net_id': network_id,
