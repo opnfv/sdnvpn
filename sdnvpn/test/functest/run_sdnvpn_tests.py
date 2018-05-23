@@ -60,6 +60,14 @@ class SdnvpnFunctest(feature.Feature):
             nova_client,
             COMMON_CONFIG.nova_instances_quota_class)
 
+        # Clean up the stale floating ip's so that required
+        # ip addresses are available for sdnvpn testcases
+        floating_ips = os_utils.get_floating_ips(neutron_client)
+        if floating_ips is not None:
+            for floating_ip in floating_ips:
+                os_utils.delete_floating_ip(
+                    neutron_client, floating_ip['id'])
+
         with open(COMMON_CONFIG.config_file) as f:
             config_yaml = yaml.safe_load(f)
 
