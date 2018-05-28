@@ -55,7 +55,8 @@ def main():
     logger.info("Configuring default tempest conf file")
     os.popen(cmd)
 
-    cmd_line = "tempest run -t --regex networking_bgpvpn_tempest"
+    cmd_line = "tempest run -t --regex networking_bgpvpn_tempest " \
+               "--config-file /etc/tempest/tempest.conf"
     logger.info("Executing: %s" % cmd_line)
     cmd = os.popen(cmd_line)
     output = cmd.read()
