@@ -22,6 +22,30 @@
       "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_82b60adb",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 585
+      },
+      "writtenOn": "2018-05-29T09:26:15Z",
+      "side": 1,
+      "message": "when Peri was looking into this some time ago, Tempest was only only picking up the conf file in /etc/tempest for some reason we didn\u0027t understand. Hence, Peri added code to copy the Tempest conf file to /etc/tempest (see the comment a few lines above).",
+      "parentUuid": "1a494da4_c20f72e0",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
