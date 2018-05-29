@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_d673b3af",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-05-29T14:11:56Z",
+      "side": 1,
+      "message": "Use COMMON_CONFIG, TESTCASE_CONFIG references to refer to image files/format and name like other testcases (example: https://github.com/opnfv/sdnvpn/blob/master/sdnvpn/test/functest/testcase_1.py#L42). you may need to add image_name in config.yaml under sdnvpn.test.functest.run_tempest testcase section.\nwe also don\u0027t have to download the cirros image. it should be already present while executing sdnvpn test suite.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 66
+      },
+      "revId": "32da4937be74afc6bdd709349398603ea921996d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_76629fd9",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-05-29T14:11:56Z",
+      "side": 1,
+      "message": "do we have to invoke this api ?  \ncan\u0027t we just use flavor name to set flavor_ref in #62 ? because this flavor is already created in run_sdnvpn_tests itself.",
+      "revId": "32da4937be74afc6bdd709349398603ea921996d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
