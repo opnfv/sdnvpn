@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a494da4_c20f72e0",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-05-29T07:54:43Z",
+      "side": 1,
+      "message": "Previously this was the (identical) .conf file under rally. I wonder, what might be the difference/impact?",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
