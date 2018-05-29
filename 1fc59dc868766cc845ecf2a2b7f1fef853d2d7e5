@@ -94,6 +94,30 @@
       "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_16f51b83",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 585
+      },
+      "writtenOn": "2018-05-29T20:48:04Z",
+      "side": 1,
+      "message": "yes, that\u0027s the one I have seen failing for some time.",
+      "parentUuid": "1a494da4_761a9f18",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
