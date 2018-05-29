@@ -39,6 +39,24 @@
       "revId": "32da4937be74afc6bdd709349398603ea921996d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_36ddb771",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 585
+      },
+      "writtenOn": "2018-05-29T15:23:15Z",
+      "side": 1,
+      "message": "I\u0027d also prefer to read as many config values as possible from the supplied tempest.conf. In case of Dovetail, we rely on passing down config values through tempest.conf. Moreover, please don\u0027t hard-code flavor RAM sizes as they must be configurable for tests on commercial systems. Referring to an existing flavor is fine.",
+      "parentUuid": "1a494da4_76629fd9",
+      "revId": "32da4937be74afc6bdd709349398603ea921996d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
