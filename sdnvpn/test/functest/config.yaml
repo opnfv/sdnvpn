@@ -6,6 +6,7 @@ testcases:
     enabled: true
     order: 0
     description: Neutron BGPVPN tests in tempest
+    image_name: bgpvpn-tempest-image
 
   sdnvpn.test.functest.testcase_1:
     enabled: true
