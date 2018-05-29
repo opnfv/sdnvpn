@@ -70,6 +70,30 @@
       "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_761a9f18",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-05-29T16:39:51Z",
+      "side": 1,
+      "message": "(overcloud) bash-4.4# cat tempest-patch-all-1.log | grep FAILED | grep api\n{0} networking_bgpvpn_tempest.tests.api.test_bgpvpn.BgpvpnTest.test_update_route_target [0.447191s] ... FAILED",
+      "parentUuid": "1a494da4_b626e7b8",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
