@@ -14,6 +14,7 @@ import re
 import shutil
 
 import functest.opnfv_tests.openstack.tempest.conf_utils as tempest_utils
+from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import logutil
 
 logger = logutil.getLogger('sdnvpn-tempest')
@@ -39,11 +40,31 @@ def main():
         exit(-1)
     shutil.copy(src_tempest_conf, bgpvpn_tempest_conf)
 
+    cirros_file = "/home/opnfv/functest/images/cirros-0.4.0-x86_64-disk.img"
+    if not os.path.isfile(cirros_file):
+        logger.info("Downloading image")
+        os_utils.download_url(
+            "http://download.cirros-cloud.net/0.4.0/"
+            "cirros-0.4.0-x86_64-disk.img",
+            "/home/opnfv/functest/images/")
+    _, img_ref = os_utils.get_or_create_image("bgpvpn-image", cirros_file,
+                                              format="qcow2",
+                                              extra_properties={})
+
+    _, flav_ref = os_utils.get_or_create_flavor("m1.tiny", 512, 1, 1,
+                                                public=True)
+
     logger.info("Copying tempest.conf to %s." % bgpvpn_tempest_conf)
     config = ConfigParser.RawConfigParser()
     config.read(bgpvpn_tempest_conf)
     config.set('service_available', 'bgpvpn', 'True')
     logger.debug("Updating %s with bgpvpn=True" % bgpvpn_tempest_conf)
+    config.set('compute', 'flavor_ref', flav_ref)
+    logger.debug("Updating %s with flavor_id %s"
+                 % (bgpvpn_tempest_conf, flav_ref))
+    config.set('compute', 'image_ref', img_ref)
+    logger.debug("Updating %s with image_id %s"
+                 % (bgpvpn_tempest_conf, img_ref))
     with open(bgpvpn_tempest_conf, 'wb') as tempest_conf:
         config.write(tempest_conf)
 
