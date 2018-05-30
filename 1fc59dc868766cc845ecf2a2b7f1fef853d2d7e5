@@ -118,6 +118,30 @@
       "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a494da4_360c9742",
+        "filename": "sdnvpn/test/functest/run_tempest.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-05-30T07:30:06Z",
+      "side": 1,
+      "message": "we can address this issue separately (may be we should run networking-bgpvpn tempest independently to see issue is with testcase itself)",
+      "parentUuid": "1a494da4_16f51b83",
+      "range": {
+        "startLine": 59,
+        "startChar": 30,
+        "endLine": 59,
+        "endChar": 55
+      },
+      "revId": "1fc59dc868766cc845ecf2a2b7f1fef853d2d7e5",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
