@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Nikos Karandreas <nick@intracom-telecom.com>
+Code-Review+2: Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com>
+Verified+1: Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com>
+Submitted-by: Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com>
+Submitted-at: Wed, 30 May 2018 07:30:09 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/58005
+Project: sdnvpn
+Branch: refs/heads/master
