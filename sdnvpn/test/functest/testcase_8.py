@@ -16,16 +16,16 @@
 # - Try to ping from one VM to the other
 # - Assign a floating IP to the VM in the router assoc network
 # - Ping it the floating ip
+import logging
 import sys
 
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
 from sdnvpn.lib import utils as test_utils
 from sdnvpn.lib.results import Results
-from sdnvpn.lib import logutil
 
 
-logger = logutil.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 COMMON_CONFIG = sdnvpn_config.CommonConfig()
 TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
