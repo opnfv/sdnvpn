@@ -7,6 +7,7 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
+import logging
 import os
 import time
 import requests
@@ -18,9 +19,8 @@ from opnfv.deployment.factory import Factory as DeploymentFactory
 
 from sdnvpn.lib import config as sdnvpn_config
 import sdnvpn.lib.openstack_utils as os_utils
-from sdnvpn.lib import logutil
 
-logger = logutil.getLogger('sdnvpn_test_utils')
+logger = logging.getLogger('sdnvpn_test_utils')
 
 common_config = sdnvpn_config.CommonConfig()
 

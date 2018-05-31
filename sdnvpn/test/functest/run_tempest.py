@@ -9,14 +9,14 @@
 #
 #
 import ConfigParser
+import logging
 import os
 import re
 import shutil
 
 import functest.opnfv_tests.openstack.tempest.conf_utils as tempest_utils
-from sdnvpn.lib import logutil
 
-logger = logutil.getLogger('sdnvpn-tempest')
+logger = logging.getLogger('sdnvpn-tempest')
 
 
 def main():
