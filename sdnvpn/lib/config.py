@@ -47,14 +47,11 @@ class CommonConfig(object):
             self.image_path = '{0}/{1}'.format(
                 getattr(config.CONF, 'dir_functest_images'),
                 self.image_filename)
-            # This is the ubuntu image used by sfc
-            # Basically vanilla ubuntu + some scripts in there
-            # We can use it to setup a quagga instance
-            # TODO does functest have an ubuntu image somewhere?
+            # The below image has the Quagga already installed
             self.ubuntu_image_name = "sdnvpn-ubuntu"
             self.ubuntu_image_path = '{0}/{1}'.format(
                 getattr(config.CONF, 'dir_functest_images'),
-                "ubuntu-16.04-server-cloudimg-amd64-disk1.img")
+                "sdnvpn-ubuntu.img")
             self.custom_flavor_name = 'm1.custom'
             self.custom_flavor_ram = 1024
             self.custom_flavor_disk = 10

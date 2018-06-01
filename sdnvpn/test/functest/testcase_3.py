@@ -143,7 +143,7 @@ def main():
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
-            "/home/opnfv/functest/data/")
+            "/home/opnfv/functest/images/")
     else:
         logger.info("Using old image")
 

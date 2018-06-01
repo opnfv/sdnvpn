@@ -229,8 +229,8 @@ def download_url(url, dest_path):
     """
     Download a file to a destination path given a URL
     """
-    name = url.rsplit('/')[-1]
-    dest = dest_path + "/" + name
+    # name = url.rsplit('/')[-1]
+    dest = dest_path + "/sdnvpn-ubuntu.img"
     try:
         response = urllib.urlopen(url)
     except Exception:
