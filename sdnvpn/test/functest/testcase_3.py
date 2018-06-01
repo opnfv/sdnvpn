@@ -138,7 +138,7 @@ def main():
     #     results.add_failure(msg)
 
     # Taken from the sfc tests
-    if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
+    if not os.path.isfile(TESTCASE_CONFIG.quagga_image_path):
         logger.info("Downloading image")
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
@@ -194,15 +194,15 @@ def main():
         else:
             logger.error("Incompatible installer type")
 
-        ubuntu_image_id = os_utils.create_glance_image(
+        quagga_image_id = os_utils.create_glance_image(
             glance_client,
-            COMMON_CONFIG.ubuntu_image_name,
-            COMMON_CONFIG.ubuntu_image_path,
+            TESTCASE_CONFIG.quagga_image_name,
+            TESTCASE_CONFIG.quagga_image_path,
             disk,
             container="bare",
             public="public")
 
-        image_ids.append(ubuntu_image_id)
+        image_ids.append(quagga_image_id)
 
         # NOTE(rski) The order of this seems a bit weird but
         # there is a reason for this, namely
@@ -236,7 +236,7 @@ def main():
         quagga_vm = test_utils.create_instance(
             nova_client,
             TESTCASE_CONFIG.quagga_instance_name,
-            ubuntu_image_id,
+            quagga_image_id,
             quagga_net_id,
             sg_id,
             fixed_ip=TESTCASE_CONFIG.quagga_instance_ip,
