@@ -78,6 +78,7 @@ testcases:
       quagga_subnet_cidr: 10.10.11.0/24
       quagga_router_name: sdnvpn-3-2-quagga-router
       quagga_instance_name: sdnvpn-3-2-quagga
+      quagga_image_path: /home/opnfv/functest/data/ubuntu-16.04-server-cloudimg-amd64-disk1.img
       quagga_instance_ip: 10.10.11.5
       instance_1_name: sdnvpn-3-1
       instance_1_ip: 10.10.10.5

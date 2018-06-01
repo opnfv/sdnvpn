@@ -138,7 +138,7 @@ def main():
     #     results.add_failure(msg)
 
     # Taken from the sfc tests
-    if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
+    if not os.path.isfile(TESTCASE_CONFIG.quagga_image_path):
         logger.info("Downloading image")
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
@@ -197,7 +197,7 @@ def main():
         ubuntu_image_id = os_utils.create_glance_image(
             glance_client,
             COMMON_CONFIG.ubuntu_image_name,
-            COMMON_CONFIG.ubuntu_image_path,
+            TESTCASE_CONFIG.quagga_image_path,
             disk,
             container="bare",
             public="public")
