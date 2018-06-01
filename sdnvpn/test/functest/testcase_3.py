@@ -140,10 +140,12 @@ def main():
     # Taken from the sfc tests
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
         logger.info("Downloading image")
+        image_dest_path = '/'.join(
+                COMMON_CONFIG.ubuntu_image_path.split('/')[:-1])
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
-            "/home/opnfv/functest/data/")
+            image_dest_path)
     else:
         logger.info("Using old image")
 
