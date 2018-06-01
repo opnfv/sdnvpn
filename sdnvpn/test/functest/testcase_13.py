@@ -9,6 +9,7 @@
 #
 
 import logging
+import os
 import sys
 
 from random import randint
@@ -30,6 +31,15 @@ def main():
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
+
+    if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
+        logger.info("Downloading image")
+        os_utils.download_url(
+            "http://artifacts.opnfv.org/sdnvpn/"
+            "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
+            "/home/opnfv/functest/data/")
+    else:
+        logger.info("Using old image")
 
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
