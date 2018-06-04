@@ -69,6 +69,24 @@
       "revId": "81149a95bbbfb10e248d78b138a83601de6c75ab",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_f9751733",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-04T08:48:53Z",
+      "side": 1,
+      "message": "Isn\u0027t it only changing from /home/opnfv/functest/data/ COMMON_CONFIG.ubuntu_image_path here ? This won\u0027t impact other testcases.",
+      "parentUuid": "da5c1566_19a60bc2",
+      "revId": "81149a95bbbfb10e248d78b138a83601de6c75ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
