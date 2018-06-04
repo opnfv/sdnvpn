@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Dimitris Tsiolakis <dmts@intracom-telecom.com>
+Code-Review+1: Dimitrios Markou <mardim@intracom-telecom.com>
+Code-Review+2: Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com>
+Submitted-by: Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com>
+Submitted-at: Mon, 04 Jun 2018 12:05:35 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/58173
+Project: sdnvpn
+Branch: refs/heads/stable/fraser
