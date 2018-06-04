@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_d91653f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-04T05:28:49Z",
+      "side": 1,
+      "message": "WIP is still needed ?",
+      "revId": "81149a95bbbfb10e248d78b138a83601de6c75ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_f9199723",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-04T05:28:49Z",
+      "side": 1,
+      "message": "can\u0027t we just download this image into COMMON_CONFIG.ubuntu_image_path ?\nBecause this image is not only specific to testcase_3 and we also plan to setup quagga vm independent of testcases.",
+      "revId": "81149a95bbbfb10e248d78b138a83601de6c75ab",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
