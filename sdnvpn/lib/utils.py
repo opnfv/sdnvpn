@@ -900,3 +900,35 @@ def get_ovs_flows(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
                 cmd_out_lines += (compute_node.run_cmd(ovs_flows_cmd).strip().
                                   split("\n"))
     return cmd_out_lines
+
+
+def get_odl_bgp_entity_owner(controllers):
+    """ Finds the ODL owner of the BGP entity in the cluster.
+
+    When ODL runs in clustering mode we need to execute the BGP speaker
+    related commands to that ODL which is the owner of the BGP entity.
+
+    :param controllers: list of OS controllers
+    :return controller: OS controller in which ODL BGP entity owner runs
+    """
+
+    url = ('http://admin:admin@{ip}:8081/restconf/
+                operational/entity-owners:entity-owners'
+                .format(ip=controllers[0].ip))
+    json_output = requests.get(url).json()
+
+    print(json_output)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
