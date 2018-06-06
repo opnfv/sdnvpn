@@ -60,6 +60,17 @@ def main():
         logger.info(msg)
         results.add_success(msg)
 
+    if COMMON_CONFIG.installer_type == 'apex':
+        disk = 'qcow2'
+        if COMMON_CONFIG.deploy_scenario == 'os-odl-bgpvpn-ha':
+            controller = test_utils.get_odl_bgp_entity_owner(controllers)
+        else:
+            controller = controllers[0]
+    elif COMMON_CONFIG.installer_type == 'fuel':
+        disk = 'raw'
+    else:
+        logger.error("Incompatible installer type")
+
     controller = controllers[0]  # We don't handle HA well
     get_ext_ip_cmd = "sudo ip a | grep br-ex | grep inet | awk '{print $2}'"
     ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).strip().split('\n')

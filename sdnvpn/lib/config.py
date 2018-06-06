@@ -12,6 +12,7 @@ import yaml
 import pkg_resources
 
 from functest.utils import config
+from functest.utils import env
 import functest.utils.functest_utils as ft_utils
 
 logger = logging.getLogger('sdnvpn_test_config')
@@ -64,6 +65,8 @@ class CommonConfig(object):
             self.neutron_port_quota = -1
             self.neutron_router_quota = -1
             self.nova_instances_quota_class = -1
+            self.installer_type = env.get('INSTALLER_TYPE')
+            self.deploy_scenario = env.get('DEPLOY_SCENARIO')
 
     commonCfgInstance = None
 
