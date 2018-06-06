@@ -60,7 +60,42 @@ def main():
         logger.info(msg)
         results.add_success(msg)
 
-    controller = controllers[0]  # We don't handle HA well
+    logger.info("Checking if zrpcd is "
+                "running on the controller nodes")
+
+    for controller in controllers:
+        output_zrpcd = controller.run_cmd("ps --no-headers -C "
+                                          "zrpcd -o state")
+        states = output_zrpcd.split()
+        running = any([s != 'Z' for s in states])
+        msg = ("zrpcd is running in {name}".format(name = controller.name))
+
+        if not running:
+            logger.info("zrpcd is not running on the controller node {name}"
+                        .format(name = controller.name))
+            results.add_failure(msg)
+        else:
+            logger.info("zrpcd is running on the controller node {name}"
+                        .format(name = controller.name))
+            results.add_success(msg)
+
+        results.add_to_summary(0, "-")
+
+    # Find the BGP entity owner in ODL because of this bug:
+    # https://jira.opendaylight.org/browse/NETVIRT-1308
+    msg = ("Found BGP entity owner")
+    controller = test_utils.get_odl_bgp_entity_owner(controllers)
+    if controller is None:
+        logger.error("Failed to find the BGP entity owner")
+        results.add_failure(msg)
+    else:
+        logger.info('BGP entity owner is {name}'
+                    .format(name = controller.name))
+        results.add_success(msg)
+    results.add_to_summary(0, "-")
+
+
+    #controller = controllers[0]  # We don't handle HA well
     get_ext_ip_cmd = "sudo ip a | grep br-ex | grep inet | awk '{print $2}'"
     ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).strip().split('\n')
     ext_net_mask = ext_net_cidr[0].split('/')[1]
@@ -68,24 +103,24 @@ def main():
 
     logger.info("Starting bgp speaker of controller at IP %s "
                 % controller_ext_ip)
-    logger.info("Checking if zrpcd is "
-                "running on the controller node")
+    #logger.info("Checking if zrpcd is "
+    #            "running on the controller node")
 
-    output_zrpcd = controller.run_cmd("ps --no-headers -C "
-                                      "zrpcd -o state")
-    states = output_zrpcd.split()
-    running = any([s != 'Z' for s in states])
+    #output_zrpcd = controller.run_cmd("ps --no-headers -C "
+    #                                  "zrpcd -o state")
+    #states = output_zrpcd.split()
+    #running = any([s != 'Z' for s in states])
 
-    msg = ("zrpcd is running")
+    #msg = ("zrpcd is running")
 
-    if not running:
-        logger.info("zrpcd is not running on the controller node")
-        results.add_failure(msg)
-    else:
-        logger.info("zrpcd is running on the controller node")
-        results.add_success(msg)
+    #if not running:
+    #    logger.info("zrpcd is not running on the controller node")
+    #    results.add_failure(msg)
+    #else:
+    #    logger.info("zrpcd is running on the controller node")
+    #    results.add_success(msg)
 
-    results.add_to_summary(0, "-")
+    #results.add_to_summary(0, "-")
 
     # Ensure that ZRPCD ip & port are well configured within ODL
     add_client_conn_to_bgp = "bgp-connect -p 7644 -h 127.0.0.1 add"
