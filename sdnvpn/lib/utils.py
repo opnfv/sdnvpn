@@ -900,3 +900,45 @@ def get_ovs_flows(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
                 cmd_out_lines += (compute_node.run_cmd(ovs_flows_cmd).strip().
                                   split("\n"))
     return cmd_out_lines
+
+
+def get_odl_bgp_entity_owner(controllers):
+    """ Finds the ODL owner of the BGP entity in the cluster.
+
+    When ODL runs in clustering mode we need to execute the BGP speaker
+    related commands to that ODL which is the owner of the BGP entity.
+
+    :param controllers: list of OS controllers
+    :return controller: OS controller in which ODL BGP entity owner runs
+    """
+    if len(controllers) == 1:
+        return controllers[0]
+    else:
+        url = ('http://admin:admin@{ip}:8081/restconf/'
+               'operational/entity-owners:entity-owners/entity-type/bgp'
+               .format(ip=controllers[0].ip))
+
+        remote_odl_akka_conf = ('/opt/opendaylight/configuration/'
+                                'initial/akka.conf')
+        remote_odl_home_akka_conf = '/home/heat-admin/akka.conf'
+        local_tmp_akka_conf = '/tmp/akka.conf'
+        try:
+            json_output = requests.get(url).json()
+        except Exception:
+            logger.error('Failed to find the ODL BGP '
+                         'entity owner through REST')
+            return None
+        odl_bgp_owner = json_output['entity-type'][0]['entity'][0]['owner']
+
+        for controller in controllers:
+
+            controller.run_cmd('sudo cp {0} /home/heat-admin/'
+                               .format(remote_odl_akka_conf))
+            controller.run_cmd('sudo chmod 777 {0}'
+                               .format(remote_odl_home_akka_conf))
+            controller.get_file(remote_odl_home_akka_conf, local_tmp_akka_conf)
+
+            for line in open(local_tmp_akka_conf):
+                if re.search(odl_bgp_owner, line):
+                    return controller
+        return None
