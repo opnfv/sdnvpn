@@ -70,6 +70,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_28d57343",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-07T08:21:53Z",
+      "side": 1,
+      "message": "Okay, Looks like it just provides owner as \"member-x\". Don\u0027t we need to find out ip address of this member node ? Even after retrieving it, i don\u0027t know what do you plan to do with it.\nI think we just need to find out on which ODL node zrpcd (on port 7644) running and make ODL to connect with it using bgp-connect.",
+      "parentUuid": "da5c1566_a864e3e5",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
