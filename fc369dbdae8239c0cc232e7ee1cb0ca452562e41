@@ -16,6 +16,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_2879f393",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-06-07T06:26:22Z",
+      "side": 1,
+      "message": "Hello Peri. I am not sure If Understand you correctly. Do you mean that there is some URL with will return the IP of BGP entity owner ? \nIf this is what you mean can you please provide to me that url because I do not know where to find it.\n\nAlso if we call this URL in noha is it going to work ?",
+      "parentUuid": "da5c1566_2d874563",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
