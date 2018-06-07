@@ -106,6 +106,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_482c274b",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-07T09:03:16Z",
+      "side": 1,
+      "message": "Sorry for commenting though it is not ready for review.\n\nAFAIK entity-ownership service is internal to ODL and not designed for external systems to make decisions based on this state.\nFor BGP, This service is being used start thrift server on port 6644, connect with zrpcd server (7644), etc. \nThough we run the bgp-connect command on any ODL node, finally ODL zrpcd thrift handshake happens from bgp entity member node.\n\nSo we just need to check on which ODL node zrpcd (on 7644) is running and make ODL to connect with it.\nI have discussed this with Dimitrios T earlier to check this out manually and adjust the testcase_3 accordingly.",
+      "parentUuid": "da5c1566_68464b25",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
