@@ -178,6 +178,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_a83b4337",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-06-07T12:11:02Z",
+      "side": 1,
+      "message": "Yes you are right I tested it again. You can run the bgp speaker commands from any ODL controller in the cluster but the commands will actually executed in the BGP entity owner.\n\nSorry for this !\n\nSo the only thing we need to check is if the bgpd service is up on one out of the three OS controllers.",
+      "parentUuid": "da5c1566_c8f7978b",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
