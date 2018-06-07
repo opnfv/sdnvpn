@@ -34,6 +34,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_6873ebb1",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-07T06:51:15Z",
+      "side": 1,
+      "message": "Yes, I just noticed netvirt is registering an ODL node as BGP speaker into entity-ownership service with \"bgp\" string as key. There is getOwnershipState(E forEntity) API from entity-ownership module which is used by netvirt. Not sure its also exposed as a REST RPC service. can you check it in restconf ?",
+      "parentUuid": "da5c1566_2879f393",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
