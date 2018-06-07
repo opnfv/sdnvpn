@@ -142,6 +142,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_c8d037fa",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-07T11:47:58Z",
+      "side": 1,
+      "message": "I can see (in ODL master code) start-bgp-server command can also run from any ODL nodes, but actual router configuration happens on the BGP entity owner ODL node. \n\nLet me include ODL BGP designer (Vyshakh) to comment on it.",
+      "parentUuid": "da5c1566_68b00bf5",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
