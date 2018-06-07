@@ -88,6 +88,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_68464b25",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-06-07T08:37:56Z",
+      "side": 1,
+      "message": "I am plannig to find out which member is the owner and after that I am going to ssh to evrey compute node and get the akka.conf file and ready the role variable in there. If the role variable is the same as the owner the we find out which ODL controller should we turn to BGP speaker.\n\nBut the patch is not ready let me write some code first and then we can discuss :)",
+      "parentUuid": "da5c1566_28d57343",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
