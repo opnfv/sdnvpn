@@ -52,6 +52,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_a864e3e5",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-06-07T07:11:23Z",
+      "side": 1,
+      "message": "I checked it: we can use this URL [0] which has this response [1]\n\n[0]: http://192.0.2.7:8081/restconf/operational/entity-owners:entity-owners/entity-type/bgp\n\n[1] {\"entity-type\":[{\"type\":\"bgp\",\"entity\":[{\"id\":\"/general-entity:entity[general-entity:name\u003d\u0027bgp\u0027]\",\"candidate\":[{\"name\":\"member-0\"},{\"name\":\"member-1\"},{\"name\":\"member-2\"}],\"owner\":\"member-0\"}]}]}\n\n\nI think we can use this. What do you think ?",
+      "parentUuid": "da5c1566_6873ebb1",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
