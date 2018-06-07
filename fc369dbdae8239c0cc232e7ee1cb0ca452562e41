@@ -160,6 +160,24 @@
       "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_c8f7978b",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-06-07T11:59:44Z",
+      "side": 1,
+      "message": "Yes ok let\u0027s wait Vyshakh to comment on this. In the meanwhile I will rerun the commands in case I missed something.",
+      "parentUuid": "da5c1566_c8d037fa",
+      "revId": "fc369dbdae8239c0cc232e7ee1cb0ca452562e41",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
