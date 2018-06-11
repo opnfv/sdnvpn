@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (c) 2017 All rights reserved
+# Copyright (c) 2018 All rights reserved
 # This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
@@ -16,7 +16,15 @@ import shutil
 
 import functest.opnfv_tests.openstack.tempest.conf_utils as tempest_utils
 
+from sdnvpn.lib import config as sdnvpn_config
+from sdnvpn.lib import openstack_utils as os_utils
+
+
 logger = logging.getLogger('sdnvpn-tempest')
+
+COMMON_CONFIG = sdnvpn_config.CommonConfig()
+TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
+    'sdnvpn.test.functest.run_tempest')
 
 
 def main():
@@ -39,18 +47,33 @@ def main():
         exit(-1)
     shutil.copy(src_tempest_conf, bgpvpn_tempest_conf)
 
+    _, img_ref = os_utils.get_or_create_image(TESTCASE_CONFIG.image_name,
+                                              COMMON_CONFIG.image_path,
+                                              COMMON_CONFIG.image_format,
+                                              extra_properties={})
+
+    nova_client = os_utils.get_nova_client()
+    flav_ref = os_utils.get_flavor_id(nova_client,
+                                      COMMON_CONFIG.default_flavor)
+
     logger.info("Copying tempest.conf to %s." % bgpvpn_tempest_conf)
     config = ConfigParser.RawConfigParser()
     config.read(bgpvpn_tempest_conf)
     config.set('service_available', 'bgpvpn', 'True')
     logger.debug("Updating %s with bgpvpn=True" % bgpvpn_tempest_conf)
+    config.set('compute', 'flavor_ref', flav_ref)
+    logger.debug("Updating %s with flavor_id %s"
+                 % (bgpvpn_tempest_conf, flav_ref))
+    config.set('compute', 'image_ref', img_ref)
+    logger.debug("Updating %s with image_id %s"
+                 % (bgpvpn_tempest_conf, img_ref))
     with open(bgpvpn_tempest_conf, 'wb') as tempest_conf:
         config.write(tempest_conf)
 
     # TODO: Though --config-file parameter is set during the tempest run,
     # it looks for tempest.conf at /etc/tempest/ directory. so applying
     # the following workaround. Will remove it when the root cause is found.
-    cmd = ("mkdir /etc/tempest;"
+    cmd = ("mkdir -p /etc/tempest;"
            "cp {0} /etc/tempest/tempest.conf".format(bgpvpn_tempest_conf))
     logger.info("Configuring default tempest conf file")
     os.popen(cmd)
