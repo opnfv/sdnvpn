@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_38366004",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-12T14:53:46Z",
+      "side": 1,
+      "message": "remove trailing space",
+      "revId": "e528618d6b36d70597a83189824fa5ea151197fd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
