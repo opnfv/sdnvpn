@@ -15,6 +15,7 @@ import sys
 import traceback
 import yaml
 
+from collections import OrderedDict
 from xtesting.core import feature
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import openstack_utils as os_utils
@@ -74,9 +75,11 @@ class SdnvpnFunctest(feature.Feature):
             config_yaml = yaml.safe_load(f)
 
         testcases = config_yaml.get("testcases")
+        testcases_ordered = OrderedDict(sorted(testcases.items(),
+                                               key=lambda x: x[1]['order']))
         overall_status = "PASS"
-        for tc in testcases:
-            if testcases[tc]['enabled']:
+        for tc, test_sdnvpn in testcases_ordered.items():
+            if test_sdnvpn['enabled']:
                 test_name = tc
                 test_descr = testcases[tc]['description']
                 title = ("Running '%s - %s'" %
