@@ -3,218 +3,230 @@ defaults:
 
 testcases:
   sdnvpn.test.functest.run_tempest:
-      enabled: true
-      description: Neutron BGPVPN tests in tempest
+    enabled: true
+    order: 0
+    description: Neutron BGPVPN tests in tempest
 
   sdnvpn.test.functest.testcase_1:
-      enabled: true
-      description: VPN provides connectivity between subnets
-      instance_1_name: sdnvpn-1-1
-      instance_2_name: sdnvpn-1-2
-      instance_3_name: sdnvpn-1-3
-      instance_4_name: sdnvpn-1-4
-      instance_5_name: sdnvpn-1-5
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-1-1-net
-      subnet_1_name: sdnvpn-1-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-1-1-router
-      net_2_name: sdnvpn-1-2-net
-      subnet_2_name: sdnvpn-1-2-subnet
-      subnet_2_cidr: 10.10.11.0/24
-      router_2_name: sdnvpn-1-2-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets1: '88:88'
-      targets2: '55:55'
-      route_distinguishers: '11:11'
+    enabled: true
+    order: 1
+    description: VPN provides connectivity between subnets
+    instance_1_name: sdnvpn-1-1
+    instance_2_name: sdnvpn-1-2
+    instance_3_name: sdnvpn-1-3
+    instance_4_name: sdnvpn-1-4
+    instance_5_name: sdnvpn-1-5
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-1-1-net
+    subnet_1_name: sdnvpn-1-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-1-1-router
+    net_2_name: sdnvpn-1-2-net
+    subnet_2_name: sdnvpn-1-2-subnet
+    subnet_2_cidr: 10.10.11.0/24
+    router_2_name: sdnvpn-1-2-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets1: '88:88'
+    targets2: '55:55'
+    route_distinguishers: '11:11'
 
   sdnvpn.test.functest.testcase_2:
-      enabled: true
-      description: Tenant separation
-      instance_1_name: sdnvpn-2-1
-      instance_2_name: sdnvpn-2-2
-      instance_3_name: sdnvpn-2-3
-      instance_4_name: sdnvpn-2-4
-      instance_5_name: sdnvpn-2-5
-      instance_1_ip: 10.10.10.11
-      instance_2_ip: 10.10.10.12
-      instance_3_ip: 10.10.11.13
-      instance_4_ip: 10.10.10.12
-      instance_5_ip: 10.10.11.13
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-2-1-net
-      subnet_1a_name: sdnvpn-2-1a-subnet
-      subnet_1a_cidr: 10.10.10.0/24
-      subnet_1b_name: sdnvpn-2-1b-subnet
-      subnet_1b_cidr: 10.10.11.0/24
-      router_1_name: sdnvpn-2-1-router
-      net_2_name: sdnvpn-2-2-net
-      subnet_2a_name: sdnvpn-2-2a-subnet
-      subnet_2a_cidr: 10.10.11.0/24
-      subnet_2b_name: sdnvpn-2-2b-subnet
-      subnet_2b_cidr: 10.10.10.0/24
-      router_2_name: sdnvpn-2-2-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets1: '88:88'
-      targets2: '55:55'
-      route_distinguishers1: '111:111'
-      route_distinguishers2: '222:222'
+    enabled: true
+    order: 2
+    description: Tenant separation
+    instance_1_name: sdnvpn-2-1
+    instance_2_name: sdnvpn-2-2
+    instance_3_name: sdnvpn-2-3
+    instance_4_name: sdnvpn-2-4
+    instance_5_name: sdnvpn-2-5
+    instance_1_ip: 10.10.10.11
+    instance_2_ip: 10.10.10.12
+    instance_3_ip: 10.10.11.13
+    instance_4_ip: 10.10.10.12
+    instance_5_ip: 10.10.11.13
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-2-1-net
+    subnet_1a_name: sdnvpn-2-1a-subnet
+    subnet_1a_cidr: 10.10.10.0/24
+    subnet_1b_name: sdnvpn-2-1b-subnet
+    subnet_1b_cidr: 10.10.11.0/24
+    router_1_name: sdnvpn-2-1-router
+    net_2_name: sdnvpn-2-2-net
+    subnet_2a_name: sdnvpn-2-2a-subnet
+    subnet_2a_cidr: 10.10.11.0/24
+    subnet_2b_name: sdnvpn-2-2b-subnet
+    subnet_2b_cidr: 10.10.10.0/24
+    router_2_name: sdnvpn-2-2-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets1: '88:88'
+    targets2: '55:55'
+    route_distinguishers1: '111:111'
+    route_distinguishers2: '222:222'
 
   sdnvpn.test.functest.testcase_3:
-      enabled: true
-      description: Data center gateway integration
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      image_name: sdnvpn-image
-      ubuntu_image_name: sdnvpn-ubuntu-image
-      net_1_name: sdnvpn-3-1-net
-      subnet_1_name: sdnvpn-3-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-3-1-router
-      quagga_net_name: sdnvpn-3-2-quagga-net
-      quagga_subnet_name: sdnvpn-3-2-quagga-subnet
-      quagga_subnet_cidr: 10.10.11.0/24
-      quagga_router_name: sdnvpn-3-2-quagga-router
-      quagga_instance_name: sdnvpn-3-2-quagga
-      quagga_instance_ip: 10.10.11.5
-      instance_1_name: sdnvpn-3-1
-      instance_1_ip: 10.10.10.5
-      import_targets: '31:31'
-      export_targets: '32:32'
+    enabled: true
+    order: 3
+    description: Data center gateway integration
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    image_name: sdnvpn-image
+    ubuntu_image_name: sdnvpn-ubuntu-image
+    net_1_name: sdnvpn-3-1-net
+    subnet_1_name: sdnvpn-3-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-3-1-router
+    quagga_net_name: sdnvpn-3-2-quagga-net
+    quagga_subnet_name: sdnvpn-3-2-quagga-subnet
+    quagga_subnet_cidr: 10.10.11.0/24
+    quagga_router_name: sdnvpn-3-2-quagga-router
+    quagga_instance_name: sdnvpn-3-2-quagga
+    quagga_instance_ip: 10.10.11.5
+    instance_1_name: sdnvpn-3-1
+    instance_1_ip: 10.10.10.5
+    import_targets: '31:31'
+    export_targets: '32:32'
 
 
   sdnvpn.test.functest.testcase_4:
-      enabled: true
-      description: VPN provides connectivity between subnets using router association
-      instance_1_name: sdnvpn-4-1
-      instance_2_name: sdnvpn-4-2
-      instance_3_name: sdnvpn-4-3
-      instance_4_name: sdnvpn-4-4
-      instance_5_name: sdnvpn-4-5
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-4-1-net
-      subnet_1_name: sdnvpn-4-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-4-1-router
-      net_2_name: sdnvpn-4-2-net
-      subnet_2_name: sdnvpn-4-2-subnet
-      subnet_2_cidr: 10.10.11.0/24
-      router_2_name: sdnvpn-4-2-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets1: '88:88'
-      targets2: '55:55'
-      route_distinguishers: '12:12'
+    enabled: true
+    order: 4
+    description: VPN provides connectivity between subnets using router association
+    instance_1_name: sdnvpn-4-1
+    instance_2_name: sdnvpn-4-2
+    instance_3_name: sdnvpn-4-3
+    instance_4_name: sdnvpn-4-4
+    instance_5_name: sdnvpn-4-5
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-4-1-net
+    subnet_1_name: sdnvpn-4-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-4-1-router
+    net_2_name: sdnvpn-4-2-net
+    subnet_2_name: sdnvpn-4-2-subnet
+    subnet_2_cidr: 10.10.11.0/24
+    router_2_name: sdnvpn-4-2-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets1: '88:88'
+    targets2: '55:55'
+    route_distinguishers: '12:12'
 
   sdnvpn.test.functest.testcase_7:
-      enabled: false
-      description: Network associate VPNs with routers attached (ODL Bug 6962)
-      image_name: sdnvpn-image
-      instance_1_name: sdnvpn-7-1
-      instance_2_name: sdnvpn-7-2
-      net_1_name: sdnvpn-7-1
-      subnet_1_name: sdnvpn-7-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-7-1-router
-      net_2_name: sdnvpn-7-2
-      subnet_2_name: sdnvpn-7-2-subnet
-      subnet_2_cidr: 10.10.20.0/24
-      router_2_name: sdnvpn-7-2-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets: '77:77'
-      route_distinguishers: '11:11'
+    enabled: false
+    order: 7
+    description: Network associate VPNs with routers attached (ODL Bug 6962)
+    image_name: sdnvpn-image
+    instance_1_name: sdnvpn-7-1
+    instance_2_name: sdnvpn-7-2
+    net_1_name: sdnvpn-7-1
+    subnet_1_name: sdnvpn-7-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-7-1-router
+    net_2_name: sdnvpn-7-2
+    subnet_2_name: sdnvpn-7-2-subnet
+    subnet_2_cidr: 10.10.20.0/24
+    router_2_name: sdnvpn-7-2-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets: '77:77'
+    route_distinguishers: '11:11'
 
   sdnvpn.test.functest.testcase_8:
-      enabled: true
-      description: Test floating IP and router assoc coexistence
-      image_name: sdnvpn-image
-      instance_1_name: sdnvpn-8-1
-      instance_2_name: sdnvpn-8-2
-      net_1_name: sdnvpn-8-1
-      subnet_1_name: sdnvpn-8-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-8-1-router
-      net_2_name: sdnvpn-8-2
-      subnet_2_name: sdnvpn-8-2-subnet
-      subnet_2_cidr: 10.10.20.0/24
-      router_2_name: sdnvpn-8-2-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets: '88:88'
-      route_distinguishers: '18:18'
-
+    enabled: true
+    order: 8
+    description: Test floating IP and router assoc coexistence
+    image_name: sdnvpn-image
+    instance_1_name: sdnvpn-8-1
+    instance_2_name: sdnvpn-8-2
+    net_1_name: sdnvpn-8-1
+    subnet_1_name: sdnvpn-8-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-8-1-router
+    net_2_name: sdnvpn-8-2
+    subnet_2_name: sdnvpn-8-2-subnet
+    subnet_2_cidr: 10.10.20.0/24
+    router_2_name: sdnvpn-8-2-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets: '88:88'
+    route_distinguishers: '18:18'
+      
   sdnvpn.test.functest.testcase_9:
-      enabled: true
-      description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
+    enabled: true
+    order: 9
+    description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
 
   sdnvpn.test.functest.testcase_10:
-      enabled: true
-      description: Test if interupts occure during ping, when removing and adding instances
-      instance_1_name: sdnvpn-10-1
-      instance_2_name: sdnvpn-10-2
-      instance_3_name: sdnvpn-10-3
-      instance_4_name: sdnvpn-10-4
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-10-1-net
-      subnet_1_name: sdnvpn-10-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-10-1-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
+    enabled: true
+    order: 10
+    description: Test if interupts occure during ping, when removing and adding instances
+    instance_1_name: sdnvpn-10-1
+    instance_2_name: sdnvpn-10-2
+    instance_3_name: sdnvpn-10-3
+    instance_4_name: sdnvpn-10-4
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-10-1-net
+    subnet_1_name: sdnvpn-10-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-10-1-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
 
   sdnvpn.test.functest.testcase_11:
-      enabled: true
-      description: Check relevant OVS groups are removed upon deletion of OpenStack topology
-      instance_1_name: sdnvpn-11-1
-      instance_2_name: sdnvpn-11-2
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-11-1-net
-      subnet_1_name: sdnvpn-11-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-11-1-router
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
+    enabled: true
+    order: 11
+    description: Check relevant OVS groups are removed upon deletion of OpenStack topology
+    instance_1_name: sdnvpn-11-1
+    instance_2_name: sdnvpn-11-2
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-11-1-net
+    subnet_1_name: sdnvpn-11-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-11-1-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
 
   sdnvpn.test.functest.testcase_12:
-      enabled: true
-      description: Check Flows and Groups are reprogrammed after OVS reconnect
-      instance_1_name: sdnvpn-12-1
-      instance_2_name: sdnvpn-12-2
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-12-1-net
-      subnet_1_name: sdnvpn-12-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
+    enabled: true
+    order: 12
+    description: Check Flows and Groups are reprogrammed after OVS reconnect
+    instance_1_name: sdnvpn-12-1
+    instance_2_name: sdnvpn-12-2
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-12-1-net
+    subnet_1_name: sdnvpn-12-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
 
   sdnvpn.test.functest.testcase_13:
-      enabled: true
-      description: Testing extra route ECMP for intra-data center scenario
-      instance_1_name: sdnvpn-13-1
-      instance_2_name: sdnvpn-13-2
-      instance_3_name: sdnvpn-13-3
-      image_name: sdnvpn-image
-      net_1_name: sdnvpn-13-1-net
-      subnet_1_name: sdnvpn-13-1-subnet
-      subnet_1_cidr: 10.10.10.0/24
-      router_1_name: sdnvpn-13-1-router
-      net_2_name: sdnvpn-13-2-net
-      subnet_2_name: sdnvpn-13-2-subnet
-      subnet_2_cidr: 10.10.11.0/24
-      router_2_name: sdnvpn-13-2-router
-      interface_name: lo
-      interface_number: 1
-      extra_route_cidr: 179.24.1.12/32
-      extra_route_ip: 179.24.1.12
-      extra_route_subnet_mask: 255.255.255.255
-      extra_route_name: sdnvpn_extra_route_13
-      secgroup_name: sdnvpn-sg
-      secgroup_descr: Security group for SDNVPN test cases
-      targets1: '88:88'
-      targets2: '88:88'
-      route_distinguishers:
-          - '12:12'
-          - '13:13'
+    enabled: true
+    order: 13
+    description: Testing extra route ECMP for intra-data center scenario
+    instance_1_name: sdnvpn-13-1
+    instance_2_name: sdnvpn-13-2
+    instance_3_name: sdnvpn-13-3
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-13-1-net
+    subnet_1_name: sdnvpn-13-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-13-1-router
+    net_2_name: sdnvpn-13-2-net
+    subnet_2_name: sdnvpn-13-2-subnet
+    subnet_2_cidr: 10.10.11.0/24
+    router_2_name: sdnvpn-13-2-router
+    interface_name: lo
+    interface_number: 1
+    extra_route_cidr: 179.24.1.12/32
+    extra_route_ip: 179.24.1.12
+    extra_route_subnet_mask: 255.255.255.255
+    extra_route_name: sdnvpn_extra_route_13
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets1: '88:88'
+    targets2: '88:88'
+    route_distinguishers:
+        - '12:12'
+        - '13:13'
