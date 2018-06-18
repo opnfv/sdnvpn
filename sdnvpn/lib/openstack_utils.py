@@ -539,6 +539,18 @@ def create_floating_ip(neutron_client):
     return {'fip_addr': fip_addr, 'fip_id': fip_id}
 
 
+def attach_floating_ip(neutron_client, port_id):
+    extnet_id = get_external_net_id(neutron_client)
+    props = {'floating_network_id': extnet_id,
+             'port_id': port_id}
+    try:
+        return neutron_client.create_floatingip({'floatingip': props})
+    except Exception as e:
+        logger.error("Error [Attach_floating_ip(neutron_client), %s]: %s"
+                     % (port_id, e))
+        return None
+
+
 def add_floating_ip(nova_client, server_id, floatingip_addr):
     try:
         nova_client.servers.add_floating_ip(server_id, floatingip_addr)

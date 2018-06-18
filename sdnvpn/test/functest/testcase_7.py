@@ -151,17 +151,18 @@ def main():
         results.record_action(msg)
         results.add_to_summary(0, '-')
 
-        fip = os_utils.create_floating_ip(neutron_client)
-        fip_added = os_utils.add_floating_ip(nova_client, vm_2.id,
-                                             fip['fip_addr'])
+        vm2_port = test_utils.get_port(neutron_client,
+                                       vm_2.id)
+        fip_added = os_utils.attach_floating_ip(neutron_client,
+                                                vm2_port['id'])
         if fip_added:
             results.add_success(msg)
         else:
             results.add_failure(msg)
 
-        results.ping_ip_test(fip['fip_addr'])
+        results.ping_ip_test(fip_added['floatingip']['floating_ip_address'])
 
-        floatingip_ids.append(fip['fip_id'])
+        floatingip_ids.append(fip_added['floatingip']['id'])
 
     except Exception as e:
         logger.error("exception occurred while executing testcase_7: %s", e)

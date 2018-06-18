@@ -234,13 +234,11 @@ def main():
         # this to work.
         # We also create the FIP first because it is used in the
         # cloud-init script.
-        fip = os_utils.create_floating_ip(neutron_client)
         # fake_fip is needed to bypass NAT
         # see below for the reason why.
         fake_fip = os_utils.create_floating_ip(neutron_client)
-
-        floatingip_ids.extend([fip['fip_id'], fake_fip['fip_id']])
         # pin quagga to some compute
+        floatingip_ids.append(fake_fip['fip_id'])
         compute_node = nova_client.hypervisors.list()[0]
         quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
         # Map the hypervisor used above to a compute handle
@@ -267,16 +265,19 @@ def main():
 
         instance_ids.append(quagga_vm)
 
-        fip_added = os_utils.add_floating_ip(nova_client,
-                                             quagga_vm.id,
-                                             fip['fip_addr'])
+        quagga_vm_port = test_utils.get_port(neutron_client,
+                                             quagga_vm.id)
+        fip_added = os_utils.attach_floating_ip(neutron_client,
+                                                quagga_vm_port['id'])
 
         msg = ("Assign a Floating IP to %s " %
                TESTCASE_CONFIG.quagga_instance_name)
         if fip_added:
             results.add_success(msg)
+            floatingip_ids.append(fip_added['floatingip']['id'])
         else:
             results.add_failure(msg)
+
         test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
         try:
