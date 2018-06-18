@@ -267,9 +267,11 @@ def main():
 
         instance_ids.append(quagga_vm)
 
-        fip_added = os_utils.add_floating_ip(nova_client,
-                                             quagga_vm.id,
-                                             fip['fip_addr'])
+        quagga_vm_port = test_utils.get_port(neutron_client,
+                                             quagga_vm.id)
+        fip_added = os_utils.attach_floating_ip(neutron_client,
+                                                fip['fip_addr'],
+                                                quagga_vm_port['id'])
 
         msg = ("Assign a Floating IP to %s " %
                TESTCASE_CONFIG.quagga_instance_name)

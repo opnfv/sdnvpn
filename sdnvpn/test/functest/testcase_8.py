@@ -155,9 +155,11 @@ def main():
         results.record_action(msg)
 
         fip = os_utils.create_floating_ip(neutron_client)
+        vm1_port = test_utils.get_port(neutron_client, vm_1.id)
+        fip_added = os_utils.attach_floating_ip(neutron_client,
+                                                fip['fip_addr'],
+                                                vm1_port['id'])
 
-        fip_added = os_utils.add_floating_ip(nova_client,
-                                             vm_1.id, fip['fip_addr'])
         if fip_added:
             results.add_success(msg)
         else:
