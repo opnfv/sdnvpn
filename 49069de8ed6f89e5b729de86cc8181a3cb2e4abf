@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_50db241b",
+        "filename": "sdnvpn/lib/openstack_utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-06-18T14:54:11Z",
+      "side": 1,
+      "message": "there should not be a space before closing quote",
+      "range": {
+        "startLine": 546,
+        "startChar": 13,
+        "endLine": 546,
+        "endChar": 23
+      },
+      "revId": "49069de8ed6f89e5b729de86cc8181a3cb2e4abf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_b03a8034",
+        "filename": "sdnvpn/test/functest/testcase_7.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-06-18T14:54:11Z",
+      "side": 1,
+      "message": "should not be there",
+      "range": {
+        "startLine": 156,
+        "startChar": 46,
+        "endLine": 156,
+        "endChar": 49
+      },
+      "revId": "49069de8ed6f89e5b729de86cc8181a3cb2e4abf",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
