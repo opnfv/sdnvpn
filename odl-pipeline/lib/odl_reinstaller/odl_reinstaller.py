@@ -8,6 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 #
+import os
 import re
 import time
 
@@ -18,6 +19,8 @@ from utils.utils_log import LOG, for_all_methods, log_enter_exit
 from utils.service import Service
 from utils.node_manager import NodeManager
 from utils import utils_yaml
+
+ODL_SYSTEMD = '/usr/lib/systemd/system/opendaylight.service'
 
 
 @for_all_methods(log_enter_exit)
@@ -46,12 +49,21 @@ class ODLReInstaller(Service):
                 if 'controller' in node.execute('echo $HOSTNAME')[0]:
                     first_controller = node
             # Check if ODL runs on this node
-            rv, _ = node.execute('ps aux |grep -v grep |grep karaf',
-                                 as_root=True, check_exit_code=[0, 1])
-            if 'java' in rv:
+            jrv, _ = node.execute('ps aux |grep -v grep |grep karaf',
+                                  as_root=True, check_exit_code=[0, 1])
+            rv, (_, rc) = node.execute('docker ps | grep opendaylight_api',
+                                       as_root=True, check_exit_code=[0, 1])
+            if rc == 0:
+                LOG.info("ODL is running as docker container")
+                node.execute('docker stop opendaylight_api', as_root=True)
                 self.odl_node = node
-                LOG.info("ODL node found: {}".format(self.odl_node.name))
+            elif 'java' in jrv:
+                LOG.info("ODL is running as systemd service")
+                self.odl_node = node
                 node.execute('systemctl stop opendaylight', as_root=True)
+
+            if self.odl_node is not None:
+                LOG.info("ODL node found: {}".format(self.odl_node.name))
                 # rc 5 means the service is not there.
                 node.execute('systemctl stop bgpd', as_root=True,
                              check_exit_code=[0, 5])
@@ -121,6 +133,14 @@ class ODLReInstaller(Service):
                          '/opt/opendaylight/'
                          % (tar_tmp_path + odl_artifact), as_root=True)
             node.execute('chown -R odl:odl /opt/opendaylight', as_root=True)
+            # check if systemd service exists (may not if this was a docker
+            # deployment)
+            if not node.is_file(ODL_SYSTEMD):
+                systemd_file = os.path.join(os.getcwd(),
+                                            'opendaylight.service')
+                node.copy('to', systemd_file, ODL_SYSTEMD,
+                          check_exit_code=True)
+                node.execute('systemctl daemon-reload', as_root=True)
         if '.rpm' in odl_artifact:
             LOG.info('Installing %s on node %s'
                      % (odl_artifact, node.name))
