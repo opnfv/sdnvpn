@@ -8,6 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 #
+import os
 import re
 import time
 
@@ -18,6 +19,9 @@ from utils.utils_log import LOG, for_all_methods, log_enter_exit
 from utils.service import Service
 from utils.node_manager import NodeManager
 from utils import utils_yaml
+
+ODL_SYSTEMD = '/usr/lib/systemd/system/opendaylight.service'
+ODL_AAA_JAR = '/opt/opendaylight/bin/aaa-cli-jar.jar'
 
 
 @for_all_methods(log_enter_exit)
@@ -46,17 +50,27 @@ class ODLReInstaller(Service):
                 if 'controller' in node.execute('echo $HOSTNAME')[0]:
                     first_controller = node
             # Check if ODL runs on this node
-            rv, _ = node.execute('ps aux |grep -v grep |grep karaf',
-                                 as_root=True, check_exit_code=[0, 1])
-            if 'java' in rv:
+            jrv, _ = node.execute('ps aux |grep -v grep |grep karaf',
+                                  as_root=True, check_exit_code=[0, 1])
+            rv, (_, rc) = node.execute('docker ps | grep opendaylight_api',
+                                       as_root=True, check_exit_code=[0, 1])
+            if rc == 0:
+                LOG.info("ODL is running as docker container")
+                node.execute('docker stop opendaylight_api', as_root=True)
                 self.odl_node = node
-                LOG.info("ODL node found: {}".format(self.odl_node.name))
+            elif 'java' in jrv:
+                LOG.info("ODL is running as systemd service")
+                self.odl_node = node
                 node.execute('systemctl stop opendaylight', as_root=True)
+
+            if self.odl_node is not None:
+                LOG.info("ODL node found: {}".format(self.odl_node.name))
                 # rc 5 means the service is not there.
+                # rc 4 means the service cannot be found
                 node.execute('systemctl stop bgpd', as_root=True,
-                             check_exit_code=[0, 5])
+                             check_exit_code=[0, 4, 5])
                 node.execute('systemctl stop zrpcd', as_root=True,
-                             check_exit_code=[0, 5])
+                             check_exit_code=[0, 4, 5])
 
             self.disconnect_ovs(node)
 
@@ -81,7 +95,7 @@ class ODLReInstaller(Service):
                     LOG.warning("NetVirt not detected as up after 10 "
                                 "attempts...deployment may be unstable!")
             counter += 1
-            time.sleep(10)
+            time.sleep(15)
 
         # Reconnect OVS instances
         LOG.info("Reconnecting OVS instances")
@@ -97,9 +111,11 @@ class ODLReInstaller(Service):
 
     def _start_service_if_enabled(self, node, service):
         # rc 3 means service inactive
+        # rc 4 means service cannot be found
         # rc 5 mean no service available
         status, _ = node.execute('systemctl status {}'.
-                                 format(service), check_exit_code=[0, 3, 5])
+                                 format(service), check_exit_code=[0, 3,
+                                                                   4, 5])
         if 'service; enabled' in status:
             LOG.info('Starting {}'.format(service))
             node.execute('systemctl start {}'.format(service), as_root=True)
@@ -115,11 +131,34 @@ class ODLReInstaller(Service):
         node.execute('rm -rf /opt/opendaylight/', as_root=True)
         node.execute('mkdir -p /opt/opendaylight/', as_root=True)
         if 'tar.gz' in odl_artifact:
+            # check if systemd service exists (may not if this was a docker
+            # deployment)
+            if not node.is_file(ODL_SYSTEMD):
+                LOG.info("Creating odl user, group, and systemd file")
+                # user/group may already exist so just ignore errors here
+                node.execute('groupadd odl', as_root=True,
+                             check_exit_code=False)
+                node.execute('useradd -g odl odl', as_root=True,
+                             check_exit_code=False)
+                systemd_file = os.path.join(os.getcwd(),
+                                            'opendaylight.service')
+                node.copy('to', systemd_file, '/tmp/opendaylight.service',
+                          check_exit_code=True)
+                node.execute('mv /tmp/opendaylight.service %s' % ODL_SYSTEMD,
+                             as_root=True)
+                node.execute('systemctl daemon-reload', as_root=True)
             LOG.info('Extracting %s to /opt/opendaylight/ on node %s'
                      % (odl_artifact, node.name))
             node.execute('tar -zxf %s --strip-components=1 -C '
                          '/opt/opendaylight/'
                          % (tar_tmp_path + odl_artifact), as_root=True)
+            # AAA CLI jar for creating ODL user will be missing in regular
+            # netvirt distro. Only part of full distro.
+            if not node.is_file(ODL_AAA_JAR):
+                LOG.info("ODL AAA CLI jar missing, will copy")
+                aaa_cli_file = os.path.join(os.getcwd(),
+                                            'aaa-cli-jar.jar')
+                node.copy('to', aaa_cli_file, ODL_AAA_JAR)
             node.execute('chown -R odl:odl /opt/opendaylight', as_root=True)
         if '.rpm' in odl_artifact:
             LOG.info('Installing %s on node %s'
@@ -129,7 +168,11 @@ class ODLReInstaller(Service):
                          % (tar_tmp_path + odl_artifact), as_root=True)
         node.execute('rm -rf ' + tar_tmp_path, as_root=True)
         LOG.info('Starting Opendaylight on node %s' % node.name)
+        # we do not want puppet-odl to install the repo or the package, so we
+        # use tags to ignore those resources
         node.execute('puppet apply -e "include opendaylight" '
+                     '--tags file,concat,file_line,augeas,odl_user,'
+                     'odl_keystore,service '
                      '--modulepath=/etc/puppet/modules/ '
                      '--verbose --debug --trace --detailed-exitcodes',
                      check_exit_code=[2], as_root=True)

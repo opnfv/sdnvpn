@@ -11,4 +11,24 @@ set -e
 export PYTHONPATH=$PYTHONPATH:$DIR
 mkdir -p $DIR/tmp
 cd $DIR
+cat > opendaylight.service << EOF
+[Unit]
+Description=OpenDaylight SDN Controller
+Documentation=https://wiki.opendaylight.org/view/Main_Page http://www.opendaylight.org/
+After=network.service
+
+[Service]
+Type=forking
+ExecStart=/opt/opendaylight/bin/start
+Environment=_JAVA_OPTIONS='-Djava.net.preferIPv4Stack=true'
+User=odl
+Group=odl
+SuccessExitStatus=143
+LimitNOFILE=102400
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+EOF
+curl --fail --silent -L -O http://artifacts.opnfv.org/apex/random/aaa-cli-jar.jar
 python ./odl_reinstaller/odl_reinstaller.py $@
