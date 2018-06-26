@@ -71,6 +71,16 @@ class SdnvpnFunctest(feature.Feature):
                 os_utils.delete_floating_ip(
                     neutron_client, floating_ip['id'])
 
+	# Workaround for 
+	# https://jira.opnfv.org/browse/SNAPS-318
+        # Clean up the stale routers
+        logger.info("Cleaning up the stale routers")
+        router_ids = os_utils.get_router_list(neutron_client) 
+        if len(router_ids) is not None:
+            for router_id in router_ids:
+                os_utils.delete_neutron_router(
+                    neutron_client, router_id['id'])
+
         with open(COMMON_CONFIG.config_file) as f:
             config_yaml = yaml.safe_load(f)
 
