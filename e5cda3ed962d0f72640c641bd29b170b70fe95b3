@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_1e588d31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-27T08:42:20Z",
+      "side": 1,
+      "message": "commit message should be like below:\n\n\u003csummary of change\u003e\n\n\u003cdetailed description of the change\u003e\n\nJIRA: SNAP-318",
+      "revId": "e5cda3ed962d0f72640c641bd29b170b70fe95b3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_9e349ddf",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-27T08:42:20Z",
+      "side": 1,
+      "message": "remove tab and trailing space",
+      "revId": "e5cda3ed962d0f72640c641bd29b170b70fe95b3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_de4d7574",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-27T08:42:20Z",
+      "side": 1,
+      "message": "just change it to routers instead of router_ids",
+      "revId": "e5cda3ed962d0f72640c641bd29b170b70fe95b3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da5c1566_7e31c9eb",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-27T08:42:20Z",
+      "side": 1,
+      "message": "its also good to do os_utils.remove_gateway_router(neutron_client, router[\u0027id\u0027])",
+      "revId": "e5cda3ed962d0f72640c641bd29b170b70fe95b3",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
