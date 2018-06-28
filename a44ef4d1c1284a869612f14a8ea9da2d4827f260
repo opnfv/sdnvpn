@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da5c1566_ef2c014d",
+        "filename": "sdnvpn/test/functest/run_sdnvpn_tests.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-06-28T08:45:49Z",
+      "side": 1,
+      "message": "This should be done before deleting the router. Also delete only the neutron ports which has \u0027device_owner\u0027 field set to \u0027network:router_interface\u0027",
+      "revId": "a44ef4d1c1284a869612f14a8ea9da2d4827f260",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
