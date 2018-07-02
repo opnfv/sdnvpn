@@ -1,22 +1,25 @@
 #! /bin/bash
 
 set -xe
-
 # change the password because this script is run on a passwordless cloud-image
 echo 'ubuntu:opnfv' | chpasswd
 
 # Wait for a floating IP
 # as a workaround to NAT breakage
-sleep 20
+sleep 100
 
 # Variables to be filled in with python
-NEIGHBOR_IP=%s
-OWN_IP=%s
+NEIGHBOR_IP=$1
+OWN_IP=$2
 # directly access the instance from the external net without NAT
-EXT_NET_MASK=%s
+EXT_NET_MASK=$3
+IP_PREFIX=$4
+RD=$5
+IRT=$6
+ERT=$7
 
 if [[ $(getent hosts | awk '{print $2}') != *"$(cat /etc/hostname | awk '{print $1}')"* ]]
-then 
+then
 echo "127.0.1.1 $(cat /etc/hostname | awk '{print $1}')" | tee -a /etc/hosts
 fi
 
@@ -37,60 +40,53 @@ fi
 ip link set $quagga_int up
 ip addr add $OWN_IP/$EXT_NET_MASK dev $quagga_int
 
-ZEBRA_CONFIG_LOCATION="/etc/quagga/zebra.conf"
-DAEMONS_FILE_LOCATION="/etc/quagga/daemons"
-BGPD_CONFIG_LOCATION="/etc/quagga/bgpd.conf"
-BGPD_LOG_FILE="/var/log/bgpd.log"
+# Download quagga/zrpc rpms
+cd /root
+wget http://artifacts.opnfv.org/sdnvpn/quagga4/quagga-ubuntu-updated.tar.gz
+tar -xvf quagga-ubuntu-updated.tar.gz
+cd /root/quagga
+dpkg -i c-capnproto_1.0.2.75f7901.Ubuntu16.04_amd64.deb
+dpkg -i zmq_4.1.3.56b71af.Ubuntu16.04_amd64.deb
+dpkg -i quagga_1.1.0.cd8ab40.Ubuntu16.04_amd64.deb
+dpkg -i thrift_1.0.0.b2a4d4a.Ubuntu16.04_amd64.deb
+dpkg -i zrpc_0.2.0efd19f.thriftv4.Ubuntu16.04_amd64.deb
 
-# Quagga is already installed to run as well in setups without inet
-# dns fix
-# echo "nameserver 8.8.8.8" > /etc/resolvconf/resolv.conf.d/head
-# resolvconf -u
-# DEBIAN_FRONTEND=noninteractive apt-get update
-# DEBIAN_FRONTEND=noninteractive apt-get install quagga -y
+nohup /opt/quagga/sbin/bgpd &
 
-touch $BGPD_LOG_FILE
-chown quagga:quagga $BGPD_LOG_FILE
-
-chown quagga:quagga $DAEMONS_FILE_LOCATION
-cat <<CATEOF > $DAEMONS_FILE_LOCATION
-zebra=yes
-bgpd=yes
-ospfd=no
-ospf6d=no
-ripd=no
-ripngd=no
-isisd=no
-babeld=no
-CATEOF
-
-touch $ZEBRA_CONFIG_LOCATION
-chown quagga:quagga $ZEBRA_CONFIG_LOCATION
-
-cat <<CATEOF > $BGPD_CONFIG_LOCATION
-! -*- bgp -*-
-
-hostname bgpd
-password sdncbgpc
-
+cat > /tmp/quagga-config << EOF1
+config terminal
 router bgp 200
- bgp router-id ${OWN_IP}
- neighbor ${NEIGHBOR_IP} remote-as 100
- no neighbor ${NEIGHBOR_IP} activate
+ bgp router-id $OWN_IP
+ no bgp log-neighbor-changes
+ bgp graceful-restart stalepath-time 90
+ bgp graceful-restart restart-time 900
+ bgp graceful-restart
+ bgp graceful-restart preserve-fw-state
+ bgp bestpath as-path multipath-relax
+ neighbor $NEIGHBOR_IP remote-as 100
+ no neighbor $NEIGHBOR_IP activate
+ vrf $RD
+  rd $RD
+  rt import $IRT
+  rt export $ERT
+ exit
 !
- address-family vpnv4 unicast
- neighbor ${NEIGHBOR_IP} activate
- exit-address-family
+address-family vpnv4
+neighbor $NEIGHBOR_IP activate
+neighbor $NEIGHBOR_IP attribute-unchanged next-hop
+exit
 !
-line vty
- exec-timeout 0 0
+route-map map permit 1
+ set ip next-hop $OWN_IP
+exit
 !
-debug bgp events
-debug bgp  updates
-log file ${BGPD_LOG_FILE}
-end
-CATEOF
-chown quagga:quagga $BGPD_CONFIG_LOCATION
-service quagga restart
-pgrep bgpd
-pgrep zebra
+router bgp 200
+address-family vpnv4
+network $IP_PREFIX rd $RD tag 100 route-map map
+exit
+!
+EOF1
+
+sleep 20
+
+(sleep 1;echo "sdncbgpc";sleep 1;cat /tmp/quagga-config;sleep 1; echo "exit") |nc -q1 localhost 2605

@@ -7,6 +7,7 @@
 #
 # http://www.apache.org/licenses/LICENSE-2.0
 #
+import json
 import logging
 import os
 import time
@@ -14,6 +15,7 @@ import requests
 import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
+from requests.auth import HTTPBasicAuth
 
 from opnfv.deployment.factory import Factory as DeploymentFactory
 
@@ -942,3 +944,41 @@ def get_odl_bgp_entity_owner(controllers):
                 if re.search(odl_bgp_owner, line):
                     return controller
         return None
+
+
+def add_quagga_external_gre_end_point(controllers, remote_tep_ip):
+    json_body = {'input':
+                 {'destination-ip': remote_tep_ip,
+                  'tunnel-type': "odl-interface:tunnel-type-mpls-over-gre"}
+                 }
+    url = ('http://{ip}:8081/restconf/operations/'
+           'itm-rpc:add-external-tunnel-endpoint'.format(ip=controllers[0].ip))
+    headers = {'Content-type': 'application/yang.data+json',
+               'Accept': 'application/yang.data+json'}
+    try:
+        requests.post(url, data=json.dumps(json_body),
+                      headers=headers,
+                      auth=HTTPBasicAuth('admin', 'admin'))
+    except Exception as e:
+        logger.error("Failed to create external tunnel endpoint on"
+                     " ODL for external tep ip %s with error %s"
+                     % (remote_tep_ip, e))
+    return None
+
+
+def is_fib_entry_present_on_odl(controllers, ip_prefix, vrf_id):
+    url = ('http://admin:admin@{ip}:8081/restconf/config/odl-fib:fibEntries/'
+           'vrfTables/{vrf}/'.format(ip=controllers[0].ip, vrf=vrf_id))
+    logger.error("url is %s" % url)
+    try:
+        vrf_table = requests.get(url).json()
+        is_ipprefix_exists = False
+        for vrf_entry in vrf_table['vrfTables'][0]['vrfEntry']:
+            if vrf_entry['destPrefix'] == ip_prefix:
+                is_ipprefix_exists = True
+                break
+        return is_ipprefix_exists
+    except Exception as e:
+        logger.error('Failed to find ip prefix %s with error %s'
+                     % (ip_prefix, e))
+    return False
