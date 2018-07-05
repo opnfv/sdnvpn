@@ -14,9 +14,10 @@ OWN_IP=$2
 # directly access the instance from the external net without NAT
 EXT_NET_MASK=$3
 IP_PREFIX=$4
-RD=$5
-IRT=$6
-ERT=$7
+LABEL=$5
+RD=$6
+IRT=$7
+ERT=$8
 
 if [[ $(getent hosts | awk '{print $2}') != *"$(cat /etc/hostname | awk '{print $1}')"* ]]
 then
@@ -82,7 +83,7 @@ exit
 !
 router bgp 200
 address-family vpnv4
-network $IP_PREFIX rd $RD tag 100 route-map map
+network $IP_PREFIX rd $RD tag $LABEL route-map map
 exit
 !
 EOF1

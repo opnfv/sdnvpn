@@ -235,3 +235,33 @@ testcases:
     route_distinguishers:
         - '12:12'
         - '13:13'
+
+  sdnvpn.test.functest.testcase_14:
+    enabled: true
+    order: 14
+    description: Testing ECMP for the routes advertised from DC-GW
+    instance_1_name: sdnvpn-14-1
+    image_name: sdnvpn-image
+    net_1_name: sdnvpn-14-1-net
+    subnet_1_name: sdnvpn-14-1-subnet
+    subnet_1_cidr: 10.10.10.0/24
+    router_1_name: sdnvpn-13-1-router
+    secgroup_name: sdnvpn-sg
+    secgroup_descr: Security group for SDNVPN test cases
+    targets1: '88:88'
+    targets2: '88:88'
+    route_distinguishers:
+        - '12:12'
+        - '13:13'
+    external_network_name: External Network in Quagga VM
+    external_network_ip_prefix: 30.1.1.1/32
+    external_network_ip: 30.1.1.1
+    external_ip_label_dcgw_1: 100
+    external_ip_label_dcgw_1: 200
+    quagga_net_name: sdnvpn-14-1-quagga-net
+    quagga_subnet_name: sdnvpn-14-1-quagga-subnet
+    quagga_subnet_cidr: 10.10.11.0/24
+    quagga_router_name: sdnvpn-14-1-quagga-router
+    quagga_instance_name_1: sdnvpn-14-1-quagga
+    quagga_instance_name_2: sdnvpn-14-2-quagga
+

@@ -186,7 +186,7 @@ https://wiki.opnfv.org/display/sdnvpn/SDNVPN+Testing
     Ping it
 
     Test Case 9 - Check fail mode in OVS br-int interfaces
-    This testcase checks if the fail mode is always “secure”.
+    This testcase checks if the fail mode is always secure.
     To accomplish it, a check is performed on all OVS br-int interfaces, for all OpenStack nodes.
     The testcase is considered as successful if all OVS br-int interfaces have fail_mode=secure
 
@@ -261,3 +261,22 @@ https://wiki.opnfv.org/display/sdnvpn/SDNVPN+Testing
    VMs ip addresses.
    Create VM3 and connected to the same network.
    Ping sub-interface IP address from VM3.
+
+   Testcase 14: Test ECMP for the external route advertised from two DC-GW
+   instances.
+   This testcase validates routes for the same external IP address from two
+   different DC-GWs are advertised to ODL and programmed in compute to achieve
+   the spray behavior when tenant VMs is trying to reach the external ip
+   address.
+
+   Setup procedure:
+   Create BGPVPN instance associated with a network which is attached with a
+   Tenant VM.
+   Bringup two VMs installed and configured with Quagga and establish BGP
+   neighborship between ODL and Quagga VMs.
+   Add External IP on both Quagga Instances with different MPLS labels.
+   Verify the FIB table in the ODL for the External IP.
+   Verify the LB group is created for both DC-GWs and FIB flow (Table 21)
+   is programmed with appropriate reg action for loading labels into
+   registers.
+
