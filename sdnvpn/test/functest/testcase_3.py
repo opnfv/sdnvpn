@@ -291,26 +291,22 @@ def main():
 
         test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
-        try:
-            testcase = "Bootstrap quagga inside an OpenStack instance"
-            cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
-            if cloud_init_success:
-                results.add_success(testcase)
-            else:
-                results.add_failure(testcase)
-            results.add_to_summary(0, "=")
+        testcase = "Bootstrap quagga inside an OpenStack instance"
+        cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
+        if cloud_init_success:
+            results.add_success(testcase)
+        else:
+            results.add_failure(testcase)
+        results.add_to_summary(0, "=")
 
-            results.add_to_summary(0, '-')
-            results.add_to_summary(1, "Peer Quagga with OpenDaylight")
-            results.add_to_summary(0, '-')
+        results.add_to_summary(0, '-')
+        results.add_to_summary(1, "Peer Quagga with OpenDaylight")
+        results.add_to_summary(0, '-')
 
-            neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
-                                               controller_ext_ip,
-                                               controller)
-            peer = quagga.check_for_peering(controller)
-
-        finally:
-            test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+        neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
+                                           controller_ext_ip,
+                                           controller)
+        peer = quagga.check_for_peering(controller)
 
         if neighbor and peer:
             results.add_success("Peering with quagga")
@@ -398,6 +394,7 @@ def main():
         logger.error("exception occurred while executing testcase_3: %s", e)
         raise
     finally:
+        test_utils.detach_instance_from_ext_br(quagga_vm, compute)
         test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
