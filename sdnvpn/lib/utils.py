@@ -14,6 +14,7 @@ import time
 import requests
 import re
 import subprocess
+import yaml
 from concurrent.futures import ThreadPoolExecutor
 from openstack.exceptions import ResourceNotFound
 from requests.auth import HTTPBasicAuth
@@ -987,3 +988,125 @@ def is_fib_entry_present_on_odl(controllers, ip_prefix, vrf_id):
         logger.error('Failed to find ip prefix %s with error %s'
                      % (ip_prefix, e))
     return False
+
+
+def wait_stack_for_status(heat_client, stack_id, stack_status, limit=12):
+    """ Waits to reach specified stack status. To be used with
+    CREATE_COMPLETE and UPDATE_COMPLETE.
+    Will try a specific number of attempts at 10sec intervals
+    (default 2min)
+
+    :param stack_id: the stack id returned by create_stack api call
+    :param stack_status: the stack status waiting for
+    :param limit: the maximum number of attempts
+    """
+    logger.debug("Stack '%s' create started" % stack_id)
+
+    stack_create_complete = False
+    attempts = 0
+    while attempts < limit:
+        kwargs = {
+            "filters": {
+                "id": stack_id
+            }
+        }
+        stack_st = os_utils.list_stack(
+                            heat_client, **kwargs).next().stack_status
+        if stack_st == stack_status:
+            stack_create_complete = True
+            break
+        attempts += 1
+        time.sleep(10)
+
+    logger.debug("Stack status check: %s times" % attempts)
+    if stack_create_complete is False:
+        logger.error("Stack create failed")
+        raise SystemError("Stack create failed")
+        return False
+
+    return True
+
+
+def delete_stack_and_wait(heat_client, stack_id, limit=12):
+    """ Starts and waits for completion of delete stack
+
+    Will try a specific number of attempts at 10sec intervals
+    (default 2min)
+
+    :param stack_id: the id of the stack to be deleted
+    :param limit: the maximum number of attempts
+    """
+    delete_started = False
+    if stack_id is not None:
+        delete_started = os_utils.delete_stack(heat_client, stack_id)
+
+    if delete_started is True:
+        logger.debug("Stack delete succesfully started")
+    else:
+        logger.error("Stack delete start failed")
+
+    stack_delete_complete = False
+    attempts = 0
+    while attempts < limit:
+        kwargs = {
+            "filters": {
+                "id": stack_id
+            }
+        }
+        try:
+            stack_st = os_utils.list_stack(
+                                heat_client, **kwargs).next().stack_status
+            if stack_st == 'DELETE_COMPLETE':
+                stack_delete_complete = True
+                break
+            attempts += 1
+            time.sleep(10)
+        except StopIteration:
+            stack_delete_complete = True
+            break
+
+    logger.debug("Stack status check: %s times" % attempts)
+    if not stack_delete_complete:
+        logger.error("Stack delete failed")
+        raise SystemError("Stack delete failed")
+        return False
+
+    return True
+
+
+def get_heat_environment(testcase, common_config):
+    """ Reads the heat parameters of a testcase into a yaml object
+
+    Each testcase where Heat Orchestratoin Template (HOT) is introduced
+    has an associated parameters section.
+    Reads testcase.heat_parameters section and read COMMON_CONFIG.flavor
+    and place it under parameters tree.
+
+    :param testcase: the tescase for which the HOT file is fetched
+    :param common_config: the common config section
+    :return environment: a yaml object to be used as environment
+    """
+    fl = common_config.default_flavor
+    param_dict = testcase.heat_parameters
+    param_dict['flavor'] = fl
+    env_dict = {'parameters': param_dict}
+    environment = yaml.safe_dump(env_dict, default_flow_style=False)
+    return environment
+
+
+def get_vms_from_stack_outputs(heat_client, conn,
+                               stack_id, vm_stack_output_keys):
+    """ Converts a vm name from a heat stack output to a nova vm object
+
+    :param stack_id: the id of the stack to fetch the vms from
+    :param vm_stack_output_keys: a list of stack outputs with the vm names
+    :return vms: a list of vm objects corresponding to the outputs
+    """
+    vms = []
+    for vmk in vm_stack_output_keys:
+        vm_output = os_utils.get_output(heat_client, stack_id, vmk)
+        vm_name = vm_output['output']['output_value']
+        logger.debug("vm '%s' read from heat output" % vm_name)
+        vm = os_utils.get_instance_by_name(conn, vm_name)
+        vms.append(vm)
+    return vms
