@@ -14,6 +14,7 @@ import time
 import requests
 import re
 import subprocess
+import yaml
 from concurrent.futures import ThreadPoolExecutor
 from requests.auth import HTTPBasicAuth
 
@@ -982,3 +983,48 @@ def is_fib_entry_present_on_odl(controllers, ip_prefix, vrf_id):
         logger.error('Failed to find ip prefix %s with error %s'
                      % (ip_prefix, e))
     return False
+
+
+def get_heat_environment(testcase, common_config):
+    """ Reads the heat parameters of a testcase into a yaml object
+
+    Each testcase where Heat Orchestratoin Template (HOT) is introduced
+    has an associated parameters section.
+    Reads testcase.heat_parameters section and read COMMON_CONFIG.flavor
+    and place it under parameters tree.
+
+    :param testcase: the tescase for which the HOT file is fetched
+    :param common_config: the common config section
+    :return environment: a yaml object to be used as environment
+    """
+    fl = common_config.default_flavor
+    param_dict = testcase.heat_parameters
+    param_dict['flavor'] = fl
+    env_dict = {'parameters': param_dict}
+    environment = yaml.dump(env_dict, default_flow_style=False)
+    return environment
+
+
+def get_vms_from_stack_outputs(heat_client, nova_client,
+                               stack_id, vm_stack_output_keys):
+    """ Converts a vm name from a heat stack output to a nova vm object
+
+    :param stack_id: the id of the stack to fetch the vms from
+    :param vm_stack_output_keys: a list of stack outputs with the vm names
+    :return vms: a list of vm objects corresponding to the outputs
+    """
+    # TODO: Currently, vm names are read from stack output and
+    # vm object is fetched from nova client.
+    # This is not so elegant and in the future, a way to
+    # get the object without the use of nova client
+    # is going to be investigated.
+    # (note: seems that vm console log is only accessed through nova api?)
+    vms = []
+    for vmk in vm_stack_output_keys:
+        vm_output = os_utils.get_output(heat_client, stack_id, vmk)
+        o = vm_output['output']
+        vm_name = o['output_value']
+        logger.debug("vm '%s' read from heat output" % vm_name)
+        vm = os_utils.get_instance_by_name(nova_client, vm_name)
+        vms.append(vm)
+    return vms

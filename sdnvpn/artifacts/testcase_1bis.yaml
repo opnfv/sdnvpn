@@ -1,0 +1,309 @@
+heat_template_version: 2013-05-23
+
+description: >
+  Template for SDNVPN testcase 1 
+  VPN provides connectivity between subnets
+
+parameters:
+  # for testing - to be removed in final
+  external_network:
+    type: string
+    description: external network id
+    default: 159ae123-ca56-48e2-906e-7a2cee9297c2
+
+  flavor:
+    type: string
+    description: flavor for the servers to be created
+    constraints:
+      - custom_constraint: nova.flavor
+  image_uuid:
+    type: string
+    description: image for the servers to be created
+    constraints:
+      - custom_constraint: glance.image
+  av_zone_1:
+    type: string
+    description: availability zone 1
+  av_zone_2:
+    type: string
+    description: availability zone 2
+    
+  net_1_name:
+    type: string
+    description: network 1
+  subnet_1_name:
+    type: string
+    description: subnet 1 name
+  subnet_1_cidr:
+    type: string
+    description: subnet 1 cidr
+  net_2_name:
+    type: string
+    description: network 2
+  subnet_2_name:
+    type: string
+    description: subnet 2 name
+  subnet_2_cidr:
+    type: string
+    description: subnet 1 cidr
+
+  secgroup_name:
+    type: string
+    description: security group name
+  secgroup_descr:
+    type: string
+    description: security group slogan
+
+  instance_1_name:
+    type: string
+    description: instance name
+  instance_2_name:
+    type: string
+    description: instance name
+  instance_3_name:
+    type: string
+    description: instance name
+  instance_4_name:
+    type: string
+    description: instance name
+  instance_5_name:
+    type: string
+    description: instance name
+
+  ping_count:
+    type: string
+    description: ping count for user data script
+    default: 10
+
+  # for testing - to be removed in final
+  router_1_name:
+    type: string
+    description: router 1 name
+    default: sdnvpn-1-1-router
+  router_2_name:
+    type: string
+    description: router 1 name
+    default: sdnvpn-1-2-router
+
+
+resources:
+  net_1:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_1_name }
+  subnet_1:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_1_name }
+      network: { get_resource: net_1 }
+      cidr: { get_param: subnet_1_cidr }
+  net_2:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_2_name }
+  subnet_2:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_2_name }
+      network: { get_resource: net_2 }
+      cidr: { get_param: subnet_2_cidr }
+
+  sec_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: { get_param: secgroup_name }
+      description: { get_param: secgroup_descr }
+      rules: 
+        - protocol: icmp
+          remote_ip_prefix: 0.0.0.0/0
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+          remote_ip_prefix: 0.0.0.0/0
+
+  vm1:
+    type: OS::Nova::Server
+    depends_on: [ vm2, vm3, vm4, vm5 ]
+    properties:
+      name: { get_param: instance_1_name }
+      image: { get_param: image_uuid }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_1 }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            set $IP_VM2 $IP_VM3 $IP_VM4 $IP_VM5
+            while true; do
+             for i do
+              ip=$i
+              ping -c $COUNT $ip 2>&1 >/dev/null
+              RES=$?
+              if [ \"Z$RES\" = \"Z0\" ] ; then
+               echo ping $ip OK
+              else echo ping $ip KO
+              fi
+              done
+             sleep 1
+            done
+          params:
+            $IP_VM2: { get_attr: [vm2, addresses, { get_resource: net_1}, 0, addr] }
+            $IP_VM3: { get_attr: [vm3, addresses, { get_resource: net_1}, 0, addr] }
+            $IP_VM4: { get_attr: [vm4, addresses, { get_resource: net_2}, 0, addr] }
+            $IP_VM5: { get_attr: [vm5, addresses, { get_resource: net_2}, 0, addr] }
+            $COUNT: { get_param: ping_count }
+  vm2:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: instance_2_name }
+      image: { get_param: image_uuid }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups:
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_1 }
+  vm3:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: instance_3_name }
+      image: { get_param: image_uuid }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_2 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_1 }
+  vm4:
+    type: OS::Nova::Server
+    depends_on: vm5
+    properties:
+      name: { get_param: instance_4_name }
+      image: { get_param: image_uuid }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_2 }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            set $IP_VM5
+            while true; do
+             for i do
+              ip=$i
+              ping -c $COUNT $ip 2>&1 >/dev/null
+              RES=$?
+              if [ \"Z$RES\" = \"Z0\" ] ; then
+               echo ping $ip OK
+              else echo ping $ip KO
+              fi
+              done
+             sleep 1
+            done
+          params:
+            $IP_VM5: { get_attr: [vm5, addresses, { get_resource: net_2}, 0, addr] }
+            $COUNT: { get_param: ping_count }
+
+  vm5:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: instance_5_name }
+      image: { get_param: image_uuid }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_2 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_2 }
+
+# for testing - to be removed in final
+  router1:
+    type: OS::Neutron::Router
+    properties:
+      name: { get_param: router_1_name }
+  router1_gw:
+    type: OS::Neutron::RouterGateway
+    properties:
+      network_id: { get_param: external_network }
+      router_id: { get_resource: router1 }
+  router1_internal:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router1 }
+      subnet_id: { get_resource: subnet_1 }
+  router2:
+    type: OS::Neutron::Router
+    properties:
+      name: { get_param: router_2_name }
+  router2_gw:
+    type: OS::Neutron::RouterGateway
+    properties:
+      network_id: { get_param: external_network }
+      router_id: { get_resource: router2 }
+  router2_internal:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router2 }
+      subnet_id: { get_resource: subnet_2 }
+
+  vm1_public:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: external_network }
+  vm1_public_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: vm1_public }
+      port_id: {get_attr: [vm1, addresses, {get_resource: net_1}, 0, port]}
+
+
+outputs:
+  net_1_o:
+    description: the id of network 1 
+    value: { get_attr: [net_1, show, id] }
+  net_2_o:
+    description: the id of network 2 
+    value: { get_attr: [net_2, show, id] }
+  vm1_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm2_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm3_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm4_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm5_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+# for testing - to be removed in final
+  vm1_ip:
+    description: the internal network ip of the deployed vm
+    value: { get_attr: [vm1, addresses, { get_resource: net_1}, 0, addr] }
+  vm2_ip:
+    description: the internal network ip of the deployed vm
+    value: { get_attr: [vm2, addresses, { get_resource: net_1}, 0, addr] }
+  vm3_ip:
+    description: the internal network ip of the deployed vm
+    value: { get_attr: [vm3, addresses, { get_resource: net_1}, 0, addr] }
+  vm4_ip:
+    description: the internal network ip of the deployed vm
+    value: { get_attr: [vm4, addresses, { get_resource: net_2}, 0, addr] }
+  vm5_ip:
+    description: the internal network ip of the deployed vm
+    value: { get_attr: [vm5, addresses, { get_resource: net_2}, 0, addr] }
+  vm1_external:
+    description: the floating ip associated to vm1
+    value: { get_attr: [ vm1_public, floating_ip_address ] }
