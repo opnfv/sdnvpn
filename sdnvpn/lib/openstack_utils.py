@@ -1505,3 +1505,39 @@ def get_resource(heat_client, stack_id, resource):
     except Exception as e:
         logger.error("Error [get_resource]: %s" % e)
         return None
+
+
+def create_stack(heat_client, **kwargs):
+    try:
+        stack = heat_client.stacks.create(**kwargs)
+        return stack['stack']['id']
+    except Exception as e:
+        logger.error("Error [create_stack]: %s" % e)
+        return None
+
+
+def delete_stack(heat_client, stack_id):
+    try:
+        heat_client.stacks.delete(stack_id)
+        return True
+    except Exception as e:
+        logger.error("Error [delete_stack]: %s" % e)
+        return False
+
+
+def list_stack(heat_client, **kwargs):
+    try:
+        result = heat_client.stacks.list(**kwargs)
+        return result
+    except Exception as e:
+        logger.error("Error [list_stack]: %s" % e)
+        return None
+
+
+def get_output(heat_client, stack_id, output_key):
+    try:
+        output = heat_client.stacks.output_show(stack_id, output_key)
+        return output
+    except Exception as e:
+        logger.error("Error [get_output]: %s" % e)
+        return None
