@@ -28,8 +28,6 @@ ODL_AAA_JAR = '/opt/opendaylight/bin/aaa-cli-jar.jar'
 class ODLReInstaller(Service):
 
     def __init__(self):
-        self.netvirt_url = "restconf/operational/network-topology:" \
-                           "network-topology/topology/netvirt:1"
         self.nodes = None
         self.odl_node = None
 
@@ -80,12 +78,12 @@ class ODLReInstaller(Service):
         self.reinstall_odl(self.odl_node, odl_artifact)
 
         # Wait for ODL to come back up
-        full_netvirt_url = "http://{}:8081/{}".format(
-            self.odl_node.config['address'], self.netvirt_url)
+        full_netvirt_url = "http://{}:8081/diagstatus".format(
+            self.odl_node.config['address'])
         counter = 1
         while counter <= 10:
             try:
-                self.odl_node.execute("curl --fail -u admin:admin {}".format(
+                self.odl_node.execute("curl --fail {}".format(
                     full_netvirt_url))
                 LOG.info("New OpenDaylight NetVirt is Up")
                 break
