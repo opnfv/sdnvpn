@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a561d44_aa6e92c7",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-07-27T09:31:32Z",
+      "side": 1,
+      "message": "log with stack_id. ditto in other log messages.",
+      "revId": "05698d71d77550415c7675017a22588a67391e67",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_6a747a9c",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-07-27T09:31:32Z",
+      "side": 1,
+      "message": "why return is used after raising SystemError ?",
+      "revId": "05698d71d77550415c7675017a22588a67391e67",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_8a73ceb0",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-07-27T09:31:32Z",
+      "side": 1,
+      "message": "remove the unwanted logs.",
+      "revId": "05698d71d77550415c7675017a22588a67391e67",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_ea67eae8",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 6895
+      },
+      "writtenOn": "2018-07-27T09:31:32Z",
+      "side": 1,
+      "message": "can you also orchestrate bgpvpn and network association with heat stack ?",
+      "revId": "05698d71d77550415c7675017a22588a67391e67",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
