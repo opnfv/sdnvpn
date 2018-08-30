@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "9a561d44_6ac75a13",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-08-30T08:43:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a561d44_8a73ceb0",
+      "revId": "05698d71d77550415c7675017a22588a67391e67",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a561d44_ea67eae8",
         "filename": "sdnvpn/test/functest/testcase_1bis.py",
         "patchSetId": 3
