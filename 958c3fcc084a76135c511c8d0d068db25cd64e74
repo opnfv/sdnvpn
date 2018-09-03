@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a561d44_c210dc03",
+        "filename": "sdnvpn/lib/openstack_utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-03T14:09:35Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9a561d44_42bfacfb",
+      "range": {
+        "startLine": 1513,
+        "startChar": 8,
+        "endLine": 1514,
+        "endChar": 22
+      },
+      "revId": "958c3fcc084a76135c511c8d0d068db25cd64e74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a561d44_8238a4a1",
         "filename": "sdnvpn/lib/utils.py",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-03T13:42:05Z",
       "side": 1,
       "message": "Can you please point to me the code line that this function is called?",
+      "range": {
+        "startLine": 988,
+        "startChar": 4,
+        "endLine": 988,
+        "endChar": 21
+      },
+      "revId": "958c3fcc084a76135c511c8d0d068db25cd64e74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_02fad4bc",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-03T14:09:35Z",
+      "side": 1,
+      "message": "please see L75 of new file \nsdnvpn/sdnvpn/test/functest/testcase_1bis.py",
+      "parentUuid": "9a561d44_8238a4a1",
       "range": {
         "startLine": 988,
         "startChar": 4,
