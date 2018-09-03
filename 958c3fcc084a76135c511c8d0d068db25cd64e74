@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a561d44_42bfacfb",
+        "filename": "sdnvpn/lib/openstack_utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-03T13:42:05Z",
+      "side": 1,
+      "message": "You can write this as \u0027return stack[\u0027stack\u0027][\u0027id\u0027]\u0027",
+      "range": {
+        "startLine": 1513,
+        "startChar": 8,
+        "endLine": 1514,
+        "endChar": 22
+      },
+      "revId": "958c3fcc084a76135c511c8d0d068db25cd64e74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a561d44_8238a4a1",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-03T13:42:05Z",
+      "side": 1,
+      "message": "Can you please point to me the code line that this function is called?",
+      "range": {
+        "startLine": 988,
+        "startChar": 4,
+        "endLine": 988,
+        "endChar": 21
+      },
+      "revId": "958c3fcc084a76135c511c8d0d068db25cd64e74",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a561d44_44b501ed",
         "filename": "sdnvpn/lib/utils.py",
         "patchSetId": 4
