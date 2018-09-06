@@ -34,6 +34,7 @@ def main():
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -45,17 +46,17 @@ def main():
             container="bare", public='public')
         image_ids.append(image_id)
 
-        network_1_id = test_utils.create_net(neutron_client,
+        network_1_id = test_utils.create_net(conn,
                                              TESTCASE_CONFIG.net_1_name)
-        subnet_1_id = test_utils.create_subnet(neutron_client,
+        subnet_1_id = test_utils.create_subnet(conn,
                                                TESTCASE_CONFIG.subnet_1_name,
                                                TESTCASE_CONFIG.subnet_1_cidr,
                                                network_1_id)
 
-        network_2_id = test_utils.create_net(neutron_client,
+        network_2_id = test_utils.create_net(conn,
                                              TESTCASE_CONFIG.net_2_name)
 
-        subnet_2_id = test_utils.create_subnet(neutron_client,
+        subnet_2_id = test_utils.create_subnet(conn,
                                                TESTCASE_CONFIG.subnet_2_name,
                                                TESTCASE_CONFIG.subnet_2_cidr,
                                                network_2_id)
@@ -63,7 +64,7 @@ def main():
         subnet_ids.extend([subnet_1_id, subnet_2_id])
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            conn, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
         compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
@@ -246,7 +247,7 @@ def main():
     finally:
         test_utils.cleanup_nova(nova_client, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
 

@@ -35,7 +35,7 @@ def main():
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
         logger.info("Downloading image")
         image_dest_path = '/'.join(
-                COMMON_CONFIG.ubuntu_image_path.split('/')[:-1])
+            COMMON_CONFIG.ubuntu_image_path.split('/')[:-1])
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
@@ -46,6 +46,7 @@ def main():
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
@@ -64,7 +65,7 @@ def main():
         flavor_ids.append(flavor_id)
 
         network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
             TESTCASE_CONFIG.subnet_1_cidr,
@@ -76,7 +77,7 @@ def main():
         router_ids.extend([router_1_id])
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            conn, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
         compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
@@ -102,13 +103,13 @@ def main():
             userdata=u1)
         vm_1_ip = test_utils.get_instance_ip(vm_1)
 
-        vm1_port = test_utils.get_port(neutron_client, vm_1.id)
+        vm1_port = test_utils.get_port(conn, vm_1.id)
         test_utils.update_port_allowed_address_pairs(
-            neutron_client,
-            vm1_port['id'],
+            conn,
+            vm1_port.id,
             [test_utils.AllowedAddressPair(
                 TESTCASE_CONFIG.extra_route_cidr,
-                vm1_port['mac_address'])])
+                vm1_port.mac_address)])
 
         vm_2 = test_utils.create_instance(
             nova_client,
@@ -122,13 +123,13 @@ def main():
             userdata=u1)
         vm_2_ip = test_utils.get_instance_ip(vm_2)
 
-        vm2_port = test_utils.get_port(neutron_client, vm_2.id)
+        vm2_port = test_utils.get_port(conn, vm_2.id)
         test_utils.update_port_allowed_address_pairs(
-            neutron_client,
-            vm2_port['id'],
+            conn,
+            vm2_port.id,
             [test_utils.AllowedAddressPair(
                 TESTCASE_CONFIG.extra_route_cidr,
-                vm2_port['mac_address'])])
+                vm2_port.mac_address)])
 
         test_utils.async_Wait_for_instances([vm_1, vm_2])
 
@@ -184,7 +185,7 @@ def main():
             neutron_client, bgpvpn_id, router_1_id)
 
         test_utils.update_router_extra_route(
-            neutron_client, router_1_id,
+            conn, router_1_id,
             [test_utils.ExtraRoute(TESTCASE_CONFIG.extra_route_cidr,
                                    vm_1_ip),
              test_utils.ExtraRoute(TESTCASE_CONFIG.extra_route_cidr,
@@ -207,10 +208,10 @@ def main():
         logger.error("exception occurred while executing testcase_13: %s", e)
         raise
     finally:
-        test_utils.update_router_no_extra_route(neutron_client, router_ids)
+        test_utils.update_router_no_extra_route(conn, router_ids)
         test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
 
