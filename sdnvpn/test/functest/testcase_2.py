@@ -34,7 +34,6 @@ def main():
     results.add_to_summary(0, "=")
 
     neutron_client = os_utils.get_neutron_client()
-    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -55,31 +54,31 @@ def main():
         image_ids.append(image_id)
 
         network_1_id = test_utils.create_net(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_1_name)
         subnet_1a_id = test_utils.create_subnet(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.subnet_1a_name,
             TESTCASE_CONFIG.subnet_1a_cidr,
             network_1_id)
         # TODO: uncomment the commented lines once ODL has
         # support for mulitple subnets under same neutron network
         # subnet_1b_id = test_utils.create_subnet(
-        #     neutron_client,
+        #     conn,
         #     TESTCASE_CONFIG.subnet_1b_name,
         #     TESTCASE_CONFIG.subnet_1b_cidr,
         #     network_1_id)
 
         network_2_id = test_utils.create_net(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_2_name)
         # subnet_2a_id = test_utils.create_subnet(
-        #     neutron_client,
+        #     conn,
         #     TESTCASE_CONFIG.subnet_2a_name,
         #     TESTCASE_CONFIG.subnet_2a_cidr,
         #     network_2_id)
         subnet_2b_id = test_utils.create_subnet(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.subnet_2b_name,
             TESTCASE_CONFIG.subnet_2b_cidr,
             network_2_id)
@@ -90,7 +89,7 @@ def main():
                            subnet_2b_id])
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            conn, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
         compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
@@ -271,7 +270,7 @@ def main():
     finally:
         test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
 
