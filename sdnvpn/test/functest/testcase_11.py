@@ -33,6 +33,7 @@ def main():
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
     openstack_nodes = test_utils.get_nodes()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
@@ -45,9 +46,9 @@ def main():
             container="bare", public='public')
         image_ids.append(image_id)
 
-        network_1_id = test_utils.create_net(neutron_client,
+        network_1_id = test_utils.create_net(cloud,
                                              TESTCASE_CONFIG.net_1_name)
-        subnet_1_id = test_utils.create_subnet(neutron_client,
+        subnet_1_id = test_utils.create_subnet(cloud,
                                                TESTCASE_CONFIG.subnet_1_name,
                                                TESTCASE_CONFIG.subnet_1_cidr,
                                                network_1_id)
@@ -56,7 +57,7 @@ def main():
         subnet_ids.append(subnet_1_id)
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            cloud, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
         # Check required number of compute nodes
@@ -130,9 +131,9 @@ def main():
         # Cleanup topology
         test_utils.cleanup_nova(nova_client, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
-                                   interfaces, subnet_ids, router_ids,
-                                   network_ids)
+        test_utils.cleanup_neutron(cloud, neutron_client, floatingip_ids,
+                                   bgpvpn_ids, interfaces, subnet_ids,
+                                   router_ids, network_ids)
     # Connect again OVS to Controller
     for compute_node in compute_nodes:
         compute_node.run_cmd("sudo ovs-vsctl set-controller {} {}".

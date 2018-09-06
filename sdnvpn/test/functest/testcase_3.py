@@ -160,7 +160,7 @@ def main():
     if not os.path.isfile(COMMON_CONFIG.ubuntu_image_path):
         logger.info("Downloading image")
         image_dest_path = '/'.join(
-                COMMON_CONFIG.ubuntu_image_path.split('/')[:-1])
+            COMMON_CONFIG.ubuntu_image_path.split('/')[:-1])
         os_utils.download_url(
             "http://artifacts.opnfv.org/sdnvpn/"
             "ubuntu-16.04-server-cloudimg-amd64-disk1.img",
@@ -171,6 +171,7 @@ def main():
     glance_client = os_utils.get_glance_client()
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
+    cloud = os_utils.get_cloud_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
@@ -180,12 +181,12 @@ def main():
         flavor_ids.append(flavor_id)
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            cloud, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
-        test_utils.open_icmp(neutron_client, sg_id)
-        test_utils.open_http_port(neutron_client, sg_id)
+        test_utils.open_icmp(cloud, sg_id)
+        test_utils.open_http_port(cloud, sg_id)
 
-        test_utils.open_bgp_port(neutron_client, sg_id)
+        test_utils.open_bgp_port(cloud, sg_id)
 
         image_id = os_utils.create_glance_image(
             glance_client, TESTCASE_CONFIG.image_name,
@@ -194,7 +195,7 @@ def main():
         image_ids.append(image_id)
 
         net_1_id, subnet_1_id, router_1_id = test_utils.create_network(
-            neutron_client,
+            cloud,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
             TESTCASE_CONFIG.subnet_1_cidr,
@@ -202,7 +203,7 @@ def main():
 
         quagga_net_id, subnet_quagga_id, \
             router_quagga_id = test_utils.create_network(
-                neutron_client,
+                cloud,
                 TESTCASE_CONFIG.quagga_net_name,
                 TESTCASE_CONFIG.quagga_subnet_name,
                 TESTCASE_CONFIG.quagga_subnet_cidr,
@@ -243,7 +244,7 @@ def main():
         # cloud-init script.
         # fake_fip is needed to bypass NAT
         # see below for the reason why.
-        fake_fip = os_utils.create_floating_ip(neutron_client)
+        fake_fip = os_utils.create_floating_ip(cloud)
         # pin quagga to some compute
         floatingip_ids.append(fake_fip['fip_id'])
         compute_node = nova_client.hypervisors.list()[0]
@@ -276,16 +277,16 @@ def main():
 
         instance_ids.append(quagga_vm)
 
-        quagga_vm_port = test_utils.get_port(neutron_client,
+        quagga_vm_port = test_utils.get_port(cloud,
                                              quagga_vm.id)
-        fip_added = os_utils.attach_floating_ip(neutron_client,
-                                                quagga_vm_port['id'])
+        fip_added = os_utils.attach_floating_ip(cloud,
+                                                quagga_vm_port.id)
 
         msg = ("Assign a Floating IP to %s " %
                TESTCASE_CONFIG.quagga_instance_name)
         if fip_added:
             results.add_success(msg)
-            floatingip_ids.append(fip_added['floatingip']['id'])
+            floatingip_ids.append(fip_added.id)
         else:
             results.add_failure(msg)
 
@@ -397,7 +398,7 @@ def main():
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
         test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(cloud, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
         bgp_nbr_disconnect_cmd = ("bgp-nbr -i %s -a 200 del"
