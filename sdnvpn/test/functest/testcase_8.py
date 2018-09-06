@@ -41,7 +41,6 @@ def main():
     results.add_to_summary(0, "=")
 
     neutron_client = os_utils.get_neutron_client()
-    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -54,14 +53,14 @@ def main():
         image_ids.append(image_id)
 
         network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
             TESTCASE_CONFIG.subnet_1_cidr,
             TESTCASE_CONFIG.router_1_name)
 
         network_2_id, subnet_2_id, router_1_id = test_utils.create_network(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_2_name,
             TESTCASE_CONFIG.subnet_2_name,
             TESTCASE_CONFIG.subnet_2_cidr,
@@ -74,10 +73,10 @@ def main():
         subnet_ids.extend([subnet_1_id, subnet_2_id])
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client, TESTCASE_CONFIG.secgroup_name,
+            conn, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
-        test_utils.open_icmp(neutron_client, sg_id)
-        test_utils.open_http_port(neutron_client, sg_id)
+        test_utils.open_icmp(conn, sg_id)
+        test_utils.open_http_port(conn, sg_id)
 
         compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
         av_zone_1 = "nova:" + compute_nodes[0]
@@ -154,23 +153,22 @@ def main():
         msg = "Assign a Floating IP to %s" % vm_1.name
         results.record_action(msg)
 
-        vm1_port = test_utils.get_port(neutron_client, vm_1.id)
-        fip_added = os_utils.attach_floating_ip(neutron_client,
-                                                vm1_port['id'])
+        vm1_port = test_utils.get_port(conn, vm_1.id)
+        fip_added = os_utils.attach_floating_ip(conn, vm1_port.id)
 
         if fip_added:
             results.add_success(msg)
         else:
             results.add_failure(msg)
 
-        fip = fip_added['floatingip']['floating_ip_address']
+        fip = fip_added.floating_ip_address
 
         results.add_to_summary(0, "=")
         results.record_action("Ping %s via Floating IP" % vm_1.name)
         results.add_to_summary(0, "-")
         results.ping_ip_test(fip)
 
-        floatingip_ids.append(fip_added['floatingip']['id'])
+        floatingip_ids.append(fip_added.id)
 
     except Exception as e:
         logger.error("exception occurred while executing testcase_8: %s", e)
@@ -178,7 +176,7 @@ def main():
     finally:
         test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
 

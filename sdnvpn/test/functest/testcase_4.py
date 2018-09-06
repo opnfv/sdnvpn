@@ -47,18 +47,18 @@ def main():
         image_ids.append(image_id)
 
         network_1_id, subnet_1_id, router_1_id = test_utils.create_network(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_1_name,
             TESTCASE_CONFIG.subnet_1_name,
             TESTCASE_CONFIG.subnet_1_cidr,
             TESTCASE_CONFIG.router_1_name)
 
         network_2_id = test_utils.create_net(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.net_2_name)
 
         subnet_2_id = test_utils.create_subnet(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.subnet_2_name,
             TESTCASE_CONFIG.subnet_2_cidr,
             network_2_id)
@@ -68,7 +68,7 @@ def main():
         subnet_ids.extend([subnet_1_id, subnet_2_id])
 
         sg_id = os_utils.create_security_group_full(
-            neutron_client,
+            conn,
             TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
@@ -260,7 +260,7 @@ def main():
     finally:
         test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids,
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
 
