@@ -73,7 +73,6 @@ def main():
     results.add_to_summary(0, "=")
 
     neutron_client = os_utils.get_neutron_client()
-    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -85,9 +84,9 @@ def main():
                                             public='public')
     image_ids.append(image_id)
 
-    network_1_id = test_utils.create_net(neutron_client,
+    network_1_id = test_utils.create_net(conn,
                                          TESTCASE_CONFIG.net_1_name)
-    subnet_1_id = test_utils.create_subnet(neutron_client,
+    subnet_1_id = test_utils.create_subnet(conn,
                                            TESTCASE_CONFIG.subnet_1_name,
                                            TESTCASE_CONFIG.subnet_1_cidr,
                                            network_1_id)
@@ -95,7 +94,7 @@ def main():
     network_ids.append(network_1_id)
     subnet_ids.append(subnet_1_id)
 
-    sg_id = os_utils.create_security_group_full(neutron_client,
+    sg_id = os_utils.create_security_group_full(conn,
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
 
@@ -262,9 +261,9 @@ def main():
 
         test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
-        test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
-                                   interfaces, subnet_ids, router_ids,
-                                   network_ids)
+        test_utils.cleanup_neutron(conn, neutron_client, floatingip_ids,
+                                   bgpvpn_ids, interfaces, subnet_ids,
+                                   router_ids, network_ids)
 
     return results.compile_summary()
 

@@ -32,22 +32,22 @@ class SdnvpnFunctest(feature.Feature):
     def execute(self):
 
         cloud = os_utils.get_os_cloud()
-        neutron_client = os_utils.get_neutron_client()
+        conn = os_utils.get_os_connection()
 
         tenant_id = os_utils.get_tenant_id(os_utils.get_keystone_client(),
                                            os.environ['OS_PROJECT_NAME'])
 
-        neutron_quota = test_utils.get_neutron_quota(neutron_client, tenant_id)
+        neutron_quota = test_utils.get_neutron_quota(conn, tenant_id)
         (neutron_nw_quota, neutron_subnet_quota, neutron_port_quota,
          neutron_router_quota) = (
-            neutron_quota['network'], neutron_quota['subnet'],
-            neutron_quota['port'], neutron_quota['router'])
+            neutron_quota.networks, neutron_quota.subnets,
+            neutron_quota.ports, neutron_quota.routers)
         instances_quota = test_utils.get_nova_instances_quota(cloud)
 
         logger.info("Setting net/subnet/port/router "
                     "quota to unlimited")
         test_utils.update_nw_subnet_port_quota(
-            neutron_client,
+            conn,
             tenant_id,
             COMMON_CONFIG.neutron_nw_quota,
             COMMON_CONFIG.neutron_subnet_quota,
@@ -64,29 +64,22 @@ class SdnvpnFunctest(feature.Feature):
         # Clean up the stale floating ip's so that required
         # ip addresses are available for sdnvpn testcases
         logger.info("Cleaning up the Floating IP Addresses")
-        floating_ips = os_utils.get_floating_ips(neutron_client)
-        if floating_ips is not None:
-            for floating_ip in floating_ips:
-                os_utils.delete_floating_ip(
-                    neutron_client, floating_ip['id'])
+        floating_ips = os_utils.get_floating_ips(conn)
+        for floating_ip in floating_ips:
+            os_utils.delete_floating_ip(conn, floating_ip.id)
 
         # Workaround for
         # https://jira.opnfv.org/browse/SNAPS-318
         # Clean up the stale routers
         logger.info("Cleaning up the stale routers")
-        ports = os_utils.get_port_list(neutron_client)
-        if ports is not None:
-            for port in ports:
-                if port['device_owner'] == 'network:router_interface':
-                    os_utils.delete_neutron_port(
-                            neutron_client, port['id'])
-        routers = os_utils.get_router_list(neutron_client)
-        if routers is not None:
-            for router in routers:
-                os_utils.remove_gateway_router(
-                    neutron_client, router['id'])
-                os_utils.delete_neutron_router(
-                    neutron_client, router['id'])
+        ports = os_utils.get_port_list(conn)
+        for port in ports:
+            if port.device_owner == 'network:router_interface':
+                os_utils.delete_neutron_port(conn, port.id)
+        routers = os_utils.get_router_list(conn)
+        for router in routers:
+            os_utils.remove_gateway_router(conn, router.id)
+            os_utils.delete_neutron_router(conn, router.id)
 
         with open(COMMON_CONFIG.config_file) as f:
             config_yaml = yaml.safe_load(f)
@@ -132,7 +125,7 @@ class SdnvpnFunctest(feature.Feature):
                         overall_status = "FAIL"
 
         logger.info("Resetting subnet/net/port quota")
-        test_utils.update_nw_subnet_port_quota(neutron_client,
+        test_utils.update_nw_subnet_port_quota(conn,
                                                tenant_id,
                                                neutron_nw_quota,
                                                neutron_subnet_quota,

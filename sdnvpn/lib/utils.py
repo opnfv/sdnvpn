@@ -66,9 +66,9 @@ def create_custom_flavor():
                                          common_config.custom_flavor_vcpus)
 
 
-def create_net(neutron_client, name):
+def create_net(conn, name):
     logger.debug("Creating network %s", name)
-    net_id = os_utils.create_neutron_net(neutron_client, name)
+    net_id = os_utils.create_neutron_net(conn, name)
     if not net_id:
         logger.error(
             "There has been a problem when creating the neutron network")
@@ -77,10 +77,10 @@ def create_net(neutron_client, name):
     return net_id
 
 
-def create_subnet(neutron_client, name, cidr, net_id):
+def create_subnet(conn, name, cidr, net_id):
     logger.debug("Creating subnet %s in network %s with cidr %s",
                  name, net_id, cidr)
-    subnet_id = os_utils.create_neutron_subnet(neutron_client,
+    subnet_id = os_utils.create_neutron_subnet(conn,
                                                name,
                                                cidr,
                                                net_id)
@@ -92,12 +92,12 @@ def create_subnet(neutron_client, name, cidr, net_id):
     return subnet_id
 
 
-def create_network(neutron_client, net, subnet1, cidr1,
+def create_network(conn, net, subnet1, cidr1,
                    router, subnet2=None, cidr2=None):
     """Network assoc won't work for networks/subnets created by this function.
     It is an ODL limitation due to it handling routers as vpns.
     See https://bugs.opendaylight.org/show_bug.cgi?id=6962"""
-    network_dic = os_utils.create_network_full(neutron_client,
+    network_dic = os_utils.create_network_full(conn,
                                                net,
                                                subnet1,
                                                router,
@@ -114,7 +114,7 @@ def create_network(neutron_client, net, subnet1, cidr1,
     if subnet2 is not None:
         logger.debug("Creating and attaching a second subnet...")
         subnet_id = os_utils.create_neutron_subnet(
-            neutron_client, subnet2, cidr2, net_id)
+            conn, subnet2, cidr2, net_id)
         if not subnet_id:
             logger.error(
                 "There has been a problem when creating the second subnet")
@@ -124,16 +124,15 @@ def create_network(neutron_client, net, subnet1, cidr1,
     return net_id, subnet_id, router_id
 
 
-def get_port(neutron_client, instance_id):
-    ports = os_utils.get_port_list(neutron_client)
-    if ports is not None:
-        for port in ports:
-            if port['device_id'] == instance_id:
-                return port
+def get_port(conn, instance_id):
+    ports = os_utils.get_port_list(conn)
+    for port in ports:
+        if port.device_id == instance_id:
+            return port
     return None
 
 
-def update_port_allowed_address_pairs(neutron_client, port_id, address_pairs):
+def update_port_allowed_address_pairs(conn, port_id, address_pairs):
     if len(address_pairs) <= 0:
         return
     allowed_address_pairs = []
@@ -141,16 +140,13 @@ def update_port_allowed_address_pairs(neutron_client, port_id, address_pairs):
         address_pair_dict = {'ip_address': address_pair.ipaddress,
                              'mac_address': address_pair.macaddress}
         allowed_address_pairs.append(address_pair_dict)
-    json_body = {'port': {
-        "allowed_address_pairs": allowed_address_pairs
-    }}
 
     try:
-        port = neutron_client.update_port(port=port_id,
-                                          body=json_body)
-        return port['port']['id']
+        port = conn.network.\
+            update_port(port_id, allowed_address_pairs=allowed_address_pairs)
+        return port.id
     except Exception as e:
-        logger.error("Error [update_neutron_port(neutron_client, '%s', '%s')]:"
+        logger.error("Error [update_neutron_port(network, '%s', '%s')]:"
                      " %s" % (port_id, address_pairs, e))
         return None
 
@@ -464,13 +460,13 @@ def assert_and_get_compute_nodes(conn, required_node_number=2):
     return compute_nodes
 
 
-def open_icmp(neutron_client, security_group_id):
-    if os_utils.check_security_group_rules(neutron_client,
+def open_icmp(conn, security_group_id):
+    if os_utils.check_security_group_rules(conn,
                                            security_group_id,
                                            'ingress',
                                            'icmp'):
 
-        if not os_utils.create_secgroup_rule(neutron_client,
+        if not os_utils.create_secgroup_rule(conn,
                                              security_group_id,
                                              'ingress',
                                              'icmp'):
@@ -480,14 +476,14 @@ def open_icmp(neutron_client, security_group_id):
                     % security_group_id)
 
 
-def open_http_port(neutron_client, security_group_id):
-    if os_utils.check_security_group_rules(neutron_client,
+def open_http_port(conn, security_group_id):
+    if os_utils.check_security_group_rules(conn,
                                            security_group_id,
                                            'ingress',
                                            'tcp',
                                            80, 80):
 
-        if not os_utils.create_secgroup_rule(neutron_client,
+        if not os_utils.create_secgroup_rule(conn,
                                              security_group_id,
                                              'ingress',
                                              'tcp',
@@ -499,14 +495,14 @@ def open_http_port(neutron_client, security_group_id):
                     % security_group_id)
 
 
-def open_bgp_port(neutron_client, security_group_id):
-    if os_utils.check_security_group_rules(neutron_client,
+def open_bgp_port(conn, security_group_id):
+    if os_utils.check_security_group_rules(conn,
                                            security_group_id,
                                            'ingress',
                                            'tcp',
                                            179, 179):
 
-        if not os_utils.create_secgroup_rule(neutron_client,
+        if not os_utils.create_secgroup_rule(conn,
                                              security_group_id,
                                              'ingress',
                                              'tcp',
@@ -657,12 +653,11 @@ def detach_instance_from_ext_br(instance, compute_node):
         compute_node.run_cmd(cmd.format(bridge=bridge))
 
 
-def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
-                    subnet_ids, router_ids, network_ids):
-
+def cleanup_neutron(conn, neutron_client, floatingip_ids, bgpvpn_ids,
+                    interfaces, subnet_ids, router_ids, network_ids):
     if len(floatingip_ids) != 0:
         for floatingip_id in floatingip_ids:
-            if not os_utils.delete_floating_ip(neutron_client, floatingip_id):
+            if not os_utils.delete_floating_ip(conn, floatingip_id):
                 logger.error('Fail to delete all floating ips. '
                              'Floating ip with id {} was not deleted.'.
                              format(floatingip_id))
@@ -674,7 +669,7 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
 
     if len(interfaces) != 0:
         for router_id, subnet_id in interfaces:
-            if not os_utils.remove_interface_router(neutron_client,
+            if not os_utils.remove_interface_router(conn,
                                                     router_id, subnet_id):
                 logger.error('Fail to delete all interface routers. '
                              'Interface router with id {} was not deleted.'.
@@ -682,14 +677,14 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
 
     if len(router_ids) != 0:
         for router_id in router_ids:
-            if not os_utils.remove_gateway_router(neutron_client, router_id):
+            if not os_utils.remove_gateway_router(conn, router_id):
                 logger.error('Fail to delete all gateway routers. '
                              'Gateway router with id {} was not deleted.'.
                              format(router_id))
 
     if len(subnet_ids) != 0:
         for subnet_id in subnet_ids:
-            if not os_utils.delete_neutron_subnet(neutron_client, subnet_id):
+            if not os_utils.delete_neutron_subnet(conn, subnet_id):
                 logger.error('Fail to delete all subnets. '
                              'Subnet with id {} was not deleted.'.
                              format(subnet_id))
@@ -697,7 +692,7 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
 
     if len(router_ids) != 0:
         for router_id in router_ids:
-            if not os_utils.delete_neutron_router(neutron_client, router_id):
+            if not os_utils.delete_neutron_router(conn, router_id):
                 logger.error('Fail to delete all routers. '
                              'Router with id {} was not deleted.'.
                              format(router_id))
@@ -705,7 +700,7 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
 
     if len(network_ids) != 0:
         for network_id in network_ids:
-            if not os_utils.delete_neutron_net(neutron_client, network_id):
+            if not os_utils.delete_neutron_net(conn, network_id):
                 logger.error('Fail to delete all networks. '
                              'Network with id {} was not deleted.'.
                              format(network_id))
@@ -811,21 +806,15 @@ def is_fail_mode_secure():
     return is_secure
 
 
-def update_nw_subnet_port_quota(neutron_client, tenant_id, nw_quota,
+def update_nw_subnet_port_quota(conn, tenant_id, nw_quota,
                                 subnet_quota, port_quota, router_quota):
-    json_body = {"quota": {
-        "network": nw_quota,
-        "subnet": subnet_quota,
-        "port": port_quota,
-        "router": router_quota
-    }}
-
     try:
-        neutron_client.update_quota(tenant_id=tenant_id,
-                                    body=json_body)
+        conn.network.update_quota(tenant_id, networks=nw_quota,
+                                  subnets=subnet_quota, ports=port_quota,
+                                  routers=router_quota)
         return True
     except Exception as e:
-        logger.error("Error [update_nw_subnet_port_quota(neutron_client,"
+        logger.error("Error [update_nw_subnet_port_quota(network,"
                      " '%s', '%s', '%s', '%s, %s')]: %s" %
                      (tenant_id, nw_quota, subnet_quota,
                       port_quota, router_quota, e))
@@ -842,11 +831,11 @@ def update_instance_quota_class(cloud, instances_quota):
         return False
 
 
-def get_neutron_quota(neutron_client, tenant_id):
+def get_neutron_quota(conn, tenant_id):
     try:
-        return neutron_client.show_quota(tenant_id=tenant_id)['quota']
+        return conn.network.quotas(project_id=tenant_id).next()
     except Exception as e:
-        logger.error("Error in getting neutron quota for tenant "
+        logger.error("Error in getting network quota for tenant "
                      " '%s' )]: %s" % (tenant_id, e))
         raise
 
@@ -859,7 +848,7 @@ def get_nova_instances_quota(cloud):
         raise
 
 
-def update_router_extra_route(neutron_client, router_id, extra_routes):
+def update_router_extra_route(conn, router_id, extra_routes):
     if len(extra_routes) <= 0:
         return
     routes_list = []
@@ -867,26 +856,19 @@ def update_router_extra_route(neutron_client, router_id, extra_routes):
         route_dict = {'destination': extra_route.destination,
                       'nexthop': extra_route.nexthop}
         routes_list.append(route_dict)
-    json_body = {'router': {
-        "routes": routes_list
-    }}
 
     try:
-        neutron_client.update_router(router_id, body=json_body)
+        conn.network.update_router(router_id, routes=routes_list)
         return True
     except Exception as e:
         logger.error("Error in updating router with extra route: %s" % e)
         raise
 
 
-def update_router_no_extra_route(neutron_client, router_ids):
-    json_body = {'router': {
-        "routes": [
-        ]}}
-
+def update_router_no_extra_route(conn, router_ids):
     for router_id in router_ids:
         try:
-            neutron_client.update_router(router_id, body=json_body)
+            conn.network.update_router(router_id, routes=[])
             return True
         except Exception as e:
             logger.error("Error in clearing extra route: %s" % e)
