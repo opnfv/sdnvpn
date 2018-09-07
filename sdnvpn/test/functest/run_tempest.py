@@ -28,8 +28,16 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 
 
 def main():
-    verifier_id = tempest_utils.get_verifier_id()
-    deployment_id = tempest_utils.get_verifier_deployment_id()
+    try:
+        deployment_id = tempest_utils.get_verifier_deployment_id()
+    except:
+        tempest_utils.create_rally_deployment()
+        deployment_id = tempest_utils.get_verifier_deployment_id()
+    try:
+        verifier_id = tempest_utils.get_verifier_id()
+    except:
+        tempest_utils.create_verifier()
+        verifier_id = tempest_utils.get_verifier_id()
     src_tempest_dir = tempest_utils.get_verifier_deployment_dir(
         verifier_id, deployment_id)
 
