@@ -6,6 +6,13 @@ testcases:
       enabled: true
       description: Neutron BGPVPN tests in tempest
       image_name: bgpvpn-tempest-image
+      functest_conf:
+          case_name: bgpvpn-tempest-tests
+          run:
+              args:
+                  mode: '^networking_bgpvpn_tempest\.'
+                  option:
+                      - '--concurrency=4'
 
   sdnvpn.test.functest.testcase_1:
       enabled: true
