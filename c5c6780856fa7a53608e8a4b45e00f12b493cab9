@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_fbc34736",
+        "filename": "sdnvpn/artifacts/testcase_1bis.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-07T08:09:15Z",
+      "side": 1,
+      "message": "Why do you need two az?",
+      "range": {
+        "startLine": 18,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 36
+      },
+      "revId": "c5c6780856fa7a53608e8a4b45e00f12b493cab9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_fbda2716",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-07T08:09:15Z",
+      "side": 1,
+      "message": "This check should happen in the create_stack and not in the wait_stack_create. The wait_stack_create should do only what the name says checking if the stack is created after the time interval.",
+      "range": {
+        "startLine": 997,
+        "startChar": 4,
+        "endLine": 999,
+        "endChar": 54
+      },
+      "revId": "c5c6780856fa7a53608e8a4b45e00f12b493cab9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_1b09e395",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-07T08:09:15Z",
+      "side": 1,
+      "message": "You can write that as \"if not stack_create_complete\"",
+      "range": {
+        "startLine": 1019,
+        "startChar": 4,
+        "endLine": 1019,
+        "endChar": 37
+      },
+      "revId": "c5c6780856fa7a53608e8a4b45e00f12b493cab9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7bfe176d",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-09-07T08:09:15Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 1066,
+        "startChar": 4,
+        "endLine": 1066,
+        "endChar": 37
+      },
+      "revId": "c5c6780856fa7a53608e8a4b45e00f12b493cab9",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
