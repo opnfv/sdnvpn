@@ -21,9 +21,8 @@ deployment scenarios, which is derived from the baseline
 os-odl-nofeature scenario.
 
 The BGPVPN feature enables creation of BGP VPNs on the Neutron API
-according to the OpenStack BGPVPN blueprint at
-https://blueprints.launchpad.net/neutron/+spec/neutron-bgp-vpn. In a
-nutshell, the blueprint defines a BGPVPN object and a number of ways how
+according to the `OpenStack BGPVPN blueprint <https://blueprints.launchpad.net/neutron/+spec/neutron-bgp-vpn>`_.
+In a nutshell, the blueprint defines a BGPVPN object and a number of ways how
 to associate it with the existing Neutron object model, as well as a
 unique definition of the related semantics. The BGPVPN framework
 supports a backend driver model with currently available drivers for
@@ -72,23 +71,23 @@ Scenario usage overview
 Configuring SDNVPN features
 ---------------------------
 
-Apex installer has specific procedures to deploy the OPNFV platform so that the SDNVPN feature is enabled.
+Apex installer has specific procedures to deploy the OPNFV platform so that the SDNVPN feature is 
+enabled.
 
-APEX installer configuration
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+APEX installer configuration and BGPVPN deployment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To install the SDNVPN feature using the APEX installer, follow the APEX installation guide
-(https://wiki.opnfv.org/display/apex/Integration+Guide) and activate the SDNVPN feature when prompted (step "# Now execute a deployment")
+To install the SDNVPN feature using the APEX installer, follow the `APEX installation guide <(https://wiki.
+opnfv.org/display/apex/Integration+Guide)>`_ . When prompted activate the SDNVPN feature based on 
+openstack configuration:
 
-For os-odl-bgpvpn-noha deployment:
-----------------------------------
+* For os-odl-bgpvpn-noha deployment:
 
-python3 deploy.py -v -n ../config/network/network_settings.yaml -d ../config/deploy/os-odl-bgpvpn-noha.yaml --deploy-dir ../build --lib-dir ../lib --image-dir ../.build --virtual-computes 2 --virtual-default-ram 16
+  python3 deploy.py -v -n ../config/network/network_settings.yaml -d ../config/deploy/os-odl-bgpvpn-noha.yaml --deploy-dir ../build --lib-dir ../lib --image-dir ../.build --virtual-computes 2 --virtual-default-ram 16
 
-For os-odl-bgpvpn-ha deployment:
---------------------------------
+* For os-odl-bgpvpn-ha deployment:
 
-python3 deploy.py -v -n ../config/network/network_settings.yaml -d ../config/deploy/os-odl-bgpvpn-ha.yaml --deploy-dir ../build --lib-dir ../lib --image-dir ../.build --virtual-computes 2 --virtual-default-ram 16
+  python3 deploy.py -v -n ../config/network/network_settings.yaml -d ../config/deploy/os-odl-bgpvpn-ha.yaml --deploy-dir ../build --lib-dir ../lib --image-dir ../.build --virtual-computes 2 --virtual-default-ram 16
 
 Limitations, Issues and Workarounds
 ===================================
@@ -107,5 +106,5 @@ Integration with data center gateway will not work due to missing OVS patches fo
 References
 ==========
 
-For more information on the OPNFV Fraser release, please visit
+For more information on the OPNFV latest stable release, please visit
 https://www.opnfv.org/software
