@@ -369,6 +369,21 @@ def async_Wait_for_instances(instances, tries=40):
         logger.error("one or more instances is not yet booted up")
 
 
+def wait_for_instance_delete(nova_client, instance_id, tries=30):
+    sleep_time = 2
+    instances = [instance_id]
+    logger.debug("Waiting for instance %s to be deleted"
+                 % (instance_id))
+    while tries > 0 and instance_id in instances:
+        instances = [instance.id for instance in
+                     os_utils.get_instances(nova_client)]
+        time.sleep(sleep_time)
+        tries -= 1
+    if instance_id in instances:
+        logger.error("Deletion of instance %s failed" %
+                     (instance_id))
+
+
 def wait_for_bgp_net_assoc(neutron_client, bgpvpn_id, net_id):
     tries = 30
     sleep_time = 1
@@ -700,7 +715,8 @@ def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
                 logger.error('Fail to delete all instances. '
                              'Instance with id {} was not deleted.'.
                              format(instance_id))
-                return False
+            else:
+                wait_for_instance_delete(nova_client, instance_id)
     return True
 
 
