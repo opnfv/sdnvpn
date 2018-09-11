@@ -174,6 +174,8 @@ def main():
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
+    quagga_vm = None
+    fake_fip = None
 
     try:
         _, flavor_id = test_utils.create_custom_flavor()
@@ -394,18 +396,20 @@ def main():
         logger.error("exception occurred while executing testcase_3: %s", e)
         raise
     finally:
-        test_utils.detach_instance_from_ext_br(quagga_vm, compute)
+        if quagga_vm is not None:
+            test_utils.detach_instance_from_ext_br(quagga_vm, compute)
         test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
-        bgp_nbr_disconnect_cmd = ("bgp-nbr -i %s -a 200 del"
-                                  % fake_fip['fip_addr'])
+        if fake_fip is not None:
+            bgp_nbr_disconnect_cmd = ("bgp-nbr -i %s -a 200 del"
+                                      % fake_fip['fip_addr'])
+            test_utils.run_odl_cmd(controller, bgp_nbr_disconnect_cmd)
         bgp_server_stop_cmd = ("bgp-rtr -r %s -a 100 del"
                                % controller_ext_ip)
         odl_zrpc_disconnect_cmd = "bgp-connect -p 7644 -h 127.0.0.1 del"
-        test_utils.run_odl_cmd(controller, bgp_nbr_disconnect_cmd)
         test_utils.run_odl_cmd(controller, bgp_server_stop_cmd)
         test_utils.run_odl_cmd(controller, odl_zrpc_disconnect_cmd)
 
