@@ -3,31 +3,26 @@
 .. _-os-odl-bgpvpn-ha:
 
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
-.. http://creativecommons.org/licenses/by/4.0
+.. SPDX-License-Identifier: CC-BY-4.0
 .. (c) Periyasamy Palanisamy <periyasamy.palanisamy@ericsson.com> and others
 
 =====================
 SDN VPN Release Notes
 =====================
 
-License
-=======
-
-This work is licensed under a Creative Commons Attribution 4.0 International
-License. .. http://creativecommons.org/licenses/by/4.0 ..
-(c) Tim Irnich (Ericsson) and others
 
 Abstract
 ========
 
-This document comprises the release notes for the SDN VPN feature contained in the Fraser
+This document comprises the release notes for the SDN VPN feature contained in the Gambia
 release of OPNFV.
 
 Important notes
 ===============
 
-In the Fraser release, SDN VPN only supports ODL as a backend. Make sure to always deploy
-SDN VPN and ODL together. Make use of deployment scenarios including the SDNVPN feature such as os_odl_bgpvpn_{ha|noha}.
+In the Gambia release, SDN VPN only supports ODL as a backend. Make sure to always deploy
+SDN VPN and ODL together. Make use of deployment scenarios including the SDNVPN feature such
+as os_odl_bgpvpn_{ha|noha}.
 
 Summary
 =======
@@ -44,13 +39,13 @@ Release Data
 | **Project**                          | sdnvpn                                    |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Repo/tag**                         | opnfv-6.2.0                               |
+| **Repo/tag**                         | opnfv-7.0.0                               |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release designation**              | Fraser 6.2                                |
+| **Release designation**              | Gambia 7.0                                |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
-| **Release date**                     | June 29 2018                              |
+| **Release date**                     | Jan 01 2019                               |
 |                                      |                                           |
 +--------------------------------------+-------------------------------------------+
 | **Purpose of the delivery**          | New test cases                            |
@@ -60,12 +55,12 @@ Release Data
 Version change
 --------------
 
-Compared to the Euphrates release, new testcases were added to
-functest to guarantee functionality.
+Compared to the Fraser release, functest testcases were enriched to guarantee functionality.
+Also several enhancements were added to improve testing efficiency.
 
 Module version changes
 ~~~~~~~~~~~~~~~~~~~~~~
-ODL has been upgraded to Nitrogen.
+.. ODL has been upgraded to Nitrogen.
 
 Document changes
 ~~~~~~~~~~~~~~~~
@@ -96,23 +91,23 @@ Deliverables
 Software deliverables
 ~~~~~~~~~~~~~~~~~~~~~
 
-- Changes to Apex to enable a BGPVPN deployment and integration of Quagga BGP.
-- Integration of VPN Service functional tests and BGPVPN API tests into Functest framework.
-- Enabling performance tests in Yardstick.
-- Changes to 6Wind Zrpcd to enable integration with Apex.
-- Intra Datacenter ECMP (Equal Cost Multi Pathing) Testcase.
-- OpenDaylight and Open vSwitch Resynchronization Testcase.
-- Improved quality and stability of Testcase runs in CI environment.
-- External BGPVPN scenario added for XCI based deployment for BGPVPN scenarios.
+- Orchestrate BGPVPN with Openstack HEAT templates
+- Verify BGP route exchange with a peer in both directions
+- Support for ECMP load balancing
+- Consolidate image creation in Apex and Fuel
+- Remove the dependency between not running quagga and created flows
+- Delete ODL configuration after each test case run
+- Add BGPVPN scenarios to XCI and enable SDNVPN tests
+- Enable and test ODL clustering for bgpvpn-ha scenario
+
 
 Documentation deliverables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Configuration guide
-
-- User guide
-
+- Installation guide
 - Release notes (this document)
+- Overview
+- Test scenario description
 
 Known Limitations, Issues and Workarounds
 =========================================
@@ -127,12 +122,12 @@ Known issues
 Moving to the new NetVirt has caused a regression in which a subnet
 cannot be both attached to a Router and Network associated to a VPN.
 This has been worked around in the tests and the upstream bug is being
-tracked [0] and [2].
+tracked [0]_ and [2]_.
 
 NAT for a VM which is in a private neutron network does not work. Instances
 created in subnets that are connected to the public network via a gateway
 should have external connectivity. This does not work and can be worked
-around by assigning a Floating IP to the instance [1].
+around by assigning a Floating IP to the instance [1]_.
 
 Currently we observe non-deterministic failures of individual tests within the
 SDNVPN section of the Functest suite, which are not reproducible in the development
@@ -159,6 +154,6 @@ with the exceptions described above.
 
 References
 ==========
-[0] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-94
-[1] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
-[2] https://jira.opendaylight.org/browse/NETVIRT-932
+.. [0] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-94
+.. [1] https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-99
+.. [2] https://jira.opendaylight.org/browse/NETVIRT-932
