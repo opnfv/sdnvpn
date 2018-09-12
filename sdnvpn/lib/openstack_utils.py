@@ -8,6 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
+import base64
 import logging
 import os.path
 import shutil
@@ -23,6 +24,7 @@ from heatclient import client as heatclient
 from novaclient import client as novaclient
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
+from openstack import connection as conn
 
 from functest.utils import env
 
@@ -42,6 +44,10 @@ class MissingEnvVar(Exception):
 
     def __str__(self):
         return str.format("Please set the mandatory env var: {}", self.var)
+
+
+def get_cloud_connection():
+    return conn.from_config()
 
 
 def is_keystone_v3():
@@ -268,36 +274,37 @@ def download_and_add_image_on_glance(glance, image_name, image_url, data_dir):
 # *********************************************
 #   NOVA
 # *********************************************
-def get_instances(nova_client):
+def get_instances(cloud):
     try:
-        instances = nova_client.servers.list(search_opts={'all_tenants': 1})
+        instances = cloud.compute.servers(all_tenants=1)
         return instances
     except Exception as e:
-        logger.error("Error [get_instances(nova_client)]: %s" % e)
+        logger.error("Error [get_instances(compute)]: %s" % e)
         return None
 
 
-def get_instance_status(nova_client, instance):
+def get_instance_status(cloud, instance):
     try:
-        instance = nova_client.servers.get(instance.id)
+        instance = cloud.compute.get_server(instance.id)
         return instance.status
     except Exception as e:
-        logger.error("Error [get_instance_status(nova_client)]: %s" % e)
+        logger.error("Error [get_instance_status(compute)]: %s" % e)
         return None
 
 
-def get_instance_by_name(nova_client, instance_name):
+def get_instance_by_name(cloud, instance_name):
     try:
-        instance = nova_client.servers.find(name=instance_name)
+        instance = cloud.compute.find_server(instance_name,
+                                             ignore_missing=False)
         return instance
     except Exception as e:
-        logger.error("Error [get_instance_by_name(nova_client, '%s')]: %s"
+        logger.error("Error [get_instance_by_name(compute, '%s')]: %s"
                      % (instance_name, e))
         return None
 
 
-def get_flavor_id(nova_client, flavor_name):
-    flavors = nova_client.flavors.list(detailed=True)
+def get_flavor_id(cloud, flavor_name):
+    flavors = cloud.compute.flavors()
     id = ''
     for f in flavors:
         if f.name == flavor_name:
@@ -306,8 +313,8 @@ def get_flavor_id(nova_client, flavor_name):
     return id
 
 
-def get_flavor_id_by_ram_range(nova_client, min_ram, max_ram):
-    flavors = nova_client.flavors.list(detailed=True)
+def get_flavor_id_by_ram_range(cloud, min_ram, max_ram):
+    flavors = cloud.compute.flavors()
     id = ''
     for f in flavors:
         if min_ram <= f.ram and f.ram <= max_ram:
@@ -336,31 +343,32 @@ def get_aggregate_id(nova_client, aggregate_name):
         return None
 
 
-def get_availability_zones(nova_client):
+def get_availability_zones(cloud):
     try:
-        availability_zones = nova_client.availability_zones.list()
+        availability_zones = cloud.compute.availability_zones()
         return availability_zones
     except Exception as e:
-        logger.error("Error [get_availability_zones(nova_client)]: %s" % e)
+        logger.error("Error [get_availability_zones(compute)]: %s" % e)
         return None
 
 
-def get_availability_zone_names(nova_client):
+def get_availability_zone_names(cloud):
     try:
-        az_names = [az.zoneName for az in get_availability_zones(nova_client)]
+        az_names = [az.zoneName for az in get_availability_zones(cloud)]
         return az_names
     except Exception as e:
-        logger.error("Error [get_availability_zone_names(nova_client)]:"
+        logger.error("Error [get_availability_zone_names(compute)]:"
                      " %s" % e)
         return None
 
 
-def create_flavor(nova_client, flavor_name, ram, disk, vcpus, public=True):
+def create_flavor(cloud, flavor_name, ram, disk, vcpus, public=True):
     try:
-        flavor = nova_client.flavors.create(
-            flavor_name, ram, vcpus, disk, is_public=public)
+        flavor = cloud.compute.create_flavor(
+            name=flavor_name, ram=ram, disk=disk, vcpus=vcpus,
+            is_public=public)
     except Exception as e:
-        logger.error("Error [create_flavor(nova_client, '%s', '%s', '%s', "
+        logger.error("Error [create_flavor(compute, '%s', '%s', '%s', "
                      "'%s')]: %s" % (flavor_name, ram, disk, vcpus, e))
         return None
     return flavor.id
@@ -368,9 +376,9 @@ def create_flavor(nova_client, flavor_name, ram, disk, vcpus, public=True):
 
 def get_or_create_flavor(flavor_name, ram, disk, vcpus, public=True):
     flavor_exists = False
-    nova_client = get_nova_client()
+    cloud = get_cloud_connection()
 
-    flavor_id = get_flavor_id(nova_client, flavor_name)
+    flavor_id = get_flavor_id(cloud, flavor_name)
     if flavor_id != '':
         logger.info("Using existing flavor '%s'..." % flavor_name)
         flavor_exists = True
@@ -378,7 +386,7 @@ def get_or_create_flavor(flavor_name, ram, disk, vcpus, public=True):
         logger.info("Creating flavor '%s' with '%s' RAM, '%s' disk size, "
                     "'%s' vcpus..." % (flavor_name, ram, disk, vcpus))
         flavor_id = create_flavor(
-            nova_client, flavor_name, ram, disk, vcpus, public=public)
+            cloud, flavor_name, ram, disk, vcpus, public=public)
         if not flavor_id:
             raise Exception("Failed to create flavor '%s'..." % (flavor_name))
         else:
@@ -397,16 +405,16 @@ def get_floating_ips(neutron_client):
         return None
 
 
-def get_hypervisors(nova_client):
+def get_hypervisors(cloud):
     try:
         nodes = []
-        hypervisors = nova_client.hypervisors.list()
+        hypervisors = cloud.compute.hypervisors()
         for hypervisor in hypervisors:
             if hypervisor.state == "up":
                 nodes.append(hypervisor.hypervisor_hostname)
         return nodes
     except Exception as e:
-        logger.error("Error [get_hypervisors(nova_client)]: %s" % e)
+        logger.error("Error [get_hypervisors(compute)]: %s" % e)
         return None
 
 
@@ -453,37 +461,37 @@ def create_instance(flavor_name,
                     av_zone='',
                     fixed_ip=None,
                     files=None):
-    nova_client = get_nova_client()
+    cloud = get_cloud_connection()
     try:
-        flavor = nova_client.flavors.find(name=flavor_name)
+        flavor = cloud.compute.find_flavor(flavor_name, ignore_missing=False)
     except:
-        flavors = nova_client.flavors.list()
+        flavors = [flavor.name for flavor in cloud.compute.flavors()]
         logger.error("Error: Flavor '%s' not found. Available flavors are: "
                      "\n%s" % (flavor_name, flavors))
         return None
     if fixed_ip is not None:
-        nics = {"net-id": network_id, "v4-fixed-ip": fixed_ip}
+        networks = {"uuid": network_id, "fixed_ip": fixed_ip}
     else:
-        nics = {"net-id": network_id}
+        networks = {"uuid": network_id}
     if userdata is None:
-        instance = nova_client.servers.create(
+        instance = cloud.compute.create_server(
             name=instance_name,
-            flavor=flavor,
-            image=image_id,
-            nics=[nics],
+            flavor_id=flavor.id,
+            image_id=image_id,
+            networks=[networks],
             availability_zone=av_zone,
-            files=files
+            personality=files
         )
     else:
-        instance = nova_client.servers.create(
+        instance = cloud.compute.create_server(
             name=instance_name,
-            flavor=flavor,
-            image=image_id,
-            nics=[nics],
+            flavor_id=image_id,
+            image_id=image_id,
+            networks=[networks],
             config_drive=confdrive,
-            userdata=userdata,
+            user_data=base64.b64encode(userdata.encode()),
             availability_zone=av_zone,
-            files=files
+            personality=files
         )
     return instance
 
@@ -499,7 +507,7 @@ def create_instance_and_wait_for_active(flavor_name,
                                         files=None):
     SLEEP = 3
     VM_BOOT_TIMEOUT = 180
-    nova_client = get_nova_client()
+    cloud = get_cloud_connection()
     instance = create_instance(flavor_name,
                                image_id,
                                network_id,
@@ -511,7 +519,7 @@ def create_instance_and_wait_for_active(flavor_name,
                                files=files)
     count = VM_BOOT_TIMEOUT / SLEEP
     for n in range(count, -1, -1):
-        status = get_instance_status(nova_client, instance)
+        status = get_instance_status(cloud, instance)
         if status is None:
             time.sleep(SLEEP)
             continue
@@ -551,22 +559,22 @@ def attach_floating_ip(neutron_client, port_id):
         return None
 
 
-def add_floating_ip(nova_client, server_id, floatingip_addr):
+def add_floating_ip(cloud, server_id, floatingip_addr):
     try:
-        nova_client.servers.add_floating_ip(server_id, floatingip_addr)
+        cloud.compute.add_floating_ip_to_server(server_id, floatingip_addr)
         return True
     except Exception as e:
-        logger.error("Error [add_floating_ip(nova_client, '%s', '%s')]: %s"
+        logger.error("Error [add_floating_ip(compute, '%s', '%s')]: %s"
                      % (server_id, floatingip_addr, e))
         return False
 
 
-def delete_instance(nova_client, instance_id):
+def delete_instance(cloud, instance_id):
     try:
-        nova_client.servers.force_delete(instance_id)
+        cloud.compute.delete_server(instance_id, force=True)
         return True
     except Exception as e:
-        logger.error("Error [delete_instance(nova_client, '%s')]: %s"
+        logger.error("Error [delete_instance(compute, '%s')]: %s"
                      % (instance_id, e))
         return False
 
@@ -1104,12 +1112,12 @@ def create_security_group_full(neutron_client,
     return sg_id
 
 
-def add_secgroup_to_instance(nova_client, instance_id, secgroup_id):
+def add_secgroup_to_instance(cloud, instance_id, secgroup_id):
     try:
-        nova_client.servers.add_security_group(instance_id, secgroup_id)
+        cloud.compute.add_security_group_to_server(instance_id, secgroup_id)
         return True
     except Exception as e:
-        logger.error("Error [add_secgroup_to_instance(nova_client, '%s', "
+        logger.error("Error [add_secgroup_to_instance(compute, '%s', "
                      "'%s')]: %s" % (instance_id, secgroup_id, e))
         return False
 

@@ -30,9 +30,9 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
     openstack_nodes = test_utils.get_nodes()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
@@ -60,8 +60,7 @@ def main():
             TESTCASE_CONFIG.secgroup_descr)
 
         # Check required number of compute nodes
-        compute_hostname = (
-            nova_client.hypervisors.list()[0].hypervisor_hostname)
+        compute_hostname = cloud.compute.hypervisors().next().name
         compute_nodes = [node for node in openstack_nodes
                          if node.is_compute()]
 
@@ -74,7 +73,7 @@ def main():
 
         # boot INSTANCES
         vm_2 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_1_id,
@@ -83,7 +82,7 @@ def main():
             compute_node=av_zone_1)
 
         vm_1 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -128,7 +127,7 @@ def main():
         raise
     finally:
         # Cleanup topology
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(cloud, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
                                    interfaces, subnet_ids, router_ids,
