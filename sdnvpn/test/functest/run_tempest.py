@@ -54,9 +54,8 @@ def main():
                                            disk=COMMON_CONFIG.image_format,
                                            container="bare", public='public')
 
-    nova_client = os_utils.get_nova_client()
-    flav_ref = os_utils.get_flavor_id(nova_client,
-                                      COMMON_CONFIG.default_flavor)
+    cloud = os_utils.get_cloud_connection()
+    flav_ref = os_utils.get_flavor_id(cloud, COMMON_CONFIG.default_flavor)
 
     logger.info("Copying tempest.conf to %s." % bgpvpn_tempest_conf)
     config = ConfigParser.RawConfigParser()
@@ -122,6 +121,7 @@ def main():
     finally:
         os_utils.delete_glance_image(glance_client, img_ref)
         logger.debug("Deleted image %s" % img_ref)
+
 
 if __name__ == '__main__':
     main()

@@ -70,9 +70,9 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -98,13 +98,13 @@ def main():
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
 
-    compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+    compute_nodes = test_utils.assert_and_get_compute_nodes(cloud)
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
     # boot INSTANCES
     vm_2 = test_utils.create_instance(
-        nova_client,
+        cloud,
         TESTCASE_CONFIG.instance_2_name,
         image_id,
         network_1_id,
@@ -115,7 +115,7 @@ def main():
 
     u1 = test_utils.generate_ping_userdata([vm2_ip])
     vm_1 = test_utils.create_instance(
-        nova_client,
+        cloud,
         TESTCASE_CONFIG.instance_1_name,
         image_id,
         network_1_id,
@@ -127,7 +127,7 @@ def main():
 
     u3 = test_utils.generate_ping_userdata([vm1_ip, vm2_ip])
     vm_3 = test_utils.create_instance(
-        nova_client,
+        cloud,
         TESTCASE_CONFIG.instance_3_name,
         image_id,
         network_1_id,
@@ -191,7 +191,7 @@ def main():
             results.add_failure(monitor_err_msg)
         # Stop monitor thread 2 and delete instance vm_2
         thread_inputs[1]["stop_thread"] = True
-        if not os_utils.delete_instance(nova_client, vm_2.id):
+        if not os_utils.delete_instance(cloud, vm_2.id):
             logger.error("Fail to delete vm_2 instance during "
                          "testing process")
             raise Exception("Fail to delete instance vm_2.")
@@ -205,7 +205,7 @@ def main():
         # Create a new vm (vm_4) on compute 1 node
         u4 = test_utils.generate_ping_userdata([vm1_ip, vm3_ip])
         vm_4 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_4_name,
             image_id,
             network_1_id,
@@ -259,7 +259,7 @@ def main():
         for thread in threads:
             thread.join()
 
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(cloud, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
                                    interfaces, subnet_ids, router_ids,

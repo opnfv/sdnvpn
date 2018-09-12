@@ -43,9 +43,9 @@ def main():
     else:
         logger.info("Using old image")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids, flavor_ids) = ([] for i in range(9))
@@ -79,7 +79,7 @@ def main():
             neutron_client, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
-        compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+        compute_nodes = test_utils.assert_and_get_compute_nodes(cloud)
 
         av_zone_1 = "nova:" + compute_nodes[0]
         av_zone_2 = "nova:" + compute_nodes[1]
@@ -91,7 +91,7 @@ def main():
             TESTCASE_CONFIG.extra_route_subnet_mask)
         # boot INTANCES
         vm_1 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -111,7 +111,7 @@ def main():
                 vm1_port['mac_address'])])
 
         vm_2 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_1_id,
@@ -144,7 +144,7 @@ def main():
         u3 = test_utils.generate_ping_userdata(
             [TESTCASE_CONFIG.extra_route_ip])
         vm_3 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_3_name,
             image_2_id,
             network_1_id,
@@ -208,7 +208,7 @@ def main():
         raise
     finally:
         test_utils.update_router_no_extra_route(neutron_client, router_ids)
-        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
+        test_utils.cleanup_nova(cloud, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,

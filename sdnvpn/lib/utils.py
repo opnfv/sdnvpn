@@ -155,7 +155,7 @@ def update_port_allowed_address_pairs(neutron_client, port_id, address_pairs):
         return None
 
 
-def create_instance(nova_client,
+def create_instance(cloud,
                     name,
                     image_id,
                     network_id,
@@ -203,7 +203,7 @@ def create_instance(nova_client,
     else:
         logger.debug("Adding '%s' to security group '%s'..."
                      % (name, sg_id))
-    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
+    os_utils.add_secgroup_to_instance(cloud, instance.id, sg_id)
 
     return instance
 
@@ -426,10 +426,10 @@ def wait_before_subtest(*args, **kwargs):
     time.sleep(30)
 
 
-def assert_and_get_compute_nodes(nova_client, required_node_number=2):
+def assert_and_get_compute_nodes(cloud, required_node_number=2):
     """Get the compute nodes in the deployment
     Exit if the deployment doesn't have enough compute nodes"""
-    compute_nodes = os_utils.get_hypervisors(nova_client)
+    compute_nodes = os_utils.get_hypervisors(cloud)
 
     num_compute_nodes = len(compute_nodes)
     if num_compute_nodes < 2:
@@ -692,13 +692,13 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     return True
 
 
-def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
+def cleanup_nova(cloud, instance_ids, flavor_ids=None):
     if flavor_ids is not None and len(flavor_ids) != 0:
         for flavor_id in flavor_ids:
-            nova_client.flavors.delete(flavor_id)
+            cloud.compute.delete_flavor(flavor_id)
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
-            if not os_utils.delete_instance(nova_client, instance_id):
+            if not os_utils.delete_instance(cloud, instance_id):
                 logger.error('Fail to delete all instances. '
                              'Instance with id {} was not deleted.'.
                              format(instance_id))
