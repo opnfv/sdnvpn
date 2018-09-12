@@ -8,6 +8,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 
+import base64
 import logging
 import sys
 
@@ -25,13 +26,13 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 
 
 def main():
-    results = Results(COMMON_CONFIG.line_length)
+    conn = os_utils.get_os_connection()
+    results = Results(COMMON_CONFIG.line_length, conn)
 
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
@@ -44,7 +45,8 @@ def main():
         keyfile = open(COMMON_CONFIG.keyfile_path, 'r')
         key = keyfile.read()
         keyfile.close()
-        files = {"/home/cirros/id_rsa": key}
+        files = [{'path': '/home/cirros/id_rsa',
+                  'contents': base64.b64encode(key)}]
 
         image_id = os_utils.create_glance_image(
             glance_client, TESTCASE_CONFIG.image_name,
@@ -91,7 +93,7 @@ def main():
             neutron_client, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
-        compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+        compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
 
         av_zone_1 = "nova:" + compute_nodes[0]
         # av_zone_2 = "nova:" + compute_nodes[1]
@@ -99,7 +101,7 @@ def main():
         # boot INTANCES
         userdata_common = test_utils.generate_userdata_common()
         vm_2 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_1_id,
@@ -111,7 +113,7 @@ def main():
 
 
 #         vm_3 = test_utils.create_instance(
-#             nova_client,
+#             conn,
 #             TESTCASE_CONFIG.instance_3_name,
 #             image_id,
 #             network_1_id,
@@ -122,7 +124,7 @@ def main():
 #             userdata=userdata_common)
 #
 #         vm_5 = test_utils.create_instance(
-#             nova_client,
+#             conn,
 #             TESTCASE_CONFIG.instance_5_name,
 #             image_id,
 #             network_2_id,
@@ -139,7 +141,7 @@ def main():
              # TESTCASE_CONFIG.instance_5_ip
              ])
         vm_4 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_4_name,
             image_id,
             network_2_id,
@@ -159,7 +161,7 @@ def main():
              # TESTCASE_CONFIG.instance_5_ip
              ])
         vm_1 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -267,7 +269,7 @@ def main():
         logger.error("exception occurred while executing testcase_2: %s", e)
         raise
     finally:
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,

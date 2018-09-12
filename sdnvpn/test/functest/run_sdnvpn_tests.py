@@ -31,7 +31,7 @@ class SdnvpnFunctest(feature.Feature):
 
     def execute(self):
 
-        nova_client = os_utils.get_nova_client()
+        cloud = os_utils.get_os_cloud()
         neutron_client = os_utils.get_neutron_client()
 
         tenant_id = os_utils.get_tenant_id(os_utils.get_keystone_client(),
@@ -42,7 +42,7 @@ class SdnvpnFunctest(feature.Feature):
          neutron_router_quota) = (
             neutron_quota['network'], neutron_quota['subnet'],
             neutron_quota['port'], neutron_quota['router'])
-        instances_quota = test_utils.get_nova_instances_quota(nova_client)
+        instances_quota = test_utils.get_nova_instances_quota(cloud)
 
         logger.info("Setting net/subnet/port/router "
                     "quota to unlimited")
@@ -59,8 +59,7 @@ class SdnvpnFunctest(feature.Feature):
         # https://jira.opnfv.org/projects/SDNVPN/issues/SDNVPN-115
         logger.info("Setting instances quota class to unlimited")
         test_utils.update_instance_quota_class(
-            nova_client,
-            COMMON_CONFIG.nova_instances_quota_class)
+            cloud, COMMON_CONFIG.nova_instances_quota_class)
 
         # Clean up the stale floating ip's so that required
         # ip addresses are available for sdnvpn testcases
@@ -141,7 +140,7 @@ class SdnvpnFunctest(feature.Feature):
                                                neutron_router_quota)
 
         logger.info("Resetting instances quota class")
-        test_utils.update_instance_quota_class(nova_client, instances_quota)
+        test_utils.update_instance_quota_class(cloud, instances_quota)
 
         try:
             installer_type = str(os.environ['INSTALLER_TYPE'].lower())
