@@ -34,7 +34,8 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 
 
 def main():
-    results = Results(COMMON_CONFIG.line_length)
+    conn = os_utils.get_os_connection()
+    results = Results(COMMON_CONFIG.line_length, conn)
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
@@ -169,7 +170,6 @@ def main():
         logger.info("Using old image")
 
     glance_client = os_utils.get_glance_client()
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
@@ -246,8 +246,9 @@ def main():
         fake_fip = os_utils.create_floating_ip(neutron_client)
         # pin quagga to some compute
         floatingip_ids.append(fake_fip['fip_id'])
-        compute_node = nova_client.hypervisors.list()[0]
-        quagga_compute_node = "nova:" + compute_node.hypervisor_hostname
+        compute_node = conn.compute.hypervisors().next()
+        compute_node = conn.compute.get_hypervisor(compute_node)
+        quagga_compute_node = "nova:" + compute_node.name
         # Map the hypervisor used above to a compute handle
         # returned by releng's manager
         for comp in computes:
@@ -264,7 +265,7 @@ def main():
             TESTCASE_CONFIG.export_targets)
 
         quagga_vm = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.quagga_instance_name,
             ubuntu_image_id,
             quagga_net_id,
@@ -274,7 +275,7 @@ def main():
             userdata=quagga_bootstrap_script,
             compute_node=quagga_compute_node)
 
-        instance_ids.append(quagga_vm)
+        instance_ids.append(quagga_vm.id)
 
         quagga_vm_port = test_utils.get_port(neutron_client,
                                              quagga_vm.id)
@@ -292,7 +293,7 @@ def main():
         test_utils.attach_instance_to_ext_br(quagga_vm, compute)
 
         testcase = "Bootstrap quagga inside an OpenStack instance"
-        cloud_init_success = test_utils.wait_for_cloud_init(quagga_vm)
+        cloud_init_success = test_utils.wait_for_cloud_init(conn, quagga_vm)
         if cloud_init_success:
             results.add_success(testcase)
         else:
@@ -342,10 +343,10 @@ def main():
         userdata_common = test_utils.generate_ping_userdata(
             [TESTCASE_CONFIG.external_network_ip])
 
-        compute_node = nova_client.hypervisors.list()[0]
-        av_zone_1 = "nova:" + compute_node.hypervisor_hostname
+        compute_node = conn.compute.hypervisors().next()
+        av_zone_1 = "nova:" + compute_node.name
         vm_bgpvpn = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             net_1_id,
@@ -354,7 +355,7 @@ def main():
             secgroup_name=TESTCASE_CONFIG.secgroup_name,
             compute_node=av_zone_1,
             userdata=userdata_common)
-        instance_ids.append(vm_bgpvpn)
+        instance_ids.append(vm_bgpvpn.id)
 
         # wait for VM to get IP
         instance_up = test_utils.wait_for_instances_up(vm_bgpvpn)
@@ -395,7 +396,7 @@ def main():
         raise
     finally:
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
-        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
+        test_utils.cleanup_nova(conn, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,

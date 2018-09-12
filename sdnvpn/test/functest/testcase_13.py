@@ -26,7 +26,8 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 
 
 def main():
-    results = Results(COMMON_CONFIG.line_length)
+    conn = os_utils.get_os_connection()
+    results = Results(COMMON_CONFIG.line_length, conn)
 
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
@@ -43,7 +44,6 @@ def main():
     else:
         logger.info("Using old image")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
 
@@ -79,7 +79,7 @@ def main():
             neutron_client, TESTCASE_CONFIG.secgroup_name,
             TESTCASE_CONFIG.secgroup_descr)
 
-        compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+        compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
 
         av_zone_1 = "nova:" + compute_nodes[0]
         av_zone_2 = "nova:" + compute_nodes[1]
@@ -91,7 +91,7 @@ def main():
             TESTCASE_CONFIG.extra_route_subnet_mask)
         # boot INTANCES
         vm_1 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -100,7 +100,7 @@ def main():
             secgroup_name=TESTCASE_CONFIG.secgroup_name,
             compute_node=av_zone_1,
             userdata=u1)
-        vm_1_ip = test_utils.get_instance_ip(vm_1)
+        vm_1_ip = test_utils.get_instance_ip(conn, vm_1)
 
         vm1_port = test_utils.get_port(neutron_client, vm_1.id)
         test_utils.update_port_allowed_address_pairs(
@@ -111,7 +111,7 @@ def main():
                 vm1_port['mac_address'])])
 
         vm_2 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_1_id,
@@ -120,7 +120,7 @@ def main():
             secgroup_name=TESTCASE_CONFIG.secgroup_name,
             compute_node=av_zone_1,
             userdata=u1)
-        vm_2_ip = test_utils.get_instance_ip(vm_2)
+        vm_2_ip = test_utils.get_instance_ip(conn, vm_2)
 
         vm2_port = test_utils.get_port(neutron_client, vm_2.id)
         test_utils.update_port_allowed_address_pairs(
@@ -144,7 +144,7 @@ def main():
         u3 = test_utils.generate_ping_userdata(
             [TESTCASE_CONFIG.extra_route_ip])
         vm_3 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_3_name,
             image_2_id,
             network_1_id,
@@ -208,7 +208,7 @@ def main():
         raise
     finally:
         test_utils.update_router_no_extra_route(neutron_client, router_ids)
-        test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
+        test_utils.cleanup_nova(conn, instance_ids, flavor_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
