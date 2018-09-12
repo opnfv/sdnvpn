@@ -155,7 +155,7 @@ def update_port_allowed_address_pairs(neutron_client, port_id, address_pairs):
         return None
 
 
-def create_instance(nova_client,
+def create_instance(cloud,
                     name,
                     image_id,
                     network_id,
@@ -164,7 +164,7 @@ def create_instance(nova_client,
                     fixed_ip=None,
                     compute_node='',
                     userdata=None,
-                    files=None,
+                    files=[],
                     **kwargs
                     ):
     if 'flavor' not in kwargs:
@@ -192,10 +192,12 @@ def create_instance(nova_client,
         logger.error("Error while booting instance.")
         raise Exception("Error while booting instance {}".format(name))
     else:
+        # Retrieve IP of INSTANCE
+        network_name = cloud.network.get_network(network_id).name
+        instance_ip = cloud.compute.get_server(instance).\
+            addresses.get(network_name)[0]['addr']
         logger.debug("Instance '%s' booted successfully. IP='%s'." %
-                     (name, instance.networks.itervalues().next()[0]))
-    # Retrieve IP of INSTANCE
-    # instance_ip = instance.networks.get(network_id)[0]
+                     (name, instance_ip))
 
     if secgroup_name:
         logger.debug("Adding '%s' to security group '%s'..."
@@ -203,7 +205,7 @@ def create_instance(nova_client,
     else:
         logger.debug("Adding '%s' to security group '%s'..."
                      % (name, sg_id))
-    os_utils.add_secgroup_to_instance(nova_client, instance.id, sg_id)
+    os_utils.add_secgroup_to_instance(cloud, instance.id, sg_id)
 
     return instance
 
@@ -321,18 +323,21 @@ def get_installer_ip():
     return str(os.environ['INSTALLER_IP'])
 
 
-def get_instance_ip(instance):
-    instance_ip = instance.networks.itervalues().next()[0]
+def get_instance_ip(cloud, instance):
+    instance_ip = cloud.compute.get_server(instance).\
+        addresses.values()[0][0]['addr']
     return instance_ip
 
 
 def wait_for_instance(instance, pattern=".* login:", tries=40):
     logger.info("Waiting for instance %s to boot up" % instance.id)
+    cloud = os_utils.get_cloud_connection()
     sleep_time = 2
     expected_regex = re.compile(pattern)
     console_log = ""
     while tries > 0 and not expected_regex.search(console_log):
-        console_log = instance.get_console_output()
+        console_log = cloud.compute.\
+            get_server_console_output(instance)['output']
         time.sleep(sleep_time)
         tries -= 1
 
@@ -426,10 +431,10 @@ def wait_before_subtest(*args, **kwargs):
     time.sleep(30)
 
 
-def assert_and_get_compute_nodes(nova_client, required_node_number=2):
+def assert_and_get_compute_nodes(cloud, required_node_number=2):
     """Get the compute nodes in the deployment
     Exit if the deployment doesn't have enough compute nodes"""
-    compute_nodes = os_utils.get_hypervisors(nova_client)
+    compute_nodes = os_utils.get_hypervisors(cloud)
 
     num_compute_nodes = len(compute_nodes)
     if num_compute_nodes < 2:
@@ -546,7 +551,7 @@ def run_odl_cmd(odl_node, cmd):
     return odl_node.run_cmd(karaf_cmd)
 
 
-def wait_for_cloud_init(instance):
+def wait_for_cloud_init(cloud, instance):
     success = True
     # ubuntu images take a long time to start
     tries = 20
@@ -554,7 +559,8 @@ def wait_for_cloud_init(instance):
     logger.info("Waiting for cloud init of instance: {}"
                 "".format(instance.name))
     while tries > 0:
-        instance_log = instance.get_console_output()
+        instance_log = cloud.compute.\
+            get_server_console_output(instance)['output']
         if "Failed to run module" in instance_log:
             success = False
             logger.error("Cloud init failed to run. Reason: %s",
@@ -577,7 +583,7 @@ def wait_for_cloud_init(instance):
 
 
 def attach_instance_to_ext_br(instance, compute_node):
-    libvirt_instance_name = getattr(instance, "OS-EXT-SRV-ATTR:instance_name")
+    libvirt_instance_name = instance.instance_name
     installer_type = str(os.environ['INSTALLER_TYPE'].lower())
     if installer_type == "fuel":
         bridge = "br-ex"
@@ -606,7 +612,7 @@ def attach_instance_to_ext_br(instance, compute_node):
 
 
 def detach_instance_from_ext_br(instance, compute_node):
-    libvirt_instance_name = getattr(instance, "OS-EXT-SRV-ATTR:instance_name")
+    libvirt_instance_name = instance.instance_name
     mac = compute_node.run_cmd("for vm in $(sudo virsh list | "
                                "grep running | awk '{print $2}'); "
                                "do echo -n ; sudo virsh dumpxml $vm| "
@@ -692,13 +698,13 @@ def cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids, interfaces,
     return True
 
 
-def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
+def cleanup_nova(cloud, instance_ids, flavor_ids=None):
     if flavor_ids is not None and len(flavor_ids) != 0:
         for flavor_id in flavor_ids:
-            nova_client.flavors.delete(flavor_id)
+            cloud.compute.delete_flavor(flavor_id)
     if len(instance_ids) != 0:
         for instance_id in instance_ids:
-            if not os_utils.delete_instance(nova_client, instance_id):
+            if not os_utils.delete_instance(cloud, instance_id):
                 logger.error('Fail to delete all instances. '
                              'Instance with id {} was not deleted.'.
                              format(instance_id))
