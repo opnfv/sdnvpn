@@ -11,6 +11,7 @@ import logging
 import time
 
 import functest.utils.functest_utils as ft_utils
+from sdnvpn.lib import openstack_utils as os_utils
 
 logger = logging.getLogger('sdnvpn-results')
 
@@ -18,6 +19,7 @@ logger = logging.getLogger('sdnvpn-results')
 class Results(object):
 
     def __init__(self, line_length):
+        self.cloud = os_utils.get_cloud_connection()
         self.line_length = line_length
         self.test_result = "PASS"
         self.summary = ""
@@ -29,7 +31,8 @@ class Results(object):
                         vm_source,
                         vm_target,
                         expected="PASS", timeout=30):
-        ip_target = vm_target.networks.itervalues().next()[0]
+        ip_target = self.cloud.compute.get_server(vm_target).\
+            addresses.values()[0][0]['addr']
         self.get_ping_status_target_ip(vm_source, vm_target.name,
                                        ip_target, expected, timeout)
 
@@ -38,8 +41,10 @@ class Results(object):
                                   target_name,
                                   ip_target,
                                   expected="PASS", timeout=30):
-        console_log = vm_source.get_console_output()
-        ip_source = vm_source.networks.itervalues().next()[0]
+        console_log = self.cloud.compute.\
+            get_server_console_output(vm_source)['output']
+        ip_source = self.cloud.compute.get_server(vm_source).\
+            addresses.values()[0][0]['addr']
         if "request failed" in console_log:
             # Normally, cirros displays this message when userdata fails
             logger.debug("It seems userdata is not supported in "
@@ -59,7 +64,8 @@ class Results(object):
                             tab, target_name, ip_target,
                             tab, expected_result))
             while True:
-                console_log = vm_source.get_console_output()
+                console_log = self.cloud.compute.\
+                    get_server_console_output(vm_source)['output']
                 # the console_log is a long string, we want to take
                 # the last 4 lines (for example)
                 lines = console_log.split('\n')
@@ -128,9 +134,12 @@ class Results(object):
 
     def check_ssh_output(self, vm_source, vm_target,
                          expected, timeout=30):
-        console_log = vm_source.get_console_output()
-        ip_source = vm_source.networks.itervalues().next()[0]
-        ip_target = vm_target.networks.itervalues().next()[0]
+        console_log = self.cloud.compute.\
+            get_server_console_output(vm_source)['output']
+        ip_source = self.cloud.compute.get_server(vm_source).\
+            addresses.values()[0][0]['addr']
+        ip_target = self.cloud.compute.get_server(vm_target).\
+            addresses.values()[0][0]['addr']
 
         if "request failed" in console_log:
             # Normally, cirros displays this message when userdata fails
@@ -148,7 +157,8 @@ class Results(object):
                             tab, vm_target.name, ip_target,
                             tab, expected))
             while True:
-                console_log = vm_source.get_console_output()
+                console_log = self.cloud.compute.\
+                    get_server_console_output(vm_source)['output']
                 # the console_log is a long string, we want to take
                 # the last 4 lines (for example)
                 lines = console_log.split('\n')

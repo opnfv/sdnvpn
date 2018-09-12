@@ -41,9 +41,9 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
@@ -82,17 +82,17 @@ def main():
         test_utils.open_http_port(neutron_client, sg_id)
 
         vm_2 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_2_id,
             sg_id,
             secgroup_name=TESTCASE_CONFIG.secgroup_name)
-        vm_2_ip = test_utils.get_instance_ip(vm_2)
+        vm_2_ip = test_utils.get_instance_ip(cloud, vm_2)
 
         u1 = test_utils.generate_ping_userdata([vm_2_ip])
         vm_1 = test_utils.create_instance(
-            nova_client,
+            cloud,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -168,7 +168,7 @@ def main():
         logger.error("exception occurred while executing testcase_7: %s", e)
         raise
     finally:
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(cloud, instance_ids)
         test_utils.cleanup_glance(glance_client, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
