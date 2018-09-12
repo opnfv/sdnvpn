@@ -28,14 +28,15 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
     'sdnvpn.test.functest.testcase_10')
 
 
-def monitor(in_data, out_data, vm):
+def monitor(conn, in_data, out_data, vm):
     # At the beginning of ping we might have some
     # failures, so we ignore the first 10 pings
     lines_offset = 20
     while in_data["stop_thread"] is False:
         try:
             time.sleep(1)
-            vm_console_out_lines = vm.get_console_output().split('\n')
+            vm_console_out_lines = conn.compute.\
+                get_server_console_output(vm)['output'].split('\n')
             if lines_offset < len(vm_console_out_lines):
                 for console_line in vm_console_out_lines[lines_offset:-1]:
                     is_ping_error = re.match(r'ping.*KO', console_line)
@@ -64,13 +65,13 @@ def monitor(in_data, out_data, vm):
 
 
 def main():
-    results = Results(COMMON_CONFIG.line_length)
+    conn = os_utils.get_os_connection()
+    results = Results(COMMON_CONFIG.line_length, conn)
 
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     conn = os_utils.get_os_connection()
 
@@ -98,24 +99,24 @@ def main():
                                                 TESTCASE_CONFIG.secgroup_name,
                                                 TESTCASE_CONFIG.secgroup_descr)
 
-    compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+    compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
     av_zone_1 = "nova:" + compute_nodes[0]
     av_zone_2 = "nova:" + compute_nodes[1]
 
     # boot INSTANCES
     vm_2 = test_utils.create_instance(
-        nova_client,
+        conn,
         TESTCASE_CONFIG.instance_2_name,
         image_id,
         network_1_id,
         sg_id,
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1)
-    vm2_ip = test_utils.get_instance_ip(vm_2)
+    vm2_ip = test_utils.get_instance_ip(conn, vm_2)
 
     u1 = test_utils.generate_ping_userdata([vm2_ip])
     vm_1 = test_utils.create_instance(
-        nova_client,
+        conn,
         TESTCASE_CONFIG.instance_1_name,
         image_id,
         network_1_id,
@@ -123,11 +124,11 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_1,
         userdata=u1)
-    vm1_ip = test_utils.get_instance_ip(vm_1)
+    vm1_ip = test_utils.get_instance_ip(conn, vm_1)
 
     u3 = test_utils.generate_ping_userdata([vm1_ip, vm2_ip])
     vm_3 = test_utils.create_instance(
-        nova_client,
+        conn,
         TESTCASE_CONFIG.instance_3_name,
         image_id,
         network_1_id,
@@ -135,7 +136,7 @@ def main():
         secgroup_name=TESTCASE_CONFIG.secgroup_name,
         compute_node=av_zone_2,
         userdata=u3)
-    vm3_ip = test_utils.get_instance_ip(vm_3)
+    vm3_ip = test_utils.get_instance_ip(conn, vm_3)
     # We do not put vm_2 id in instance_ids table because we will
     # delete the current instance during the testing process
     instance_ids.extend([vm_1.id, vm_3.id])
@@ -153,19 +154,19 @@ def main():
     monitor_output1 = m.dict()
     monitor_input1["stop_thread"] = False
     monitor_output1["error_msg"] = ""
-    monitor_thread1 = Process(target=monitor, args=(monitor_input1,
+    monitor_thread1 = Process(target=monitor, args=(conn, monitor_input1,
                                                     monitor_output1, vm_1,))
     monitor_input2 = m.dict()
     monitor_output2 = m.dict()
     monitor_input2["stop_thread"] = False
     monitor_output2["error_msg"] = ""
-    monitor_thread2 = Process(target=monitor, args=(monitor_input2,
+    monitor_thread2 = Process(target=monitor, args=(conn, monitor_input2,
                                                     monitor_output2, vm_2,))
     monitor_input3 = m.dict()
     monitor_output3 = m.dict()
     monitor_input3["stop_thread"] = False
     monitor_output3["error_msg"] = ""
-    monitor_thread3 = Process(target=monitor, args=(monitor_input3,
+    monitor_thread3 = Process(target=monitor, args=(conn, monitor_input3,
                                                     monitor_output3, vm_3,))
     # Lists of all monitor threads and their inputs and outputs.
     threads = [monitor_thread1, monitor_thread2, monitor_thread3]
@@ -191,7 +192,7 @@ def main():
             results.add_failure(monitor_err_msg)
         # Stop monitor thread 2 and delete instance vm_2
         thread_inputs[1]["stop_thread"] = True
-        if not os_utils.delete_instance(nova_client, vm_2.id):
+        if not os_utils.delete_instance(conn, vm_2.id):
             logger.error("Fail to delete vm_2 instance during "
                          "testing process")
             raise Exception("Fail to delete instance vm_2.")
@@ -205,7 +206,7 @@ def main():
         # Create a new vm (vm_4) on compute 1 node
         u4 = test_utils.generate_ping_userdata([vm1_ip, vm3_ip])
         vm_4 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_4_name,
             image_id,
             network_1_id,
@@ -225,7 +226,7 @@ def main():
         monitor_output4 = m.dict()
         monitor_input4["stop_thread"] = False
         monitor_output4["error_msg"] = ""
-        monitor_thread4 = Process(target=monitor, args=(monitor_input4,
+        monitor_thread4 = Process(target=monitor, args=(conn, monitor_input4,
                                                         monitor_output4,
                                                         vm_4,))
         threads.append(monitor_thread4)
@@ -259,7 +260,7 @@ def main():
         for thread in threads:
             thread.join()
 
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
                                    interfaces, subnet_ids, router_ids,

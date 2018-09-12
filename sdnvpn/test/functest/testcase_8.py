@@ -33,13 +33,13 @@ TESTCASE_CONFIG = sdnvpn_config.TestcaseConfig(
 
 
 def main():
-    results = Results(COMMON_CONFIG.line_length)
+    conn = os_utils.get_os_connection()
+    results = Results(COMMON_CONFIG.line_length, conn)
 
     results.add_to_summary(0, "=")
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
     conn = os_utils.get_os_connection()
 
@@ -79,24 +79,24 @@ def main():
         test_utils.open_icmp(neutron_client, sg_id)
         test_utils.open_http_port(neutron_client, sg_id)
 
-        compute_nodes = test_utils.assert_and_get_compute_nodes(nova_client)
+        compute_nodes = test_utils.assert_and_get_compute_nodes(conn)
         av_zone_1 = "nova:" + compute_nodes[0]
         # spawning the VMs on the same compute because fib flow (21) entries
         # are not created properly if vm1 and vm2 are attached to two
         # different computes
         vm_2 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_2_name,
             image_id,
             network_2_id,
             sg_id,
             secgroup_name=TESTCASE_CONFIG.secgroup_name,
             compute_node=av_zone_1)
-        vm_2_ip = test_utils.get_instance_ip(vm_2)
+        vm_2_ip = test_utils.get_instance_ip(conn, vm_2)
 
         u1 = test_utils.generate_ping_userdata([vm_2_ip])
         vm_1 = test_utils.create_instance(
-            nova_client,
+            conn,
             TESTCASE_CONFIG.instance_1_name,
             image_id,
             network_1_id,
@@ -176,7 +176,7 @@ def main():
         logger.error("exception occurred while executing testcase_8: %s", e)
         raise
     finally:
-        test_utils.cleanup_nova(nova_client, instance_ids)
+        test_utils.cleanup_nova(conn, instance_ids)
         test_utils.cleanup_glance(conn, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
