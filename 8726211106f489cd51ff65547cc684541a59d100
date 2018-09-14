@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_e8e6ce15",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-14T18:13:50Z",
+      "side": 1,
+      "message": "next() here can produce StopIteration error. You should try to catch that and return False if it occurs.",
+      "range": {
+        "startLine": 1008,
+        "startChar": 51,
+        "endLine": 1008,
+        "endChar": 57
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_68a11ea9",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-14T18:13:50Z",
+      "side": 1,
+      "message": "This method can raise SystemError. You do not catch it on purpose to elevate it further? If not then you should handle it here",
+      "range": {
+        "startLine": 201,
+        "startChar": 19,
+        "endLine": 201,
+        "endChar": 40
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
