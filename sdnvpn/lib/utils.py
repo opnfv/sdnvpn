@@ -706,10 +706,10 @@ def cleanup_nova(nova_client, instance_ids, flavor_ids=None):
     return True
 
 
-def cleanup_glance(glance_client, image_ids):
+def cleanup_glance(cloud, image_ids):
     if len(image_ids) != 0:
         for image_id in image_ids:
-            if not os_utils.delete_glance_image(glance_client, image_id):
+            if not os_utils.delete_glance_image(cloud, image_id):
                 logger.error('Fail to delete all images. '
                              'Image with id {} was not deleted.'.
                              format(image_id))
