@@ -47,8 +47,8 @@ def main():
         exit(-1)
     shutil.copy(src_tempest_conf, bgpvpn_tempest_conf)
 
-    glance_client = os_utils.get_glance_client()
-    img_ref = os_utils.create_glance_image(glance_client,
+    conn = os_utils.get_os_connection()
+    img_ref = os_utils.create_glance_image(conn,
                                            TESTCASE_CONFIG.image_name,
                                            COMMON_CONFIG.image_path,
                                            disk=COMMON_CONFIG.image_format,
@@ -120,8 +120,9 @@ def main():
     except Exception as e:
         logger.error("Problem when parsing the results: %s", e)
     finally:
-        os_utils.delete_glance_image(glance_client, img_ref)
+        os_utils.delete_glance_image(conn, img_ref)
         logger.debug("Deleted image %s" % img_ref)
+
 
 if __name__ == '__main__':
     main()
