@@ -168,7 +168,7 @@ def main():
     else:
         logger.info("Using old image")
 
-    glance_client = os_utils.get_glance_client()
+    cloud = os_utils.get_cloud_connection()
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
 
@@ -188,7 +188,7 @@ def main():
         test_utils.open_bgp_port(neutron_client, sg_id)
 
         image_id = os_utils.create_glance_image(
-            glance_client, TESTCASE_CONFIG.image_name,
+            cloud, TESTCASE_CONFIG.image_name,
             COMMON_CONFIG.image_path, disk=COMMON_CONFIG.image_format,
             container="bare", public='public')
         image_ids.append(image_id)
@@ -223,7 +223,7 @@ def main():
             logger.error("Incompatible installer type")
 
         ubuntu_image_id = os_utils.create_glance_image(
-            glance_client,
+            cloud,
             COMMON_CONFIG.ubuntu_image_name,
             COMMON_CONFIG.ubuntu_image_path,
             disk,
@@ -396,7 +396,7 @@ def main():
     finally:
         test_utils.detach_instance_from_ext_br(quagga_vm, compute)
         test_utils.cleanup_nova(nova_client, instance_ids, flavor_ids)
-        test_utils.cleanup_glance(glance_client, image_ids)
+        test_utils.cleanup_glance(cloud, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids,
                                    bgpvpn_ids, interfaces, subnet_ids,
                                    router_ids, network_ids)
