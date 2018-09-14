@@ -72,11 +72,11 @@ def main():
 
     nova_client = os_utils.get_nova_client()
     neutron_client = os_utils.get_neutron_client()
-    glance_client = os_utils.get_glance_client()
+    conn = os_utils.get_os_connection()
 
     (floatingip_ids, instance_ids, router_ids, network_ids, image_ids,
      subnet_ids, interfaces, bgpvpn_ids) = ([] for i in range(8))
-    image_id = os_utils.create_glance_image(glance_client,
+    image_id = os_utils.create_glance_image(conn,
                                             TESTCASE_CONFIG.image_name,
                                             COMMON_CONFIG.image_path,
                                             disk=COMMON_CONFIG.image_format,
@@ -260,7 +260,7 @@ def main():
             thread.join()
 
         test_utils.cleanup_nova(nova_client, instance_ids)
-        test_utils.cleanup_glance(glance_client, image_ids)
+        test_utils.cleanup_glance(conn, image_ids)
         test_utils.cleanup_neutron(neutron_client, floatingip_ids, bgpvpn_ids,
                                    interfaces, subnet_ids, router_ids,
                                    network_ids)
