@@ -17,7 +17,6 @@ import urllib
 
 from keystoneauth1 import loading
 from keystoneauth1 import session
-from cinderclient import client as cinderclient
 from glanceclient import client as glanceclient
 from heatclient import client as heatclient
 from novaclient import client as novaclient
@@ -168,20 +167,6 @@ def get_nova_client_version():
 def get_nova_client(other_creds={}):
     sess = get_session(other_creds)
     return novaclient.Client(get_nova_client_version(), session=sess)
-
-
-def get_cinder_client_version():
-    api_version = os.getenv('OS_VOLUME_API_VERSION')
-    if api_version is not None:
-        logger.info("OS_VOLUME_API_VERSION is set in env as '%s'",
-                    api_version)
-        return api_version
-    return DEFAULT_API_VERSION
-
-
-def get_cinder_client(other_creds={}):
-    sess = get_session(other_creds)
-    return cinderclient.Client(get_cinder_client_version(), session=sess)
 
 
 def get_neutron_client_version():
@@ -1232,44 +1217,47 @@ def delete_glance_image(glance_client, image_id):
 # *********************************************
 #   CINDER
 # *********************************************
-def get_volumes(cinder_client):
+def get_volumes(conn):
     try:
-        volumes = cinder_client.volumes.list(search_opts={'all_tenants': 1})
+        volumes = conn.block_store.volumes(all_tenants=1)
         return volumes
     except Exception as e:
-        logger.error("Error [get_volumes(cinder_client)]: %s" % e)
+        logger.error("Error [get_volumes(volume)]: %s" % e)
         return None
 
 
-def update_cinder_quota(cinder_client, tenant_id, vols_quota,
+def update_cinder_quota(cloud, tenant_id, vols_quota,
                         snapshots_quota, gigabytes_quota):
     quotas_values = {"volumes": vols_quota,
                      "snapshots": snapshots_quota,
                      "gigabytes": gigabytes_quota}
 
     try:
-        cinder_client.quotas.update(tenant_id, **quotas_values)
+        cloud.set_volume_quotas(tenant_id, **quotas_values)
         return True
     except Exception as e:
-        logger.error("Error [update_cinder_quota(cinder_client, '%s', '%s', "
+        logger.error("Error [update_cinder_quota(volume, '%s', '%s', "
                      "'%s' '%s')]: %s" % (tenant_id, vols_quota,
                                           snapshots_quota, gigabytes_quota, e))
         return False
 
 
-def delete_volume(cinder_client, volume_id, forced=False):
+def delete_volume(cloud, volume_id, forced=False):
     try:
         if forced:
             try:
-                cinder_client.volumes.detach(volume_id)
+                volume = cloud.get_volume(volume_id)
+                for attachment in volume.attachments:
+                    server = cloud.get_server(attachment.server_id)
+                    cloud.detach_volume(server, volume)
             except:
                 logger.error(sys.exc_info()[0])
-            cinder_client.volumes.force_delete(volume_id)
+            cloud.delete_volume(volume_id, force=True)
         else:
-            cinder_client.volumes.delete(volume_id)
+            cloud.delete_volume(volume_id)
         return True
     except Exception as e:
-        logger.error("Error [delete_volume(cinder_client, '%s', '%s')]: %s"
+        logger.error("Error [delete_volume(volume, '%s', '%s')]: %s"
                      % (volume_id, str(forced), e))
         return False
 
