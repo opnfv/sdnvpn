@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_922b0430",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 585
+      },
+      "writtenOn": "2018-09-19T12:51:17Z",
+      "side": 1,
+      "message": "feel free to put your name as PTL",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 23
+      },
+      "revId": "34de2b9cd3c4d6306e772549b3ad7ed089a8f76b",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
