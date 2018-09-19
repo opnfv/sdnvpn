@@ -58,6 +58,14 @@ committers:
       email: 'periyasamy.palanisamy@ericsson.com'
       company: 'ericsson.com'
       id: 'pperiyasamy'
+    - name: 'Periyasamy Palanisamy'
+      email: 'periyasamy.palanisamy@ericsson.com'
+      company: 'ericsson.com'
+      id: 'pperiyasamy'
+    - name: 'Nikos Karandreas'
+      email: 'nick@intracom-telecom.com'
+      company: 'intracom-telecom.com'
+      id: 'nick_kar'
 tsc:
     # yamllint disable rule:line-length
     approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-09-01-13.59.html'
