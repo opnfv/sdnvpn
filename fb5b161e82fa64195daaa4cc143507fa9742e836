@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_1daa6570",
+        "filename": "docs/development/overview/index.rst",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-20T06:47:35Z",
+      "side": 1,
+      "message": "located at",
+      "range": {
+        "startLine": 23,
+        "startChar": 85,
+        "endLine": 23,
+        "endChar": 87
+      },
+      "revId": "fb5b161e82fa64195daaa4cc143507fa9742e836",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
