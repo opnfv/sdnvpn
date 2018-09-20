@@ -66,6 +66,10 @@ committers:
       email: 'nick@intracom-telecom.com'
       company: 'intracom-telecom.com'
       id: 'nick_kar'
+    - name: 'Dimitrios Tsiolakis'
+      email: 'dmts@intracom-telecom.com'
+      company: 'intracom-telecom.com'
+      id: 'dimitris_'
 tsc:
     # yamllint disable rule:line-length
     approval: 'http//meetbot.opnfv.org/meetings/opnfv-meeting/2015/opnfv-meeting.2015-09-01-13.59.html'
