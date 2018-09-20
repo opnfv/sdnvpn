@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_7d8f1924",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn/scenario.description.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-20T06:41:55Z",
+      "side": 1,
+      "message": "deployment*",
+      "range": {
+        "startLine": 76,
+        "startChar": 40,
+        "endLine": 76,
+        "endChar": 50
+      },
+      "revId": "86f9b7cace2b9411e128781ae27e88fe703ef1bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_5d94dd36",
+        "filename": "docs/release/scenarios/os-odl-bgpvpn/scenario.description.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-20T06:41:55Z",
+      "side": 1,
+      "message": "based",
+      "range": {
+        "startLine": 80,
+        "startChar": 89,
+        "endLine": 80,
+        "endChar": 93
+      },
+      "revId": "86f9b7cace2b9411e128781ae27e88fe703ef1bd",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
