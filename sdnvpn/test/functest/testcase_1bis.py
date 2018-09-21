@@ -31,7 +31,7 @@ def main():
     results.add_to_summary(2, "STATUS", "SUBTEST")
     results.add_to_summary(0, "=")
 
-    heat_client = os_utils.get_heat_client()
+    conn = os_utils.get_cloud_connection()
     # neutron client is needed as long as bgpvpn heat module
     # is not yet installed by default in apex (APEX-618)
     neutron_client = os_utils.get_neutron_client()
@@ -61,7 +61,7 @@ def main():
         logger.debug("Environment is read: '%s'" % env)
 
         kwargs = {
-            "stack_name": TESTCASE_CONFIG.stack_name,
+            "name": TESTCASE_CONFIG.stack_name,
             "template": templ,
             "environment": env,
             "parameters": {
@@ -70,17 +70,17 @@ def main():
                 "av_zone_2": az_2
             }
         }
-        stack_id = os_utils.create_stack(heat_client, **kwargs)
+        stack_id = os_utils.create_stack(conn, **kwargs)
 
-        test_utils.wait_stack_create(heat_client, stack_id)
+        test_utils.wait_stack_create(conn, stack_id)
 
-        net_1_output = os_utils.get_output(heat_client, stack_id, 'net_1_o')
+        net_1_output = os_utils.get_output(conn, stack_id, 'net_1_o')
         network_1_id = net_1_output['output']['output_value']
-        net_2_output = os_utils.get_output(heat_client, stack_id, 'net_2_o')
+        net_2_output = os_utils.get_output(conn, stack_id, 'net_2_o')
         network_2_id = net_2_output['output']['output_value']
 
         vm_stack_output_keys = ['vm1_o', 'vm2_o', 'vm3_o', 'vm4_o', 'vm5_o']
-        vms = test_utils.get_vms_from_stack_outputs(heat_client,
+        vms = test_utils.get_vms_from_stack_outputs(conn,
                                                     nova_client,
                                                     stack_id,
                                                     vm_stack_output_keys)
@@ -198,7 +198,7 @@ def main():
         test_utils.cleanup_neutron(neutron_client, [], bgpvpn_ids,
                                                    [], [], [], [])
 
-        test_utils.delete_stack_and_wait(heat_client, stack_id)
+        test_utils.delete_stack_and_wait(conn, stack_id)
 
     return results.compile_summary()
 
