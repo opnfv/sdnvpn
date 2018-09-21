@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_a21229b2",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1008,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "This a stack status query; it will never be exhausted (cf. to the delete case where the list will be exhausted). No need to consider spontaneous API failure in the middle of test case execution.",
+      "parentUuid": "5a682502_e8e6ce15",
+      "range": {
+        "startLine": 1008,
+        "startChar": 51,
+        "endLine": 1008,
+        "endChar": 57
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_22d1f9fb",
         "filename": "sdnvpn/lib/utils.py",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-21T13:06:13Z",
       "side": 1,
       "message": "vm_output may be None. you should check it first",
+      "range": {
+        "startLine": 1102,
+        "startChar": 18,
+        "endLine": 1102,
+        "endChar": 53
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_82172da3",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "Again, these are resource properties as described in the HOT. No reason to consider failure of a get_output call in a successfully created stack.",
+      "parentUuid": "5a682502_22d1f9fb",
       "range": {
         "startLine": 1102,
         "startChar": 18,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_e20c2197",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "Same as above",
+      "parentUuid": "5a682502_42d8751d",
+      "range": {
+        "startLine": 1105,
+        "startChar": 8,
+        "endLine": 1105,
+        "endChar": 22
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_c273e5af",
         "filename": "sdnvpn/test/functest/config.yaml",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2018-09-21T09:11:40Z",
       "side": 1,
       "message": "change to artifacts/testcase_1bis.yaml",
+      "range": {
+        "startLine": 41,
+        "startChar": 19,
+        "endLine": 41,
+        "endChar": 53
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_c21125ae",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "Thanks for that. Fixed.",
+      "parentUuid": "5a682502_c273e5af",
       "range": {
         "startLine": 41,
         "startChar": 19,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_22261917",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "Thanks. Fixed.",
+      "parentUuid": "5a682502_0265dde0",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_82a0cdf5",
         "filename": "sdnvpn/test/functest/testcase_1bis.py",
         "patchSetId": 6
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_02231d06",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "Thanks. Fixed.",
+      "parentUuid": "5a682502_82a0cdf5",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 63
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_68a11ea9",
         "filename": "sdnvpn/test/functest/testcase_1bis.py",
         "patchSetId": 6
@@ -151,6 +295,30 @@
       "writtenOn": "2018-09-14T18:13:50Z",
       "side": 1,
       "message": "This method can raise SystemError. You do not catch it on purpose to elevate it further? If not then you should handle it here",
+      "range": {
+        "startLine": 201,
+        "startChar": 19,
+        "endLine": 201,
+        "endChar": 40
+      },
+      "revId": "8726211106f489cd51ff65547cc684541a59d100",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_c25f6571",
+        "filename": "sdnvpn/test/functest/testcase_1bis.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-09-21T14:07:59Z",
+      "side": 1,
+      "message": "The exception raise will be removed from the method. I think that logging error is adequate measure.",
+      "parentUuid": "5a682502_68a11ea9",
       "range": {
         "startLine": 201,
         "startChar": 19,
