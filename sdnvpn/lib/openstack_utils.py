@@ -19,17 +19,17 @@ from keystoneauth1 import loading
 from keystoneauth1 import session
 from cinderclient import client as cinderclient
 from glanceclient import client as glanceclient
-from heatclient import client as heatclient
 from novaclient import client as novaclient
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
+from openstack import connection
+from openstack.exceptions import ResourceNotFound
 
 from functest.utils import env
 
 logger = logging.getLogger(__name__)
 
 DEFAULT_API_VERSION = '2'
-DEFAULT_HEAT_API_VERSION = '1'
 
 
 # *********************************************
@@ -42,6 +42,10 @@ class MissingEnvVar(Exception):
 
     def __str__(self):
         return str.format("Please set the mandatory env var: {}", self.var)
+
+
+def get_os_connection():
+    return connection.from_config()
 
 
 def is_keystone_v3():
@@ -209,20 +213,6 @@ def get_glance_client_version():
 def get_glance_client(other_creds={}):
     sess = get_session(other_creds)
     return glanceclient.Client(get_glance_client_version(), session=sess)
-
-
-def get_heat_client_version():
-    api_version = os.getenv('OS_ORCHESTRATION_API_VERSION')
-    if api_version is not None:
-        logger.info("OS_ORCHESTRATION_API_VERSION is set in env as '%s'",
-                    api_version)
-        return api_version
-    return DEFAULT_HEAT_API_VERSION
-
-
-def get_heat_client(other_creds={}):
-    sess = get_session(other_creds)
-    return heatclient.Client(get_heat_client_version(), session=sess)
 
 
 def download_url(url, dest_path):
@@ -1498,50 +1488,52 @@ def delete_user(keystone_client, user_id):
 # *********************************************
 #   HEAT
 # *********************************************
-def get_resource(heat_client, stack_id, resource):
+def get_resource(conn, stack_id, resource):
     try:
-        resources = heat_client.resources.get(stack_id, resource)
-        return resources
+        resource = conn.orchestration.resources(stack_id, id=resource).next()
+        return resource
     except Exception as e:
-        logger.error("Error [get_resource]: %s" % e)
+        logger.error("Error [get_resource(orchestration)]: %s" % e)
         return None
 
 
-def create_stack(heat_client, **kwargs):
+def create_stack(conn, **kwargs):
     try:
-        stack = heat_client.stacks.create(**kwargs)
-        stack_id = stack['stack']['id']
+        stack = conn.orchestration.create_stack(**kwargs)
+        stack_id = stack.id
         if stack_id is None:
             logger.error("Stack create start failed")
             raise SystemError("Stack create start failed")
         return stack_id
     except Exception as e:
-        logger.error("Error [create_stack]: %s" % e)
+        logger.error("Error [create_stack(orchestration)]: %s" % e)
         return None
 
 
-def delete_stack(heat_client, stack_id):
+def delete_stack(conn, stack_id):
     try:
-        heat_client.stacks.delete(stack_id)
+        conn.orchestration.delete_stack(stack_id)
         return True
     except Exception as e:
-        logger.error("Error [delete_stack]: %s" % e)
+        logger.error("Error [delete_stack(orchestration)]: %s" % e)
         return False
 
 
-def list_stack(heat_client, **kwargs):
+def list_stacks(conn, **kwargs):
     try:
-        result = heat_client.stacks.list(**kwargs)
+        result = conn.orchestration.stacks(**kwargs)
         return result
     except Exception as e:
-        logger.error("Error [list_stack]: %s" % e)
+        logger.error("Error [list_stack(orchestration)]: %s" % e)
         return None
 
 
-def get_output(heat_client, stack_id, output_key):
+def get_output(conn, stack_id, output_key):
     try:
-        output = heat_client.stacks.output_show(stack_id, output_key)
-        return output
-    except Exception as e:
-        logger.error("Error [get_output]: %s" % e)
-        return None
+        stack = conn.orchestration.get_stack(stack_id)
+        for output in stack.outputs:
+            if output['output_key'] == output_key:
+                return output
+    except ResourceNotFound as e:
+        logger.error("Error [get_output(orchestration)]: %s" % e)
+    return None
