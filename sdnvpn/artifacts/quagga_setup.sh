@@ -9,22 +9,22 @@ echo 'ubuntu:opnfv' | chpasswd
 sleep 100
 
 # Variables to be filled in with python
-NEIGHBOR_IP=$1
-OWN_IP=$2
+NEIGHBOR_IP={0}
+OWN_IP={1}
 # directly access the instance from the external net without NAT
-EXT_NET_MASK=$3
-IP_PREFIX=$4
-RD=$5
-IRT=$6
-ERT=$7
+EXT_NET_MASK={2}
+IP_PREFIX={3}
+RD={4}
+IRT={5}
+ERT={6}
 
-if [[ $(getent hosts | awk '{print $2}') != *"$(cat /etc/hostname | awk '{print $1}')"* ]]
+if [[ $(getent hosts | awk '{{print $2}}') != *"$(cat /etc/hostname | awk '{{print $1}}')"* ]]
 then
-echo "127.0.1.1 $(cat /etc/hostname | awk '{print $1}')" | tee -a /etc/hosts
+echo "127.0.1.1 $(cat /etc/hostname | awk '{{print $1}}')" | tee -a /etc/hosts
 fi
 
 quagga_int=''
-for net_int in $(netstat -ia | awk 'NR>2{print $1}');
+for net_int in $(netstat -ia | awk 'NR>2{{print $1}}');
 do
 if [ -z "$(ifconfig | grep $net_int)" ]
 then
