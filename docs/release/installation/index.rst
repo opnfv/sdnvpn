@@ -1,8 +1,6 @@
-.. _sdnvpn-installation:
-
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
-.. http://creativecommons.org/licenses/by/4.0
-.. (c) Tim Irnich, (tim.irnich@ericsson.com) and others
+.. SPDX-License-Identifier: CC-BY-4.0
+.. (c) OPNFV, Ericsson AB and others.
 
 ============================
 SDN VPN feature installation
@@ -71,8 +69,8 @@ install the following packages:
                          fuseiso genisoimage blackbox xterm python-pip \
                          python-git python-dev python-oslo.config \
                          python-pip python-dev libffi-dev libxml2-dev \
-                        libxslt1-dev libffi-dev libxml2-dev libxslt1-dev \
-                        expect curl python-netaddr p7zip-full
+                         libxslt1-dev libffi-dev libxml2-dev libxslt1-dev \
+                         expect curl python-netaddr p7zip-full
 
  sudo pip install GitPython pyyaml netaddr paramiko lxml scp \
                   python-novaclient python-neutronclient python-glanceclient \
@@ -87,17 +85,14 @@ First of all the opnfv-fuel repository needs to be cloned:
 
  git clone ssh://<user>@gerrit.opnfv.org:29418/fuel
 
-To check out a specific
-version of OPNFV, checkout the appropriate branch:
+To check out a specific version of OPNFV, checkout the appropriate branch:
 ::
 
  cd fuel
- git checkout stable/<colorado|danube|euphrates|fraser>
+ git checkout stable/gambia
 
 Now download the corresponding OPNFV Fuel ISO into an appropriate folder from
-the website
-::
- https://www.opnfv.org/software/downloads/release-archives
+the website https://www.opnfv.org/software/downloads/release-archives
 
 Have in mind that the fuel repo version needs to map with the downloaded
 artifact. Note: it is also possible to build the Fuel image using the
@@ -226,19 +221,21 @@ Virtual deployment using Apex installer
 =======================================
 
 Prerequisites
-^^^^^^^^^^^^^
+-------------
+
 For Virtual Apex deployment a host with Centos 7 is needed. This installation
 was tested on centos-release-7-2.1511.el7.centos.2.10.x86_64 however any other
 Centos 7 version should be fine.
 
 Build and Deploy
-^^^^^^^^^^^^^^^^
-Download the Apex repo from opnfv gerrit and checkout stable/danube:
+----------------
+
+Download the Apex repo from opnfv gerrit and checkout stable/gambia:
 ::
 
  git clone ssh://<user>@gerrit.opnfv.org:29418/apex
  cd apex
- git checkout stable/danube
+ git checkout stable/gambia
 
 In apex/contrib you will find simple_deploy.sh:
 ::
