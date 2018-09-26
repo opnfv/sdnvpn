@@ -1,0 +1,9 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Panagiotis Karalis <pkaralis@intracom-telecom.com>
+Code-Review+1: Dimitris Tsiolakis <dmts@intracom-telecom.com>
+Code-Review+2: Nikos Karandreas <nick@intracom-telecom.com>
+Submitted-by: Nikos Karandreas <nick@intracom-telecom.com>
+Submitted-at: Wed, 26 Sep 2018 08:39:23 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/62099
+Project: sdnvpn
+Branch: refs/heads/master
