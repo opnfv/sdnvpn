@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_df79f7fd",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-27T09:10:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a682502_dcbaa5e0",
+      "range": {
+        "startLine": 375,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 14
+      },
+      "revId": "5ddd5b8bfa084838f65fc3df74aeb78d0c59e88d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_fcb961ea",
         "filename": "sdnvpn/lib/utils.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-09-26T09:05:14Z",
       "side": 1,
       "message": "perhaps too fine increment? nova already takes a couple of seconds to reply",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 376,
+        "endChar": 18
+      },
+      "revId": "5ddd5b8bfa084838f65fc3df74aeb78d0c59e88d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_bf7ebbe2",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-09-27T09:10:04Z",
+      "side": 1,
+      "message": "I changed it to 2 seconds like the wait_for_instance function which also queries nova",
+      "parentUuid": "5a682502_fcb961ea",
       "range": {
         "startLine": 376,
         "startChar": 4,
