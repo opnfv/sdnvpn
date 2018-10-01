@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_68e74713",
+        "filename": "docs/index.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-01T07:05:13Z",
+      "side": 1,
+      "message": "I think that the correct path is:\nrelease/release-notes/index",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "371d72a9a68272b9b10824c04662daf23ceab222",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_48e40b0d",
+        "filename": "docs/index.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-01T07:05:13Z",
+      "side": 1,
+      "message": "You mean : development/overview/index\n\nAdd also :\nrelease/installation/index\nrelease/scenarios/os-odl-bgpvpn\nrelease/userguide/index",
+      "range": {
+        "startLine": 17,
+        "startChar": 2,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "371d72a9a68272b9b10824c04662daf23ceab222",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
