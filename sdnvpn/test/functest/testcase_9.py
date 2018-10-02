@@ -37,9 +37,14 @@ def main():
 
     # node.is_odl() doesn't work in Apex
     # https://jira.opnfv.org/browse/RELENG-192
-    controllers = [node for node in openstack_nodes
-                   if "running" in
-                   node.run_cmd("sudo systemctl status opendaylight")]
+    controllers = []
+    for node in openstack_nodes:
+        if "opendaylight.service" in node.run_cmd("sudo systemctl | grep opendaylight"):
+            if "running" in node.run_cmd("sudo systemctl status opendaylight"):
+                controllers = node
+        elif "opendaylight_api" in node.run_cmd("sudo docker ps | grep opendaylight"):
+            if "Running" in node.run_cmd("sudo docker exec opendaylight_api /opt/opendaylight/bin/status"):
+                controllers = node
 
     msg = ("Verify that all OpenStack nodes OVS br-int have "
            "fail_mode set to secure")
