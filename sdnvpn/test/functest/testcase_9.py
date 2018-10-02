@@ -15,6 +15,7 @@
 #   - Verify that the OpenDaylight and gateway Quagga peer
 import logging
 import sys
+import os
 
 from sdnvpn.lib import config as sdnvpn_config
 from sdnvpn.lib import utils as test_utils
@@ -34,12 +35,19 @@ def main():
     results.add_to_summary(0, "=")
 
     openstack_nodes = test_utils.get_nodes()
-
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
     # node.is_odl() doesn't work in Apex
     # https://jira.opnfv.org/browse/RELENG-192
-    controllers = [node for node in openstack_nodes
-                   if "running" in
-                   node.run_cmd("sudo systemctl status opendaylight")]
+
+    controllers = []
+    for node in openstack_nodes:
+        if installer_type in ["fuel"]:
+            if "running" in node.run_cmd("sudo systemctl status opendaylight"):
+                controllers = node
+        elif "healthy" in node.run_cmd("sudo docker ps | grep opendaylight_api"):
+            if "Running" in node.run_cmd("sudo docker exec opendaylight_api "
+                                         "/opt/opendaylight/bin/status"):
+                controllers = node
 
     msg = ("Verify that all OpenStack nodes OVS br-int have "
            "fail_mode set to secure")
