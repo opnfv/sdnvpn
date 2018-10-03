@@ -40,12 +40,22 @@ def main():
     results.add_to_summary(0, "=")
 
     openstack_nodes = test_utils.get_nodes()
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
 
     # node.is_odl() doesn't work in Apex
     # https://jira.opnfv.org/browse/RELENG-192
-    controllers = [node for node in openstack_nodes
-                   if "running" in
-                   node.run_cmd("sudo systemctl status opendaylight")]
+    fuel_cmd = "sudo systemctl status opendaylight"
+    apex_cmd = "sudo docker exec opendaylight_api " \
+               "/opt/opendaylight/bin/status"
+    health_cmd = "sudo docker ps | grep opendaylight_api"
+    if installer_type in ["fuel"]:
+        controllers = [node for node in openstack_nodes
+                       if "running" in node.run_cmd(fuel_cmd)]
+    elif installer_type in ["apex"]:
+        controllers = [node for node in openstack_nodes
+                       if "healthy" in node.run_cmd(health_cmd)
+                       if "Running" in node.run_cmd(apex_cmd)]
+
     computes = [node for node in openstack_nodes if node.is_compute()]
 
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
