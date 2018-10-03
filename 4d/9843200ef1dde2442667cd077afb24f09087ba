@@ -1,0 +1,8 @@
+Verified+1: jenkins-ci <jenkins-opnfv-ci@opnfv.org>
+Code-Review+1: Cedric Ollivier <cedric.ollivier@orange.com>
+Code-Review+2: Nikos Karandreas <nick@intracom-telecom.com>
+Submitted-by: Nikos Karandreas <nick@intracom-telecom.com>
+Submitted-at: Wed, 03 Oct 2018 14:29:37 +0000
+Reviewed-on: https://gerrit.opnfv.org/gerrit/63091
+Project: sdnvpn
+Branch: refs/heads/master
