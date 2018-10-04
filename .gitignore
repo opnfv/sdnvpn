@@ -3,7 +3,6 @@
 *.pyc
 *~
 .*.sw?
-/docs_build/
 /docs_output/
 /releng/
 *.tar.gz
@@ -13,3 +12,5 @@ odl-pipeline/build/*
 odl-pipeline/trash/*
 odl-pipeline/lib/tmp
 odl-pipeline/disks/*
+.tox
+docs/_build/*
