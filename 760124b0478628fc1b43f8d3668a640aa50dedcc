@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_c5600138",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-04T10:37:10Z",
+      "side": 1,
+      "message": "I did not review the whole code but this caught my eye",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 64
+      },
+      "revId": "760124b0478628fc1b43f8d3668a640aa50dedcc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
