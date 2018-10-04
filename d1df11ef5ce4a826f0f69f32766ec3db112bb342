@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_780394b8",
+        "filename": "sdnvpn/test/functest/testcase_9.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-10-04T14:07:16Z",
+      "side": 1,
+      "message": "\"healthy\" in ... catches also \u0027unhealthy\u0027. Perhaps use \"(healthy)\" or not \"unhealthy\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "d1df11ef5ce4a826f0f69f32766ec3db112bb342",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
