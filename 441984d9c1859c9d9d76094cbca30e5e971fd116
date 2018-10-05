@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a682502_5b9cd269",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-05T07:03:08Z",
+      "side": 1,
+      "message": "A better idea which just came into my mind is the following:\n\nsudo docker ps -f name\u003dopendaylight_api -f health\u003dhealthy -q\n\nIf a container exists with that name and it is in a healthy state then its id is printed. Else nothing is printed.\n\nYou can try this out",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 56
+      },
+      "revId": "441984d9c1859c9d9d76094cbca30e5e971fd116",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_781a7418",
         "filename": "sdnvpn/test/functest/testcase_3.py",
         "patchSetId": 3
