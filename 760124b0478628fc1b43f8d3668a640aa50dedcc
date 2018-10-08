@@ -22,6 +22,30 @@
       "revId": "760124b0478628fc1b43f8d3668a640aa50dedcc",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_d80e2834",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 11
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-08T10:57:08Z",
+      "side": 1,
+      "message": "Yeah pretty sure. It is intentionally done.\n\nThe response of first one does not contain the attribute \"name\". That\u0027s why a get is made to the next line. Weird enough, but this is how they have implemented it.\n\nFurthermore, you cannot call get_hypervisor if you do not know its id or have a refference object. https://github.com/openstack/openstacksdk/blob/master/openstack/compute/v2/_proxy.py#L974\n\nIt is the only way.",
+      "parentUuid": "5a682502_c5600138",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 64
+      },
+      "revId": "760124b0478628fc1b43f8d3668a640aa50dedcc",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
