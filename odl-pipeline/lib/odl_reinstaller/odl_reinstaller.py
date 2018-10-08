@@ -232,13 +232,21 @@ class ODLReInstaller(Service):
 
         # Validate ovs controller is configured
         cfg_controller = node.config['ovs-controller']
-        ovs_controller = TripleOIntrospector().get_ovs_controller(node)
         if cfg_controller == '' or cfg_controller is None:
-            if ovs_controller is None or ovs_controller == '':
-                raise ODLReinstallerException("OVS controller is not set "
-                                              "for node: {}"
-                                              "".format(node.address))
-        elif ovs_controller != cfg_controller:
+            raise ODLReinstallerException("Unable to find OpenFlow "
+                                          "controller config for node: "
+                                          "{}".format(node))
+
+        # Validate controller config is set in OVS by ODL
+        for x in range(1, 6):
+            LOG.info("Checking OpenDaylight configured OpenFlow controller "
+                     "in OVS, attempt {}".format(x))
+            ovs_controller = TripleOIntrospector().get_ovs_controller(node)
+            if ovs_controller == cfg_controller:
+                LOG.info("OVS Controller set correctly")
+                break
+            time.sleep(5)
+        else:
             raise ODLReinstallerException("OVS controller is not set to the "
                                           "correct pod config value on {}. "
                                           "Config controller: {}, current "
@@ -246,15 +254,19 @@ class ODLReInstaller(Service):
                                           "".format(node.address,
                                                     cfg_controller,
                                                     ovs_controller))
-        LOG.info("OVS Controller set correctly")
         # Validate ovs controller is connected
-        ctrl_search = \
-            re.search('Controller\s+\"tcp:[0-9\.]+:6653\"\n\s*'
-                      'is_connected:\s*true', out)
-        if ctrl_search is None:
-            raise ODLReinstallerException("OVS Controller is not connected")
+        for x in range(1, 6):
+            LOG.info("Checking OpenFlow controller is connected "
+                     "in OVS, attempt {}".format(x))
+            out, _ = node.execute('ovs-vsctl show ', as_root=True)
+            ctrl_search = re.search('Controller\s+\"tcp:[0-9\.]+:6653\"\n\s*'
+                                    'is_connected:\s*true', out)
+            if ctrl_search:
+                LOG.info("OVS is connected to OpenFlow controller")
+                break
+            time.sleep(5)
         else:
-            LOG.info("OVS is connected to OpenFlow controller")
+            raise ODLReinstallerException("OVS Controller is not connected")
 
     def create_cli_parser(self, parser):
         parser.add_argument('--pod-config',
@@ -280,6 +292,7 @@ class ODLReinstallerException(Exception):
 
 def main():
     ODLReInstaller().start()
+
 
 if __name__ == '__main__':
     main()
