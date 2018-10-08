@@ -18,11 +18,11 @@ import urllib
 from keystoneauth1 import loading
 from keystoneauth1 import session
 from cinderclient import client as cinderclient
-from glanceclient import client as glanceclient
 from heatclient import client as heatclient
 from novaclient import client as novaclient
 from keystoneclient import client as keystoneclient
 from neutronclient.neutron import client as neutronclient
+from openstack import connection
 
 from functest.utils import env
 
@@ -42,6 +42,10 @@ class MissingEnvVar(Exception):
 
     def __str__(self):
         return str.format("Please set the mandatory env var: {}", self.var)
+
+
+def get_os_connection():
+    return connection.from_config()
 
 
 def is_keystone_v3():
@@ -198,19 +202,6 @@ def get_neutron_client(other_creds={}):
     return neutronclient.Client(get_neutron_client_version(), session=sess)
 
 
-def get_glance_client_version():
-    api_version = os.getenv('OS_IMAGE_API_VERSION')
-    if api_version is not None:
-        logger.info("OS_IMAGE_API_VERSION is set in env as '%s'", api_version)
-        return api_version
-    return DEFAULT_API_VERSION
-
-
-def get_glance_client(other_creds={}):
-    sess = get_session(other_creds)
-    return glanceclient.Client(get_glance_client_version(), session=sess)
-
-
 def get_heat_client_version():
     api_version = os.getenv('OS_ORCHESTRATION_API_VERSION')
     if api_version is not None:
@@ -241,7 +232,7 @@ def download_url(url, dest_path):
     return True
 
 
-def download_and_add_image_on_glance(glance, image_name, image_url, data_dir):
+def download_and_add_image_on_glance(conn, image_name, image_url, data_dir):
     try:
         dest_path = data_dir
         if not os.path.exists(dest_path):
@@ -255,7 +246,7 @@ def download_and_add_image_on_glance(glance, image_name, image_url, data_dir):
 
     try:
         image = create_glance_image(
-            glance, image_name, dest_path + file_name)
+            conn, image_name, dest_path + file_name)
         if not image:
             return False
         else:
@@ -1143,17 +1134,17 @@ def delete_security_group(neutron_client, secgroup_id):
 # *********************************************
 #   GLANCE
 # *********************************************
-def get_images(glance_client):
+def get_images(conn):
     try:
-        images = glance_client.images.list()
+        images = conn.image.images()
         return images
     except Exception as e:
         logger.error("Error [get_images]: %s" % e)
         return None
 
 
-def get_image_id(glance_client, image_name):
-    images = glance_client.images.list()
+def get_image_id(conn, image_name):
+    images = conn.image.images()
     id = ''
     for i in images:
         if i.name == image_name:
@@ -1162,7 +1153,7 @@ def get_image_id(glance_client, image_name):
     return id
 
 
-def create_glance_image(glance_client,
+def create_glance_image(conn,
                         image_name,
                         file_path,
                         disk="qcow2",
@@ -1173,39 +1164,38 @@ def create_glance_image(glance_client,
         logger.error("Error: file %s does not exist." % file_path)
         return None
     try:
-        image_id = get_image_id(glance_client, image_name)
+        image_id = get_image_id(conn, image_name)
         if image_id != '':
             logger.info("Image %s already exists." % image_name)
         else:
             logger.info("Creating image '%s' from '%s'..." % (image_name,
                                                               file_path))
-
-            image = glance_client.images.create(name=image_name,
-                                                visibility=public,
+            with open(file_path) as image_data:
+                image = conn.image.upload_image(name=image_name,
+                                                is_public=public,
                                                 disk_format=disk,
                                                 container_format=container,
+                                                data=image_data,
                                                 **extra_properties)
             image_id = image.id
-            with open(file_path) as image_data:
-                glance_client.images.upload(image_id, image_data)
         return image_id
     except Exception as e:
-        logger.error("Error [create_glance_image(glance_client, '%s', '%s', "
+        logger.error("Error [create_glance_image(image, '%s', '%s', "
                      "'%s')]: %s" % (image_name, file_path, public, e))
         return None
 
 
 def get_or_create_image(name, path, format, extra_properties):
     image_exists = False
-    glance_client = get_glance_client()
+    conn = get_os_connection()
 
-    image_id = get_image_id(glance_client, name)
+    image_id = get_image_id(conn, name)
     if image_id != '':
         logger.info("Using existing image '%s'..." % name)
         image_exists = True
     else:
         logger.info("Creating image '%s' from '%s'..." % (name, path))
-        image_id = create_glance_image(glance_client,
+        image_id = create_glance_image(conn,
                                        name,
                                        path,
                                        format,
@@ -1219,12 +1209,12 @@ def get_or_create_image(name, path, format, extra_properties):
     return image_exists, image_id
 
 
-def delete_glance_image(glance_client, image_id):
+def delete_glance_image(conn, image_id):
     try:
-        glance_client.images.delete(image_id)
+        conn.image.delete_image(image_id)
         return True
     except Exception as e:
-        logger.error("Error [delete_glance_image(glance_client, '%s')]: %s"
+        logger.error("Error [delete_glance_image(image, '%s')]: %s"
                      % (image_id, e))
         return False
 
