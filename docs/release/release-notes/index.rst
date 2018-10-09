@@ -4,9 +4,9 @@
 .. http://creativecommons.org/licenses/by/4.0
 .. (c) Nikolas Hermanns, (nikolas.hermanns@ericsson.com) and others
 
-==================
+=====================
 SDN VPN release notes
-==================
+=====================
 
 .. toctree::
    :maxdepth: 3

@@ -17,6 +17,7 @@ OPNFV SDNVPN
    release/configguide/index
    release/userguide/index
    release/installation/index
+   release/scenarios/os-odl-bgpvpn/index
    development/requirements/index
    development/overview/index
    development/design/index
