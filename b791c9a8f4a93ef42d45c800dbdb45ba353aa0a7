@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_e7037d71",
+        "filename": "sdnvpn/test/functest/testcase_1.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_a7bb45c3",
+      "range": {
+        "startLine": 35,
+        "startChar": 51,
+        "endLine": 36,
+        "endChar": 40
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_27c73547",
         "filename": "sdnvpn/test/functest/testcase_11.py",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-09T13:33:50Z",
       "side": 1,
       "message": "Duplicated please remove",
+      "range": {
+        "startLine": 34,
+        "startChar": 51,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_27f57583",
+        "filename": "sdnvpn/test/functest/testcase_11.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_27c73547",
       "range": {
         "startLine": 34,
         "startChar": 51,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_67ef6db1",
+        "filename": "sdnvpn/test/functest/testcase_2.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_67c12d2e",
+      "range": {
+        "startLine": 36,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_27a0d58f",
         "filename": "sdnvpn/test/functest/testcase_3.py",
         "patchSetId": 6
@@ -82,6 +154,30 @@
       "writtenOn": "2018-10-09T13:33:50Z",
       "side": 1,
       "message": "Duplicated:\nconn \u003d os_utils.get_os_connection()",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 39
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_c72be1e9",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_27a0d58f",
       "range": {
         "startLine": 185,
         "startChar": 4,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_a7306557",
+        "filename": "sdnvpn/test/functest/testcase_4.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_07e839b3",
+      "range": {
+        "startLine": 36,
+        "startChar": 51,
+        "endLine": 37,
+        "endChar": 39
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_27ce155b",
         "filename": "sdnvpn/test/functest/testcase_7.py",
         "patchSetId": 6
@@ -128,6 +248,30 @@
       "writtenOn": "2018-10-09T13:33:50Z",
       "side": 1,
       "message": "Duplicated please remove",
+      "range": {
+        "startLine": 45,
+        "startChar": 51,
+        "endLine": 46,
+        "endChar": 39
+      },
+      "revId": "b791c9a8f4a93ef42d45c800dbdb45ba353aa0a7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_07367952",
+        "filename": "sdnvpn/test/functest/testcase_7.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-09T13:43:56Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a682502_27ce155b",
       "range": {
         "startLine": 45,
         "startChar": 51,
