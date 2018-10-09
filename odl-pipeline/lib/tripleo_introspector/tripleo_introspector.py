@@ -122,5 +122,6 @@ class TripleOInspectorException(Exception):
 def main():
     TripleOIntrospector().start()
 
+
 if __name__ == '__main__':
     main()

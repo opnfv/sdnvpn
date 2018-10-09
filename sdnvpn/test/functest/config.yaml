@@ -1,5 +1,6 @@
+---
 defaults:
-  flavor: m1.tiny # adapt to your environment
+  flavor: m1.tiny  # adapt to your environment
 
 testcases:
   sdnvpn.test.functest.testcase_1:
@@ -91,7 +92,8 @@ testcases:
   sdnvpn.test.functest.testcase_4:
     enabled: true
     order: 4
-    description: VPN provides connectivity between subnets using router association
+    description: "VPN provides connectivity between subnets using router \
+                 association"
     instance_1_name: sdnvpn-4-1
     instance_2_name: sdnvpn-4-2
     instance_3_name: sdnvpn-4-3
@@ -155,12 +157,14 @@ testcases:
   sdnvpn.test.functest.testcase_9:
     enabled: true
     order: 9
-    description: Verify that all OpenStack nodes OVS br-int have fail_mode set to secure.
+    description: "Verify that all OpenStack nodes OVS br-int have fail_mode \
+                 set to secure."
 
   sdnvpn.test.functest.testcase_10:
     enabled: true
     order: 10
-    description: Test if interupts occure during ping, when removing and adding instances
+    description: "Test if interupts occure during ping, when removing and \
+                 adding instances"
     instance_1_name: sdnvpn-10-1
     instance_2_name: sdnvpn-10-2
     instance_3_name: sdnvpn-10-3
@@ -176,7 +180,8 @@ testcases:
   sdnvpn.test.functest.testcase_11:
     enabled: true
     order: 11
-    description: Check relevant OVS groups are removed upon deletion of OpenStack topology
+    description: "Check relevant OVS groups are removed upon deletion of \
+                 OpenStack topology"
     instance_1_name: sdnvpn-11-1
     instance_2_name: sdnvpn-11-2
     image_name: sdnvpn-image
@@ -227,5 +232,5 @@ testcases:
     targets1: '88:88'
     targets2: '88:88'
     route_distinguishers:
-        - '12:12'
-        - '13:13'
+      - '12:12'
+      - '13:13'

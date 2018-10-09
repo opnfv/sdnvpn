@@ -55,7 +55,7 @@ def monitor(conn, in_data, out_data, vm):
                             logger.info("Ping from instance {}: {}".
                                         format(vm.name, console_line))
                 lines_offset = len(vm_console_out_lines)
-        except:
+        except Exception:
             # Atomic write to std out
             with std_out_lock:
                 logger.error("Failure in monitor_thread of instance {}".
