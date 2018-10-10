@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_2789f426",
+        "filename": "tox.ini",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6745
+      },
+      "writtenOn": "2018-10-10T07:13:12Z",
+      "side": 1,
+      "message": "Install the requirements and the test-requirements like this: \n\nhttps://github.com/opnfv/sfc/blob/master/tox.ini",
+      "revId": "88ac7d57a4d04020a212c7ce7564a1817119edb0",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
