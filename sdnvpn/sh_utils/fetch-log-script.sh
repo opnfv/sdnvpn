@@ -107,7 +107,11 @@ node(){
    fi
  done
  # not all messages only tail the last 10k lines
- tail -n 10000 /var/log/messages > messages
+ if [ -f /var/log/messages ]; then
+   tail -n 10000 /var/log/messages > messages
+ elif [ -f /var/log/syslog ]; then
+   tail -n 10000 /var/log/syslog > messages
+ fi
 }
 
 _curl_data_store(){
@@ -137,7 +141,11 @@ datastore()
   dump=$tmp_folder/dump-$HOSTNAME.txt
   operational=$tmp_folder/Operational-Inventory-$HOSTNAME.txt
   karaf_output=$tmp_folder/Karaf_out-$HOSTNAME.txt
-  odl_ip_port=$(grep ^url= /etc/neutron/plugins/ml2/ml2_conf.ini |cut -d '/' -f3)
+  if [ -f /etc/neutron/plugins/ml2/ml2_conf.ini ]; then
+    odl_ip_port=$(grep ^url= /etc/neutron/plugins/ml2/ml2_conf.ini |cut -d '/' -f3)
+  else
+    odl_ip_port=$(netstat -tln | grep '8080\|8081\|8181\|8282' | awk 'NR==1 {print $4}')
+  fi
 
   config_urls=( restconf/config/neutron:neutron/networks/ restconf/config/neutron:neutron/subnets/ restconf/config/neutron:neutron/ports/ restconf/config/neutron:neutron/routers/ restconf/config/itm:transport-zones/ restconf/config/itm-state:tunnels_state/ restconf/config/itm-state:external-tunnel-list/ restconf/config/itm-state:dpn-endpoints/ restconf/config/itm-config:vtep-config-schemas/ restconf/config/itm-config:tunnel-monitor-enabled/ restconf/config/itm-config:tunnel-monitor-interval/ restconf/config/interface-service-bindings:service-bindings/ restconf/config/l3vpn:vpn-instances/ restconf/config/ietf-interfaces:interfaces/ restconf/config/l3vpn:vpn-interfaces/ restconf/config/odl-fib:fibEntries restconf/config/neutronvpn:networkMaps restconf/config/neutronvpn:subnetmaps restconf/config/neutronvpn:vpnMaps restconf/config/neutronvpn:neutron-port-data restconf/config/id-manager:id-pools/ restconf/config/elan:elan-instances/ restconf/config/elan:elan-interfaces/ restconf/config/elan:elan-state/ restconf/config/elan:elan-forwarding-tables/ restconf/config/elan:elan-interface-forwarding-entries/ restconf/config/elan:elan-dpn-interfaces/ restconf/config/elan:elan-tag-name-map/  restconf/config/odl-nat:external-networks/ restconf/config/odl-nat:ext-routers/ restconf/config/odl-nat:intext-ip-port-map/ restconf/config/odl-nat:snatint-ip-port-map/ restconf/config/odl-l3vpn:vpn-instance-to-vpn-id/ restconf/config/neutronvpn:neutron-router-dpns/ restconf/operational/itm-config:tunnel-monitor-interval/ restconf/config/itm-config:tunnel-monitor-interval/ restconf/operational/itm-config:tunnel-monitor-params/ restconf/config/itm-config:tunnel-monitor-params/ restconf/config/vpnservice-dhcp:designated-switches-for-external-tunnels/ restconf/config/neutron:neutron/security-groups/ restconf/config/neutron:neutron/security-rules/ restconf/config/network-topology:network-topology/topology/hwvtep:1 restconf/config/network-topology:network-topology/topology/ovsdb:1 )
 
