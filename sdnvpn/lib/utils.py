@@ -296,18 +296,16 @@ def get_installerHandler():
         return None
     else:
         if installer_type in ["apex"]:
-            developHandler = DeploymentFactory.get_handler(
-                installer_type,
-                installer_ip,
-                'root',
-                pkey_file="/root/.ssh/id_rsa")
+            installer_user = "root"
+        elif installer_type in ["fuel"]:
+            installer_user = "ubuntu"
 
-        if installer_type in ["fuel"]:
-            developHandler = DeploymentFactory.get_handler(
-                installer_type,
-                installer_ip,
-                'root',
-                'r00tme')
+        developHandler = DeploymentFactory.get_handler(
+            installer_type,
+            installer_ip,
+            installer_user,
+            pkey_file="/root/.ssh/id_rsa")
+
         return developHandler
 
 
@@ -535,9 +533,9 @@ def exec_cmd(cmd, verbose):
     return output, success
 
 
-def check_odl_fib(ip, controller_ip):
+def check_odl_fib(ip, odl_ip):
     """Check that there is an entry in the ODL Fib for `ip`"""
-    url = "http://" + controller_ip + \
+    url = "http://" + odl_ip + \
           ":8181/restconf/config/odl-fib:fibEntries/"
     logger.debug("Querring '%s' for FIB entries", url)
     res = requests.get(url, auth=(ODL_USER, ODL_PASS))
@@ -545,7 +543,7 @@ def check_odl_fib(ip, controller_ip):
         logger.error("OpenDaylight response status code: %s", res.status_code)
         return False
     logger.debug("Checking whether '%s' is in the OpenDaylight FIB"
-                 % controller_ip)
+                 % odl_ip)
     logger.debug("OpenDaylight FIB: \n%s" % res.text)
     return ip in res.text
 
@@ -597,34 +595,50 @@ def wait_for_cloud_init(conn, instance):
 def attach_instance_to_ext_br(instance, compute_node):
     libvirt_instance_name = instance.instance_name
     installer_type = str(os.environ['INSTALLER_TYPE'].lower())
-    if installer_type == "fuel":
+    # In Apex, br-ex (or br-floating for Fuel) is an ovs bridge and virsh
+    # attach-interface won't just work. We work around it by creating a linux
+    # bridge, attaching that to br-ex (or br-floating for Fuel) with a
+    # veth pair and virsh-attaching the instance to the linux-bridge
+    if installer_type in ["fuel"]:
+        bridge = "br-floating"
+    elif installer_type in ["apex"]:
         bridge = "br-ex"
-    elif installer_type == "apex":
-        # In Apex, br-ex is an ovs bridge and virsh attach-interface
-        # won't just work. We work around it by creating a linux
-        # bridge, attaching that to br-ex with a veth pair
-        # and virsh-attaching the instance to the linux-bridge
-        bridge = "br-quagga"
-        cmd = """
-        set -e
-        if ! sudo brctl show |grep -q ^{bridge};then
-          sudo brctl addbr {bridge}
-          sudo ip link set {bridge} up
-          sudo ip link add quagga-tap type veth peer name ovs-quagga-tap
-          sudo ip link set dev ovs-quagga-tap up
-          sudo ip link set dev quagga-tap up
-          sudo ovs-vsctl add-port br-ex ovs-quagga-tap
-          sudo brctl addif {bridge} quagga-tap
-        fi
-        """
-        compute_node.run_cmd(cmd.format(bridge=bridge))
+    else:
+        logger.warn("installer type %s is neither fuel nor apex."
+                    % installer_type)
+        return
+
+    cmd = """
+    set -e
+    if ! sudo brctl show |grep -q ^br-quagga;then
+      sudo brctl addbr br-quagga
+      sudo ip link set br-quagga up
+      sudo ip link add quagga-tap type veth peer name ovs-quagga-tap
+      sudo ip link set dev ovs-quagga-tap up
+      sudo ip link set dev quagga-tap up
+      sudo ovs-vsctl add-port {bridge} ovs-quagga-tap
+      sudo brctl addif br-quagga quagga-tap
+    fi
+    """
+    compute_node.run_cmd(cmd.format(bridge=bridge))
 
     compute_node.run_cmd("sudo virsh attach-interface %s"
-                         " bridge %s" % (libvirt_instance_name, bridge))
+                         " bridge br-quagga" % (libvirt_instance_name))
 
 
 def detach_instance_from_ext_br(instance, compute_node):
     libvirt_instance_name = instance.instance_name
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    # This function undoes all the actions performed by
+    # attach_instance_to_ext_br on Fuel and Apex installers.
+    if installer_type in ["fuel"]:
+        bridge = "br-floating"
+    elif installer_type in ["apex"]:
+        bridge = "br-ex"
+    else:
+        logger.warn("installer type %s is neither fuel nor apex."
+                    % installer_type)
+        return
     mac = compute_node.run_cmd("for vm in $(sudo virsh list | "
                                "grep running | awk '{print $2}'); "
                                "do echo -n ; sudo virsh dumpxml $vm| "
@@ -633,25 +647,16 @@ def detach_instance_from_ext_br(instance, compute_node):
                          " --type bridge --mac %s"
                          % (libvirt_instance_name, mac))
 
-    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
-    if installer_type == "fuel":
-        bridge = "br-ex"
-    elif installer_type == "apex":
-        # In Apex, br-ex is an ovs bridge and virsh attach-interface
-        # won't just work. We work around it by creating a linux
-        # bridge, attaching that to br-ex with a veth pair
-        # and virsh-attaching the instance to the linux-bridge
-        bridge = "br-quagga"
-        cmd = """
-            sudo brctl delif {bridge} quagga-tap &&
-            sudo ovs-vsctl del-port br-ex ovs-quagga-tap &&
-            sudo ip link set dev quagga-tap down &&
-            sudo ip link set dev ovs-quagga-tap down &&
-            sudo ip link del quagga-tap type veth peer name ovs-quagga-tap &&
-            sudo ip link set {bridge} down &&
-            sudo brctl delbr {bridge}
-        """
-        compute_node.run_cmd(cmd.format(bridge=bridge))
+    cmd = """
+        sudo brctl delif br-quagga quagga-tap &&
+        sudo ovs-vsctl del-port {bridge} ovs-quagga-tap &&
+        sudo ip link set dev quagga-tap down &&
+        sudo ip link set dev ovs-quagga-tap down &&
+        sudo ip link del quagga-tap type veth peer name ovs-quagga-tap &&
+        sudo ip link set br-quagga down &&
+        sudo brctl delbr br-quagga
+    """
+    compute_node.run_cmd(cmd.format(bridge=bridge))
 
 
 def cleanup_neutron(conn, neutron_client, floatingip_ids, bgpvpn_ids,
@@ -790,6 +795,14 @@ def is_fail_mode_secure():
         if not openstack_node.is_active():
             continue
 
+        installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+        if installer_type in ['fuel']:
+            if (
+                'controller' in openstack_node.roles or
+                'opendaylight' in openstack_node.roles
+            ):
+                continue
+
         ovs_int_list = (openstack_node.run_cmd(get_ovs_int_cmd).
                         strip().split('\n'))
         if 'br-int' in ovs_int_list:
@@ -909,21 +922,38 @@ def get_ovs_flows(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
     return cmd_out_lines
 
 
-def get_odl_bgp_entity_owner(controllers):
+def get_node_ip_and_netmask(node, iface):
+    cmd = "ip a | grep {iface} | grep inet | awk '{print $2}'"\
+          .format(iface=iface)
+    mgmt_net_cidr = node.run_cmd(cmd).strip().split('\n')
+    mgmt_ip = mgmt_net_cidr[0].split('/')[0]
+    mgmt_netmask = mgmt_net_cidr[0].split('/')[1]
+
+    return mgmt_ip, mgmt_netmask
+
+
+def get_odl_bgp_entity_owner(odl_nodes):
     """ Finds the ODL owner of the BGP entity in the cluster.
 
     When ODL runs in clustering mode we need to execute the BGP speaker
     related commands to that ODL which is the owner of the BGP entity.
 
-    :param controllers: list of OS controllers
-    :return controller: OS controller in which ODL BGP entity owner runs
+    :param odl_nodes: list of Opendaylight nodes
+    :return odl_node: Opendaylight node in which ODL BGP entity owner runs
     """
-    if len(controllers) == 1:
-        return controllers[0]
+    if len(odl_nodes) == 1:
+        return odl_nodes[0]
     else:
-        url = ('http://admin:admin@{ip}:8081/restconf/'
+        installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+        if installer_type in ['fuel']:
+            ip, _ = get_node_ip_and_netmask(odl_nodes[0], 'ens6')
+            port = 8282
+        else:
+            ip = odl_nodes[0].ip
+            port = 8081
+        url = ('http://admin:admin@{ip}:{port}/restconf/'
                'operational/entity-owners:entity-owners/entity-type/bgp'
-               .format(ip=controllers[0].ip))
+               .format(ip=ip, port=str(port)))
 
         remote_odl_akka_conf = ('/opt/opendaylight/configuration/'
                                 'initial/akka.conf')
@@ -937,27 +967,35 @@ def get_odl_bgp_entity_owner(controllers):
             return None
         odl_bgp_owner = json_output['entity-type'][0]['entity'][0]['owner']
 
-        for controller in controllers:
+        for odl_node in odl_nodes:
 
-            controller.run_cmd('sudo cp {0} /home/heat-admin/'
-                               .format(remote_odl_akka_conf))
-            controller.run_cmd('sudo chmod 777 {0}'
-                               .format(remote_odl_home_akka_conf))
-            controller.get_file(remote_odl_home_akka_conf, local_tmp_akka_conf)
+            odl_node.run_cmd('sudo cp {0} /home/heat-admin/'
+                             .format(remote_odl_akka_conf))
+            odl_node.run_cmd('sudo chmod 777 {0}'
+                             .format(remote_odl_home_akka_conf))
+            odl_node.get_file(remote_odl_home_akka_conf, local_tmp_akka_conf)
 
             for line in open(local_tmp_akka_conf):
                 if re.search(odl_bgp_owner, line):
-                    return controller
+                    return odl_node
         return None
 
 
-def add_quagga_external_gre_end_point(controllers, remote_tep_ip):
+def add_quagga_external_gre_end_point(odl_nodes, remote_tep_ip):
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type in ['fuel']:
+        ip, _ = get_node_ip_and_netmask(odl_nodes[0], 'ens6')
+        port = 8282
+    else:
+        ip = odl_nodes[0].ip
+        port = 8081
     json_body = {'input':
                  {'destination-ip': remote_tep_ip,
                   'tunnel-type': "odl-interface:tunnel-type-mpls-over-gre"}
                  }
-    url = ('http://{ip}:8081/restconf/operations/'
-           'itm-rpc:add-external-tunnel-endpoint'.format(ip=controllers[0].ip))
+    url = ('http://{ip}:{port}/restconf/operations/'
+           'itm-rpc:add-external-tunnel-endpoint'.format(ip=ip,
+                                                         port=str(port)))
     headers = {'Content-type': 'application/yang.data+json',
                'Accept': 'application/yang.data+json'}
     try:
@@ -971,9 +1009,16 @@ def add_quagga_external_gre_end_point(controllers, remote_tep_ip):
     return None
 
 
-def is_fib_entry_present_on_odl(controllers, ip_prefix, vrf_id):
-    url = ('http://admin:admin@{ip}:8081/restconf/config/odl-fib:fibEntries/'
-           'vrfTables/{vrf}/'.format(ip=controllers[0].ip, vrf=vrf_id))
+def is_fib_entry_present_on_odl(odl_nodes, ip_prefix, vrf_id):
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type in ['fuel']:
+        ip, _ = get_node_ip_and_netmask(odl_nodes[0], 'ens6')
+        port = 8282
+    else:
+        ip = odl_nodes[0].ip
+        port = 8081
+    url = ('http://admin:admin@{ip}:{port}/restconf/config/odl-fib:fibEntries/'
+           'vrfTables/{vrf}/'.format(ip=ip, port=str(port), vrf=vrf_id))
     logger.error("url is %s" % url)
     try:
         vrf_table = requests.get(url).json()

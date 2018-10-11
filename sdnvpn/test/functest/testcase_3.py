@@ -51,45 +51,47 @@ def main():
     health_cmd = "sudo docker ps -f name=opendaylight_api -f " \
                  "health=healthy -q"
     if installer_type in ["fuel"]:
-        controllers = [node for node in openstack_nodes
-                       if "running" in node.run_cmd(fuel_cmd)]
+        odl_nodes = [node for node in openstack_nodes
+                     if "running" in node.run_cmd(fuel_cmd)]
     elif installer_type in ["apex"]:
-        controllers = [node for node in openstack_nodes
-                       if node.run_cmd(health_cmd)
-                       if "Running" in node.run_cmd(apex_cmd)]
+        odl_nodes = [node for node in openstack_nodes
+                     if node.run_cmd(health_cmd)
+                     if "Running" in node.run_cmd(apex_cmd)]
+    else:
+        logger.error("Incompatible installer type")
 
     computes = [node for node in openstack_nodes if node.is_compute()]
 
     msg = ("Verify that OpenDaylight can start/communicate with zrpcd/Quagga")
     results.record_action(msg)
     results.add_to_summary(0, "-")
-    if not controllers:
-        msg = ("Controller (ODL) list is empty. Skipping rest of tests.")
+    if not odl_nodes:
+        msg = ("ODL node list is empty. Skipping rest of tests.")
         logger.info(msg)
         results.add_failure(msg)
         return results.compile_summary()
     else:
-        msg = ("Controller (ODL) list is ready")
+        msg = ("ODL node list is ready")
         logger.info(msg)
         results.add_success(msg)
 
     logger.info("Checking if zrpcd is "
-                "running on the controller nodes")
+                "running on the opendaylight nodes")
 
-    for controller in controllers:
-        output_zrpcd = controller.run_cmd("ps --no-headers -C "
-                                          "zrpcd -o state")
+    for odl_node in odl_nodes:
+        output_zrpcd = odl_node.run_cmd("ps --no-headers -C "
+                                        "zrpcd -o state")
         states = output_zrpcd.split()
         running = any([s != 'Z' for s in states])
-        msg = ("zrpcd is running in {name}".format(name=controller.name))
+        msg = ("zrpcd is running in {name}".format(name=odl_node.name))
 
         if not running:
-            logger.info("zrpcd is not running on the controller node {name}"
-                        .format(name=controller.name))
+            logger.info("zrpcd is not running on the opendaylight node {name}"
+                        .format(name=odl_node.name))
             results.add_failure(msg)
         else:
-            logger.info("zrpcd is running on the controller node {name}"
-                        .format(name=controller.name))
+            logger.info("zrpcd is running on the opendaylight node {name}"
+                        .format(name=odl_node.name))
             results.add_success(msg)
 
         results.add_to_summary(0, "-")
@@ -97,51 +99,55 @@ def main():
     # Find the BGP entity owner in ODL because of this bug:
     # https://jira.opendaylight.org/browse/NETVIRT-1308
     msg = ("Found BGP entity owner")
-    controller = test_utils.get_odl_bgp_entity_owner(controllers)
-    if controller is None:
+    odl_node = test_utils.get_odl_bgp_entity_owner(odl_nodes)
+    if odl_node is None:
         logger.error("Failed to find the BGP entity owner")
         results.add_failure(msg)
     else:
         logger.info('BGP entity owner is {name}'
-                    .format(name=controller.name))
+                    .format(name=odl_node.name))
         results.add_success(msg)
     results.add_to_summary(0, "-")
 
-    get_ext_ip_cmd = "sudo ip a | grep br-ex | grep inet | awk '{print $2}'"
-    ext_net_cidr = controller.run_cmd(get_ext_ip_cmd).strip().split('\n')
-    ext_net_mask = ext_net_cidr[0].split('/')[1]
-    controller_ext_ip = ext_net_cidr[0].split('/')[0]
+    installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+    if installer_type in ['apex']:
+        odl_interface = 'br-ex'
+    elif installer_type in ['fuel']:
+        odl_interface = 'br-ctl'
+    else:
+        logger.error("Incompatible installer type")
+    odl_ip, odl_netmask = test_utils.get_node_ip_and_netmask(
+        odl_node, odl_interface)
 
-    logger.info("Starting bgp speaker of controller at IP %s "
-                % controller_ext_ip)
+    logger.info("Starting bgp speaker of opendaylight node at IP %s "
+                % odl_ip)
 
     # Ensure that ZRPCD ip & port are well configured within ODL
     add_client_conn_to_bgp = "bgp-connect -p 7644 -h 127.0.0.1 add"
-    test_utils.run_odl_cmd(controller, add_client_conn_to_bgp)
+    test_utils.run_odl_cmd(odl_node, add_client_conn_to_bgp)
 
     # Start bgp daemon
     start_quagga = "odl:configure-bgp -op start-bgp-server " \
-                   "--as-num 100 --router-id {0}".format(controller_ext_ip)
-    test_utils.run_odl_cmd(controller, start_quagga)
+                   "--as-num 100 --router-id {0}".format(odl_ip)
+    test_utils.run_odl_cmd(odl_node, start_quagga)
 
     # we need to wait a bit until the bgpd is up
     time.sleep(5)
 
-    logger.info("Checking if bgpd is running"
-                " on the controller node")
+    logger.info("Checking if bgpd is running on the opendaylight node")
 
     # Check if there is a non-zombie bgpd process
-    output_bgpd = controller.run_cmd("ps --no-headers -C "
-                                     "bgpd -o state")
+    output_bgpd = odl_node.run_cmd("ps --no-headers -C "
+                                   "bgpd -o state")
     states = output_bgpd.split()
     running = any([s != 'Z' for s in states])
 
     msg = ("bgpd is running")
     if not running:
-        logger.info("bgpd is not running on the controller node")
+        logger.info("bgpd is not running on the opendaylight node")
         results.add_failure(msg)
     else:
-        logger.info("bgpd is running on the controller node")
+        logger.info("bgpd is running on the opendaylight node")
         results.add_success(msg)
 
     results.add_to_summary(0, "-")
@@ -150,22 +156,22 @@ def main():
     # but the test is disabled because of buggy upstream
     # https://github.com/6WIND/zrpcd/issues/15
     # stop_quagga = 'odl:configure-bgp -op stop-bgp-server'
-    # test_utils.run_odl_cmd(controller, stop_quagga)
+    # test_utils.run_odl_cmd(odl_node, stop_quagga)
 
     # logger.info("Checking if bgpd is still running"
-    #             " on the controller node")
+    #             " on the opendaylight node")
 
-    # output_bgpd = controller.run_cmd("ps --no-headers -C " \
-    #                                  "bgpd -o state")
+    # output_bgpd = odl_node.run_cmd("ps --no-headers -C " \
+    #                                "bgpd -o state")
     # states = output_bgpd.split()
     # running = any([s != 'Z' for s in states])
 
     # msg = ("bgpd is stopped")
     # if not running:
-    #     logger.info("bgpd is not running on the controller node")
+    #     logger.info("bgpd is not running on the opendaylight node")
     #     results.add_success(msg)
     # else:
-    #     logger.info("bgpd is still running on the controller node")
+    #     logger.info("bgpd is still running on the opendaylight node")
     #     results.add_failure(msg)
 
     # Taken from the sfc tests
@@ -268,9 +274,9 @@ def main():
                 compute = comp
                 break
         quagga_bootstrap_script = quagga.gen_quagga_setup_script(
-            controller_ext_ip,
+            odl_ip,
             fake_fip['fip_addr'],
-            ext_net_mask,
+            odl_netmask,
             TESTCASE_CONFIG.external_network_ip_prefix,
             TESTCASE_CONFIG.route_distinguishers,
             TESTCASE_CONFIG.import_targets,
@@ -317,16 +323,16 @@ def main():
         results.add_to_summary(0, '-')
 
         neighbor = quagga.odl_add_neighbor(fake_fip['fip_addr'],
-                                           controller_ext_ip,
-                                           controller)
-        peer = quagga.check_for_peering(controller)
+                                           odl_ip,
+                                           odl_node)
+        peer = quagga.check_for_peering(odl_node)
 
         if neighbor and peer:
             results.add_success("Peering with quagga")
         else:
             results.add_failure("Peering with quagga")
 
-        test_utils.add_quagga_external_gre_end_point(controllers,
+        test_utils.add_quagga_external_gre_end_point(odl_nodes,
                                                      fake_fip['fip_addr'])
         test_utils.wait_before_subtest()
 
@@ -382,7 +388,7 @@ def main():
         msg = ("External IP prefix %s is exchanged with ODL"
                % TESTCASE_CONFIG.external_network_ip_prefix)
         fib_added = test_utils.is_fib_entry_present_on_odl(
-            controllers,
+            odl_nodes,
             TESTCASE_CONFIG.external_network_ip_prefix,
             TESTCASE_CONFIG.route_distinguishers)
         if fib_added:
@@ -417,12 +423,12 @@ def main():
         if fake_fip is not None:
             bgp_nbr_disconnect_cmd = ("bgp-nbr -i %s -a 200 del"
                                       % fake_fip['fip_addr'])
-            test_utils.run_odl_cmd(controller, bgp_nbr_disconnect_cmd)
+            test_utils.run_odl_cmd(odl_node, bgp_nbr_disconnect_cmd)
         bgp_server_stop_cmd = ("bgp-rtr -r %s -a 100 del"
-                               % controller_ext_ip)
+                               % odl_ip)
         odl_zrpc_disconnect_cmd = "bgp-connect -p 7644 -h 127.0.0.1 del"
-        test_utils.run_odl_cmd(controller, bgp_server_stop_cmd)
-        test_utils.run_odl_cmd(controller, odl_zrpc_disconnect_cmd)
+        test_utils.run_odl_cmd(odl_node, bgp_server_stop_cmd)
+        test_utils.run_odl_cmd(odl_node, odl_zrpc_disconnect_cmd)
 
     return results.compile_summary()
 

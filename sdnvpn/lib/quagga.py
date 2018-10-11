@@ -22,12 +22,12 @@ logger = logging.getLogger('sdnvpn-quagga')
 COMMON_CONFIG = config.CommonConfig()
 
 
-def odl_add_neighbor(neighbor_ip, controller_ip, controller):
-    # Explicitly pass controller_ip because controller.ip
+def odl_add_neighbor(neighbor_ip, odl_ip, odl_node):
+    # Explicitly pass odl_ip because odl_node.ip
     # Might not be accessible from the Quagga instance
     command = 'configure-bgp -op add-neighbor --as-num 200'
-    command += ' --ip %s --use-source-ip %s' % (neighbor_ip, controller_ip)
-    success = run_odl_cmd(controller, command)
+    command += ' --ip %s --use-source-ip %s' % (neighbor_ip, odl_ip)
+    success = run_odl_cmd(odl_node, command)
     # The run_cmd api is really whimsical
     logger.info("Maybe stdout of %s: %s", command, success)
     return success
@@ -42,20 +42,20 @@ def bootstrap_quagga(fip_addr, controller_ip):
     return rc == 0
 
 
-def gen_quagga_setup_script(controller_ip,
+def gen_quagga_setup_script(odl_ip,
                             fake_floating_ip,
                             ext_net_mask,
                             ip_prefix, rd, irt, ert):
     with open(COMMON_CONFIG.quagga_setup_script_path) as f:
         template = f.read()
-    script = template.format(controller_ip,
+    script = template.format(odl_ip,
                              fake_floating_ip,
                              ext_net_mask,
                              ip_prefix, rd, irt, ert)
     return script
 
 
-def check_for_peering(controller):
+def check_for_peering(odl_node):
     cmd = 'show-bgp --cmd \\"ip bgp neighbors\\"'
     tries = 20
     neighbors = None
@@ -64,7 +64,7 @@ def check_for_peering(controller):
     while tries > 0:
         if neighbors and 'Established' in neighbors:
             break
-        neighbors = run_odl_cmd(controller, cmd)
+        neighbors = run_odl_cmd(odl_node, cmd)
         logger.info("Output of %s: %s", cmd, neighbors)
         if neighbors:
             opens = opens_regex.search(neighbors)
