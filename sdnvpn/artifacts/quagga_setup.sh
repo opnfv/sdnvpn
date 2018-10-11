@@ -35,10 +35,10 @@ done
 if [ -z "$quagga_int" ]
 then
 echo 'No available network interface'
-fi
-
+else
 ip link set $quagga_int up
 ip addr add $OWN_IP/$EXT_NET_MASK dev $quagga_int
+fi
 
 # Download quagga/zrpc rpms
 cd /root
