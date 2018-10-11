@@ -54,7 +54,7 @@ def main():
         az_2 = "nova:" + compute_nodes[1]
 
         file_path = pkg_resources.resource_filename(
-                    'sdnvpn', TESTCASE_CONFIG.hot_file_name)
+            'sdnvpn', TESTCASE_CONFIG.hot_file_name)
         templ = open(file_path, 'r').read()
         logger.debug("Template is read: '%s'" % templ)
         env = test_utils.get_heat_environment(TESTCASE_CONFIG, COMMON_CONFIG)
@@ -200,7 +200,7 @@ def main():
             test_utils.delete_stack_and_wait(conn, stack_id)
         except Exception as e:
             logger.error(
-                   "exception occurred while executing testcase_1bis: %s", e)
+                "exception occurred while executing testcase_1bis: %s", e)
 
     return results.compile_summary()
 
