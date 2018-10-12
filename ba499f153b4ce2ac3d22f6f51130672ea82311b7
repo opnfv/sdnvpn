@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_6de90b80",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "What do you think of \"ODL is not active in any controller node. Skipping rest of tests.\"\nI think that term ODL node is misleading",
+      "range": {
+        "startLine": 69,
+        "startChar": 15,
+        "endLine": 69,
+        "endChar": 64
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_ad02033c",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Respectively:  \nmsg \u003d (\"ODL is active on %s controllers:\" % odl_nodes",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 40
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_8dff4734",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Respectively:\n\"Checking if zrpcd is \"\n                \"running on controller with active ODL\"",
+      "range": {
+        "startLine": 78,
+        "startChar": 16,
+        "endLine": 79,
+        "endChar": 50
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_edfcfb40",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Respectively:\n\"zrpcd is not running on node {name}\"",
+      "range": {
+        "startLine": 89,
+        "startChar": 24,
+        "endLine": 89,
+        "endChar": 78
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_2d96f3f0",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Respectively:\n\"zrpcd is not running on node {name}\"",
+      "range": {
+        "startLine": 93,
+        "startChar": 24,
+        "endLine": 93,
+        "endChar": 74
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_8dad8734",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Typo:\n\"Find BGP entity owner\"",
+      "range": {
+        "startLine": 101,
+        "startChar": 11,
+        "endLine": 101,
+        "endChar": 35
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_cda77f4e",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Proposal for change:\n\"Checking if bgpd is running\"",
+      "range": {
+        "startLine": 137,
+        "startChar": 16,
+        "endLine": 137,
+        "endChar": 70
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_2d643321",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Proposal for change:\n\"bgpd is not running\"",
+      "range": {
+        "startLine": 147,
+        "startChar": 20,
+        "endLine": 147,
+        "endChar": 66
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_0d6977f9",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-12T11:45:36Z",
+      "side": 1,
+      "message": "Proposal:\n\"bgpd is running\"",
+      "range": {
+        "startLine": 150,
+        "startChar": 20,
+        "endLine": 150,
+        "endChar": 62
+      },
+      "revId": "ba499f153b4ce2ac3d22f6f51130672ea82311b7",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
