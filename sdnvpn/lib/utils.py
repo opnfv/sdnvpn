@@ -15,6 +15,7 @@ import requests
 import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
+from openstack.exceptions import ResourceNotFound
 from requests.auth import HTTPBasicAuth
 
 from opnfv.deployment.factory import Factory as DeploymentFactory
@@ -833,8 +834,8 @@ def update_instance_quota_class(cloud, instances_quota):
 
 def get_neutron_quota(conn, tenant_id):
     try:
-        return conn.network.quotas(project_id=tenant_id).next()
-    except Exception as e:
+        return conn.network.get_quota(tenant_id)
+    except ResourceNotFound as e:
         logger.error("Error in getting network quota for tenant "
                      " '%s' )]: %s" % (tenant_id, e))
         raise
