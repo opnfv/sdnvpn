@@ -6,7 +6,6 @@ requests # Apache-2.0
 opnfv
 PyYAML # MIT
 networking-bgpvpn>=7.0.0 # Apache-2.0
-python-cinderclient!=4.0.0 # Apache-2.0
 python-heatclient # Apache-2.0
 python-keystoneclient!=2.1.0 # Apache-2.0
 python-neutronclient # Apache-2.0
