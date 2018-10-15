@@ -990,7 +990,7 @@ def is_fib_entry_present_on_odl(controllers, ip_prefix, vrf_id):
     return False
 
 
-def wait_stack_for_status(heat_client, stack_id, stack_status, limit=12):
+def wait_stack_for_status(conn, stack_id, stack_status, limit=12):
     """ Waits to reach specified stack status. To be used with
     CREATE_COMPLETE and UPDATE_COMPLETE.
     Will try a specific number of attempts at 10sec intervals
@@ -1010,8 +1010,7 @@ def wait_stack_for_status(heat_client, stack_id, stack_status, limit=12):
                 "id": stack_id
             }
         }
-        stack_st = os_utils.list_stack(
-                            heat_client, **kwargs).next().stack_status
+        stack_st = os_utils.list_stacks(conn, **kwargs).next().status
         if stack_st == stack_status:
             stack_create_complete = True
             break
@@ -1027,7 +1026,7 @@ def wait_stack_for_status(heat_client, stack_id, stack_status, limit=12):
     return True
 
 
-def delete_stack_and_wait(heat_client, stack_id, limit=12):
+def delete_stack_and_wait(conn, stack_id, limit=12):
     """ Starts and waits for completion of delete stack
 
     Will try a specific number of attempts at 10sec intervals
@@ -1038,7 +1037,7 @@ def delete_stack_and_wait(heat_client, stack_id, limit=12):
     """
     delete_started = False
     if stack_id is not None:
-        delete_started = os_utils.delete_stack(heat_client, stack_id)
+        delete_started = os_utils.delete_stack(conn, stack_id)
 
     if delete_started is True:
         logger.debug("Stack delete succesfully started")
@@ -1054,8 +1053,7 @@ def delete_stack_and_wait(heat_client, stack_id, limit=12):
             }
         }
         try:
-            stack_st = os_utils.list_stack(
-                                heat_client, **kwargs).next().stack_status
+            stack_st = os_utils.list_stacks(conn, **kwargs).next().status
             if stack_st == 'DELETE_COMPLETE':
                 stack_delete_complete = True
                 break
@@ -1090,12 +1088,10 @@ def get_heat_environment(testcase, common_config):
     param_dict = testcase.heat_parameters
     param_dict['flavor'] = fl
     env_dict = {'parameters': param_dict}
-    environment = yaml.safe_dump(env_dict, default_flow_style=False)
-    return environment
+    return env_dict
 
 
-def get_vms_from_stack_outputs(heat_client, conn,
-                               stack_id, vm_stack_output_keys):
+def get_vms_from_stack_outputs(conn, stack_id, vm_stack_output_keys):
     """ Converts a vm name from a heat stack output to a nova vm object
 
     :param stack_id: the id of the stack to fetch the vms from
@@ -1104,11 +1100,13 @@ def get_vms_from_stack_outputs(heat_client, conn,
     """
     vms = []
     for vmk in vm_stack_output_keys:
-        vm_output = os_utils.get_output(heat_client, stack_id, vmk)
-        vm_name = vm_output['output']['output_value']
-        logger.debug("vm '%s' read from heat output" % vm_name)
-        vm = os_utils.get_instance_by_name(conn, vm_name)
-        vms.append(vm)
+        vm_output = os_utils.get_output(conn, stack_id, vmk)
+        if vm_output is not None:
+            vm_name = vm_output['output_value']
+            logger.debug("vm '%s' read from heat output" % vm_name)
+            vm = os_utils.get_instance_by_name(conn, vm_name)
+            if vm is not None:
+                vms.append(vm)
     return vms
 
 

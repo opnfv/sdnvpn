@@ -21,7 +21,7 @@ parameters:
   av_zone_2:
     type: string
     description: availability zone 2
-    
+
   net_1_name:
     type: string
     description: network 1
