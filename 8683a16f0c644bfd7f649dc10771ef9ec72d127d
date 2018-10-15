@@ -22,6 +22,52 @@
       "revId": "8683a16f0c644bfd7f649dc10771ef9ec72d127d",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_f6684cf7",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-15T08:26:51Z",
+      "side": 1,
+      "message": "\u0027 create (misses a blank character)",
+      "range": {
+        "startLine": 1003,
+        "startChar": 27,
+        "endLine": 1003,
+        "endChar": 28
+      },
+      "revId": "8683a16f0c644bfd7f649dc10771ef9ec72d127d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_3673e4ea",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-15T08:26:51Z",
+      "side": 1,
+      "message": "This method is unused inside this patch",
+      "range": {
+        "startLine": 1115,
+        "startChar": 0,
+        "endLine": 1115,
+        "endChar": 23
+      },
+      "revId": "8683a16f0c644bfd7f649dc10771ef9ec72d127d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
