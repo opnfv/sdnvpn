@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_76239c05",
+        "filename": "sdnvpn/artifacts/testcase_1bis.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-15T06:46:27Z",
+      "side": 1,
+      "message": "Minor: This yaml contains some blank characters.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 33
+      },
+      "revId": "8683a16f0c644bfd7f649dc10771ef9ec72d127d",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
