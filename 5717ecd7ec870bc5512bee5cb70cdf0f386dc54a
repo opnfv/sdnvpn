@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_fc682bf7",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T10:01:51Z",
+      "side": 1,
+      "message": "This may work in apex but not in fuel. I would suggest depend on the patch https://gerrit.opnfv.org/gerrit/#/c/63415/ and update the per installer variable configuration\n\nIf you disagree you could at least try/get the SDN_CONTROLLER_PASSWORD and if it is not present default to \"admin\"",
+      "range": {
+        "startLine": 926,
+        "startChar": 23,
+        "endLine": 926,
+        "endChar": 69
+      },
+      "revId": "5717ecd7ec870bc5512bee5cb70cdf0f386dc54a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_5c6e7f02",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T10:01:51Z",
+      "side": 1,
+      "message": "Question: If you use container name instead of id here what happens? You are receiving an error?",
+      "range": {
+        "startLine": 945,
+        "startChar": 47,
+        "endLine": 945,
+        "endChar": 50
+      },
+      "revId": "5717ecd7ec870bc5512bee5cb70cdf0f386dc54a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
