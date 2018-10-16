@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_bc74f3fd",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-16T09:05:49Z",
+      "side": 1,
+      "message": "I was expecting to see py27",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 7
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_fc65cb45",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-16T09:05:49Z",
+      "side": 1,
+      "message": "When merged this will change to stable gambia right?",
+      "range": {
+        "startLine": 16,
+        "startChar": 88,
+        "endLine": 16,
+        "endChar": 94
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7c51bb61",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-16T09:05:49Z",
+      "side": 1,
+      "message": "I dovetails tox.ini testenv:pep8 contains also:\ndeps \u003d flake8",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
