@@ -921,9 +921,10 @@ def get_odl_bgp_entity_owner(controllers):
     if len(controllers) == 1:
         return controllers[0]
     else:
-        url = ('http://admin:admin@{ip}:8081/restconf/'
+        url = ('http://admin:{SDN_PASS}@{ip}:8081/restconf/'
                'operational/entity-owners:entity-owners/entity-type/bgp'
-               .format(ip=controllers[0].ip))
+               .format(SDN_PASS=os.environ['SDN_CONTROLLER_PASSWORD'],
+                       ip=controllers[0].ip))
 
         remote_odl_akka_conf = ('/opt/opendaylight/configuration/'
                                 'initial/akka.conf')
@@ -937,10 +938,12 @@ def get_odl_bgp_entity_owner(controllers):
             return None
         odl_bgp_owner = json_output['entity-type'][0]['entity'][0]['owner']
 
+        get_odl_id_cmd = "sudo docker ps -a |grep opendaylight_api | " \
+                         "awk '{print $1}'"
         for controller in controllers:
-
-            controller.run_cmd('sudo cp {0} /home/heat-admin/'
-                               .format(remote_odl_akka_conf))
+            odl_id = controller.run_cmd(get_odl_id_cmd)
+            controller.run_cmd('sudo docker cp {0}:{1} /home/heat-admin/'
+                               .format(odl_id, remote_odl_akka_conf))
             controller.run_cmd('sudo chmod 777 {0}'
                                .format(remote_odl_home_akka_conf))
             controller.get_file(remote_odl_home_akka_conf, local_tmp_akka_conf)
