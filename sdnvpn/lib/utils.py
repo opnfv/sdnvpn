@@ -909,6 +909,16 @@ def get_ovs_flows(compute_node_list, ovs_br_list, of_protocol="OpenFlow13"):
     return cmd_out_lines
 
 
+def get_node_ip_and_netmask(node, iface):
+    cmd = "ip a | grep {iface} | grep inet | awk '{{print $2}}'"\
+          .format(iface=iface)
+    mgmt_net_cidr = node.run_cmd(cmd).strip().split('\n')
+    mgmt_ip = mgmt_net_cidr[0].split('/')[0]
+    mgmt_netmask = mgmt_net_cidr[0].split('/')[1]
+
+    return mgmt_ip, mgmt_netmask
+
+
 def get_odl_bgp_entity_owner(controllers):
     """ Finds the ODL owner of the BGP entity in the cluster.
 
@@ -921,9 +931,18 @@ def get_odl_bgp_entity_owner(controllers):
     if len(controllers) == 1:
         return controllers[0]
     else:
-        url = ('http://admin:admin@{ip}:8081/restconf/'
+        installer_type = str(os.environ['INSTALLER_TYPE'].lower())
+        if installer_type in ['fuel']:
+            ip, _ = get_node_ip_and_netmask(controllers[0], 'br-ctl')
+            port = 8282
+            odl_pass = 'admin'
+        else:
+            ip = controllers[0].ip
+            port = 8081
+            odl_pass = os.environ['SDN_CONTROLLER_PASSWORD']
+        url = ('http://admin:{0}@{1}:{2}/restconf/'
                'operational/entity-owners:entity-owners/entity-type/bgp'
-               .format(ip=controllers[0].ip))
+               .format(odl_pass, ip, port))
 
         remote_odl_akka_conf = ('/opt/opendaylight/configuration/'
                                 'initial/akka.conf')
@@ -937,10 +956,12 @@ def get_odl_bgp_entity_owner(controllers):
             return None
         odl_bgp_owner = json_output['entity-type'][0]['entity'][0]['owner']
 
+        get_odl_id_cmd = "sudo docker ps -a |grep opendaylight_api | " \
+                         "awk '{print $1}'"
         for controller in controllers:
-
-            controller.run_cmd('sudo cp {0} /home/heat-admin/'
-                               .format(remote_odl_akka_conf))
+            odl_id = controller.run_cmd(get_odl_id_cmd)
+            controller.run_cmd('sudo docker cp {0}:{1} /home/heat-admin/'
+                               .format(odl_id, remote_odl_akka_conf))
             controller.run_cmd('sudo chmod 777 {0}'
                                .format(remote_odl_home_akka_conf))
             controller.get_file(remote_odl_home_akka_conf, local_tmp_akka_conf)
