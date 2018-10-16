@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_fcccab37",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T09:26:30Z",
+      "side": 1,
+      "message": "There are no unit tests right now to run them inside a py27 environment. Py27 environment is not created on purpose",
+      "parentUuid": "5a682502_bc74f3fd",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 7
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_fc65cb45",
         "filename": "tox.ini",
         "patchSetId": 5
@@ -48,6 +72,53 @@
     },
     {
       "key": {
+        "uuid": "5a682502_3cd743c3",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T09:26:30Z",
+      "side": 1,
+      "message": "This will change to stable/queens if we decide to cherry pick this to stable/gambia",
+      "parentUuid": "5a682502_fc65cb45",
+      "range": {
+        "startLine": 16,
+        "startChar": 88,
+        "endLine": 16,
+        "endChar": 94
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7cd89bef",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T09:26:30Z",
+      "side": 1,
+      "message": "this will change to stable/gambia also if changes are going to cherry picked to stable/gambia.",
+      "range": {
+        "startLine": 17,
+        "startChar": 65,
+        "endLine": 17,
+        "endChar": 71
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_7c51bb61",
         "filename": "tox.ini",
         "patchSetId": 5
@@ -59,6 +130,30 @@
       "writtenOn": "2018-10-16T09:05:49Z",
       "side": 1,
       "message": "I dovetails tox.ini testenv:pep8 contains also:\ndeps \u003d flake8",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "235cb921e06fbc979276aca8d753084033678df2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_9cdbf7ec",
+        "filename": "tox.ini",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-16T09:26:30Z",
+      "side": 1,
+      "message": "It is installed by parent test-requirements file: line 18",
+      "parentUuid": "5a682502_7c51bb61",
       "range": {
         "startLine": 43,
         "startChar": 0,
