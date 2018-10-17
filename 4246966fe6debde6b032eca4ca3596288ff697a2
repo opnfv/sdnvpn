@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_d376fd3d",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T08:29:48Z",
+      "side": 1,
+      "message": "Generic minor comment: I can see both single and double quoted strings inside this file. Maybe it is better to use only one style. I prefer single quotes and double only when they are needed. (e.g. a string which contains single quotes). I know the same thing happens to almost every file of sdnvpn but this is a new tracked file. Maybe it is a good idea to fix it now",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_937c8522",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T08:29:48Z",
+      "side": 1,
+      "message": "Just by curiosity I opened this issue: https://jira.opendaylight.org/browse/NETVIRT-1067\nand they resolved it as it \"cannot be reproduced\". Is it possible to try the update instead of delete and recreate to find out what happens?",
+      "range": {
+        "startLine": 143,
+        "startChar": 51,
+        "endLine": 143,
+        "endChar": 63
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_7379e92e",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T08:29:48Z",
+      "side": 1,
+      "message": "This one affects Carbon, as it is mentioned to its description. You could try to uncomment to find out if it affects current ODL (fluorine for fuel installer)",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 63
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_933f6525",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T08:29:48Z",
+      "side": 1,
+      "message": "4*",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 65
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
