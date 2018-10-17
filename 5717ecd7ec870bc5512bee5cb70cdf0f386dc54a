@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_f365f945",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-17T13:38:25Z",
+      "side": 1,
+      "message": "I\u0027ll enhance it to cover also fuel installation\nthanks",
+      "parentUuid": "5a682502_fc682bf7",
+      "range": {
+        "startLine": 926,
+        "startChar": 23,
+        "endLine": 926,
+        "endChar": 69
+      },
+      "revId": "5717ecd7ec870bc5512bee5cb70cdf0f386dc54a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_5c6e7f02",
         "filename": "sdnvpn/lib/utils.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-16T10:01:51Z",
       "side": 1,
       "message": "Question: If you use container name instead of id here what happens? You are receiving an error?",
+      "range": {
+        "startLine": 945,
+        "startChar": 47,
+        "endLine": 945,
+        "endChar": 50
+      },
+      "revId": "5717ecd7ec870bc5512bee5cb70cdf0f386dc54a",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_d3771d01",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 945,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-10-17T13:38:25Z",
+      "side": 1,
+      "message": "Yes I\u0027m getting: Error response from daemon: invalid argument\nthe syntax is docker cp \u003ccontainerId\u003e:/file/path/within/container /host/path/target\n\nHowever i notice an odd behavior, If first \"sudo docker ps -a |grep opendaylight_api | awk \u0027{print $1}\u0027\n\" is given then no error is returned after \"sudo docker cp opendaylight_api:/opt/opendaylight/configuration/initial/akka.conf /home/heat-admin/\"",
+      "parentUuid": "5a682502_5c6e7f02",
       "range": {
         "startLine": 945,
         "startChar": 47,
