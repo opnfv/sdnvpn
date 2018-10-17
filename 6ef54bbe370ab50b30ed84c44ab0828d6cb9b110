@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_33a5b153",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T11:52:36Z",
+      "side": 1,
+      "message": "I prefer \u0027{user}:{password}@{ip}:{port}\u0027.format(user\u003d\u0027admin\u0027, password\u003d\u0027odl_pass\u0027.....)",
+      "range": {
+        "startLine": 943,
+        "startChar": 23,
+        "endLine": 943,
+        "endChar": 40
+      },
+      "revId": "6ef54bbe370ab50b30ed84c44ab0828d6cb9b110",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_b3f9c14f",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T11:52:36Z",
+      "side": 1,
+      "message": "a space after \"|\" is missing here",
+      "range": {
+        "startLine": 959,
+        "startChar": 44,
+        "endLine": 959,
+        "endChar": 45
+      },
+      "revId": "6ef54bbe370ab50b30ed84c44ab0828d6cb9b110",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
