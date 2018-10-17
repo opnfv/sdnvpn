@@ -45,6 +45,29 @@
       "revId": "6ef54bbe370ab50b30ed84c44ab0828d6cb9b110",
       "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_f31df974",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 960,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-17T12:00:16Z",
+      "side": 1,
+      "message": "sudo docker ps -qf \"name\u003dopendaylight_api\" would do better imo",
+      "range": {
+        "startLine": 959,
+        "startChar": 26,
+        "endLine": 960,
+        "endChar": 43
+      },
+      "revId": "6ef54bbe370ab50b30ed84c44ab0828d6cb9b110",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
     }
   ]
 }
