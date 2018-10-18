@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_26a56d53",
+        "filename": "sdnvpn/lib/utils.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 949,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-18T07:57:56Z",
+      "side": 1,
+      "message": "I just found out that this will not work on fuel. But I believe I should add a fix to my patch for fuel. For the shake of this patch you should leave as is.",
+      "range": {
+        "startLine": 949,
+        "startChar": 8,
+        "endLine": 949,
+        "endChar": 64
+      },
+      "revId": "9d550e5108399bc1f85186956dabc6cbe3a3ec85",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
