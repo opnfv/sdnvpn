@@ -410,7 +410,7 @@ def create_instance(flavor_name,
     conn = get_os_connection()
     try:
         flavor = conn.compute.find_flavor(flavor_name, ignore_missing=False)
-    except:
+    except Exception:
         flavors = [flavor.name for flavor in conn.compute.flavors()]
         logger.error("Error: Flavor '%s' not found. Available flavors are: "
                      "\n%s" % (flavor_name, flavors))
@@ -933,7 +933,7 @@ def create_secgroup_rule(conn, sg_id, direction, protocol,
     try:
         conn.network.create_security_group_rule(**secgroup_rule_attrs)
         return True
-    except:
+    except Exception:
         logger.exception("Impossible to create_security_group_rule,"
                          "security group rule probably already exists")
         return False
@@ -1168,7 +1168,7 @@ def delete_volume(cloud, volume_id, forced=False):
                 for attachment in volume.attachments:
                     server = cloud.get_server(attachment.server_id)
                     cloud.detach_volume(server, volume)
-            except:
+            except Exception:
                 logger.error(sys.exc_info()[0])
             cloud.delete_volume(volume_id, force=True)
         else:
@@ -1295,9 +1295,9 @@ def get_or_create_tenant_for_vnf(keystone_client, tenant_name,
             return True
         else:
             return False
-    except:
+    except Exception:
         raise Exception("Impossible to create a Tenant for the VNF {}".format(
-                            tenant_name))
+            tenant_name))
 
 
 def create_user(keystone_client, user_name, user_password,
@@ -1355,10 +1355,10 @@ def get_or_create_user_for_vnf(keystone_client, vnf_ref):
             role_id = get_role_id(keystone_client, 'admin')
             tenant_id = get_tenant_id(keystone_client, vnf_ref)
             add_role_user(keystone_client, user_id, role_id, tenant_id)
-        except:
+        except Exception:
             logger.warn("Cannot associate user to role admin on tenant")
         return created
-    except:
+    except Exception:
         raise Exception("Impossible to create a user for the VNF {}".format(
             vnf_ref))
 

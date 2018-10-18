@@ -29,6 +29,7 @@ def _subprocess_setup():
     # non-Python subprocesses expect.
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
+
 # NOTE(flaper87): The following globals are used by `mask_password`
 _SANITIZE_KEYS = ['adminPass', 'admin_pass', 'password', 'admin_password']
 
