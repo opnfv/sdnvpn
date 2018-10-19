@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_bf586057",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-10-19T14:14:45Z",
+      "side": 1,
+      "message": "I\u0027ll do a scan.",
+      "parentUuid": "5a682502_d376fd3d",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_937c8522",
         "filename": "sdnvpn/test/functest/testcase_4bis.py",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2018-10-17T08:29:48Z",
       "side": 1,
       "message": "Just by curiosity I opened this issue: https://jira.opendaylight.org/browse/NETVIRT-1067\nand they resolved it as it \"cannot be reproduced\". Is it possible to try the update instead of delete and recreate to find out what happens?",
+      "range": {
+        "startLine": 143,
+        "startChar": 51,
+        "endLine": 143,
+        "endChar": 63
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_9f2c84ad",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-10-19T14:14:45Z",
+      "side": 1,
+      "message": "You\u0027re definitely right; however I prefer to address this in an overall approach since these (and more) old tickets affect several test cases.\nCreated https://jira.opnfv.org/browse/SDNVPN-236 .",
+      "parentUuid": "5a682502_937c8522",
       "range": {
         "startLine": 143,
         "startChar": 51,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a682502_3f13b067",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-10-19T14:14:45Z",
+      "side": 1,
+      "message": "See previous",
+      "parentUuid": "5a682502_7379e92e",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 63
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a682502_933f6525",
         "filename": "sdnvpn/test/functest/testcase_4bis.py",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2018-10-17T08:29:48Z",
       "side": 1,
       "message": "4*",
+      "range": {
+        "startLine": 209,
+        "startChar": 64,
+        "endLine": 209,
+        "endChar": 65
+      },
+      "revId": "4246966fe6debde6b032eca4ca3596288ff697a2",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_1f187480",
+        "filename": "sdnvpn/test/functest/testcase_4bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-10-19T14:14:45Z",
+      "side": 1,
+      "message": "sure",
+      "parentUuid": "5a682502_933f6525",
       "range": {
         "startLine": 209,
         "startChar": 64,
