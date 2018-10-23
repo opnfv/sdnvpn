@@ -1,0 +1,289 @@
+heat_template_version: 2013-05-23
+
+description: >
+  Template for SDNVPN testcase 2
+  tenant separation
+
+parameters:
+  flavor:
+    type: string
+    description: flavor for the servers to be created
+    constraints:
+      - custom_constraint: nova.flavor
+  image_n:
+    type: string
+    description: image for the servers to be created
+    constraints:
+      - custom_constraint: glance.image
+  av_zone_1:
+    type: string
+    description: availability zone 1
+  id_rsa_key:
+    type: string
+    description: id_rsa file contents for the vms
+    
+  net_1_name:
+    type: string
+    description: network 1
+  subnet_1a_name:
+    type: string
+    description: subnet 1a name
+  subnet_1a_cidr:
+    type: string
+    description: subnet 1a cidr
+  subnet_1b_name:
+    type: string
+    description: subnet 1b name
+  subnet_1b_cidr:
+    type: string
+    description: subnet 1b cidr
+  router_1_name:
+    type: string
+    description: router 1 name  
+  net_2_name:
+    type: string
+    description: network 2
+  subnet_2a_name:
+    type: string
+    description: subnet 2a name
+  subnet_2a_cidr:
+    type: string
+    description: subnet 2a cidr
+  subnet_2b_name:
+    type: string
+    description: subnet 2b name
+  subnet_2b_cidr:
+    type: string
+    description: subnet 2b cidr
+  router_2_name:
+    type: string
+    description: router 2 name
+
+  secgroup_name:
+    type: string
+    description: security group name
+  secgroup_descr:
+    type: string
+    description: security group slogan
+
+  instance_1_name:
+    type: string
+    description: instance name
+  instance_2_name:
+    type: string
+    description: instance name
+  instance_3_name:
+    type: string
+    description: instance name
+  instance_4_name:
+    type: string
+    description: instance name
+  instance_5_name:
+    type: string
+    description: instance name
+
+  instance_1_ip:
+    type: string
+    description: instance fixed ip
+  instance_2_ip:
+    type: string
+    description: instance fixed ip
+  instance_3_ip:
+    type: string
+    description: instance fixed ip
+  instance_4_ip:
+    type: string
+    description: instance fixed ip
+  instance_5_ip:
+    type: string
+    description: instance fixed ip
+
+resources:
+  net_1:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_1_name }
+  subnet_1a:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_1a_name }
+      network: { get_resource: net_1 }
+      cidr: { get_param: subnet_1a_cidr }
+  net_2:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_2_name }
+  subnet_2b:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_2b_name }
+      network: { get_resource: net_2 }
+      cidr: { get_param: subnet_2b_cidr }
+
+  sec_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: { get_param: secgroup_name }
+      description: { get_param: secgroup_descr }
+      rules: 
+        - protocol: icmp
+          remote_ip_prefix: 0.0.0.0/0
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+          remote_ip_prefix: 0.0.0.0/0
+
+  vm1:
+    type: OS::Nova::Server
+    depends_on: [ vm2, vm4 ]
+    properties:
+      name: { get_param: instance_1_name }
+      image: { get_param: image_n }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - network: { get_resource: net_1 }
+          fixed_ip: { get_param: instance_1_ip }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            sudo mkdir -p /home/cirros/.ssh/
+            sudo chown cirros:cirros /home/cirros/.ssh/
+            sudo echo $ID_RSA > /home/cirros/.ssh/id_rsa.enc
+            sudo base64 -d /home/cirros/.ssh/id_rsa.enc > /home/cirros/.ssh/id_rsa
+            sudo chown cirros:cirros /home/cirros/.ssh/id_rsa
+            sudo echo $AUTH_KEYS > /home/cirros/.ssh/authorized_keys
+            sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys
+            chmod 700 /home/cirros/.ssh
+            chmod 644 /home/cirros/.ssh/authorized_keys
+            chmod 600 /home/cirros/.ssh/id_rsa
+            echo gocubsgo > cirros_passwd
+            set $IP_VM2 $IP_VM4
+            echo will try to ssh to $IP_VM2 and $IP_VM4
+            while true; do
+             for i do
+              ip=$i
+              hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa cirros@$ip 'hostname' </dev/zero 2>/dev/null)
+              RES=$?
+              echo $RES
+              if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;
+              else echo $ip 'not reachable';fi;
+             done
+             sleep 1
+            done
+          params:
+            $IP_VM2: { get_param: instance_2_ip }
+            $IP_VM4: { get_param: instance_4_ip }
+            $ID_RSA: { get_param: id_rsa_key }
+            $AUTH_KEYS: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e\
+              stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9\
+              sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU\
+              ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= cirros@test1"
+  vm2:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: instance_2_name }
+      image: { get_param: image_n }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups:
+        - { get_resource: sec_group }
+      networks:
+        - network: { get_resource: net_1 }
+          fixed_ip: { get_param: instance_2_ip }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            sudo mkdir -p /home/cirros/.ssh/
+            sudo chown cirros:cirros /home/cirros/.ssh/
+            sudo echo $ID_RSA > /home/cirros/.ssh/id_rsa.enc
+            sudo base64 -d /home/cirros/.ssh/id_rsa.enc > /home/cirros/.ssh/id_rsa
+            sudo chown cirros:cirros /home/cirros/.ssh/id_rsa
+            sudo echo $AUTH_KEYS > /home/cirros/.ssh/authorized_keys
+            sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys
+            chmod 700 /home/cirros/.ssh
+            chmod 644 /home/cirros/.ssh/authorized_keys
+            chmod 600 /home/cirros/.ssh/id_rsa
+          params:
+            $ID_RSA: { get_param: id_rsa_key }
+            $AUTH_KEYS: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e\
+              stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9\
+              sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU\
+              ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= cirros@test1"
+  vm4:
+    type: OS::Nova::Server
+    depends_on: vm2
+    properties:
+      name: { get_param: instance_4_name }
+      image: { get_param: image_n }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups: 
+        - { get_resource: sec_group }
+      networks:
+        - network: { get_resource: net_2 }
+          fixed_ip: { get_param: instance_4_ip }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            sudo mkdir -p /home/cirros/.ssh/
+            sudo chown cirros:cirros /home/cirros/.ssh/
+            sudo echo $ID_RSA > /home/cirros/.ssh/id_rsa.enc
+            sudo base64 -d /home/cirros/.ssh/id_rsa.enc > /home/cirros/.ssh/id_rsa
+            sudo chown cirros:cirros /home/cirros/.ssh/id_rsa
+            sudo echo $AUTH_KEYS > /home/cirros/.ssh/authorized_keys
+            sudo chown cirros:cirros /home/cirros/.ssh/authorized_keys
+            chmod 700 /home/cirros/.ssh
+            chmod 644 /home/cirros/.ssh/authorized_keys
+            chmod 600 /home/cirros/.ssh/id_rsa
+            set $IP_VM1
+            echo will try to ssh to $IP_VM1
+            while true; do
+             for i do
+              ip=$i
+              hostname=$(ssh -y -i /home/cirros/.ssh/id_rsa cirros@$ip 'hostname' </dev/zero 2>/dev/null)
+              RES=$?
+              if [ \"Z$RES\" = \"Z0\" ]; then echo $ip $hostname;
+              else echo $ip 'not reachable';fi;
+             done
+             sleep 1
+            done
+          params:
+            $IP_VM1: { get_param: instance_1_ip }
+            $ID_RSA: { get_param: id_rsa_key }
+            $AUTH_KEYS: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgnWtSS98Am516e\
+              stBsq0jbyOB4eLMUYDdgzsUHsnxFQCtACwwAg9/2uq3FoGUBUWeHZNsT6jcK9\
+              sCMEYiS479CUCzbrxcd8XaIlK38HECcDVglgBNwNzX/WDfMejXpKzZG61s98rU\
+              ElNvZ0YDqhaqZGqxIV4ejalqLjYrQkoly3R+2k= cirros@test1"
+            $DROPBEAR_PASSWORD: gocubsgo
+outputs:
+  net_1_o:
+    description: the id of network 1 
+    value: { get_attr: [net_1, show, id] }
+  net_2_o:
+    description: the id of network 2 
+    value: { get_attr: [net_2, show, id] }
+
+  vm1_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm2_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm2, show, name] }
+  vm3_o:
+    description: dummy
+    value: { get_attr: [vm2, show, name] }
+  vm4_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm4, show, name] }
+  vm5_o:
+    description: dummy
+    value: { get_attr: [vm2, show, name] }
