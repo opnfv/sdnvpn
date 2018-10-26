@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a682502_77d70824",
+        "filename": "sdnvpn/artifacts/testcase_2bis.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-26T08:40:27Z",
+      "side": 1,
+      "message": "This file contains unwanted empty characters. Please have a look :)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 33
+      },
+      "revId": "2c8755175f0a80faa5670463aad4ea4f73961436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_d7dedc3e",
+        "filename": "sdnvpn/test/functest/testcase_2bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-26T08:40:27Z",
+      "side": 1,
+      "message": "2018",
+      "range": {
+        "startLine": 3,
+        "startChar": 16,
+        "endLine": 3,
+        "endChar": 20
+      },
+      "revId": "2c8755175f0a80faa5670463aad4ea4f73961436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a682502_f7c9587a",
+        "filename": "sdnvpn/test/functest/testcase_2bis.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-10-26T08:40:27Z",
+      "side": 1,
+      "message": "I want to remind the mixed string style which occurs in the project and the need to avoid it in newly tracked files. I am commenting only at this double quotes but some others exist also in this file.",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 33
+      },
+      "revId": "2c8755175f0a80faa5670463aad4ea4f73961436",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
