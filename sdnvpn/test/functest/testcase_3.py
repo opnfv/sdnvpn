@@ -370,7 +370,7 @@ def main():
         instance_ids.append(vm_bgpvpn.id)
 
         # wait for VM to get IP
-        instance_up = test_utils.wait_for_instances_up(vm_bgpvpn)
+        instance_up = test_utils.wait_for_instances_get_dhcp(vm_bgpvpn)
         if not instance_up:
             logger.error("One or more instances are down")
 
