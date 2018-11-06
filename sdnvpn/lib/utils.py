@@ -14,6 +14,7 @@ import time
 import requests
 import re
 import subprocess
+import yaml
 from concurrent.futures import ThreadPoolExecutor
 from openstack.exceptions import ResourceNotFound, NotFoundException
 from requests.auth import HTTPBasicAuth
@@ -1150,3 +1151,20 @@ def get_vms_from_stack_outputs(conn, stack_id, vm_stack_output_keys):
             if vm is not None:
                 vms.append(vm)
     return vms
+
+
+def merge_yaml(y1, y2):
+    """ Merge two yaml HOT into one
+
+    The parameters, resources and outputs sections are merged.
+
+    :param y1: the first yaml
+    :param y2: the second yaml
+    :return y: merged yaml
+    """
+    d1 = yaml.load(y1)
+    d2 = yaml.load(y2)
+    for key in ('parameters', 'resources', 'outputs'):
+        if key in d2:
+            d1[key].update(d2[key])
+    return yaml.dump(d1, default_flow_style=False)

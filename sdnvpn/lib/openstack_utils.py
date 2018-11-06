@@ -1404,15 +1404,6 @@ def delete_user(keystone_client, user_id):
 # *********************************************
 #   HEAT
 # *********************************************
-def get_resource(conn, stack_id, resource):
-    try:
-        resource = conn.orchestration.resources(stack_id, id=resource).next()
-        return resource
-    except Exception as e:
-        logger.error("Error [get_resource(orchestration)]: %s" % e)
-        return None
-
-
 def create_stack(conn, **kwargs):
     try:
         stack = conn.orchestration.create_stack(**kwargs)
@@ -1424,6 +1415,15 @@ def create_stack(conn, **kwargs):
     except Exception as e:
         logger.error("Error [create_stack(orchestration)]: %s" % e)
         return None
+
+
+def update_stack(conn, stack_id, **kwargs):
+    try:
+        conn.orchestration.update_stack(stack_id, **kwargs)
+        return True
+    except Exception as e:
+        logger.error("Error [update_stack(orchestration)]: %s" % e)
+        return False
 
 
 def delete_stack(conn, stack_id):

@@ -1,0 +1,173 @@
+heat_template_version: 2013-05-23
+
+description: >
+  Template for SDNVPN testcase 8
+  Test floating IP and router assoc coexistence
+
+parameters:
+  flavor:
+    type: string
+    description: flavor for the servers to be created
+    constraints:
+      - custom_constraint: nova.flavor
+  image_n:
+    type: string
+    description: image for the servers to be created
+    constraints:
+      - custom_constraint: glance.image
+  av_zone_1:
+    type: string
+    description: availability zone 1
+
+  external_nw:
+    type: string
+    description: the external network
+  net_1_name:
+    type: string
+    description: network 1
+  subnet_1_name:
+    type: string
+    description: subnet 1 name
+  subnet_1_cidr:
+    type: string
+    description: subnet 1 cidr
+  router_1_name:
+    type: string
+    description: router 1 cidr
+  net_2_name:
+    type: string
+    description: network 2
+  subnet_2_name:
+    type: string
+    description: subnet 2 name
+  subnet_2_cidr:
+    type: string
+    description: subnet 1 cidr
+
+  secgroup_name:
+    type: string
+    description: security group name
+  secgroup_descr:
+    type: string
+    description: security group slogan
+
+  instance_1_name:
+    type: string
+    description: instance name
+  instance_2_name:
+    type: string
+    description: instance name
+
+  ping_count:
+    type: string
+    description: ping count for user data script
+    default: 10
+
+resources:
+  router_1:
+    type: OS::Neutron::Router
+    properties:
+      name: { get_param: router_1_name }
+      external_gateway_info:
+        network: { get_param: external_nw }
+
+  net_1:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_1_name }
+  subnet_1:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_1_name }
+      network: { get_resource: net_1 }
+      cidr: { get_param: subnet_1_cidr }
+  routerinterface_1:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router_1 }
+      subnet_id: { get_resource: subnet_1 }
+
+  net_2:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: net_2_name }
+  subnet_2:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: subnet_2_name }
+      network: { get_resource: net_2 }
+      cidr: { get_param: subnet_2_cidr }
+
+  sec_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: { get_param: secgroup_name }
+      description: { get_param: secgroup_descr }
+      rules:
+        - protocol: icmp
+          remote_ip_prefix: 0.0.0.0/0
+        - protocol: tcp
+          port_range_min: 22
+          port_range_max: 22
+          remote_ip_prefix: 0.0.0.0/0
+
+  vm1:
+    type: OS::Nova::Server
+    depends_on: [ vm2 ]
+    properties:
+      name: { get_param: instance_1_name }
+      image: { get_param: image_n }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups:
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_1 }
+      config_drive: True
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #!/bin/sh
+            set $IP_VM2
+            while true; do
+             for i do
+              ip=$i
+              ping -c $COUNT $ip 2>&1 >/dev/null
+              RES=$?
+              if [ \"Z$RES\" = \"Z0\" ] ; then
+               echo ping $ip OK
+              else echo ping $ip KO
+              fi
+              done
+             sleep 1
+            done
+          params:
+            $IP_VM2: { get_attr: [vm2, addresses, { get_resource: net_1}, 0, addr] }
+            $COUNT: { get_param: ping_count }
+  vm2:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: instance_2_name }
+      image: { get_param: image_n }
+      flavor: { get_param: flavor }
+      availability_zone: { get_param: av_zone_1 }
+      security_groups:
+        - { get_resource: sec_group }
+      networks:
+        - subnet: { get_resource: subnet_2 }
+
+
+outputs:
+  router_1_o:
+    description: the id of network 1
+    value: { get_attr: [router_1, show, id] }
+  net_2_o:
+    description: the id of network 2
+    value: { get_attr: [net_2, show, id] }
+  vm1_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm1, show, name] }
+  vm2_o:
+    description: the deployed vm resource
+    value: { get_attr: [vm2, show, name] }
