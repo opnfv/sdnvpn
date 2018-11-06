@@ -242,6 +242,30 @@ testcases:
     targets: '88:88'
     route_distinguishers: '18:18'
 
+  sdnvpn.test.functest.testcase_8bis:
+    enabled: true
+    order: 21
+    description: "Test floating IP and router assoc coexistence \
+                 same as test case 8"
+    image_name: sdnvpn-image
+    stack_name: stack-8bis
+    hot_file_name: artifacts/testcase_8bis.yaml
+    hot_update_file_name: artifacts/testcase_8bis_upd.yaml
+    heat_parameters:        
+      instance_1_name: sdnvpn-8-1
+      instance_2_name: sdnvpn-8-2
+      net_1_name: sdnvpn-8-1
+      subnet_1_name: sdnvpn-8-1-subnet
+      subnet_1_cidr: 10.10.10.0/24
+      router_1_name: sdnvpn-8-1-router
+      net_2_name: sdnvpn-8-2
+      subnet_2_name: sdnvpn-8-2-subnet
+      subnet_2_cidr: 10.10.20.0/24
+      secgroup_name: sdnvpn-sg
+      secgroup_descr: Security group for SDNVPN test cases
+    targets: '88:88'
+    route_distinguishers: '18:18'
+
   sdnvpn.test.functest.testcase_9:
     enabled: true
     order: 9
