@@ -1,0 +1,17 @@
+heat_template_version: 2013-05-23
+
+resources:
+  fip_1:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: external_nw }
+  fip_1_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: fip_1 }
+      port_id: {get_attr: [vm1, addresses, {get_resource: net_1}, 0, port]}
+
+outputs:
+  fip_1_o:
+    description: the floating IP for vm1
+    value: { get_attr: [fip_1, show, floating_ip_address] }
