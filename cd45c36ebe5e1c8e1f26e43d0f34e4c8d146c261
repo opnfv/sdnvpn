@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_1ff9b94d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_7f954de3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": "by (or leave it as is)",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 11,
+        "endChar": 45
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_5f9a1115",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": ". Use",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_ff015d3a",
+        "filename": "sdnvpn/artifacts/testcase_8bis.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": "whitespaces",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 4
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_dffe2138",
+        "filename": "sdnvpn/artifacts/testcase_8bis.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 71,
+        "startChar": 28,
+        "endLine": 71,
+        "endChar": 29
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_3ffc753e",
+        "filename": "sdnvpn/test/functest/config.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 7381
+      },
+      "writtenOn": "2018-12-06T13:05:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 254,
+        "startChar": 20,
+        "endLine": 254,
+        "endChar": 28
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
