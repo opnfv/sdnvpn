@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_e46ef1c8",
+        "filename": "docs/release/installation/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-12-11T10:32:42Z",
+      "side": 1,
+      "message": "Rephrasing suggestion: the following",
+      "range": {
+        "startLine": 58,
+        "startChar": 63,
+        "endLine": 58,
+        "endChar": 67
+      },
+      "revId": "2b75652f456a572fa528e5070b5588663730b876",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_0465ede0",
+        "filename": "docs/release/installation/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-12-11T10:32:42Z",
+      "side": 1,
+      "message": "Rephrasing suggestion: on",
+      "range": {
+        "startLine": 59,
+        "startChar": 12,
+        "endLine": 59,
+        "endChar": 14
+      },
+      "revId": "2b75652f456a572fa528e5070b5588663730b876",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_445fe50e",
+        "filename": "docs/release/installation/index.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 7169
+      },
+      "writtenOn": "2018-12-11T10:32:42Z",
+      "side": 1,
+      "message": "Rephrasing suggestion: \nIn this chapter describes ...",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 11
+      },
+      "revId": "2b75652f456a572fa528e5070b5588663730b876",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
