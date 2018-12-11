@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_3125c9c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-12-11T09:37:06Z",
+      "side": 1,
+      "message": "The subject of the verb \u0027is\u0027 here is \u0027the use of\u0027, which is singular",
+      "parentUuid": "1a622d24_1ff9b94d",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_7f954de3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1a622d24_712f41a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-12-11T09:37:06Z",
+      "side": 1,
+      "message": "Not really a very long sentence, no need to split IMO",
+      "parentUuid": "1a622d24_5f9a1115",
+      "range": {
+        "startLine": 12,
+        "startChar": 19,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a622d24_ff015d3a",
         "filename": "sdnvpn/artifacts/testcase_8bis.yaml",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2018-12-06T13:05:11Z",
       "side": 1,
       "message": "whitespaces",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 4
+      },
+      "revId": "cd45c36ebe5e1c8e1f26e43d0f34e4c8d146c261",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a622d24_911dbd76",
+        "filename": "sdnvpn/artifacts/testcase_8bis.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7165
+      },
+      "writtenOn": "2018-12-11T09:37:06Z",
+      "side": 1,
+      "message": "done, for all",
+      "parentUuid": "1a622d24_ff015d3a",
       "range": {
         "startLine": 46,
         "startChar": 0,
