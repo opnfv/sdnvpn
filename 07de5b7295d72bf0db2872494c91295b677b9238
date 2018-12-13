@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a622d24_8279ed95",
+        "filename": "sdnvpn/test/functest/testcase_3.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 2997
+      },
+      "writtenOn": "2018-12-13T04:58:28Z",
+      "side": 1,
+      "message": "I think this should be changed to \u0027br-ext\u0027 due to [1].\n\n[1] https://gerrit.opnfv.org/gerrit/#/c/65705/1/mcp/reclass/classes/cluster/mcp-odl-noha/opendaylight/control_pdf.yml.j2@35",
+      "range": {
+        "startLine": 116,
+        "startChar": 25,
+        "endLine": 116,
+        "endChar": 29
+      },
+      "revId": "07de5b7295d72bf0db2872494c91295b677b9238",
+      "serverId": "bbac25d2-bf60-4904-9ba8-a72fc000d6c5",
+      "unresolved": false
+    }
+  ]
+}
