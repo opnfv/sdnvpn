@@ -113,7 +113,7 @@ def main():
     if installer_type in ['apex']:
         odl_interface = 'br-ex'
     elif installer_type in ['fuel']:
-        odl_interface = 'ens6'
+        odl_interface = 'br-ext'
     else:
         logger.error("Incompatible installer type")
     odl_ip, odl_netmask = test_utils.get_node_ip_and_netmask(
